@@ -1,0 +1,80 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "substrate"
+version = "020240315.0.1"
+description = "Substrate Python SDK"
+readme = "README.md"
+authors = ["vprtwn <ben@substrate.run>", "liamgriffiths <liam@substrate.run>"]
+[[tool.poetry.packages]]
+include = "substrate"
+
+[tool.pyright]
+typeCheckingMode = "basic"
+pythonVersion = "3.7"
+exclude = [".venv"]
+
+[tool.ruff]
+line-length = 120
+output-format = "grouped"
+target-version = "py310"
+
+[tool.mypy]
+pretty = true
+show_error_codes = true
+strict_equality = true
+implicit_reexport = true
+check_untyped_defs = true
+no_implicit_optional = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_configs = true
+disallow_any_generics = true
+disallow_untyped_defs = true
+disallow_untyped_calls = true
+disallow_subclassing_any = true
+disallow_incomplete_defs = true
+disallow_untyped_decorators = true
+cache_fine_grained = true
+warn_unused_ignores = false
+warn_redundant_casts = false
+
+[tool.poetry.dependencies]
+python = ">=3.9"
+networkx = ">=3.2.1"
+httpx = ">=0.26.0"
+distro = ">=1.8.0"
+
+[tool.ruff.lint]
+ignore-init-module-imports = true
+ignore = ["B006", "T201", "T203", "ARG002", "ARG001"]
+unfixable = ["T201", "T203"]
+select = ["I", "B", "F401", "E722", "ARG", "TCH004"]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.pytest.ini_options]
+markers = [
+    "unit: tests intended to be run against only local code - no external integrations",
+    "e2e: tests intended to encapsulate the entire lifecycle of an interaction with the substrate system",
+]
+
+[tool.ruff.lint.isort]
+length-sort = true
+length-sort-straight = true
+combine-as-imports = true
+extra-standard-library = ["typing_extensions"]
+known-first-party = ["substrate", "tests"]
+
+[tool.poetry.group.dev.dependencies]
+pyright = ">=1.1.342"
+ruff = "^0.2.1"
+pytest = "^8.0.0"
+types-networkx = "^3.2.1.20240205"
+types-toml = "^0.10.8.7"
+toml = "^0.10.2"
+marimo = ">=0.3.2"
+pre-commit = "^3.6.2"
