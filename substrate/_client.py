@@ -99,9 +99,6 @@ class APIResponse:
 
     @property
     def json(self) -> Optional[Dict[str, Any]]:
-        """
-        TODO: docstring
-        """
         return self._json
 
     @property
@@ -171,9 +168,13 @@ class APIClient:
 
     @property
     def platform_headers(self) -> Dict[str, str]:
+        version_parts = self._version.split(".")
+        date = version_parts[0][-8:]
+        api_version = f"{date[:4]}-{date[4:6]}-{date[6:]}"
         return {
             "X-Substrate-Lang": "python",
             "X-Substrate-Package-Version": self._version,
+            "X-Substrate-Version": api_version,
             "X-Substrate-OS": str(get_platform()),
             "X-Substrate-Arch": str(get_architecture()),
             "X-Substrate-Runtime": platform.python_implementation(),
