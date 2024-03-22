@@ -703,6 +703,41 @@ class Embedding(TypedDict):
     """
     Embedding vector.
     """
+    document_id: NotRequired[str]
+    """
+    (Optional) Vector store document ID.
+    """
+    metadata: NotRequired[Dict[str, Any]]
+    """
+    (Optional) Vector store document metadata.
+    """
+
+
+class EmbedTextIn(TypedDict):
+    text: NotRequired[str]
+    """
+    Text to embed.
+    """
+    model: NotRequired[Literal["jina-v2", "clip"]]
+    """
+    (Optional) Selected model.
+    """
+    store: NotRequired[str]
+    """
+    (Optional) [Vector store](/docs/vector-stores) identifier.
+    """
+    metadata: NotRequired[Dict[str, Any]]
+    """
+    (Optional) Metadata that can be used to query the vector store. Ignored if `store` is unset.
+    """
+    embedded_metadata_keys: NotRequired[List[str]]
+    """
+    (Optional) Choose keys from `metadata` to embed with text.
+    """
+    document_id: NotRequired[str]
+    """
+    (Optional) Vector store document ID. Ignored if `store` is unset.
+    """
 
 
 class EmbedTextOut(TypedDict):
@@ -721,23 +756,35 @@ class EmbedTextItem(TypedDict):
     """
     (Optional) Metadata that can be used to query the vector store. Ignored if `store` is unset.
     """
+    document_id: NotRequired[str]
+    """
+    (Optional) Vector store document ID. Ignored if `store` is unset.
+    """
+
+
+class MultiEmbedTextIn(TypedDict):
+    items: NotRequired[List[EmbedTextItem]]
+    """
+    Items to embed.
+    """
+    model: NotRequired[Literal["jina-v2", "clip"]]
+    """
+    (Optional) Selected model.
+    """
+    store: NotRequired[str]
+    """
+    (Optional) [Vector store](/docs/vector-stores) identifier.
+    """
+    embedded_metadata_keys: NotRequired[List[str]]
+    """
+    (Optional) Choose keys from `metadata` to embed with text.
+    """
 
 
 class MultiEmbedTextOut(TypedDict):
     embeddings: NotRequired[List[Embedding]]
     """
     Generated embeddings.
-    """
-
-
-class EmbeddedMetadataSelect(TypedDict):
-    include_keys: NotRequired[List[str]]
-    """
-    (Optional) Keys to embed with text.
-    """
-    exclude_keys: NotRequired[List[str]]
-    """
-    (Optional) Keys to exclude. All other keys will be embedded with text.
     """
 
 
@@ -754,6 +801,10 @@ class EmbedImageIn(TypedDict):
     """
     (Optional) [Vector store](/docs/vector-stores) identifier.
     """
+    document_id: NotRequired[str]
+    """
+    (Optional) Vector store document ID. Ignored if `store` is unset.
+    """
 
 
 class EmbedImageOut(TypedDict):
@@ -767,6 +818,10 @@ class EmbedImageItem(TypedDict):
     image_uri: NotRequired[str]
     """
     Image to embed.
+    """
+    document_id: NotRequired[str]
+    """
+    (Optional) Vector store document ID. Ignored if `store` is unset.
     """
 
 
@@ -1009,46 +1064,4 @@ class QueryVectorStoreResponse(TypedDict):
     metric: NotRequired[Literal["cosine", "l2", "inner"]]
     """
     (Optional) The distance metric used for the query.
-    """
-
-
-class EmbedTextIn(TypedDict):
-    text: NotRequired[str]
-    """
-    Text to embed.
-    """
-    model: NotRequired[Literal["jina-v2", "clip"]]
-    """
-    (Optional) Selected model.
-    """
-    store: NotRequired[str]
-    """
-    (Optional) [Vector store](/docs/vector-stores) identifier.
-    """
-    metadata: NotRequired[Dict[str, Any]]
-    """
-    (Optional) Metadata that can be used to query the vector store. Ignored if `store` is unset.
-    """
-    embedded_metadata: NotRequired[EmbeddedMetadataSelect]
-    """
-    (Optional) Choose keys from `metadata` to embed with text. Select keys to include with `include_keys`, or keys to exclude with `exclude_keys`.
-    """
-
-
-class MultiEmbedTextIn(TypedDict):
-    items: NotRequired[List[EmbedTextItem]]
-    """
-    Items to embed.
-    """
-    model: NotRequired[Literal["jina-v2", "clip"]]
-    """
-    (Optional) Selected model.
-    """
-    store: NotRequired[str]
-    """
-    (Optional) [Vector store](/docs/vector-stores) identifier.
-    """
-    embedded_metadata: NotRequired[EmbeddedMetadataSelect]
-    """
-    (Optional) Choose keys from `metadata` to embed with text. Select keys to include with `include_keys`, or keys to exclude with `exclude_keys`.
     """

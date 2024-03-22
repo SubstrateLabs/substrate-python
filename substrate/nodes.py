@@ -1,7 +1,7 @@
 """
 ꩜ Substrate
 @GENERATED FILE
-20240315.20240316
+20240315.20240321
 """
 
 from .substrate import SubstrateResponse
@@ -785,7 +785,7 @@ class EmbedText(CoreNode):
 
     def __init__(self, args: EmbedTextIn):
         """
-        Input arguments: `text`, `model` (optional), `store` (optional), `metadata` (optional), `embedded_metadata` (optional)
+        Input arguments: `text`, `model` (optional), `store` (optional), `metadata` (optional), `embedded_metadata_keys` (optional), `document_id` (optional)
 
         Output fields: `future.embedding`
 
@@ -832,7 +832,7 @@ class MultiEmbedText(CoreNode):
 
     def __init__(self, args: MultiEmbedTextIn):
         """
-        Input arguments: `items`, `model` (optional), `store` (optional), `embedded_metadata` (optional)
+        Input arguments: `items`, `model` (optional), `store` (optional), `embedded_metadata_keys` (optional)
 
         Output fields: `future.embeddings`
 
@@ -879,7 +879,7 @@ class EmbedImage(CoreNode):
 
     def __init__(self, args: EmbedImageIn):
         """
-        Input arguments: `image_uri`, `model` (optional), `store` (optional)
+        Input arguments: `image_uri`, `model` (optional), `store` (optional), `document_id` (optional)
 
         Output fields: `future.embedding`
 

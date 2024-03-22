@@ -5,7 +5,7 @@ import toml
 
 # NOTE: Merged with API version to produce the full SDK version string
 # https://docs.substrate.run/versioning
-SDK_VERSION = "0.0.1"
+SDK_VERSION = "1.0.0"
 
 
 def ok(message):

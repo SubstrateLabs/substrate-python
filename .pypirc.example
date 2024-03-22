@@ -1,0 +1,3 @@
+[pypi]
+username = <token>
+password = pypi-<key>

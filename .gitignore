@@ -15,3 +15,5 @@ dist
 
 .env
 .envrc
+
+.pypirc

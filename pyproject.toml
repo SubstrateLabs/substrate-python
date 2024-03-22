@@ -1,20 +1,20 @@
 [build-system]
-requires = ["poetry-core"]
+requires = [ "poetry-core",]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "substrate"
-version = "020240315.0.1"
+version = "120240315.0.0"
 description = "Substrate Python SDK"
 readme = "README.md"
-authors = ["vprtwn <ben@substrate.run>", "liamgriffiths <liam@substrate.run>"]
+authors = [ "vprtwn <ben@substrate.run>", "liamgriffiths <liam@substrate.run>",]
 [[tool.poetry.packages]]
 include = "substrate"
 
 [tool.pyright]
 typeCheckingMode = "basic"
 pythonVersion = "3.7"
-exclude = [".venv"]
+exclude = [ ".venv",]
 
 [tool.ruff]
 line-length = 120
@@ -49,25 +49,22 @@ distro = ">=1.8.0"
 
 [tool.ruff.lint]
 ignore-init-module-imports = true
-ignore = ["B006", "T201", "T203", "ARG002", "ARG001"]
-unfixable = ["T201", "T203"]
-select = ["I", "B", "F401", "E722", "ARG", "TCH004"]
+ignore = [ "B006", "T201", "T203", "ARG002", "ARG001",]
+unfixable = [ "T201", "T203",]
+select = [ "I", "B", "F401", "E722", "ARG", "TCH004",]
 
 [tool.ruff.format]
 docstring-code-format = true
 
 [tool.pytest.ini_options]
-markers = [
-    "unit: tests intended to be run against only local code - no external integrations",
-    "e2e: tests intended to encapsulate the entire lifecycle of an interaction with the substrate system",
-]
+markers = [ "unit: tests intended to be run against only local code - no external integrations", "e2e: tests intended to encapsulate the entire lifecycle of an interaction with the substrate system",]
 
 [tool.ruff.lint.isort]
 length-sort = true
 length-sort-straight = true
 combine-as-imports = true
-extra-standard-library = ["typing_extensions"]
-known-first-party = ["substrate", "tests"]
+extra-standard-library = [ "typing_extensions",]
+known-first-party = [ "substrate", "tests",]
 
 [tool.poetry.group.dev.dependencies]
 pyright = ">=1.1.342"
@@ -78,3 +75,4 @@ types-toml = "^0.10.8.7"
 toml = "^0.10.2"
 marimo = ">=0.3.2"
 pre-commit = "^3.6.2"
+twine = "^5.0.0"

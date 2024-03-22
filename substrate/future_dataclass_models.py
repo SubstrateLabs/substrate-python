@@ -1038,6 +1038,54 @@ class Embedding:
     (Future reference)
     Embedding vector.
     """
+    document_id: Optional[str] = None
+    """
+    (Future reference)
+    Vector store document ID.
+    """
+    metadata: Optional[Dict[str, Any]] = None
+    """
+    (Future reference)
+    Vector store document metadata.
+    """
+
+
+@dataclass
+class FutureEmbedTextIn:
+    """
+    (Future reference)
+    """
+
+    text: str
+    """
+    (Future reference)
+    Text to embed.
+    """
+    model: Optional[Literal["jina-v2", "clip"]] = "jina-v2"
+    """
+    (Future reference)
+    Selected model.
+    """
+    store: Optional[str] = None
+    """
+    (Future reference)
+    [Vector store](/docs/vector-stores) identifier.
+    """
+    metadata: Optional[Dict[str, Any]] = None
+    """
+    (Future reference)
+    Metadata that can be used to query the vector store. Ignored if `store` is unset.
+    """
+    embedded_metadata_keys: Optional[List[str]] = None
+    """
+    (Future reference)
+    Choose keys from `metadata` to embed with text.
+    """
+    document_id: Optional[str] = None
+    """
+    (Future reference)
+    Vector store document ID. Ignored if `store` is unset.
+    """
 
 
 @dataclass
@@ -1069,6 +1117,39 @@ class EmbedTextItem:
     (Future reference)
     Metadata that can be used to query the vector store. Ignored if `store` is unset.
     """
+    document_id: Optional[str] = None
+    """
+    (Future reference)
+    Vector store document ID. Ignored if `store` is unset.
+    """
+
+
+@dataclass
+class FutureMultiEmbedTextIn:
+    """
+    (Future reference)
+    """
+
+    items: List[EmbedTextItem]
+    """
+    (Future reference)
+    Items to embed.
+    """
+    model: Optional[Literal["jina-v2", "clip"]] = "jina-v2"
+    """
+    (Future reference)
+    Selected model.
+    """
+    store: Optional[str] = None
+    """
+    (Future reference)
+    [Vector store](/docs/vector-stores) identifier.
+    """
+    embedded_metadata_keys: Optional[List[str]] = None
+    """
+    (Future reference)
+    Choose keys from `metadata` to embed with text.
+    """
 
 
 @dataclass
@@ -1081,24 +1162,6 @@ class FutureMultiEmbedTextOut:
     """
     (Future reference)
     Generated embeddings.
-    """
-
-
-@dataclass
-class EmbeddedMetadataSelect:
-    """
-    (Future reference)
-    """
-
-    include_keys: Optional[List[str]] = None
-    """
-    (Future reference)
-    Keys to embed with text.
-    """
-    exclude_keys: Optional[List[str]] = None
-    """
-    (Future reference)
-    Keys to exclude. All other keys will be embedded with text.
     """
 
 
@@ -1122,6 +1185,11 @@ class FutureEmbedImageIn:
     """
     (Future reference)
     [Vector store](/docs/vector-stores) identifier.
+    """
+    document_id: Optional[str] = None
+    """
+    (Future reference)
+    Vector store document ID. Ignored if `store` is unset.
     """
 
 
@@ -1148,6 +1216,11 @@ class EmbedImageItem:
     """
     (Future reference)
     Image to embed.
+    """
+    document_id: Optional[str] = None
+    """
+    (Future reference)
+    Vector store document ID. Ignored if `store` is unset.
     """
 
 
@@ -1498,65 +1571,4 @@ class QueryVectorStoreResponse:
     """
     (Future reference)
     The distance metric used for the query.
-    """
-
-
-@dataclass
-class FutureEmbedTextIn:
-    """
-    (Future reference)
-    """
-
-    text: str
-    """
-    (Future reference)
-    Text to embed.
-    """
-    model: Optional[Literal["jina-v2", "clip"]] = "jina-v2"
-    """
-    (Future reference)
-    Selected model.
-    """
-    store: Optional[str] = None
-    """
-    (Future reference)
-    [Vector store](/docs/vector-stores) identifier.
-    """
-    metadata: Optional[Dict[str, Any]] = None
-    """
-    (Future reference)
-    Metadata that can be used to query the vector store. Ignored if `store` is unset.
-    """
-    embedded_metadata: Optional[EmbeddedMetadataSelect] = None
-    """
-    (Future reference)
-    Choose keys from `metadata` to embed with text. Select keys to include with `include_keys`, or keys to exclude with `exclude_keys`.
-    """
-
-
-@dataclass
-class FutureMultiEmbedTextIn:
-    """
-    (Future reference)
-    """
-
-    items: List[EmbedTextItem]
-    """
-    (Future reference)
-    Items to embed.
-    """
-    model: Optional[Literal["jina-v2", "clip"]] = "jina-v2"
-    """
-    (Future reference)
-    Selected model.
-    """
-    store: Optional[str] = None
-    """
-    (Future reference)
-    [Vector store](/docs/vector-stores) identifier.
-    """
-    embedded_metadata: Optional[EmbeddedMetadataSelect] = None
-    """
-    (Future reference)
-    Choose keys from `metadata` to embed with text. Select keys to include with `include_keys`, or keys to exclude with `exclude_keys`.
     """
