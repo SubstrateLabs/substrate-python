@@ -10,9 +10,11 @@ help:
 	@echo ""
 	@echo "Usage: make <target>"
 	@echo ""
-	@echo "Common targets:"
-	@echo "  clean               Remove all build, test, coverage and Python artifacts"
+	@echo "Main targets:"
 	@echo "  develop             Install dependencies"
+	@echo "  sync                Sync generated code & bump version"
+	@echo "  sync-version        Sync SDK version to project"
+	@echo "  clean               Remove all build, test, coverage and Python artifacts"
 	@echo "  dist                Builds source and wheel package"
 	@echo "  publish             Publish to pypi"
 	@echo ""
@@ -24,7 +26,12 @@ poetry.lock: pyproject.toml
 ensure: poetry.lock
 	poetry install
 
-sync:
+sync: sync-version sync-codegen
+
+sync-version:
+	poetry run python scripts/sync_version.py
+
+sync-codegen:
 	poetry run python scripts/sync_codegen.py
 
 notebook:
