@@ -1,13 +1,17 @@
 """
 ꩜ Substrate Python SDK
 
-20240315.20240321
+20240403.20240403
 """
 
 from .nodes import (
+    CLIP,
+    JinaV2,
     FillMask,
     EmbedText,
     EmbedImage,
+    Firellava13B,
+    GenerateJSON,
     GenerateText,
     UpscaleImage,
     GenerateImage,
@@ -17,13 +21,17 @@ from .nodes import (
     MultiEmbedImage,
     TranscribeMedia,
     RemoveBackground,
+    Mistral7BInstruct,
+    MultiGenerateJSON,
     MultiGenerateText,
+    StableDiffusionXL,
     GenerateTextVision,
     MultiGenerateImage,
     GenerativeEditImage,
-    ControlledGenerateImage,
     MultiGenerativeEditImage,
-    MultiControlledGenerateImage,
+    StableDiffusionXLInpaint,
+    StableDiffusionXLIPAdapter,
+    StableDiffusionXLControlNet,
 )
 from .core.sb import sb
 from ._version import __version__
@@ -37,13 +45,19 @@ __all__ = [
     "Substrate",
     "GenerateText",
     "MultiGenerateText",
+    "GenerateJSON",
+    "MultiGenerateJSON",
     "GenerateTextVision",
+    "Mistral7BInstruct",
+    "Firellava13B",
     "GenerateImage",
     "MultiGenerateImage",
-    "ControlledGenerateImage",
-    "MultiControlledGenerateImage",
     "GenerativeEditImage",
     "MultiGenerativeEditImage",
+    "StableDiffusionXL",
+    "StableDiffusionXLInpaint",
+    "StableDiffusionXLIPAdapter",
+    "StableDiffusionXLControlNet",
     "FillMask",
     "UpscaleImage",
     "RemoveBackground",
@@ -54,4 +68,6 @@ __all__ = [
     "MultiEmbedText",
     "EmbedImage",
     "MultiEmbedImage",
+    "JinaV2",
+    "CLIP",
 ]

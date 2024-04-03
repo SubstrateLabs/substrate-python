@@ -22,29 +22,10 @@ class ErrorOut(TypedDict):
     """
 
 
-class ResponseFormat(TypedDict):
-    type: NotRequired[Literal["json_object", "text"]]
-    """
-    Type of response.
-    """
-    json_schema: NotRequired[Dict[str, Any]]
-    """
-    (Optional) JSON schema to guide `json_object` response.
-    """
-
-
 class GenerateTextIn(TypedDict):
     prompt: NotRequired[str]
     """
     Input prompt.
-    """
-    model: NotRequired[Literal["mistral-7b-instruct"]]
-    """
-    (Optional) Selected model.
-    """
-    response_format: NotRequired[ResponseFormat]
-    """
-    (Optional) Format of the response.
     """
     temperature: NotRequired[int]
     """
@@ -53,6 +34,47 @@ class GenerateTextIn(TypedDict):
     max_tokens: NotRequired[int]
     """
     (Optional) Maximum number of tokens to generate.
+    """
+    node: NotRequired[Literal["Mistral7BInstruct"]]
+    """
+    (Optional) Selected node.
+    """
+
+
+class GenerateTextOut(TypedDict):
+    text: NotRequired[str]
+    """
+    (Optional) Text response.
+    """
+
+
+class GenerateJSONIn(TypedDict):
+    prompt: NotRequired[str]
+    """
+    Input prompt.
+    """
+    json_schema: NotRequired[Dict[str, Any]]
+    """
+    JSON schema to guide `json_object` response.
+    """
+    temperature: NotRequired[int]
+    """
+    (Optional) Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: NotRequired[int]
+    """
+    (Optional) Maximum number of tokens to generate.
+    """
+    node: NotRequired[Literal["Mistral7BInstruct"]]
+    """
+    (Optional) Selected node.
+    """
+
+
+class GenerateJSONOut(TypedDict):
+    json_object: NotRequired[Dict[str, Any]]
+    """
+    (Optional) JSON response.
     """
 
 
@@ -65,13 +87,36 @@ class MultiGenerateTextIn(TypedDict):
     """
     Number of choices to generate.
     """
-    model: NotRequired[Literal["mistral-7b-instruct"]]
+    temperature: NotRequired[int]
     """
-    (Optional) Selected model.
+    (Optional) Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
     """
-    response_format: NotRequired[ResponseFormat]
+    max_tokens: NotRequired[int]
     """
-    (Optional) Format of the response.
+    (Optional) Maximum number of tokens to generate.
+    """
+    node: NotRequired[Literal["Mistral7BInstruct"]]
+    """
+    (Optional) Selected node.
+    """
+
+
+class MultiGenerateTextOut(TypedDict):
+    choices: NotRequired[List[GenerateTextOut]]
+
+
+class MultiGenerateJSONIn(TypedDict):
+    prompt: NotRequired[str]
+    """
+    Input prompt.
+    """
+    json_schema: NotRequired[Dict[str, Any]]
+    """
+    JSON schema to guide `json_object` response.
+    """
+    num_choices: NotRequired[int]
+    """
+    Number of choices to generate.
     """
     temperature: NotRequired[int]
     """
@@ -81,21 +126,52 @@ class MultiGenerateTextIn(TypedDict):
     """
     (Optional) Maximum number of tokens to generate.
     """
+    node: NotRequired[Literal["Mistral7BInstruct"]]
+    """
+    (Optional) Selected node.
+    """
 
 
-class GenerateTextOut(TypedDict):
+class MultiGenerateJSONOut(TypedDict):
+    choices: NotRequired[List[GenerateJSONOut]]
+
+
+class Mistral7BInstructIn(TypedDict):
+    prompt: NotRequired[str]
+    """
+    Input prompt.
+    """
+    num_choices: NotRequired[int]
+    """
+    Number of choices to generate.
+    """
+    json_schema: NotRequired[Dict[str, Any]]
+    """
+    (Optional) JSON schema to guide response.
+    """
+    temperature: NotRequired[float]
+    """
+    (Optional) Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: NotRequired[int]
+    """
+    (Optional) Maximum number of tokens to generate.
+    """
+
+
+class Mistral7BInstructChoice(TypedDict):
     text: NotRequired[str]
     """
-    (Optional) Text response.
+    (Optional) Text response, if `json_schema` was not provided.
     """
     json_object: NotRequired[Dict[str, Any]]
     """
-    (Optional) JSON response.
+    (Optional) JSON response, if `json_schema` was provided.
     """
 
 
-class MultiGenerateTextOut(TypedDict):
-    choices: NotRequired[List[GenerateTextOut]]
+class Mistral7BInstructOut(TypedDict):
+    choices: NotRequired[List[Mistral7BInstructChoice]]
 
 
 class GenerateTextVisionIn(TypedDict):
@@ -105,11 +181,7 @@ class GenerateTextVisionIn(TypedDict):
     """
     image_uris: NotRequired[List[str]]
     """
-    (Optional) Image prompts.
-    """
-    model: NotRequired[Literal["firellava-13b"]]
-    """
-    (Optional) Selected model.
+    Image prompts.
     """
     temperature: NotRequired[int]
     """
@@ -119,9 +191,39 @@ class GenerateTextVisionIn(TypedDict):
     """
     (Optional) Maximum number of tokens to generate.
     """
+    node: NotRequired[Literal["Firellava13B"]]
+    """
+    (Optional) Selected node.
+    """
 
 
 class GenerateTextVisionOut(TypedDict):
+    text: NotRequired[str]
+    """
+    Text response.
+    """
+
+
+class Firellava13BIn(TypedDict):
+    prompt: NotRequired[str]
+    """
+    Text prompt.
+    """
+    image_uris: NotRequired[List[str]]
+    """
+    Image prompts.
+    """
+    temperature: NotRequired[float]
+    """
+    (Optional) Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: NotRequired[int]
+    """
+    (Optional) Maximum number of tokens to generate.
+    """
+
+
+class Firellava13BOut(TypedDict):
     text: NotRequired[str]
     """
     Text response.
@@ -133,37 +235,13 @@ class GenerateImageIn(TypedDict):
     """
     Text prompt.
     """
-    image_prompt_uri: NotRequired[str]
-    """
-    (Optional) Image prompt.
-    """
-    model: NotRequired[Literal["stablediffusion-xl"]]
-    """
-    (Optional) Selected model.
-    """
-    image_influence: NotRequired[float]
-    """
-    (Optional) Controls the influence of the image prompt on the generated output.
-    """
-    negative_prompt: NotRequired[str]
-    """
-    (Optional) Negative input prompt.
-    """
     store: NotRequired[str]
     """
     (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    width: NotRequired[int]
+    node: NotRequired[Literal["StableDiffusionXL"]]
     """
-    (Optional) Width of output image, in pixels.
-    """
-    height: NotRequired[int]
-    """
-    (Optional) Height of output image, in pixels.
-    """
-    seed: NotRequired[int]
-    """
-    (Optional) Seed for deterministic generation. Default is a random seed.
+    (Optional) Selected node.
     """
 
 
@@ -172,13 +250,86 @@ class GenerateImageOut(TypedDict):
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
     """
+
+
+class MultiGenerateImageIn(TypedDict):
+    prompt: NotRequired[str]
+    """
+    Text prompt.
+    """
+    num_images: NotRequired[int]
+    """
+    Number of images to generate.
+    """
+    store: NotRequired[str]
+    """
+    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    node: NotRequired[Literal["StableDiffusionXL"]]
+    """
+    (Optional) Selected node.
+    """
+
+
+class MultiGenerateImageOut(TypedDict):
+    outputs: NotRequired[List[GenerateImageOut]]
+
+
+class StableDiffusionXLIn(TypedDict):
+    prompt: NotRequired[str]
+    """
+    Text prompt.
+    """
+    negative_prompt: NotRequired[str]
+    """
+    (Optional) Negative input prompt.
+    """
+    steps: NotRequired[int]
+    """
+    (Optional) Number of diffusion steps.
+    """
+    num_images: NotRequired[int]
+    """
+    (Optional) Number of images to generate.
+    """
+    store: NotRequired[str]
+    """
+    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    height: NotRequired[int]
+    """
+    (Optional) Height of output image, in pixels.
+    """
+    width: NotRequired[int]
+    """
+    (Optional) Width of output image, in pixels.
+    """
+    seeds: NotRequired[int]
+    """
+    (Optional) Seeds for deterministic generation. Default is a random seed.
+    """
+    guidance_scale: NotRequired[float]
+    """
+    (Optional) Higher values adhere to the text prompt more strongly, typically at the expense of image quality.
+    """
+
+
+class StableDiffusionImage(TypedDict):
+    image_uri: NotRequired[str]
+    """
+    Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
+    """
     seed: NotRequired[int]
     """
     The random noise seed used for generation.
     """
 
 
-class MultiGenerateImageIn(TypedDict):
+class StableDiffusionXLOut(TypedDict):
+    outputs: NotRequired[List[StableDiffusionImage]]
+
+
+class StableDiffusionXLIPAdapterIn(TypedDict):
     prompt: NotRequired[str]
     """
     Text prompt.
@@ -191,11 +342,7 @@ class MultiGenerateImageIn(TypedDict):
     """
     Number of images to generate.
     """
-    model: NotRequired[Literal["stablediffusion-xl"]]
-    """
-    (Optional) Selected model.
-    """
-    image_influence: NotRequired[float]
+    ip_adapter_scale: NotRequired[float]
     """
     (Optional) Controls the influence of the image prompt on the generated output.
     """
@@ -221,61 +368,11 @@ class MultiGenerateImageIn(TypedDict):
     """
 
 
-class MultiGenerateImageOut(TypedDict):
-    outputs: NotRequired[List[GenerateImageOut]]
+class StableDiffusionXLIPAdapterOut(TypedDict):
+    outputs: NotRequired[List[StableDiffusionImage]]
 
 
-class ControlledGenerateImageIn(TypedDict):
-    image_uri: NotRequired[str]
-    """
-    Input image.
-    """
-    control_method: NotRequired[Literal["edge", "depth", "illusion"]]
-    """
-    Strategy to control generation using the input image.
-    """
-    prompt: NotRequired[str]
-    """
-    Text prompt.
-    """
-    output_resolution: NotRequired[int]
-    """
-    (Optional) Resolution of the output image, in pixels.
-    """
-    model: NotRequired[Literal["stablediffusion-xl"]]
-    """
-    (Optional) Selected model.
-    """
-    negative_prompt: NotRequired[str]
-    """
-    (Optional) Negative input prompt.
-    """
-    store: NotRequired[str]
-    """
-    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
-    """
-    image_influence: NotRequired[float]
-    """
-    (Optional) Controls the influence of the input image on the generated output.
-    """
-    seed: NotRequired[int]
-    """
-    (Optional) Seed for deterministic generation. Default is a random seed.
-    """
-
-
-class ControlledGenerateImageOut(TypedDict):
-    image_uri: NotRequired[str]
-    """
-    Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
-    """
-    seed: NotRequired[int]
-    """
-    The random noise seed used for generation.
-    """
-
-
-class MultiControlledGenerateImageIn(TypedDict):
+class StableDiffusionXLControlNetIn(TypedDict):
     image_uri: NotRequired[str]
     """
     Input image.
@@ -296,10 +393,6 @@ class MultiControlledGenerateImageIn(TypedDict):
     """
     (Optional) Resolution of the output image, in pixels.
     """
-    model: NotRequired[Literal["stablediffusion-xl"]]
-    """
-    (Optional) Selected model.
-    """
     negative_prompt: NotRequired[str]
     """
     (Optional) Negative input prompt.
@@ -308,7 +401,7 @@ class MultiControlledGenerateImageIn(TypedDict):
     """
     (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    image_influence: NotRequired[float]
+    conditioning_scale: NotRequired[float]
     """
     (Optional) Controls the influence of the input image on the generated output.
     """
@@ -318,8 +411,8 @@ class MultiControlledGenerateImageIn(TypedDict):
     """
 
 
-class MultiControlledGenerateImageOut(TypedDict):
-    outputs: NotRequired[List[ControlledGenerateImageOut]]
+class StableDiffusionXLControlNetOut(TypedDict):
+    outputs: NotRequired[List[StableDiffusionImage]]
 
 
 class GenerativeEditImageIn(TypedDict):
@@ -335,37 +428,13 @@ class GenerativeEditImageIn(TypedDict):
     """
     (Optional) Mask image that controls which pixels are inpainted. If unset, the entire image is edited (image-to-image).
     """
-    image_prompt_uri: NotRequired[str]
-    """
-    (Optional) Image prompt.
-    """
-    output_resolution: NotRequired[int]
-    """
-    (Optional) Resolution of the output image, in pixels.
-    """
-    model: NotRequired[Literal["stablediffusion-xl"]]
-    """
-    (Optional) Selected model.
-    """
-    strength: NotRequired[float]
-    """
-    (Optional) Controls the strength of the generation process.
-    """
-    image_prompt_influence: NotRequired[float]
-    """
-    (Optional) Controls the influence of the image prompt on the generated output.
-    """
-    negative_prompt: NotRequired[str]
-    """
-    (Optional) Negative input prompt.
-    """
     store: NotRequired[str]
     """
     (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    seed: NotRequired[int]
+    node: NotRequired[Literal["StableDiffusionXLInpaint"]]
     """
-    (Optional) Seed for deterministic generation. Default is a random seed.
+    (Optional) Selected node.
     """
 
 
@@ -373,10 +442,6 @@ class GenerativeEditImageOut(TypedDict):
     image_uri: NotRequired[str]
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
-    """
-    seed: NotRequired[int]
-    """
-    The random noise seed used for generation.
     """
 
 
@@ -393,9 +458,36 @@ class MultiGenerativeEditImageIn(TypedDict):
     """
     (Optional) Mask image that controls which pixels are edited (inpainting). If unset, the entire image is edited (image-to-image).
     """
-    image_prompt_uri: NotRequired[str]
+    num_images: NotRequired[int]
     """
-    (Optional) Image prompt.
+    Number of images to generate.
+    """
+    store: NotRequired[str]
+    """
+    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    node: NotRequired[Literal["StableDiffusionXLInpaint"]]
+    """
+    (Optional) Selected node.
+    """
+
+
+class MultiGenerativeEditImageOut(TypedDict):
+    outputs: NotRequired[List[GenerativeEditImageOut]]
+
+
+class StableDiffusionXLInpaintIn(TypedDict):
+    image_uri: NotRequired[str]
+    """
+    Original image.
+    """
+    prompt: NotRequired[str]
+    """
+    Text prompt.
+    """
+    mask_image_uri: NotRequired[str]
+    """
+    (Optional) Mask image that controls which pixels are edited (inpainting). If unset, the entire image is edited (image-to-image).
     """
     num_images: NotRequired[int]
     """
@@ -404,10 +496,6 @@ class MultiGenerativeEditImageIn(TypedDict):
     output_resolution: NotRequired[int]
     """
     (Optional) Resolution of the output image, in pixels.
-    """
-    model: NotRequired[Literal["stablediffusion-xl"]]
-    """
-    (Optional) Selected model.
     """
     negative_prompt: NotRequired[str]
     """
@@ -421,18 +509,14 @@ class MultiGenerativeEditImageIn(TypedDict):
     """
     (Optional) Controls the strength of the generation process.
     """
-    image_prompt_influence: NotRequired[float]
-    """
-    (Optional) Controls the influence of the image prompt on the generated output.
-    """
     seeds: NotRequired[List[int]]
     """
     (Optional) Random noise seeds. Default is random seeds for each generation.
     """
 
 
-class MultiGenerativeEditImageOut(TypedDict):
-    outputs: NotRequired[List[GenerativeEditImageOut]]
+class StableDiffusionXLInpaintOut(TypedDict):
+    outputs: NotRequired[List[StableDiffusionImage]]
 
 
 class BoundingBox(TypedDict):
@@ -550,11 +634,11 @@ class DetectSegmentsIn(TypedDict):
     """
     point_prompts: NotRequired[List[Point]]
     """
-    (Optional) Point prompts, to detect a segment under the point. One of `point_prompt` or `box_prompt` must be set.
+    (Optional) Point prompts, to detect a segment under the point. One of `point_prompts` or `box_prompts` must be set.
     """
     box_prompts: NotRequired[List[BoundingBox]]
     """
-    (Optional) Box prompts, to detect a segment within the bounding box. One of `point_prompt` or `box_prompt` must be set.
+    (Optional) Box prompts, to detect a segment within the bounding box. One of `point_prompts` or `box_prompts` must be set.
     """
     model: NotRequired[Literal["segment-anything"]]
     """
@@ -703,7 +787,7 @@ class Embedding(TypedDict):
     """
     Embedding vector.
     """
-    document_id: NotRequired[str]
+    doc_id: NotRequired[str]
     """
     (Optional) Vector store document ID.
     """
@@ -718,10 +802,6 @@ class EmbedTextIn(TypedDict):
     """
     Text to embed.
     """
-    model: NotRequired[Literal["jina-v2", "clip"]]
-    """
-    (Optional) Selected model.
-    """
     store: NotRequired[str]
     """
     (Optional) [Vector store](/docs/vector-stores) identifier.
@@ -734,9 +814,13 @@ class EmbedTextIn(TypedDict):
     """
     (Optional) Choose keys from `metadata` to embed with text.
     """
-    document_id: NotRequired[str]
+    doc_id: NotRequired[str]
     """
     (Optional) Vector store document ID. Ignored if `store` is unset.
+    """
+    node: NotRequired[Literal["JinaV2", "CLIP"]]
+    """
+    (Optional) Selected node.
     """
 
 
@@ -756,7 +840,7 @@ class EmbedTextItem(TypedDict):
     """
     (Optional) Metadata that can be used to query the vector store. Ignored if `store` is unset.
     """
-    document_id: NotRequired[str]
+    doc_id: NotRequired[str]
     """
     (Optional) Vector store document ID. Ignored if `store` is unset.
     """
@@ -767,9 +851,31 @@ class MultiEmbedTextIn(TypedDict):
     """
     Items to embed.
     """
-    model: NotRequired[Literal["jina-v2", "clip"]]
+    store: NotRequired[str]
     """
-    (Optional) Selected model.
+    (Optional) [Vector store](/docs/vector-stores) identifier.
+    """
+    embedded_metadata_keys: NotRequired[List[str]]
+    """
+    (Optional) Choose keys from `metadata` to embed with text.
+    """
+    node: NotRequired[Literal["JinaV2", "CLIP"]]
+    """
+    (Optional) Selected node.
+    """
+
+
+class MultiEmbedTextOut(TypedDict):
+    embeddings: NotRequired[List[Embedding]]
+    """
+    Generated embeddings.
+    """
+
+
+class JinaV2In(TypedDict):
+    items: NotRequired[List[EmbedTextItem]]
+    """
+    Items to embed.
     """
     store: NotRequired[str]
     """
@@ -781,7 +887,7 @@ class MultiEmbedTextIn(TypedDict):
     """
 
 
-class MultiEmbedTextOut(TypedDict):
+class JinaV2Out(TypedDict):
     embeddings: NotRequired[List[Embedding]]
     """
     Generated embeddings.
@@ -793,17 +899,17 @@ class EmbedImageIn(TypedDict):
     """
     Image to embed.
     """
-    model: NotRequired[Literal["clip"]]
-    """
-    (Optional) Selected model.
-    """
     store: NotRequired[str]
     """
     (Optional) [Vector store](/docs/vector-stores) identifier.
     """
-    document_id: NotRequired[str]
+    doc_id: NotRequired[str]
     """
     (Optional) Vector store document ID. Ignored if `store` is unset.
+    """
+    node: NotRequired[Literal["CLIP"]]
+    """
+    (Optional) Selected node.
     """
 
 
@@ -819,7 +925,26 @@ class EmbedImageItem(TypedDict):
     """
     Image to embed.
     """
-    document_id: NotRequired[str]
+    doc_id: NotRequired[str]
+    """
+    (Optional) Vector store document ID. Ignored if `store` is unset.
+    """
+
+
+class EmbedTextOrImageItem(TypedDict):
+    image_uri: NotRequired[str]
+    """
+    (Optional) Image to embed.
+    """
+    text: NotRequired[str]
+    """
+    (Optional) Text to embed.
+    """
+    metadata: NotRequired[Dict[str, Any]]
+    """
+    (Optional) Metadata that can be used to query the vector store. Ignored if `store` is unset.
+    """
+    doc_id: NotRequired[str]
     """
     (Optional) Vector store document ID. Ignored if `store` is unset.
     """
@@ -834,9 +959,9 @@ class MultiEmbedImageIn(TypedDict):
     """
     (Optional) [Vector store](/docs/vector-stores) identifier.
     """
-    model: NotRequired[Literal["clip"]]
+    node: NotRequired[Literal["CLIP"]]
     """
-    (Optional) Selected model.
+    (Optional) Selected node.
     """
 
 
@@ -847,11 +972,29 @@ class MultiEmbedImageOut(TypedDict):
     """
 
 
-class VectorStoreParams(TypedDict):
+class CLIPIn(TypedDict):
+    items: NotRequired[List[EmbedTextOrImageItem]]
     """
-    Fields describing a vector store and its associated index.
+    Items to embed.
+    """
+    embedded_metadata_keys: NotRequired[List[str]]
+    """
+    (Optional) Choose keys from `metadata` to embed with text, when embedding and storing text documents.
+    """
+    store: NotRequired[str]
+    """
+    (Optional) [Vector store](/docs/vector-stores) identifier.
     """
 
+
+class CLIPOut(TypedDict):
+    embeddings: NotRequired[List[Embedding]]
+    """
+    Generated embeddings.
+    """
+
+
+class VectorStoreParams(TypedDict):
     name: NotRequired[str]
     """
     Vector store name.

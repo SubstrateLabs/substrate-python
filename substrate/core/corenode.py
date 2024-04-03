@@ -13,10 +13,9 @@ from .client.find_futures_client import find_futures_client
 
 class CoreNode:
     def __init__(self, **attr):
-        self.node = None
+        self.node = self.__class__.__name__
         self.args = attr
-        class_name = self.__class__.__name__
-        generator_instance = IDGenerator.get_instance(class_name)
+        generator_instance = IDGenerator.get_instance(self.__class__.__name__)
         self.id = generator_instance.get_next_id()
         self._global_output_keys = None
         self._should_output_globally: bool = False

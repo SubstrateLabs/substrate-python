@@ -1,15 +1,19 @@
 """
 ꩜ Substrate
 @GENERATED FILE
-20240315.20240321
+20240403.20240403
 """
 
 from .substrate import SubstrateResponse
 from .core.corenode import CoreNode
 from .dataclass_models import (
+    CLIPOut,
+    JinaV2Out,
     FillMaskOut,
     EmbedTextOut,
     EmbedImageOut,
+    Firellava13BOut,
+    GenerateJSONOut,
     GenerateTextOut,
     UpscaleImageOut,
     GenerateImageOut,
@@ -19,18 +23,26 @@ from .dataclass_models import (
     MultiEmbedImageOut,
     TranscribeMediaOut,
     RemoveBackgroundOut,
+    Mistral7BInstructOut,
+    MultiGenerateJSONOut,
     MultiGenerateTextOut,
+    StableDiffusionXLOut,
     GenerateTextVisionOut,
     MultiGenerateImageOut,
     GenerativeEditImageOut,
-    ControlledGenerateImageOut,
     MultiGenerativeEditImageOut,
-    MultiControlledGenerateImageOut,
+    StableDiffusionXLInpaintOut,
+    StableDiffusionXLIPAdapterOut,
+    StableDiffusionXLControlNetOut,
 )
 from .typeddict_models import (
+    CLIPIn,
+    JinaV2In,
     FillMaskIn,
     EmbedTextIn,
     EmbedImageIn,
+    Firellava13BIn,
+    GenerateJSONIn,
     GenerateTextIn,
     UpscaleImageIn,
     GenerateImageIn,
@@ -40,18 +52,26 @@ from .typeddict_models import (
     MultiEmbedImageIn,
     TranscribeMediaIn,
     RemoveBackgroundIn,
+    Mistral7BInstructIn,
+    MultiGenerateJSONIn,
     MultiGenerateTextIn,
+    StableDiffusionXLIn,
     GenerateTextVisionIn,
     MultiGenerateImageIn,
     GenerativeEditImageIn,
-    ControlledGenerateImageIn,
     MultiGenerativeEditImageIn,
-    MultiControlledGenerateImageIn,
+    StableDiffusionXLInpaintIn,
+    StableDiffusionXLIPAdapterIn,
+    StableDiffusionXLControlNetIn,
 )
 from .future_dataclass_models import (
+    FutureCLIPOut,
+    FutureJinaV2Out,
     FutureFillMaskOut,
     FutureEmbedTextOut,
     FutureEmbedImageOut,
+    FutureFirellava13BOut,
+    FutureGenerateJSONOut,
     FutureGenerateTextOut,
     FutureUpscaleImageOut,
     FutureGenerateImageOut,
@@ -61,13 +81,17 @@ from .future_dataclass_models import (
     FutureMultiEmbedImageOut,
     FutureTranscribeMediaOut,
     FutureRemoveBackgroundOut,
+    FutureMistral7BInstructOut,
+    FutureMultiGenerateJSONOut,
     FutureMultiGenerateTextOut,
+    FutureStableDiffusionXLOut,
     FutureGenerateTextVisionOut,
     FutureMultiGenerateImageOut,
     FutureGenerativeEditImageOut,
-    FutureControlledGenerateImageOut,
     FutureMultiGenerativeEditImageOut,
-    FutureMultiControlledGenerateImageOut,
+    FutureStableDiffusionXLInpaintOut,
+    FutureStableDiffusionXLIPAdapterOut,
+    FutureStableDiffusionXLControlNetOut,
 )
 
 
@@ -80,9 +104,9 @@ class GenerateText(CoreNode):
 
     def __init__(self, args: GenerateTextIn):
         """
-        Input arguments: `prompt`, `model` (optional), `response_format` (optional), `temperature` (optional), `max_tokens` (optional)
+        Input arguments: `prompt`, `temperature` (optional), `max_tokens` (optional), `node` (optional)
 
-        Output fields: `future.text` (optional), `future.json_object` (optional)
+        Output fields: `future.text` (optional)
 
         https://substrate.run/library#GenerateText
         """
@@ -93,7 +117,7 @@ class GenerateText(CoreNode):
         """
         Retrieve this node's output from a response.
 
-        Output fields: `future.text` (optional), `future.json_object` (optional)
+        Output fields: `future.text` (optional)
 
         https://substrate.run/library#GenerateText
         """
@@ -111,7 +135,7 @@ class GenerateText(CoreNode):
         """
         Future reference to this node's output.
 
-        Output fields: `future.text` (optional), `future.json_object` (optional)
+        Output fields: `future.text` (optional)
 
         https://substrate.run/library#GenerateText
         """
@@ -127,7 +151,7 @@ class MultiGenerateText(CoreNode):
 
     def __init__(self, args: MultiGenerateTextIn):
         """
-        Input arguments: `prompt`, `num_choices`, `model` (optional), `response_format` (optional), `temperature` (optional), `max_tokens` (optional)
+        Input arguments: `prompt`, `num_choices`, `temperature` (optional), `max_tokens` (optional), `node` (optional)
 
         Output fields: `future.choices`
 
@@ -165,16 +189,110 @@ class MultiGenerateText(CoreNode):
         return super().future  # type: ignore
 
 
+class GenerateJSON(CoreNode):
+    """
+    Generate JSON using a language model.
+
+    https://substrate.run/library#GenerateJSON
+    """
+
+    def __init__(self, args: GenerateJSONIn):
+        """
+        Input arguments: `prompt`, `json_schema`, `temperature` (optional), `max_tokens` (optional), `node` (optional)
+
+        Output fields: `future.json_object` (optional)
+
+        https://substrate.run/library#GenerateJSON
+        """
+        super().__init__(**args)
+        self.node = "GenerateJSON"
+
+    def output(self, response: SubstrateResponse) -> GenerateJSONOut:
+        """
+        Retrieve this node's output from a response.
+
+        Output fields: `future.json_object` (optional)
+
+        https://substrate.run/library#GenerateJSON
+        """
+        klass = GenerateJSONOut
+        json = response.api_response.json
+        if json and json.get("data"):
+            data = json["data"]
+            node_id = self.id
+            if data.get(self.id):
+                return klass(**data[self.id])
+        raise ValueError(f"Node {self.id} not found in response")
+
+    @property
+    def future(self) -> FutureGenerateJSONOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.json_object` (optional)
+
+        https://substrate.run/library#GenerateJSON
+        """
+        return super().future  # type: ignore
+
+
+class MultiGenerateJSON(CoreNode):
+    """
+    Generate multiple JSON choices using a language model.
+
+    https://substrate.run/library#MultiGenerateJSON
+    """
+
+    def __init__(self, args: MultiGenerateJSONIn):
+        """
+        Input arguments: `prompt`, `json_schema`, `num_choices`, `temperature` (optional), `max_tokens` (optional), `node` (optional)
+
+        Output fields: `future.choices`
+
+        https://substrate.run/library#MultiGenerateJSON
+        """
+        super().__init__(**args)
+        self.node = "MultiGenerateJSON"
+
+    def output(self, response: SubstrateResponse) -> MultiGenerateJSONOut:
+        """
+        Retrieve this node's output from a response.
+
+        Output fields: `future.choices`
+
+        https://substrate.run/library#MultiGenerateJSON
+        """
+        klass = MultiGenerateJSONOut
+        json = response.api_response.json
+        if json and json.get("data"):
+            data = json["data"]
+            node_id = self.id
+            if data.get(self.id):
+                return klass(**data[self.id])
+        raise ValueError(f"Node {self.id} not found in response")
+
+    @property
+    def future(self) -> FutureMultiGenerateJSONOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.choices`
+
+        https://substrate.run/library#MultiGenerateJSON
+        """
+        return super().future  # type: ignore
+
+
 class GenerateTextVision(CoreNode):
     """
-    Generate text by prompting with text and images using a vision-language model.
+    Generate text with image input.
 
     https://substrate.run/library#GenerateTextVision
     """
 
     def __init__(self, args: GenerateTextVisionIn):
         """
-        Input arguments: `prompt`, `image_uris` (optional), `model` (optional), `temperature` (optional), `max_tokens` (optional)
+        Input arguments: `prompt`, `image_uris`, `temperature` (optional), `max_tokens` (optional), `node` (optional)
 
         Output fields: `future.text`
 
@@ -212,6 +330,100 @@ class GenerateTextVision(CoreNode):
         return super().future  # type: ignore
 
 
+class Mistral7BInstruct(CoreNode):
+    """
+    Generate text using Mistral 7B Instruct.
+
+    https://substrate.run/library#Mistral7BInstruct
+    """
+
+    def __init__(self, args: Mistral7BInstructIn):
+        """
+        Input arguments: `prompt`, `num_choices`, `json_schema` (optional), `temperature` (optional), `max_tokens` (optional)
+
+        Output fields: `future.choices`
+
+        https://substrate.run/library#Mistral7BInstruct
+        """
+        super().__init__(**args)
+        self.node = "Mistral7BInstruct"
+
+    def output(self, response: SubstrateResponse) -> Mistral7BInstructOut:
+        """
+        Retrieve this node's output from a response.
+
+        Output fields: `future.choices`
+
+        https://substrate.run/library#Mistral7BInstruct
+        """
+        klass = Mistral7BInstructOut
+        json = response.api_response.json
+        if json and json.get("data"):
+            data = json["data"]
+            node_id = self.id
+            if data.get(self.id):
+                return klass(**data[self.id])
+        raise ValueError(f"Node {self.id} not found in response")
+
+    @property
+    def future(self) -> FutureMistral7BInstructOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.choices`
+
+        https://substrate.run/library#Mistral7BInstruct
+        """
+        return super().future  # type: ignore
+
+
+class Firellava13B(CoreNode):
+    """
+    Generate text with image input using FireLLaVA 13B.
+
+    https://substrate.run/library#Firellava13B
+    """
+
+    def __init__(self, args: Firellava13BIn):
+        """
+        Input arguments: `prompt`, `image_uris`, `temperature` (optional), `max_tokens` (optional)
+
+        Output fields: `future.text`
+
+        https://substrate.run/library#Firellava13B
+        """
+        super().__init__(**args)
+        self.node = "Firellava13B"
+
+    def output(self, response: SubstrateResponse) -> Firellava13BOut:
+        """
+        Retrieve this node's output from a response.
+
+        Output fields: `future.text`
+
+        https://substrate.run/library#Firellava13B
+        """
+        klass = Firellava13BOut
+        json = response.api_response.json
+        if json and json.get("data"):
+            data = json["data"]
+            node_id = self.id
+            if data.get(self.id):
+                return klass(**data[self.id])
+        raise ValueError(f"Node {self.id} not found in response")
+
+    @property
+    def future(self) -> FutureFirellava13BOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.text`
+
+        https://substrate.run/library#Firellava13B
+        """
+        return super().future  # type: ignore
+
+
 class GenerateImage(CoreNode):
     """
     Generate an image.
@@ -221,9 +433,9 @@ class GenerateImage(CoreNode):
 
     def __init__(self, args: GenerateImageIn):
         """
-        Input arguments: `prompt`, `image_prompt_uri` (optional), `model` (optional), `image_influence` (optional), `negative_prompt` (optional), `store` (optional), `width` (optional), `height` (optional), `seed` (optional)
+        Input arguments: `prompt`, `store` (optional), `node` (optional)
 
-        Output fields: `future.image_uri`, `future.seed`
+        Output fields: `future.image_uri`
 
         https://substrate.run/library#GenerateImage
         """
@@ -234,7 +446,7 @@ class GenerateImage(CoreNode):
         """
         Retrieve this node's output from a response.
 
-        Output fields: `future.image_uri`, `future.seed`
+        Output fields: `future.image_uri`
 
         https://substrate.run/library#GenerateImage
         """
@@ -252,7 +464,7 @@ class GenerateImage(CoreNode):
         """
         Future reference to this node's output.
 
-        Output fields: `future.image_uri`, `future.seed`
+        Output fields: `future.image_uri`
 
         https://substrate.run/library#GenerateImage
         """
@@ -268,7 +480,7 @@ class MultiGenerateImage(CoreNode):
 
     def __init__(self, args: MultiGenerateImageIn):
         """
-        Input arguments: `prompt`, `image_prompt_uri` (optional), `num_images`, `model` (optional), `image_influence` (optional), `negative_prompt` (optional), `store` (optional), `width` (optional), `height` (optional), `seeds` (optional)
+        Input arguments: `prompt`, `num_images`, `store` (optional), `node` (optional)
 
         Output fields: `future.outputs`
 
@@ -306,112 +518,18 @@ class MultiGenerateImage(CoreNode):
         return super().future  # type: ignore
 
 
-class ControlledGenerateImage(CoreNode):
-    """
-    Generate an image with generation controlled by an input image.
-
-    https://substrate.run/library#ControlledGenerateImage
-    """
-
-    def __init__(self, args: ControlledGenerateImageIn):
-        """
-        Input arguments: `image_uri`, `control_method`, `prompt`, `output_resolution` (optional), `model` (optional), `negative_prompt` (optional), `store` (optional), `image_influence` (optional), `seed` (optional)
-
-        Output fields: `future.image_uri`, `future.seed`
-
-        https://substrate.run/library#ControlledGenerateImage
-        """
-        super().__init__(**args)
-        self.node = "ControlledGenerateImage"
-
-    def output(self, response: SubstrateResponse) -> ControlledGenerateImageOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.image_uri`, `future.seed`
-
-        https://substrate.run/library#ControlledGenerateImage
-        """
-        klass = ControlledGenerateImageOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
-
-    @property
-    def future(self) -> FutureControlledGenerateImageOut:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        Output fields: `future.image_uri`, `future.seed`
-
-        https://substrate.run/library#ControlledGenerateImage
-        """
-        return super().future  # type: ignore
-
-
-class MultiControlledGenerateImage(CoreNode):
-    """
-    Generate multiple image outputs with generation controlled by an input image.
-
-    https://substrate.run/library#MultiControlledGenerateImage
-    """
-
-    def __init__(self, args: MultiControlledGenerateImageIn):
-        """
-        Input arguments: `image_uri`, `control_method`, `prompt`, `num_images`, `output_resolution` (optional), `model` (optional), `negative_prompt` (optional), `store` (optional), `image_influence` (optional), `seeds` (optional)
-
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#MultiControlledGenerateImage
-        """
-        super().__init__(**args)
-        self.node = "MultiControlledGenerateImage"
-
-    def output(self, response: SubstrateResponse) -> MultiControlledGenerateImageOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#MultiControlledGenerateImage
-        """
-        klass = MultiControlledGenerateImageOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
-
-    @property
-    def future(self) -> FutureMultiControlledGenerateImageOut:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#MultiControlledGenerateImage
-        """
-        return super().future  # type: ignore
-
-
 class GenerativeEditImage(CoreNode):
     """
-    Edit an image with a generative model.
+    Edit an image using image generation.
 
     https://substrate.run/library#GenerativeEditImage
     """
 
     def __init__(self, args: GenerativeEditImageIn):
         """
-        Input arguments: `image_uri`, `prompt`, `mask_image_uri` (optional), `image_prompt_uri` (optional), `output_resolution` (optional), `model` (optional), `strength` (optional), `image_prompt_influence` (optional), `negative_prompt` (optional), `store` (optional), `seed` (optional)
+        Input arguments: `image_uri`, `prompt`, `mask_image_uri` (optional), `store` (optional), `node` (optional)
 
-        Output fields: `future.image_uri`, `future.seed`
+        Output fields: `future.image_uri`
 
         https://substrate.run/library#GenerativeEditImage
         """
@@ -422,7 +540,7 @@ class GenerativeEditImage(CoreNode):
         """
         Retrieve this node's output from a response.
 
-        Output fields: `future.image_uri`, `future.seed`
+        Output fields: `future.image_uri`
 
         https://substrate.run/library#GenerativeEditImage
         """
@@ -440,7 +558,7 @@ class GenerativeEditImage(CoreNode):
         """
         Future reference to this node's output.
 
-        Output fields: `future.image_uri`, `future.seed`
+        Output fields: `future.image_uri`
 
         https://substrate.run/library#GenerativeEditImage
         """
@@ -449,14 +567,14 @@ class GenerativeEditImage(CoreNode):
 
 class MultiGenerativeEditImage(CoreNode):
     """
-    Generate multiple image outputs modifying part of an image using a mask.
+    Edit multiple images using image generation.
 
     https://substrate.run/library#MultiGenerativeEditImage
     """
 
     def __init__(self, args: MultiGenerativeEditImageIn):
         """
-        Input arguments: `image_uri`, `prompt`, `mask_image_uri` (optional), `image_prompt_uri` (optional), `num_images`, `output_resolution` (optional), `model` (optional), `negative_prompt` (optional), `store` (optional), `strength` (optional), `image_prompt_influence` (optional), `seeds` (optional)
+        Input arguments: `image_uri`, `prompt`, `mask_image_uri` (optional), `num_images`, `store` (optional), `node` (optional)
 
         Output fields: `future.outputs`
 
@@ -490,6 +608,194 @@ class MultiGenerativeEditImage(CoreNode):
         Output fields: `future.outputs`
 
         https://substrate.run/library#MultiGenerativeEditImage
+        """
+        return super().future  # type: ignore
+
+
+class StableDiffusionXL(CoreNode):
+    """
+    Generate an image using Stable Diffusion XL.
+
+    https://substrate.run/library#StableDiffusionXL
+    """
+
+    def __init__(self, args: StableDiffusionXLIn):
+        """
+        Input arguments: `prompt`, `negative_prompt` (optional), `steps` (optional), `num_images` (optional), `store` (optional), `height` (optional), `width` (optional), `seeds` (optional), `guidance_scale` (optional)
+
+        Output fields: `future.outputs`
+
+        https://substrate.run/library#StableDiffusionXL
+        """
+        super().__init__(**args)
+        self.node = "StableDiffusionXL"
+
+    def output(self, response: SubstrateResponse) -> StableDiffusionXLOut:
+        """
+        Retrieve this node's output from a response.
+
+        Output fields: `future.outputs`
+
+        https://substrate.run/library#StableDiffusionXL
+        """
+        klass = StableDiffusionXLOut
+        json = response.api_response.json
+        if json and json.get("data"):
+            data = json["data"]
+            node_id = self.id
+            if data.get(self.id):
+                return klass(**data[self.id])
+        raise ValueError(f"Node {self.id} not found in response")
+
+    @property
+    def future(self) -> FutureStableDiffusionXLOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.outputs`
+
+        https://substrate.run/library#StableDiffusionXL
+        """
+        return super().future  # type: ignore
+
+
+class StableDiffusionXLInpaint(CoreNode):
+    """
+    Inpaint an image using Stable Diffusion XL.
+
+    https://substrate.run/library#StableDiffusionXLInpaint
+    """
+
+    def __init__(self, args: StableDiffusionXLInpaintIn):
+        """
+        Input arguments: `image_uri`, `prompt`, `mask_image_uri` (optional), `num_images`, `output_resolution` (optional), `negative_prompt` (optional), `store` (optional), `strength` (optional), `seeds` (optional)
+
+        Output fields: `future.outputs`
+
+        https://substrate.run/library#StableDiffusionXLInpaint
+        """
+        super().__init__(**args)
+        self.node = "StableDiffusionXLInpaint"
+
+    def output(self, response: SubstrateResponse) -> StableDiffusionXLInpaintOut:
+        """
+        Retrieve this node's output from a response.
+
+        Output fields: `future.outputs`
+
+        https://substrate.run/library#StableDiffusionXLInpaint
+        """
+        klass = StableDiffusionXLInpaintOut
+        json = response.api_response.json
+        if json and json.get("data"):
+            data = json["data"]
+            node_id = self.id
+            if data.get(self.id):
+                return klass(**data[self.id])
+        raise ValueError(f"Node {self.id} not found in response")
+
+    @property
+    def future(self) -> FutureStableDiffusionXLInpaintOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.outputs`
+
+        https://substrate.run/library#StableDiffusionXLInpaint
+        """
+        return super().future  # type: ignore
+
+
+class StableDiffusionXLIPAdapter(CoreNode):
+    """
+    Generate an image using Stable Diffusion XL with an image prompt.
+
+    https://substrate.run/library#StableDiffusionXLIPAdapter
+    """
+
+    def __init__(self, args: StableDiffusionXLIPAdapterIn):
+        """
+        Input arguments: `prompt`, `image_prompt_uri` (optional), `num_images`, `ip_adapter_scale` (optional), `negative_prompt` (optional), `store` (optional), `width` (optional), `height` (optional), `seeds` (optional)
+
+        Output fields: `future.outputs`
+
+        https://substrate.run/library#StableDiffusionXLIPAdapter
+        """
+        super().__init__(**args)
+        self.node = "StableDiffusionXLIPAdapter"
+
+    def output(self, response: SubstrateResponse) -> StableDiffusionXLIPAdapterOut:
+        """
+        Retrieve this node's output from a response.
+
+        Output fields: `future.outputs`
+
+        https://substrate.run/library#StableDiffusionXLIPAdapter
+        """
+        klass = StableDiffusionXLIPAdapterOut
+        json = response.api_response.json
+        if json and json.get("data"):
+            data = json["data"]
+            node_id = self.id
+            if data.get(self.id):
+                return klass(**data[self.id])
+        raise ValueError(f"Node {self.id} not found in response")
+
+    @property
+    def future(self) -> FutureStableDiffusionXLIPAdapterOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.outputs`
+
+        https://substrate.run/library#StableDiffusionXLIPAdapter
+        """
+        return super().future  # type: ignore
+
+
+class StableDiffusionXLControlNet(CoreNode):
+    """
+    Generate an image using Stable Diffusion XL structuring generation with an input image.
+
+    https://substrate.run/library#StableDiffusionXLControlNet
+    """
+
+    def __init__(self, args: StableDiffusionXLControlNetIn):
+        """
+        Input arguments: `image_uri`, `control_method`, `prompt`, `num_images`, `output_resolution` (optional), `negative_prompt` (optional), `store` (optional), `conditioning_scale` (optional), `seeds` (optional)
+
+        Output fields: `future.outputs`
+
+        https://substrate.run/library#StableDiffusionXLControlNet
+        """
+        super().__init__(**args)
+        self.node = "StableDiffusionXLControlNet"
+
+    def output(self, response: SubstrateResponse) -> StableDiffusionXLControlNetOut:
+        """
+        Retrieve this node's output from a response.
+
+        Output fields: `future.outputs`
+
+        https://substrate.run/library#StableDiffusionXLControlNet
+        """
+        klass = StableDiffusionXLControlNetOut
+        json = response.api_response.json
+        if json and json.get("data"):
+            data = json["data"]
+            node_id = self.id
+            if data.get(self.id):
+                return klass(**data[self.id])
+        raise ValueError(f"Node {self.id} not found in response")
+
+    @property
+    def future(self) -> FutureStableDiffusionXLControlNetOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.outputs`
+
+        https://substrate.run/library#StableDiffusionXLControlNet
         """
         return super().future  # type: ignore
 
@@ -778,14 +1084,14 @@ class GenerateSpeech(CoreNode):
 
 class EmbedText(CoreNode):
     """
-    Generate vector embedding for a text document.
+    Generate embedding for a text document.
 
     https://substrate.run/library#EmbedText
     """
 
     def __init__(self, args: EmbedTextIn):
         """
-        Input arguments: `text`, `model` (optional), `store` (optional), `metadata` (optional), `embedded_metadata_keys` (optional), `document_id` (optional)
+        Input arguments: `text`, `store` (optional), `metadata` (optional), `embedded_metadata_keys` (optional), `doc_id` (optional), `node` (optional)
 
         Output fields: `future.embedding`
 
@@ -825,14 +1131,14 @@ class EmbedText(CoreNode):
 
 class MultiEmbedText(CoreNode):
     """
-    Generate vector embeddings for multiple text documents.
+    Generate embeddings for multiple text documents.
 
     https://substrate.run/library#MultiEmbedText
     """
 
     def __init__(self, args: MultiEmbedTextIn):
         """
-        Input arguments: `items`, `model` (optional), `store` (optional), `embedded_metadata_keys` (optional)
+        Input arguments: `items`, `store` (optional), `embedded_metadata_keys` (optional), `node` (optional)
 
         Output fields: `future.embeddings`
 
@@ -872,14 +1178,14 @@ class MultiEmbedText(CoreNode):
 
 class EmbedImage(CoreNode):
     """
-    Generate vector embedding for an image, and optionally store the embedding.
+    Generate embedding for an image.
 
     https://substrate.run/library#EmbedImage
     """
 
     def __init__(self, args: EmbedImageIn):
         """
-        Input arguments: `image_uri`, `model` (optional), `store` (optional), `document_id` (optional)
+        Input arguments: `image_uri`, `store` (optional), `doc_id` (optional), `node` (optional)
 
         Output fields: `future.embedding`
 
@@ -919,14 +1225,14 @@ class EmbedImage(CoreNode):
 
 class MultiEmbedImage(CoreNode):
     """
-    Generate vector embeddings for multiple images, and optionally store the embeddings.
+    Generate embeddings for multiple images.
 
     https://substrate.run/library#MultiEmbedImage
     """
 
     def __init__(self, args: MultiEmbedImageIn):
         """
-        Input arguments: `items`, `store` (optional), `model` (optional)
+        Input arguments: `items`, `store` (optional), `node` (optional)
 
         Output fields: `future.embeddings`
 
@@ -960,5 +1266,99 @@ class MultiEmbedImage(CoreNode):
         Output fields: `future.embeddings`
 
         https://substrate.run/library#MultiEmbedImage
+        """
+        return super().future  # type: ignore
+
+
+class JinaV2(CoreNode):
+    """
+    Generate embeddings for multiple text documents using Jina V2.
+
+    https://substrate.run/library#JinaV2
+    """
+
+    def __init__(self, args: JinaV2In):
+        """
+        Input arguments: `items`, `store` (optional), `embedded_metadata_keys` (optional)
+
+        Output fields: `future.embeddings`
+
+        https://substrate.run/library#JinaV2
+        """
+        super().__init__(**args)
+        self.node = "JinaV2"
+
+    def output(self, response: SubstrateResponse) -> JinaV2Out:
+        """
+        Retrieve this node's output from a response.
+
+        Output fields: `future.embeddings`
+
+        https://substrate.run/library#JinaV2
+        """
+        klass = JinaV2Out
+        json = response.api_response.json
+        if json and json.get("data"):
+            data = json["data"]
+            node_id = self.id
+            if data.get(self.id):
+                return klass(**data[self.id])
+        raise ValueError(f"Node {self.id} not found in response")
+
+    @property
+    def future(self) -> FutureJinaV2Out:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.embeddings`
+
+        https://substrate.run/library#JinaV2
+        """
+        return super().future  # type: ignore
+
+
+class CLIP(CoreNode):
+    """
+    Generate embeddings for text or images using CLIP.
+
+    https://substrate.run/library#CLIP
+    """
+
+    def __init__(self, args: CLIPIn):
+        """
+        Input arguments: `items`, `embedded_metadata_keys` (optional), `store` (optional)
+
+        Output fields: `future.embeddings`
+
+        https://substrate.run/library#CLIP
+        """
+        super().__init__(**args)
+        self.node = "CLIP"
+
+    def output(self, response: SubstrateResponse) -> CLIPOut:
+        """
+        Retrieve this node's output from a response.
+
+        Output fields: `future.embeddings`
+
+        https://substrate.run/library#CLIP
+        """
+        klass = CLIPOut
+        json = response.api_response.json
+        if json and json.get("data"):
+            data = json["data"]
+            node_id = self.id
+            if data.get(self.id):
+                return klass(**data[self.id])
+        raise ValueError(f"Node {self.id} not found in response")
+
+    @property
+    def future(self) -> FutureCLIPOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.embeddings`
+
+        https://substrate.run/library#CLIP
         """
         return super().future  # type: ignore

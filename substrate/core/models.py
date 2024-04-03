@@ -27,20 +27,6 @@ class ErrorOut(BaseModel):
     """
 
 
-class ResponseFormat(BaseModel):
-    class Config:
-        extra = Extra.allow
-
-    type: Literal["json_object", "text"]
-    """
-    Type of response.
-    """
-    json_schema: Optional[Dict[str, Any]] = None
-    """
-    JSON schema to guide `json_object` response.
-    """
-
-
 class GenerateTextIn(BaseModel):
     class Config:
         extra = Extra.allow
@@ -49,21 +35,63 @@ class GenerateTextIn(BaseModel):
     """
     Input prompt.
     """
-    model: Optional[Literal["mistral-7b-instruct"]] = "mistral-7b-instruct"
+    temperature: Annotated[Optional[int], Field(ge=1, le=10)] = 4
     """
-    Selected model.
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
     """
-    response_format: Optional[ResponseFormat] = None
+    max_tokens: Optional[int] = None
     """
-    Format of the response.
+    Maximum number of tokens to generate.
+    """
+    node: Optional[Literal["Mistral7BInstruct"]] = "Mistral7BInstruct"
+    """
+    Selected node.
+    """
+
+
+class GenerateTextOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    text: Optional[str] = None
+    """
+    Text response.
+    """
+
+
+class GenerateJSONIn(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    prompt: str
+    """
+    Input prompt.
+    """
+    json_schema: Dict[str, Any]
+    """
+    JSON schema to guide `json_object` response.
     """
     temperature: Annotated[Optional[int], Field(ge=1, le=10)] = 4
     """
     Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
     """
-    max_tokens: Optional[int] = 800
+    max_tokens: Optional[int] = None
     """
     Maximum number of tokens to generate.
+    """
+    node: Optional[Literal["Mistral7BInstruct"]] = "Mistral7BInstruct"
+    """
+    Selected node.
+    """
+
+
+class GenerateJSONOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    json_object: Optional[Dict[str, Any]] = None
+    """
+    JSON response.
     """
 
 
@@ -79,35 +107,17 @@ class MultiGenerateTextIn(BaseModel):
     """
     Number of choices to generate.
     """
-    model: Optional[Literal["mistral-7b-instruct"]] = "mistral-7b-instruct"
-    """
-    Selected model.
-    """
-    response_format: Optional[ResponseFormat] = None
-    """
-    Format of the response.
-    """
     temperature: Annotated[Optional[int], Field(ge=1, le=10)] = 4
     """
     Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
     """
-    max_tokens: Optional[int] = 800
+    max_tokens: Optional[int] = None
     """
     Maximum number of tokens to generate.
     """
-
-
-class GenerateTextOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
-    text: Optional[str] = None
+    node: Optional[Literal["Mistral7BInstruct"]] = "Mistral7BInstruct"
     """
-    Text response.
-    """
-    json_object: Optional[Dict[str, Any]] = None
-    """
-    JSON response.
+    Selected node.
     """
 
 
@@ -118,6 +128,90 @@ class MultiGenerateTextOut(BaseModel):
     choices: List[GenerateTextOut]
 
 
+class MultiGenerateJSONIn(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    prompt: str
+    """
+    Input prompt.
+    """
+    json_schema: Dict[str, Any]
+    """
+    JSON schema to guide `json_object` response.
+    """
+    num_choices: int
+    """
+    Number of choices to generate.
+    """
+    temperature: Annotated[Optional[int], Field(ge=1, le=10)] = 4
+    """
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: Optional[int] = None
+    """
+    Maximum number of tokens to generate.
+    """
+    node: Optional[Literal["Mistral7BInstruct"]] = "Mistral7BInstruct"
+    """
+    Selected node.
+    """
+
+
+class MultiGenerateJSONOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    choices: List[GenerateJSONOut]
+
+
+class Mistral7BInstructIn(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    prompt: str
+    """
+    Input prompt.
+    """
+    num_choices: int
+    """
+    Number of choices to generate.
+    """
+    json_schema: Optional[Dict[str, Any]] = None
+    """
+    JSON schema to guide response.
+    """
+    temperature: Annotated[Optional[float], Field(ge=0.0)] = None
+    """
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: Optional[int] = None
+    """
+    Maximum number of tokens to generate.
+    """
+
+
+class Mistral7BInstructChoice(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    text: Optional[str] = None
+    """
+    Text response, if `json_schema` was not provided.
+    """
+    json_object: Optional[Dict[str, Any]] = None
+    """
+    JSON response, if `json_schema` was provided.
+    """
+
+
+class Mistral7BInstructOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    choices: List[Mistral7BInstructChoice]
+
+
 class GenerateTextVisionIn(BaseModel):
     class Config:
         extra = Extra.allow
@@ -126,13 +220,9 @@ class GenerateTextVisionIn(BaseModel):
     """
     Text prompt.
     """
-    image_uris: Optional[List[str]] = None
+    image_uris: List[str]
     """
     Image prompts.
-    """
-    model: Optional[Literal["firellava-13b"]] = "firellava-13b"
-    """
-    Selected model.
     """
     temperature: Annotated[Optional[int], Field(ge=1, le=10)] = 4
     """
@@ -142,9 +232,45 @@ class GenerateTextVisionIn(BaseModel):
     """
     Maximum number of tokens to generate.
     """
+    node: Optional[Literal["Firellava13B"]] = "Firellava13B"
+    """
+    Selected node.
+    """
 
 
 class GenerateTextVisionOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    text: str
+    """
+    Text response.
+    """
+
+
+class Firellava13BIn(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    prompt: str
+    """
+    Text prompt.
+    """
+    image_uris: List[str]
+    """
+    Image prompts.
+    """
+    temperature: Annotated[Optional[float], Field(ge=0.0)] = None
+    """
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: Optional[int] = 800
+    """
+    Maximum number of tokens to generate.
+    """
+
+
+class Firellava13BOut(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -162,37 +288,13 @@ class GenerateImageIn(BaseModel):
     """
     Text prompt.
     """
-    image_prompt_uri: Optional[str] = None
-    """
-    Image prompt.
-    """
-    model: Optional[Literal["stablediffusion-xl"]] = "stablediffusion-xl"
-    """
-    Selected model.
-    """
-    image_influence: Annotated[Optional[float], Field(ge=0.0, le=10.0)] = 5
-    """
-    Controls the influence of the image prompt on the generated output.
-    """
-    negative_prompt: Optional[str] = None
-    """
-    Negative input prompt.
-    """
     store: Optional[str] = None
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    width: Optional[int] = None
+    node: Optional[Literal["StableDiffusionXL"]] = "StableDiffusionXL"
     """
-    Width of output image, in pixels.
-    """
-    height: Optional[int] = None
-    """
-    Height of output image, in pixels.
-    """
-    seed: Optional[int] = None
-    """
-    Seed for deterministic generation. Default is a random seed.
+    Selected node.
     """
 
 
@@ -204,13 +306,101 @@ class GenerateImageOut(BaseModel):
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
     """
+
+
+class MultiGenerateImageIn(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    prompt: str
+    """
+    Text prompt.
+    """
+    num_images: int
+    """
+    Number of images to generate.
+    """
+    store: Optional[str] = None
+    """
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    node: Optional[Literal["StableDiffusionXL"]] = "StableDiffusionXL"
+    """
+    Selected node.
+    """
+
+
+class MultiGenerateImageOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    outputs: List[GenerateImageOut]
+
+
+class StableDiffusionXLIn(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    prompt: str
+    """
+    Text prompt.
+    """
+    negative_prompt: Optional[str] = None
+    """
+    Negative input prompt.
+    """
+    steps: Optional[int] = None
+    """
+    Number of diffusion steps.
+    """
+    num_images: Optional[int] = None
+    """
+    Number of images to generate.
+    """
+    store: Optional[str] = None
+    """
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    height: Optional[int] = None
+    """
+    Height of output image, in pixels.
+    """
+    width: Optional[int] = None
+    """
+    Width of output image, in pixels.
+    """
+    seeds: Optional[int] = None
+    """
+    Seeds for deterministic generation. Default is a random seed.
+    """
+    guidance_scale: Annotated[Optional[float], Field(ge=0.0)] = 5
+    """
+    Higher values adhere to the text prompt more strongly, typically at the expense of image quality.
+    """
+
+
+class StableDiffusionImage(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    image_uri: str
+    """
+    Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
+    """
     seed: int
     """
     The random noise seed used for generation.
     """
 
 
-class MultiGenerateImageIn(BaseModel):
+class StableDiffusionXLOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    outputs: List[StableDiffusionImage]
+
+
+class StableDiffusionXLIPAdapterIn(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -226,11 +416,7 @@ class MultiGenerateImageIn(BaseModel):
     """
     Number of images to generate.
     """
-    model: Optional[Literal["stablediffusion-xl"]] = "stablediffusion-xl"
-    """
-    Selected model.
-    """
-    image_influence: Annotated[Optional[float], Field(ge=0.0, le=10.0)] = 5
+    ip_adapter_scale: Annotated[Optional[float], Field(ge=0.0)] = None
     """
     Controls the influence of the image prompt on the generated output.
     """
@@ -256,70 +442,14 @@ class MultiGenerateImageIn(BaseModel):
     """
 
 
-class MultiGenerateImageOut(BaseModel):
+class StableDiffusionXLIPAdapterOut(BaseModel):
     class Config:
         extra = Extra.allow
 
-    outputs: List[GenerateImageOut]
+    outputs: List[StableDiffusionImage]
 
 
-class ControlledGenerateImageIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
-    image_uri: str
-    """
-    Input image.
-    """
-    control_method: Literal["edge", "depth", "illusion"]
-    """
-    Strategy to control generation using the input image.
-    """
-    prompt: str
-    """
-    Text prompt.
-    """
-    output_resolution: Optional[int] = 1024
-    """
-    Resolution of the output image, in pixels.
-    """
-    model: Optional[Literal["stablediffusion-xl"]] = "stablediffusion-xl"
-    """
-    Selected model.
-    """
-    negative_prompt: Optional[str] = None
-    """
-    Negative input prompt.
-    """
-    store: Optional[str] = None
-    """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
-    """
-    image_influence: Annotated[Optional[float], Field(ge=0.0, le=10.0)] = 9
-    """
-    Controls the influence of the input image on the generated output.
-    """
-    seed: Optional[int] = None
-    """
-    Seed for deterministic generation. Default is a random seed.
-    """
-
-
-class ControlledGenerateImageOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
-    image_uri: str
-    """
-    Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
-    """
-    seed: int
-    """
-    The random noise seed used for generation.
-    """
-
-
-class MultiControlledGenerateImageIn(BaseModel):
+class StableDiffusionXLControlNetIn(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -343,10 +473,6 @@ class MultiControlledGenerateImageIn(BaseModel):
     """
     Resolution of the output image, in pixels.
     """
-    model: Optional[Literal["stablediffusion-xl"]] = "stablediffusion-xl"
-    """
-    Selected model.
-    """
     negative_prompt: Optional[str] = None
     """
     Negative input prompt.
@@ -355,7 +481,7 @@ class MultiControlledGenerateImageIn(BaseModel):
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    image_influence: Annotated[Optional[float], Field(ge=0.0, le=10.0)] = 9
+    conditioning_scale: Annotated[Optional[float], Field(ge=0.0)] = None
     """
     Controls the influence of the input image on the generated output.
     """
@@ -365,11 +491,11 @@ class MultiControlledGenerateImageIn(BaseModel):
     """
 
 
-class MultiControlledGenerateImageOut(BaseModel):
+class StableDiffusionXLControlNetOut(BaseModel):
     class Config:
         extra = Extra.allow
 
-    outputs: List[ControlledGenerateImageOut]
+    outputs: List[StableDiffusionImage]
 
 
 class GenerativeEditImageIn(BaseModel):
@@ -388,37 +514,13 @@ class GenerativeEditImageIn(BaseModel):
     """
     Mask image that controls which pixels are inpainted. If unset, the entire image is edited (image-to-image).
     """
-    image_prompt_uri: Optional[str] = None
-    """
-    Image prompt.
-    """
-    output_resolution: Optional[int] = 1024
-    """
-    Resolution of the output image, in pixels.
-    """
-    model: Optional[Literal["stablediffusion-xl"]] = "stablediffusion-xl"
-    """
-    Selected model.
-    """
-    strength: Annotated[Optional[float], Field(ge=0.0, le=10.0)] = 8
-    """
-    Controls the strength of the generation process.
-    """
-    image_prompt_influence: Annotated[Optional[float], Field(ge=0.0, le=10.0)] = 5
-    """
-    Controls the influence of the image prompt on the generated output.
-    """
-    negative_prompt: Optional[str] = None
-    """
-    Negative input prompt.
-    """
     store: Optional[str] = None
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    seed: Optional[int] = None
+    node: Optional[Literal["StableDiffusionXLInpaint"]] = "StableDiffusionXLInpaint"
     """
-    Seed for deterministic generation. Default is a random seed.
+    Selected node.
     """
 
 
@@ -429,10 +531,6 @@ class GenerativeEditImageOut(BaseModel):
     image_uri: str
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
-    """
-    seed: int
-    """
-    The random noise seed used for generation.
     """
 
 
@@ -452,9 +550,42 @@ class MultiGenerativeEditImageIn(BaseModel):
     """
     Mask image that controls which pixels are edited (inpainting). If unset, the entire image is edited (image-to-image).
     """
-    image_prompt_uri: Optional[str] = None
+    num_images: int
     """
-    Image prompt.
+    Number of images to generate.
+    """
+    store: Optional[str] = None
+    """
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    node: Optional[Literal["StableDiffusionXLInpaint"]] = "StableDiffusionXLInpaint"
+    """
+    Selected node.
+    """
+
+
+class MultiGenerativeEditImageOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    outputs: List[GenerativeEditImageOut]
+
+
+class StableDiffusionXLInpaintIn(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    image_uri: str
+    """
+    Original image.
+    """
+    prompt: str
+    """
+    Text prompt.
+    """
+    mask_image_uri: Optional[str] = None
+    """
+    Mask image that controls which pixels are edited (inpainting). If unset, the entire image is edited (image-to-image).
     """
     num_images: int
     """
@@ -464,10 +595,6 @@ class MultiGenerativeEditImageIn(BaseModel):
     """
     Resolution of the output image, in pixels.
     """
-    model: Optional[Literal["stablediffusion-xl"]] = "stablediffusion-xl"
-    """
-    Selected model.
-    """
     negative_prompt: Optional[str] = None
     """
     Negative input prompt.
@@ -476,13 +603,9 @@ class MultiGenerativeEditImageIn(BaseModel):
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    strength: Annotated[Optional[float], Field(ge=0.0, le=10.0)] = 8
+    strength: Annotated[Optional[float], Field(ge=0.0)] = 0.5
     """
     Controls the strength of the generation process.
-    """
-    image_prompt_influence: Annotated[Optional[float], Field(ge=0.0, le=10.0)] = 5
-    """
-    Controls the influence of the image prompt on the generated output.
     """
     seeds: Optional[List[int]] = None
     """
@@ -490,11 +613,11 @@ class MultiGenerativeEditImageIn(BaseModel):
     """
 
 
-class MultiGenerativeEditImageOut(BaseModel):
+class StableDiffusionXLInpaintOut(BaseModel):
     class Config:
         extra = Extra.allow
 
-    outputs: List[GenerativeEditImageOut]
+    outputs: List[StableDiffusionImage]
 
 
 class BoundingBox(BaseModel):
@@ -639,11 +762,11 @@ class DetectSegmentsIn(BaseModel):
     """
     point_prompts: Optional[List[Point]] = None
     """
-    Point prompts, to detect a segment under the point. One of `point_prompt` or `box_prompt` must be set.
+    Point prompts, to detect a segment under the point. One of `point_prompts` or `box_prompts` must be set.
     """
     box_prompts: Optional[List[BoundingBox]] = None
     """
-    Box prompts, to detect a segment within the bounding box. One of `point_prompt` or `box_prompt` must be set.
+    Box prompts, to detect a segment within the bounding box. One of `point_prompts` or `box_prompts` must be set.
     """
     model: Optional[Literal["segment-anything"]] = "segment-anything"
     """
@@ -819,7 +942,7 @@ class Embedding(BaseModel):
     """
     Embedding vector.
     """
-    document_id: Optional[str] = None
+    doc_id: Optional[str] = None
     """
     Vector store document ID.
     """
@@ -837,10 +960,6 @@ class EmbedTextIn(BaseModel):
     """
     Text to embed.
     """
-    model: Optional[Literal["jina-v2", "clip"]] = "jina-v2"
-    """
-    Selected model.
-    """
     store: Optional[str] = None
     """
     [Vector store](/docs/vector-stores) identifier.
@@ -853,9 +972,13 @@ class EmbedTextIn(BaseModel):
     """
     Choose keys from `metadata` to embed with text.
     """
-    document_id: Optional[str] = None
+    doc_id: Optional[str] = None
     """
     Vector store document ID. Ignored if `store` is unset.
+    """
+    node: Optional[Literal["JinaV2", "CLIP"]] = "JinaV2"
+    """
+    Selected node.
     """
 
 
@@ -881,7 +1004,7 @@ class EmbedTextItem(BaseModel):
     """
     Metadata that can be used to query the vector store. Ignored if `store` is unset.
     """
-    document_id: Optional[str] = None
+    doc_id: Optional[str] = None
     """
     Vector store document ID. Ignored if `store` is unset.
     """
@@ -895,9 +1018,37 @@ class MultiEmbedTextIn(BaseModel):
     """
     Items to embed.
     """
-    model: Optional[Literal["jina-v2", "clip"]] = "jina-v2"
+    store: Optional[str] = None
     """
-    Selected model.
+    [Vector store](/docs/vector-stores) identifier.
+    """
+    embedded_metadata_keys: Optional[List[str]] = None
+    """
+    Choose keys from `metadata` to embed with text.
+    """
+    node: Optional[Literal["JinaV2", "CLIP"]] = "JinaV2"
+    """
+    Selected node.
+    """
+
+
+class MultiEmbedTextOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    embeddings: List[Embedding]
+    """
+    Generated embeddings.
+    """
+
+
+class JinaV2In(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    items: List[EmbedTextItem]
+    """
+    Items to embed.
     """
     store: Optional[str] = None
     """
@@ -909,7 +1060,7 @@ class MultiEmbedTextIn(BaseModel):
     """
 
 
-class MultiEmbedTextOut(BaseModel):
+class JinaV2Out(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -927,17 +1078,17 @@ class EmbedImageIn(BaseModel):
     """
     Image to embed.
     """
-    model: Optional[Literal["clip"]] = "clip"
-    """
-    Selected model.
-    """
     store: Optional[str] = None
     """
     [Vector store](/docs/vector-stores) identifier.
     """
-    document_id: Optional[str] = None
+    doc_id: Optional[str] = None
     """
     Vector store document ID. Ignored if `store` is unset.
+    """
+    node: Optional[Literal["CLIP"]] = "CLIP"
+    """
+    Selected node.
     """
 
 
@@ -959,7 +1110,29 @@ class EmbedImageItem(BaseModel):
     """
     Image to embed.
     """
-    document_id: Optional[str] = None
+    doc_id: Optional[str] = None
+    """
+    Vector store document ID. Ignored if `store` is unset.
+    """
+
+
+class EmbedTextOrImageItem(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    image_uri: Optional[str] = None
+    """
+    Image to embed.
+    """
+    text: Optional[str] = None
+    """
+    Text to embed.
+    """
+    metadata: Optional[Dict[str, Any]] = None
+    """
+    Metadata that can be used to query the vector store. Ignored if `store` is unset.
+    """
+    doc_id: Optional[str] = None
     """
     Vector store document ID. Ignored if `store` is unset.
     """
@@ -977,9 +1150,9 @@ class MultiEmbedImageIn(BaseModel):
     """
     [Vector store](/docs/vector-stores) identifier.
     """
-    model: Optional[Literal["clip"]] = "clip"
+    node: Optional[Literal["CLIP"]] = "CLIP"
     """
-    Selected model.
+    Selected node.
     """
 
 
@@ -993,11 +1166,35 @@ class MultiEmbedImageOut(BaseModel):
     """
 
 
-class VectorStoreParams(BaseModel):
+class CLIPIn(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    items: List[EmbedTextOrImageItem]
     """
-    Fields describing a vector store and its associated index.
+    Items to embed.
+    """
+    embedded_metadata_keys: Optional[List[str]] = None
+    """
+    Choose keys from `metadata` to embed with text, when embedding and storing text documents.
+    """
+    store: Optional[str] = None
+    """
+    [Vector store](/docs/vector-stores) identifier.
     """
 
+
+class CLIPOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    embeddings: List[Embedding]
+    """
+    Generated embeddings.
+    """
+
+
+class VectorStoreParams(BaseModel):
     class Config:
         extra = Extra.allow
 

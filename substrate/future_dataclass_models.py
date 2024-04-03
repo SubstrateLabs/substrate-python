@@ -31,24 +31,6 @@ class ErrorOut:
 
 
 @dataclass
-class ResponseFormat:
-    """
-    (Future reference)
-    """
-
-    type: Literal["json_object", "text"]
-    """
-    (Future reference)
-    Type of response.
-    """
-    json_schema: Optional[Dict[str, Any]] = None
-    """
-    (Future reference)
-    JSON schema to guide `json_object` response.
-    """
-
-
-@dataclass
 class FutureGenerateTextIn:
     """
     (Future reference)
@@ -59,25 +41,79 @@ class FutureGenerateTextIn:
     (Future reference)
     Input prompt.
     """
-    model: Optional[Literal["mistral-7b-instruct"]] = "mistral-7b-instruct"
+    temperature: Optional[int] = 4
     """
     (Future reference)
-    Selected model.
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
     """
-    response_format: Optional[ResponseFormat] = None
+    max_tokens: Optional[int] = None
     """
     (Future reference)
-    Format of the response.
+    Maximum number of tokens to generate.
+    """
+    node: Optional[Literal["Mistral7BInstruct"]] = "Mistral7BInstruct"
+    """
+    (Future reference)
+    Selected node.
+    """
+
+
+@dataclass
+class FutureGenerateTextOut:
+    """
+    (Future reference)
+    """
+
+    text: Optional[str] = None
+    """
+    (Future reference)
+    Text response.
+    """
+
+
+@dataclass
+class FutureGenerateJSONIn:
+    """
+    (Future reference)
+    """
+
+    prompt: str
+    """
+    (Future reference)
+    Input prompt.
+    """
+    json_schema: Dict[str, Any]
+    """
+    (Future reference)
+    JSON schema to guide `json_object` response.
     """
     temperature: Optional[int] = 4
     """
     (Future reference)
     Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
     """
-    max_tokens: Optional[int] = 800
+    max_tokens: Optional[int] = None
     """
     (Future reference)
     Maximum number of tokens to generate.
+    """
+    node: Optional[Literal["Mistral7BInstruct"]] = "Mistral7BInstruct"
+    """
+    (Future reference)
+    Selected node.
+    """
+
+
+@dataclass
+class FutureGenerateJSONOut:
+    """
+    (Future reference)
+    """
+
+    json_object: Optional[Dict[str, Any]] = None
+    """
+    (Future reference)
+    JSON response.
     """
 
 
@@ -97,43 +133,20 @@ class FutureMultiGenerateTextIn:
     (Future reference)
     Number of choices to generate.
     """
-    model: Optional[Literal["mistral-7b-instruct"]] = "mistral-7b-instruct"
-    """
-    (Future reference)
-    Selected model.
-    """
-    response_format: Optional[ResponseFormat] = None
-    """
-    (Future reference)
-    Format of the response.
-    """
     temperature: Optional[int] = 4
     """
     (Future reference)
     Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
     """
-    max_tokens: Optional[int] = 800
+    max_tokens: Optional[int] = None
     """
     (Future reference)
     Maximum number of tokens to generate.
     """
-
-
-@dataclass
-class FutureGenerateTextOut:
+    node: Optional[Literal["Mistral7BInstruct"]] = "Mistral7BInstruct"
     """
     (Future reference)
-    """
-
-    text: Optional[str] = None
-    """
-    (Future reference)
-    Text response.
-    """
-    json_object: Optional[Dict[str, Any]] = None
-    """
-    (Future reference)
-    JSON response.
+    Selected node.
     """
 
 
@@ -147,6 +160,113 @@ class FutureMultiGenerateTextOut:
 
 
 @dataclass
+class FutureMultiGenerateJSONIn:
+    """
+    (Future reference)
+    """
+
+    prompt: str
+    """
+    (Future reference)
+    Input prompt.
+    """
+    json_schema: Dict[str, Any]
+    """
+    (Future reference)
+    JSON schema to guide `json_object` response.
+    """
+    num_choices: int
+    """
+    (Future reference)
+    Number of choices to generate.
+    """
+    temperature: Optional[int] = 4
+    """
+    (Future reference)
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: Optional[int] = None
+    """
+    (Future reference)
+    Maximum number of tokens to generate.
+    """
+    node: Optional[Literal["Mistral7BInstruct"]] = "Mistral7BInstruct"
+    """
+    (Future reference)
+    Selected node.
+    """
+
+
+@dataclass
+class FutureMultiGenerateJSONOut:
+    """
+    (Future reference)
+    """
+
+    choices: List[FutureGenerateJSONOut]
+
+
+@dataclass
+class FutureMistral7BInstructIn:
+    """
+    (Future reference)
+    """
+
+    prompt: str
+    """
+    (Future reference)
+    Input prompt.
+    """
+    num_choices: int
+    """
+    (Future reference)
+    Number of choices to generate.
+    """
+    json_schema: Optional[Dict[str, Any]] = None
+    """
+    (Future reference)
+    JSON schema to guide response.
+    """
+    temperature: Optional[float] = None
+    """
+    (Future reference)
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: Optional[int] = None
+    """
+    (Future reference)
+    Maximum number of tokens to generate.
+    """
+
+
+@dataclass
+class Mistral7BInstructChoice:
+    """
+    (Future reference)
+    """
+
+    text: Optional[str] = None
+    """
+    (Future reference)
+    Text response, if `json_schema` was not provided.
+    """
+    json_object: Optional[Dict[str, Any]] = None
+    """
+    (Future reference)
+    JSON response, if `json_schema` was provided.
+    """
+
+
+@dataclass
+class FutureMistral7BInstructOut:
+    """
+    (Future reference)
+    """
+
+    choices: List[Mistral7BInstructChoice]
+
+
+@dataclass
 class FutureGenerateTextVisionIn:
     """
     (Future reference)
@@ -157,17 +277,58 @@ class FutureGenerateTextVisionIn:
     (Future reference)
     Text prompt.
     """
-    image_uris: Optional[List[str]] = None
+    image_uris: List[str]
     """
     (Future reference)
     Image prompts.
     """
-    model: Optional[Literal["firellava-13b"]] = "firellava-13b"
+    temperature: Optional[int] = 4
     """
     (Future reference)
-    Selected model.
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
     """
-    temperature: Optional[int] = 4
+    max_tokens: Optional[int] = 800
+    """
+    (Future reference)
+    Maximum number of tokens to generate.
+    """
+    node: Optional[Literal["Firellava13B"]] = "Firellava13B"
+    """
+    (Future reference)
+    Selected node.
+    """
+
+
+@dataclass
+class FutureGenerateTextVisionOut:
+    """
+    (Future reference)
+    """
+
+    text: str
+    """
+    (Future reference)
+    Text response.
+    """
+
+
+@dataclass
+class FutureFirellava13BIn:
+    """
+    (Future reference)
+    """
+
+    prompt: str
+    """
+    (Future reference)
+    Text prompt.
+    """
+    image_uris: List[str]
+    """
+    (Future reference)
+    Image prompts.
+    """
+    temperature: Optional[float] = None
     """
     (Future reference)
     Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
@@ -180,7 +341,7 @@ class FutureGenerateTextVisionIn:
 
 
 @dataclass
-class FutureGenerateTextVisionOut:
+class FutureFirellava13BOut:
     """
     (Future reference)
     """
@@ -203,45 +364,15 @@ class FutureGenerateImageIn:
     (Future reference)
     Text prompt.
     """
-    image_prompt_uri: Optional[str] = None
-    """
-    (Future reference)
-    Image prompt.
-    """
-    model: Optional[Literal["stablediffusion-xl"]] = "stablediffusion-xl"
-    """
-    (Future reference)
-    Selected model.
-    """
-    image_influence: Optional[float] = 5
-    """
-    (Future reference)
-    Controls the influence of the image prompt on the generated output.
-    """
-    negative_prompt: Optional[str] = None
-    """
-    (Future reference)
-    Negative input prompt.
-    """
     store: Optional[str] = None
     """
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    width: Optional[int] = None
+    node: Optional[Literal["StableDiffusionXL"]] = "StableDiffusionXL"
     """
     (Future reference)
-    Width of output image, in pixels.
-    """
-    height: Optional[int] = None
-    """
-    (Future reference)
-    Height of output image, in pixels.
-    """
-    seed: Optional[int] = None
-    """
-    (Future reference)
-    Seed for deterministic generation. Default is a random seed.
+    Selected node.
     """
 
 
@@ -255,11 +386,6 @@ class FutureGenerateImageOut:
     """
     (Future reference)
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
-    """
-    seed: int
-    """
-    (Future reference)
-    The random noise seed used for generation.
     """
 
 
@@ -279,17 +405,129 @@ class FutureMultiGenerateImageIn:
     (Future reference)
     Number of images to generate.
     """
+    store: Optional[str] = None
+    """
+    (Future reference)
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    node: Optional[Literal["StableDiffusionXL"]] = "StableDiffusionXL"
+    """
+    (Future reference)
+    Selected node.
+    """
+
+
+@dataclass
+class FutureMultiGenerateImageOut:
+    """
+    (Future reference)
+    """
+
+    outputs: List[FutureGenerateImageOut]
+
+
+@dataclass
+class FutureStableDiffusionXLIn:
+    """
+    (Future reference)
+    """
+
+    prompt: str
+    """
+    (Future reference)
+    Text prompt.
+    """
+    negative_prompt: Optional[str] = None
+    """
+    (Future reference)
+    Negative input prompt.
+    """
+    steps: Optional[int] = None
+    """
+    (Future reference)
+    Number of diffusion steps.
+    """
+    num_images: Optional[int] = None
+    """
+    (Future reference)
+    Number of images to generate.
+    """
+    store: Optional[str] = None
+    """
+    (Future reference)
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    height: Optional[int] = None
+    """
+    (Future reference)
+    Height of output image, in pixels.
+    """
+    width: Optional[int] = None
+    """
+    (Future reference)
+    Width of output image, in pixels.
+    """
+    seeds: Optional[int] = None
+    """
+    (Future reference)
+    Seeds for deterministic generation. Default is a random seed.
+    """
+    guidance_scale: Optional[float] = 5
+    """
+    (Future reference)
+    Higher values adhere to the text prompt more strongly, typically at the expense of image quality.
+    """
+
+
+@dataclass
+class StableDiffusionImage:
+    """
+    (Future reference)
+    """
+
+    image_uri: str
+    """
+    (Future reference)
+    Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
+    """
+    seed: int
+    """
+    (Future reference)
+    The random noise seed used for generation.
+    """
+
+
+@dataclass
+class FutureStableDiffusionXLOut:
+    """
+    (Future reference)
+    """
+
+    outputs: List[StableDiffusionImage]
+
+
+@dataclass
+class FutureStableDiffusionXLIPAdapterIn:
+    """
+    (Future reference)
+    """
+
+    prompt: str
+    """
+    (Future reference)
+    Text prompt.
+    """
+    num_images: int
+    """
+    (Future reference)
+    Number of images to generate.
+    """
     image_prompt_uri: Optional[str] = None
     """
     (Future reference)
     Image prompt.
     """
-    model: Optional[Literal["stablediffusion-xl"]] = "stablediffusion-xl"
-    """
-    (Future reference)
-    Selected model.
-    """
-    image_influence: Optional[float] = 5
+    ip_adapter_scale: Optional[float] = None
     """
     (Future reference)
     Controls the influence of the image prompt on the generated output.
@@ -322,87 +560,16 @@ class FutureMultiGenerateImageIn:
 
 
 @dataclass
-class FutureMultiGenerateImageOut:
+class FutureStableDiffusionXLIPAdapterOut:
     """
     (Future reference)
     """
 
-    outputs: List[FutureGenerateImageOut]
-
-
-@dataclass
-class FutureControlledGenerateImageIn:
-    """
-    (Future reference)
-    """
-
-    image_uri: str
-    """
-    (Future reference)
-    Input image.
-    """
-    control_method: Literal["edge", "depth", "illusion"]
-    """
-    (Future reference)
-    Strategy to control generation using the input image.
-    """
-    prompt: str
-    """
-    (Future reference)
-    Text prompt.
-    """
-    output_resolution: Optional[int] = 1024
-    """
-    (Future reference)
-    Resolution of the output image, in pixels.
-    """
-    model: Optional[Literal["stablediffusion-xl"]] = "stablediffusion-xl"
-    """
-    (Future reference)
-    Selected model.
-    """
-    negative_prompt: Optional[str] = None
-    """
-    (Future reference)
-    Negative input prompt.
-    """
-    store: Optional[str] = None
-    """
-    (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
-    """
-    image_influence: Optional[float] = 9
-    """
-    (Future reference)
-    Controls the influence of the input image on the generated output.
-    """
-    seed: Optional[int] = None
-    """
-    (Future reference)
-    Seed for deterministic generation. Default is a random seed.
-    """
+    outputs: List[StableDiffusionImage]
 
 
 @dataclass
-class FutureControlledGenerateImageOut:
-    """
-    (Future reference)
-    """
-
-    image_uri: str
-    """
-    (Future reference)
-    Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
-    """
-    seed: int
-    """
-    (Future reference)
-    The random noise seed used for generation.
-    """
-
-
-@dataclass
-class FutureMultiControlledGenerateImageIn:
+class FutureStableDiffusionXLControlNetIn:
     """
     (Future reference)
     """
@@ -432,11 +599,6 @@ class FutureMultiControlledGenerateImageIn:
     (Future reference)
     Resolution of the output image, in pixels.
     """
-    model: Optional[Literal["stablediffusion-xl"]] = "stablediffusion-xl"
-    """
-    (Future reference)
-    Selected model.
-    """
     negative_prompt: Optional[str] = None
     """
     (Future reference)
@@ -447,7 +609,7 @@ class FutureMultiControlledGenerateImageIn:
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    image_influence: Optional[float] = 9
+    conditioning_scale: Optional[float] = None
     """
     (Future reference)
     Controls the influence of the input image on the generated output.
@@ -460,12 +622,12 @@ class FutureMultiControlledGenerateImageIn:
 
 
 @dataclass
-class FutureMultiControlledGenerateImageOut:
+class FutureStableDiffusionXLControlNetOut:
     """
     (Future reference)
     """
 
-    outputs: List[FutureControlledGenerateImageOut]
+    outputs: List[StableDiffusionImage]
 
 
 @dataclass
@@ -489,45 +651,15 @@ class FutureGenerativeEditImageIn:
     (Future reference)
     Mask image that controls which pixels are inpainted. If unset, the entire image is edited (image-to-image).
     """
-    image_prompt_uri: Optional[str] = None
-    """
-    (Future reference)
-    Image prompt.
-    """
-    output_resolution: Optional[int] = 1024
-    """
-    (Future reference)
-    Resolution of the output image, in pixels.
-    """
-    model: Optional[Literal["stablediffusion-xl"]] = "stablediffusion-xl"
-    """
-    (Future reference)
-    Selected model.
-    """
-    strength: Optional[float] = 8
-    """
-    (Future reference)
-    Controls the strength of the generation process.
-    """
-    image_prompt_influence: Optional[float] = 5
-    """
-    (Future reference)
-    Controls the influence of the image prompt on the generated output.
-    """
-    negative_prompt: Optional[str] = None
-    """
-    (Future reference)
-    Negative input prompt.
-    """
     store: Optional[str] = None
     """
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    seed: Optional[int] = None
+    node: Optional[Literal["StableDiffusionXLInpaint"]] = "StableDiffusionXLInpaint"
     """
     (Future reference)
-    Seed for deterministic generation. Default is a random seed.
+    Selected node.
     """
 
 
@@ -541,11 +673,6 @@ class FutureGenerativeEditImageOut:
     """
     (Future reference)
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
-    """
-    seed: int
-    """
-    (Future reference)
-    The random noise seed used for generation.
     """
 
 
@@ -575,20 +702,57 @@ class FutureMultiGenerativeEditImageIn:
     (Future reference)
     Mask image that controls which pixels are edited (inpainting). If unset, the entire image is edited (image-to-image).
     """
-    image_prompt_uri: Optional[str] = None
+    store: Optional[str] = None
     """
     (Future reference)
-    Image prompt.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    node: Optional[Literal["StableDiffusionXLInpaint"]] = "StableDiffusionXLInpaint"
+    """
+    (Future reference)
+    Selected node.
+    """
+
+
+@dataclass
+class FutureMultiGenerativeEditImageOut:
+    """
+    (Future reference)
+    """
+
+    outputs: List[FutureGenerativeEditImageOut]
+
+
+@dataclass
+class FutureStableDiffusionXLInpaintIn:
+    """
+    (Future reference)
+    """
+
+    image_uri: str
+    """
+    (Future reference)
+    Original image.
+    """
+    prompt: str
+    """
+    (Future reference)
+    Text prompt.
+    """
+    num_images: int
+    """
+    (Future reference)
+    Number of images to generate.
+    """
+    mask_image_uri: Optional[str] = None
+    """
+    (Future reference)
+    Mask image that controls which pixels are edited (inpainting). If unset, the entire image is edited (image-to-image).
     """
     output_resolution: Optional[int] = 1024
     """
     (Future reference)
     Resolution of the output image, in pixels.
-    """
-    model: Optional[Literal["stablediffusion-xl"]] = "stablediffusion-xl"
-    """
-    (Future reference)
-    Selected model.
     """
     negative_prompt: Optional[str] = None
     """
@@ -600,15 +764,10 @@ class FutureMultiGenerativeEditImageIn:
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    strength: Optional[float] = 8
+    strength: Optional[float] = 0.5
     """
     (Future reference)
     Controls the strength of the generation process.
-    """
-    image_prompt_influence: Optional[float] = 5
-    """
-    (Future reference)
-    Controls the influence of the image prompt on the generated output.
     """
     seeds: Optional[List[int]] = None
     """
@@ -618,12 +777,12 @@ class FutureMultiGenerativeEditImageIn:
 
 
 @dataclass
-class FutureMultiGenerativeEditImageOut:
+class FutureStableDiffusionXLInpaintOut:
     """
     (Future reference)
     """
 
-    outputs: List[FutureGenerativeEditImageOut]
+    outputs: List[StableDiffusionImage]
 
 
 @dataclass
@@ -809,12 +968,12 @@ class FutureDetectSegmentsIn:
     point_prompts: Optional[List[Point]] = None
     """
     (Future reference)
-    Point prompts, to detect a segment under the point. One of `point_prompt` or `box_prompt` must be set.
+    Point prompts, to detect a segment under the point. One of `point_prompts` or `box_prompts` must be set.
     """
     box_prompts: Optional[List[BoundingBox]] = None
     """
     (Future reference)
-    Box prompts, to detect a segment within the bounding box. One of `point_prompt` or `box_prompt` must be set.
+    Box prompts, to detect a segment within the bounding box. One of `point_prompts` or `box_prompts` must be set.
     """
     model: Optional[Literal["segment-anything"]] = "segment-anything"
     """
@@ -1038,7 +1197,7 @@ class Embedding:
     (Future reference)
     Embedding vector.
     """
-    document_id: Optional[str] = None
+    doc_id: Optional[str] = None
     """
     (Future reference)
     Vector store document ID.
@@ -1061,11 +1220,6 @@ class FutureEmbedTextIn:
     (Future reference)
     Text to embed.
     """
-    model: Optional[Literal["jina-v2", "clip"]] = "jina-v2"
-    """
-    (Future reference)
-    Selected model.
-    """
     store: Optional[str] = None
     """
     (Future reference)
@@ -1081,10 +1235,15 @@ class FutureEmbedTextIn:
     (Future reference)
     Choose keys from `metadata` to embed with text.
     """
-    document_id: Optional[str] = None
+    doc_id: Optional[str] = None
     """
     (Future reference)
     Vector store document ID. Ignored if `store` is unset.
+    """
+    node: Optional[Literal["JinaV2", "CLIP"]] = "JinaV2"
+    """
+    (Future reference)
+    Selected node.
     """
 
 
@@ -1117,7 +1276,7 @@ class EmbedTextItem:
     (Future reference)
     Metadata that can be used to query the vector store. Ignored if `store` is unset.
     """
-    document_id: Optional[str] = None
+    doc_id: Optional[str] = None
     """
     (Future reference)
     Vector store document ID. Ignored if `store` is unset.
@@ -1135,10 +1294,46 @@ class FutureMultiEmbedTextIn:
     (Future reference)
     Items to embed.
     """
-    model: Optional[Literal["jina-v2", "clip"]] = "jina-v2"
+    store: Optional[str] = None
     """
     (Future reference)
-    Selected model.
+    [Vector store](/docs/vector-stores) identifier.
+    """
+    embedded_metadata_keys: Optional[List[str]] = None
+    """
+    (Future reference)
+    Choose keys from `metadata` to embed with text.
+    """
+    node: Optional[Literal["JinaV2", "CLIP"]] = "JinaV2"
+    """
+    (Future reference)
+    Selected node.
+    """
+
+
+@dataclass
+class FutureMultiEmbedTextOut:
+    """
+    (Future reference)
+    """
+
+    embeddings: List[Embedding]
+    """
+    (Future reference)
+    Generated embeddings.
+    """
+
+
+@dataclass
+class FutureJinaV2In:
+    """
+    (Future reference)
+    """
+
+    items: List[EmbedTextItem]
+    """
+    (Future reference)
+    Items to embed.
     """
     store: Optional[str] = None
     """
@@ -1153,7 +1348,7 @@ class FutureMultiEmbedTextIn:
 
 
 @dataclass
-class FutureMultiEmbedTextOut:
+class FutureJinaV2Out:
     """
     (Future reference)
     """
@@ -1176,20 +1371,20 @@ class FutureEmbedImageIn:
     (Future reference)
     Image to embed.
     """
-    model: Optional[Literal["clip"]] = "clip"
-    """
-    (Future reference)
-    Selected model.
-    """
     store: Optional[str] = None
     """
     (Future reference)
     [Vector store](/docs/vector-stores) identifier.
     """
-    document_id: Optional[str] = None
+    doc_id: Optional[str] = None
     """
     (Future reference)
     Vector store document ID. Ignored if `store` is unset.
+    """
+    node: Optional[Literal["CLIP"]] = "CLIP"
+    """
+    (Future reference)
+    Selected node.
     """
 
 
@@ -1217,7 +1412,35 @@ class EmbedImageItem:
     (Future reference)
     Image to embed.
     """
-    document_id: Optional[str] = None
+    doc_id: Optional[str] = None
+    """
+    (Future reference)
+    Vector store document ID. Ignored if `store` is unset.
+    """
+
+
+@dataclass
+class EmbedTextOrImageItem:
+    """
+    (Future reference)
+    """
+
+    image_uri: Optional[str] = None
+    """
+    (Future reference)
+    Image to embed.
+    """
+    text: Optional[str] = None
+    """
+    (Future reference)
+    Text to embed.
+    """
+    metadata: Optional[Dict[str, Any]] = None
+    """
+    (Future reference)
+    Metadata that can be used to query the vector store. Ignored if `store` is unset.
+    """
+    doc_id: Optional[str] = None
     """
     (Future reference)
     Vector store document ID. Ignored if `store` is unset.
@@ -1240,10 +1463,10 @@ class FutureMultiEmbedImageIn:
     (Future reference)
     [Vector store](/docs/vector-stores) identifier.
     """
-    model: Optional[Literal["clip"]] = "clip"
+    node: Optional[Literal["CLIP"]] = "CLIP"
     """
     (Future reference)
-    Selected model.
+    Selected node.
     """
 
 
@@ -1261,10 +1484,45 @@ class FutureMultiEmbedImageOut:
 
 
 @dataclass
+class FutureCLIPIn:
+    """
+    (Future reference)
+    """
+
+    items: List[EmbedTextOrImageItem]
+    """
+    (Future reference)
+    Items to embed.
+    """
+    embedded_metadata_keys: Optional[List[str]] = None
+    """
+    (Future reference)
+    Choose keys from `metadata` to embed with text, when embedding and storing text documents.
+    """
+    store: Optional[str] = None
+    """
+    (Future reference)
+    [Vector store](/docs/vector-stores) identifier.
+    """
+
+
+@dataclass
+class FutureCLIPOut:
+    """
+    (Future reference)
+    """
+
+    embeddings: List[Embedding]
+    """
+    (Future reference)
+    Generated embeddings.
+    """
+
+
+@dataclass
 class VectorStoreParams:
     """
     (Future reference)
-    Fields describing a vector store and its associated index.
     """
 
     name: str
