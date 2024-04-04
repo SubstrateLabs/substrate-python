@@ -20,12 +20,12 @@ class SubstrateResponse:
 
 
 class SubstrateBase:
-    def __init__(self, api_key: str):
+    def __init__(self, api_key: str, base_url: str = "https://api.substrate.run"):
         """
         Initialize the Substrate SDK.
         """
         self.api_key = api_key
-        self._client = APIClient(api_key=api_key, base_url="https://api.substrate.run")
+        self._client = APIClient(api_key=api_key, base_url=base_url)
 
 
 class Substrate(SubstrateBase):
