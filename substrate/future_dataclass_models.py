@@ -847,10 +847,46 @@ class FutureFillMaskIn:
     (Future reference)
     Mask image that controls which pixels are inpainted.
     """
-    model: Optional[Literal["big-lama"]] = "big-lama"
+    store: Optional[str] = None
     """
     (Future reference)
-    Selected model.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    node: Optional[Literal["BigLaMa"]] = "BigLaMa"
+    """
+    (Future reference)
+    Selected node.
+    """
+
+
+@dataclass
+class FutureFillMaskOut:
+    """
+    (Future reference)
+    """
+
+    image_uri: str
+    """
+    (Future reference)
+    Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
+    """
+
+
+@dataclass
+class FutureBigLaMaIn:
+    """
+    (Future reference)
+    """
+
+    image_uri: str
+    """
+    (Future reference)
+    Input image.
+    """
+    mask_image_uri: str
+    """
+    (Future reference)
+    Mask image that controls which pixels are inpainted.
     """
     store: Optional[str] = None
     """
@@ -860,7 +896,7 @@ class FutureFillMaskIn:
 
 
 @dataclass
-class FutureFillMaskOut:
+class FutureBigLaMaOut:
     """
     (Future reference)
     """
@@ -893,10 +929,51 @@ class FutureRemoveBackgroundIn:
     (Future reference)
     Hex value background color. Transparent if unset.
     """
-    model: Optional[Literal["isnet"]] = "isnet"
+    store: Optional[str] = None
     """
     (Future reference)
-    Selected model.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    node: Optional[Literal["DISISNet"]] = "DISISNet"
+    """
+    (Future reference)
+    Selected node.
+    """
+
+
+@dataclass
+class FutureRemoveBackgroundOut:
+    """
+    (Future reference)
+    """
+
+    image_uri: str
+    """
+    (Future reference)
+    Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
+    """
+
+
+@dataclass
+class FutureDISISNetIn:
+    """
+    (Future reference)
+    """
+
+    image_uri: str
+    """
+    (Future reference)
+    Input image.
+    """
+    return_mask: Optional[bool] = None
+    """
+    (Future reference)
+    Return a mask image instead of the original content.
+    """
+    background_color: Optional[str] = None
+    """
+    (Future reference)
+    Hex value background color. Transparent if unset.
     """
     store: Optional[str] = None
     """
@@ -906,7 +983,7 @@ class FutureRemoveBackgroundIn:
 
 
 @dataclass
-class FutureRemoveBackgroundOut:
+class FutureDISISNetOut:
     """
     (Future reference)
     """
@@ -929,15 +1006,15 @@ class FutureUpscaleImageIn:
     (Future reference)
     Input image.
     """
-    model: Optional[Literal["real-esrgan-x4"]] = "real-esrgan-x4"
-    """
-    (Future reference)
-    Selected model.
-    """
     store: Optional[str] = None
     """
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    node: Optional[Literal["RealESRGAN"]] = "RealESRGAN"
+    """
+    (Future reference)
+    Selected node.
     """
 
 
@@ -955,7 +1032,84 @@ class FutureUpscaleImageOut:
 
 
 @dataclass
-class FutureDetectSegmentsIn:
+class FutureRealESRGANIn:
+    """
+    (Future reference)
+    """
+
+    image_uri: str
+    """
+    (Future reference)
+    Input image.
+    """
+    model: Optional[Literal["real-esrgan-x4"]] = "real-esrgan-x4"
+    """
+    (Future reference)
+    Selected model.
+    """
+    store: Optional[str] = None
+    """
+    (Future reference)
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+
+
+@dataclass
+class FutureRealESRGANOut:
+    """
+    (Future reference)
+    """
+
+    image_uri: str
+    """
+    (Future reference)
+    Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
+    """
+
+
+@dataclass
+class FutureSegmentUnderPointIn:
+    """
+    (Future reference)
+    """
+
+    image_uri: str
+    """
+    (Future reference)
+    Input image.
+    """
+    point: Point
+    """
+    (Future reference)
+    Point prompt.
+    """
+    store: Optional[str] = None
+    """
+    (Future reference)
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    node: Optional[Literal["SegmentAnything"]] = "SegmentAnything"
+    """
+    (Future reference)
+    Selected node.
+    """
+
+
+@dataclass
+class FutureSegmentUnderPointOut:
+    """
+    (Future reference)
+    """
+
+    mask_image_uri: str
+    """
+    (Future reference)
+    Detected segments in 'mask image' format. Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
+    """
+
+
+@dataclass
+class FutureSegmentAnythingIn:
     """
     (Future reference)
     """
@@ -975,11 +1129,6 @@ class FutureDetectSegmentsIn:
     (Future reference)
     Box prompts, to detect a segment within the bounding box. One of `point_prompts` or `box_prompts` must be set.
     """
-    model: Optional[Literal["segment-anything"]] = "segment-anything"
-    """
-    (Future reference)
-    Selected model.
-    """
     store: Optional[str] = None
     """
     (Future reference)
@@ -988,7 +1137,7 @@ class FutureDetectSegmentsIn:
 
 
 @dataclass
-class FutureDetectSegmentsOut:
+class FutureSegmentAnythingOut:
     """
     (Future reference)
     """
@@ -1156,6 +1305,42 @@ class FutureGenerateSpeechIn:
     (Future reference)
     Input text.
     """
+    store: Optional[str] = None
+    """
+    (Future reference)
+    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the audio data will be returned as a base64-encoded string.
+    """
+    node: Optional[Literal["XTTSV2"]] = "XTTSV2"
+    """
+    (Future reference)
+    Selected node.
+    """
+
+
+@dataclass
+class FutureGenerateSpeechOut:
+    """
+    (Future reference)
+    """
+
+    audio_uri: str
+    """
+    (Future reference)
+    Base 64-encoded WAV audio bytes, or a hosted audio url if `store` is provided.
+    """
+
+
+@dataclass
+class FutureXTTSV2In:
+    """
+    (Future reference)
+    """
+
+    text: str
+    """
+    (Future reference)
+    Input text.
+    """
     audio_uri: Optional[str] = None
     """
     (Future reference)
@@ -1174,7 +1359,7 @@ class FutureGenerateSpeechIn:
 
 
 @dataclass
-class FutureGenerateSpeechOut:
+class FutureXTTSV2Out:
     """
     (Future reference)
     """
@@ -1520,7 +1705,7 @@ class FutureCLIPOut:
 
 
 @dataclass
-class VectorStoreParams:
+class FutureCreateVectorStoreIn:
     """
     (Future reference)
     """
@@ -1553,7 +1738,80 @@ class VectorStoreParams:
 
 
 @dataclass
-class DeleteVectorStoreParams:
+class FutureCreateVectorStoreOut:
+    """
+    (Future reference)
+    """
+
+    name: str
+    """
+    (Future reference)
+    Vector store name.
+    """
+    model: Literal["jina-v2", "clip"]
+    """
+    (Future reference)
+    Selected embedding model
+    """
+    m: int
+    """
+    (Future reference)
+    The max number of connections per layer for the index.
+    """
+    ef_construction: int
+    """
+    (Future reference)
+    The size of the dynamic candidate list for constructing the index graph.
+    """
+    metric: Literal["cosine", "l2", "inner"]
+    """
+    (Future reference)
+    The distance metric to construct the index with.
+    """
+
+
+@dataclass
+class FutureListVectorStoresIn:
+    """
+    (Future reference)
+    """
+
+    pass
+
+
+@dataclass
+class FutureListVectorStoresOut:
+    """
+    (Future reference)
+    """
+
+    stores: Optional[List[FutureCreateVectorStoreOut]] = None
+    """
+    (Future reference)
+    List of vector stores.
+    """
+
+
+@dataclass
+class FutureDeleteVectorStoreIn:
+    """
+    (Future reference)
+    """
+
+    name: str
+    """
+    (Future reference)
+    Vector store name.
+    """
+    model: Literal["jina-v2", "clip"]
+    """
+    (Future reference)
+    Selected embedding model
+    """
+
+
+@dataclass
+class FutureDeleteVectorStoreOut:
     """
     (Future reference)
     """
@@ -1595,7 +1853,7 @@ class Vector:
 
 
 @dataclass
-class GetVectorsParams:
+class FutureFetchVectorsIn:
     """
     (Future reference)
     """
@@ -1618,7 +1876,7 @@ class GetVectorsParams:
 
 
 @dataclass
-class GetVectorsResponse:
+class FutureFetchVectorsOut:
     """
     (Future reference)
     """
@@ -1631,7 +1889,20 @@ class GetVectorsResponse:
 
 
 @dataclass
-class VectorUpdateCountResponse:
+class FutureUpdateVectorsOut:
+    """
+    (Future reference)
+    """
+
+    count: int
+    """
+    (Future reference)
+    Number of vectors modified.
+    """
+
+
+@dataclass
+class FutureDeleteVectorsOut:
     """
     (Future reference)
     """
@@ -1647,7 +1918,6 @@ class VectorUpdateCountResponse:
 class UpdateVectorParams:
     """
     (Future reference)
-    Document to update.
     """
 
     id: str
@@ -1668,7 +1938,7 @@ class UpdateVectorParams:
 
 
 @dataclass
-class UpdateVectorsParams:
+class FutureUpdateVectorsIn:
     """
     (Future reference)
     """
@@ -1691,7 +1961,7 @@ class UpdateVectorsParams:
 
 
 @dataclass
-class DeleteVectorsParams:
+class FutureDeleteVectorsIn:
     """
     (Future reference)
     """
@@ -1714,7 +1984,7 @@ class DeleteVectorsParams:
 
 
 @dataclass
-class QueryVectorStoreParams:
+class FutureQueryVectorStoreIn:
     """
     (Future reference)
     """
@@ -1805,7 +2075,7 @@ class VectorStoreQueryResult:
 
 
 @dataclass
-class QueryVectorStoreResponse:
+class FutureQueryVectorStoreOut:
     """
     (Future reference)
     """

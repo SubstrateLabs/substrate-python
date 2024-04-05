@@ -146,13 +146,10 @@ class APIClient:
     _async_client: httpx.AsyncClient
     _version: str
 
-    def __init__(
-        self,
-        api_key: str,
-        base_url: str,
-    ) -> None:
+    def __init__(self, api_key: str, base_url: str, backend: str) -> None:
         self.api_key = api_key
         self.base_url = base_url
+        self.backend = backend
         timeout = httpx.Timeout(60.0)  # default is 5s
         self._client = httpx.Client(timeout=timeout)
         self._async_client = httpx.AsyncClient(timeout=timeout)
@@ -187,6 +184,7 @@ class APIClient:
             "Accept": "application/json",
             "Content-Type": "application/json",
             "User-Agent": self.user_agent,
+            "X-Substrate-Backend": self.backend,
             **self.platform_headers,
             **self.auth_headers,
         }

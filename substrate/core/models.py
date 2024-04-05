@@ -181,7 +181,7 @@ class Mistral7BInstructIn(BaseModel):
     """
     JSON schema to guide response.
     """
-    temperature: Annotated[Optional[float], Field(ge=0.0)] = None
+    temperature: Annotated[Optional[float], Field(ge=0.0, le=2.0)] = None
     """
     Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
     """
@@ -668,9 +668,37 @@ class FillMaskIn(BaseModel):
     """
     Mask image that controls which pixels are inpainted.
     """
-    model: Optional[Literal["big-lama"]] = "big-lama"
+    store: Optional[str] = None
     """
-    Selected model.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    node: Optional[Literal["BigLaMa"]] = "BigLaMa"
+    """
+    Selected node.
+    """
+
+
+class FillMaskOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    image_uri: str
+    """
+    Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
+    """
+
+
+class BigLaMaIn(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    image_uri: str
+    """
+    Input image.
+    """
+    mask_image_uri: str
+    """
+    Mask image that controls which pixels are inpainted.
     """
     store: Optional[str] = None
     """
@@ -678,7 +706,7 @@ class FillMaskIn(BaseModel):
     """
 
 
-class FillMaskOut(BaseModel):
+class BigLaMaOut(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -704,9 +732,41 @@ class RemoveBackgroundIn(BaseModel):
     """
     Hex value background color. Transparent if unset.
     """
-    model: Optional[Literal["isnet"]] = "isnet"
+    store: Optional[str] = None
     """
-    Selected model.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    node: Optional[Literal["DISISNet"]] = "DISISNet"
+    """
+    Selected node.
+    """
+
+
+class RemoveBackgroundOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    image_uri: str
+    """
+    Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
+    """
+
+
+class DISISNetIn(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    image_uri: str
+    """
+    Input image.
+    """
+    return_mask: Optional[bool] = None
+    """
+    Return a mask image instead of the original content.
+    """
+    background_color: Optional[str] = None
+    """
+    Hex value background color. Transparent if unset.
     """
     store: Optional[str] = None
     """
@@ -714,7 +774,7 @@ class RemoveBackgroundIn(BaseModel):
     """
 
 
-class RemoveBackgroundOut(BaseModel):
+class DISISNetOut(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -732,13 +792,13 @@ class UpscaleImageIn(BaseModel):
     """
     Input image.
     """
-    model: Optional[Literal["real-esrgan-x4"]] = "real-esrgan-x4"
-    """
-    Selected model.
-    """
     store: Optional[str] = None
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    node: Optional[Literal["RealESRGAN"]] = "RealESRGAN"
+    """
+    Selected node.
     """
 
 
@@ -752,7 +812,67 @@ class UpscaleImageOut(BaseModel):
     """
 
 
-class DetectSegmentsIn(BaseModel):
+class RealESRGANIn(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    image_uri: str
+    """
+    Input image.
+    """
+    model: Optional[Literal["real-esrgan-x4"]] = "real-esrgan-x4"
+    """
+    Selected model.
+    """
+    store: Optional[str] = None
+    """
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+
+
+class RealESRGANOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    image_uri: str
+    """
+    Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
+    """
+
+
+class SegmentUnderPointIn(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    image_uri: str
+    """
+    Input image.
+    """
+    point: Point
+    """
+    Point prompt.
+    """
+    store: Optional[str] = None
+    """
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    node: Optional[Literal["SegmentAnything"]] = "SegmentAnything"
+    """
+    Selected node.
+    """
+
+
+class SegmentUnderPointOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    mask_image_uri: str
+    """
+    Detected segments in 'mask image' format. Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
+    """
+
+
+class SegmentAnythingIn(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -768,17 +888,13 @@ class DetectSegmentsIn(BaseModel):
     """
     Box prompts, to detect a segment within the bounding box. One of `point_prompts` or `box_prompts` must be set.
     """
-    model: Optional[Literal["segment-anything"]] = "segment-anything"
-    """
-    Selected model.
-    """
     store: Optional[str] = None
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
-class DetectSegmentsOut(BaseModel):
+class SegmentAnythingOut(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -910,6 +1026,34 @@ class GenerateSpeechIn(BaseModel):
     """
     Input text.
     """
+    store: Optional[str] = None
+    """
+    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the audio data will be returned as a base64-encoded string.
+    """
+    node: Optional[Literal["XTTSV2"]] = "XTTSV2"
+    """
+    Selected node.
+    """
+
+
+class GenerateSpeechOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    audio_uri: str
+    """
+    Base 64-encoded WAV audio bytes, or a hosted audio url if `store` is provided.
+    """
+
+
+class XTTSV2In(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    text: str
+    """
+    Input text.
+    """
     audio_uri: Optional[str] = None
     """
     Reference audio used to synthesize the speaker. If unset, a default speaker voice will be used.
@@ -924,7 +1068,7 @@ class GenerateSpeechIn(BaseModel):
     """
 
 
-class GenerateSpeechOut(BaseModel):
+class XTTSV2Out(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -1194,7 +1338,7 @@ class CLIPOut(BaseModel):
     """
 
 
-class VectorStoreParams(BaseModel):
+class CreateVectorStoreIn(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -1220,7 +1364,64 @@ class VectorStoreParams(BaseModel):
     """
 
 
-class DeleteVectorStoreParams(BaseModel):
+class CreateVectorStoreOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    name: Annotated[str, Field(max_length=63, min_length=1)]
+    """
+    Vector store name.
+    """
+    model: Literal["jina-v2", "clip"]
+    """
+    Selected embedding model
+    """
+    m: Annotated[int, Field(ge=1, le=64)]
+    """
+    The max number of connections per layer for the index.
+    """
+    ef_construction: Annotated[int, Field(ge=1, le=128)]
+    """
+    The size of the dynamic candidate list for constructing the index graph.
+    """
+    metric: Literal["cosine", "l2", "inner"]
+    """
+    The distance metric to construct the index with.
+    """
+
+
+class ListVectorStoresIn(BaseModel):
+    pass
+
+    class Config:
+        extra = Extra.allow
+
+
+class ListVectorStoresOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    stores: Optional[List[CreateVectorStoreOut]] = None
+    """
+    List of vector stores.
+    """
+
+
+class DeleteVectorStoreIn(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    name: str
+    """
+    Vector store name.
+    """
+    model: Literal["jina-v2", "clip"]
+    """
+    Selected embedding model
+    """
+
+
+class DeleteVectorStoreOut(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -1256,7 +1457,7 @@ class Vector(BaseModel):
     """
 
 
-class GetVectorsParams(BaseModel):
+class FetchVectorsIn(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -1274,7 +1475,7 @@ class GetVectorsParams(BaseModel):
     """
 
 
-class GetVectorsResponse(BaseModel):
+class FetchVectorsOut(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -1284,7 +1485,17 @@ class GetVectorsResponse(BaseModel):
     """
 
 
-class VectorUpdateCountResponse(BaseModel):
+class UpdateVectorsOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    count: int
+    """
+    Number of vectors modified.
+    """
+
+
+class DeleteVectorsOut(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -1295,10 +1506,6 @@ class VectorUpdateCountResponse(BaseModel):
 
 
 class UpdateVectorParams(BaseModel):
-    """
-    Document to update.
-    """
-
     class Config:
         extra = Extra.allow
 
@@ -1316,7 +1523,7 @@ class UpdateVectorParams(BaseModel):
     """
 
 
-class UpdateVectorsParams(BaseModel):
+class UpdateVectorsIn(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -1334,7 +1541,7 @@ class UpdateVectorsParams(BaseModel):
     """
 
 
-class DeleteVectorsParams(BaseModel):
+class DeleteVectorsIn(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -1352,7 +1559,7 @@ class DeleteVectorsParams(BaseModel):
     """
 
 
-class QueryVectorStoreParams(BaseModel):
+class QueryVectorStoreIn(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -1424,7 +1631,7 @@ class VectorStoreQueryResult(BaseModel):
     """
 
 
-class QueryVectorStoreResponse(BaseModel):
+class QueryVectorStoreOut(BaseModel):
     class Config:
         extra = Extra.allow
 

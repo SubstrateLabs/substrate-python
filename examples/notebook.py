@@ -1,17 +1,19 @@
 import marimo
 
-__generated_with = "0.3.3"
+__generated_with = "0.3.4"
 app = marimo.App()
 
 
 @app.cell
 def __():
     import os
+    import json
 
     import marimo as mo
 
     api_key = os.environ.get("SUBSTRATE_API_KEY")
-    return api_key, mo, os
+    print(api_key)
+    return api_key, json, mo, os
 
 
 @app.cell
@@ -27,35 +29,14 @@ def __():
 
 
 @app.cell
-def __(prompt):
-    from substrate import GenerateImage
+def __(api_key, json, prompt):
+    from substrate import Substrate
 
-    image = GenerateImage({"prompt": prompt.future.text}).subscribe()
-    return GenerateImage, image
-
-
-@app.cell
-async def __(api_key, image, prompt):
-    from substrate import AsyncSubstrate
-
-    s = AsyncSubstrate(api_key=api_key)
-    result = await s.run(prompt, image)
-    return AsyncSubstrate, result, s
-
-
-@app.cell
-def __(image, mo, result):
-    import base64
-
-    image_data = image.output(result).image_uri
-    mo.image(src=base64.b64decode(image_data))
-    return base64, image_data
-
-
-@app.cell
-def __(mo, prompt, result):
-    mo.md(prompt.output(result).text)
-    return
+    s = Substrate(api_key=api_key)
+    result = s.run(prompt)
+    print(result.api_response.status_code)
+    print(json.dumps(result.api_response.json, indent=2))
+    return Substrate, result, s
 
 
 if __name__ == "__main__":

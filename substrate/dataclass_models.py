@@ -595,9 +595,33 @@ class FillMaskIn:
     """
     Mask image that controls which pixels are inpainted.
     """
-    model: Optional[Literal["big-lama"]] = "big-lama"
+    store: Optional[str] = None
     """
-    Selected model.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    node: Optional[Literal["BigLaMa"]] = "BigLaMa"
+    """
+    Selected node.
+    """
+
+
+@dataclass
+class FillMaskOut:
+    image_uri: str
+    """
+    Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
+    """
+
+
+@dataclass
+class BigLaMaIn:
+    image_uri: str
+    """
+    Input image.
+    """
+    mask_image_uri: str
+    """
+    Mask image that controls which pixels are inpainted.
     """
     store: Optional[str] = None
     """
@@ -606,7 +630,7 @@ class FillMaskIn:
 
 
 @dataclass
-class FillMaskOut:
+class BigLaMaOut:
     image_uri: str
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
@@ -627,13 +651,13 @@ class RemoveBackgroundIn:
     """
     Hex value background color. Transparent if unset.
     """
-    model: Optional[Literal["isnet"]] = "isnet"
-    """
-    Selected model.
-    """
     store: Optional[str] = None
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    node: Optional[Literal["DISISNet"]] = "DISISNet"
+    """
+    Selected node.
     """
 
 
@@ -646,7 +670,59 @@ class RemoveBackgroundOut:
 
 
 @dataclass
+class DISISNetIn:
+    image_uri: str
+    """
+    Input image.
+    """
+    return_mask: Optional[bool] = None
+    """
+    Return a mask image instead of the original content.
+    """
+    background_color: Optional[str] = None
+    """
+    Hex value background color. Transparent if unset.
+    """
+    store: Optional[str] = None
+    """
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+
+
+@dataclass
+class DISISNetOut:
+    image_uri: str
+    """
+    Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
+    """
+
+
+@dataclass
 class UpscaleImageIn:
+    image_uri: str
+    """
+    Input image.
+    """
+    store: Optional[str] = None
+    """
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    node: Optional[Literal["RealESRGAN"]] = "RealESRGAN"
+    """
+    Selected node.
+    """
+
+
+@dataclass
+class UpscaleImageOut:
+    image_uri: str
+    """
+    Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
+    """
+
+
+@dataclass
+class RealESRGANIn:
     image_uri: str
     """
     Input image.
@@ -662,7 +738,7 @@ class UpscaleImageIn:
 
 
 @dataclass
-class UpscaleImageOut:
+class RealESRGANOut:
     image_uri: str
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
@@ -670,7 +746,35 @@ class UpscaleImageOut:
 
 
 @dataclass
-class DetectSegmentsIn:
+class SegmentUnderPointIn:
+    image_uri: str
+    """
+    Input image.
+    """
+    point: Point
+    """
+    Point prompt.
+    """
+    store: Optional[str] = None
+    """
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    node: Optional[Literal["SegmentAnything"]] = "SegmentAnything"
+    """
+    Selected node.
+    """
+
+
+@dataclass
+class SegmentUnderPointOut:
+    mask_image_uri: str
+    """
+    Detected segments in 'mask image' format. Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
+    """
+
+
+@dataclass
+class SegmentAnythingIn:
     image_uri: str
     """
     Input image.
@@ -683,10 +787,6 @@ class DetectSegmentsIn:
     """
     Box prompts, to detect a segment within the bounding box. One of `point_prompts` or `box_prompts` must be set.
     """
-    model: Optional[Literal["segment-anything"]] = "segment-anything"
-    """
-    Selected model.
-    """
     store: Optional[str] = None
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
@@ -694,7 +794,7 @@ class DetectSegmentsIn:
 
 
 @dataclass
-class DetectSegmentsOut:
+class SegmentAnythingOut:
     mask_image_uri: str
     """
     Detected segments in 'mask image' format. Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
@@ -811,6 +911,30 @@ class GenerateSpeechIn:
     """
     Input text.
     """
+    store: Optional[str] = None
+    """
+    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the audio data will be returned as a base64-encoded string.
+    """
+    node: Optional[Literal["XTTSV2"]] = "XTTSV2"
+    """
+    Selected node.
+    """
+
+
+@dataclass
+class GenerateSpeechOut:
+    audio_uri: str
+    """
+    Base 64-encoded WAV audio bytes, or a hosted audio url if `store` is provided.
+    """
+
+
+@dataclass
+class XTTSV2In:
+    text: str
+    """
+    Input text.
+    """
     audio_uri: Optional[str] = None
     """
     Reference audio used to synthesize the speaker. If unset, a default speaker voice will be used.
@@ -826,7 +950,7 @@ class GenerateSpeechIn:
 
 
 @dataclass
-class GenerateSpeechOut:
+class XTTSV2Out:
     audio_uri: str
     """
     Base 64-encoded WAV audio bytes, or a hosted audio url if `store` is provided.
@@ -1062,7 +1186,7 @@ class CLIPOut:
 
 
 @dataclass
-class VectorStoreParams:
+class CreateVectorStoreIn:
     name: str
     """
     Vector store name.
@@ -1086,7 +1210,56 @@ class VectorStoreParams:
 
 
 @dataclass
-class DeleteVectorStoreParams:
+class CreateVectorStoreOut:
+    name: str
+    """
+    Vector store name.
+    """
+    model: Literal["jina-v2", "clip"]
+    """
+    Selected embedding model
+    """
+    m: int
+    """
+    The max number of connections per layer for the index.
+    """
+    ef_construction: int
+    """
+    The size of the dynamic candidate list for constructing the index graph.
+    """
+    metric: Literal["cosine", "l2", "inner"]
+    """
+    The distance metric to construct the index with.
+    """
+
+
+@dataclass
+class ListVectorStoresIn:
+    pass
+
+
+@dataclass
+class ListVectorStoresOut:
+    stores: Optional[List[CreateVectorStoreOut]] = None
+    """
+    List of vector stores.
+    """
+
+
+@dataclass
+class DeleteVectorStoreIn:
+    name: str
+    """
+    Vector store name.
+    """
+    model: Literal["jina-v2", "clip"]
+    """
+    Selected embedding model
+    """
+
+
+@dataclass
+class DeleteVectorStoreOut:
     name: str
     """
     Vector store name.
@@ -1118,7 +1291,7 @@ class Vector:
 
 
 @dataclass
-class GetVectorsParams:
+class FetchVectorsIn:
     name: str
     """
     Vector store name.
@@ -1134,7 +1307,7 @@ class GetVectorsParams:
 
 
 @dataclass
-class GetVectorsResponse:
+class FetchVectorsOut:
     vectors: List[Vector]
     """
     Retrieved vectors.
@@ -1142,7 +1315,15 @@ class GetVectorsResponse:
 
 
 @dataclass
-class VectorUpdateCountResponse:
+class UpdateVectorsOut:
+    count: int
+    """
+    Number of vectors modified.
+    """
+
+
+@dataclass
+class DeleteVectorsOut:
     count: int
     """
     Number of vectors modified.
@@ -1151,10 +1332,6 @@ class VectorUpdateCountResponse:
 
 @dataclass
 class UpdateVectorParams:
-    """
-    Document to update.
-    """
-
     id: str
     """
     Document ID.
@@ -1170,7 +1347,7 @@ class UpdateVectorParams:
 
 
 @dataclass
-class UpdateVectorsParams:
+class UpdateVectorsIn:
     name: str
     """
     Vector store name.
@@ -1186,7 +1363,7 @@ class UpdateVectorsParams:
 
 
 @dataclass
-class DeleteVectorsParams:
+class DeleteVectorsIn:
     name: str
     """
     Vector store name.
@@ -1202,7 +1379,7 @@ class DeleteVectorsParams:
 
 
 @dataclass
-class QueryVectorStoreParams:
+class QueryVectorStoreIn:
     name: str
     """
     Vector store to query against.
@@ -1270,7 +1447,7 @@ class VectorStoreQueryResult:
 
 
 @dataclass
-class QueryVectorStoreResponse:
+class QueryVectorStoreOut:
     results: List[List[VectorStoreQueryResult]]
     """
     Query results.

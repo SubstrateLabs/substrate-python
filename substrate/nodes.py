@@ -1,7 +1,7 @@
 """
 ꩜ Substrate
 @GENERATED FILE
-20240403.20240403
+20240405.20240405
 """
 
 from .substrate import SubstrateResponse
@@ -9,23 +9,35 @@ from .core.corenode import CoreNode
 from .dataclass_models import (
     CLIPOut,
     JinaV2Out,
+    XTTSV2Out,
+    BigLaMaOut,
+    DISISNetOut,
     FillMaskOut,
     EmbedTextOut,
     EmbedImageOut,
+    RealESRGANOut,
+    FetchVectorsOut,
     Firellava13BOut,
     GenerateJSONOut,
     GenerateTextOut,
     UpscaleImageOut,
+    DeleteVectorsOut,
     GenerateImageOut,
-    DetectSegmentsOut,
+    UpdateVectorsOut,
     GenerateSpeechOut,
     MultiEmbedTextOut,
     MultiEmbedImageOut,
+    SegmentAnythingOut,
     TranscribeMediaOut,
+    ListVectorStoresOut,
+    QueryVectorStoreOut,
     RemoveBackgroundOut,
+    CreateVectorStoreOut,
+    DeleteVectorStoreOut,
     Mistral7BInstructOut,
     MultiGenerateJSONOut,
     MultiGenerateTextOut,
+    SegmentUnderPointOut,
     StableDiffusionXLOut,
     GenerateTextVisionOut,
     MultiGenerateImageOut,
@@ -38,23 +50,35 @@ from .dataclass_models import (
 from .typeddict_models import (
     CLIPIn,
     JinaV2In,
+    XTTSV2In,
+    BigLaMaIn,
+    DISISNetIn,
     FillMaskIn,
     EmbedTextIn,
     EmbedImageIn,
+    RealESRGANIn,
+    FetchVectorsIn,
     Firellava13BIn,
     GenerateJSONIn,
     GenerateTextIn,
     UpscaleImageIn,
+    DeleteVectorsIn,
     GenerateImageIn,
-    DetectSegmentsIn,
+    UpdateVectorsIn,
     GenerateSpeechIn,
     MultiEmbedTextIn,
     MultiEmbedImageIn,
+    SegmentAnythingIn,
     TranscribeMediaIn,
+    ListVectorStoresIn,
+    QueryVectorStoreIn,
     RemoveBackgroundIn,
+    CreateVectorStoreIn,
+    DeleteVectorStoreIn,
     Mistral7BInstructIn,
     MultiGenerateJSONIn,
     MultiGenerateTextIn,
+    SegmentUnderPointIn,
     StableDiffusionXLIn,
     GenerateTextVisionIn,
     MultiGenerateImageIn,
@@ -67,23 +91,35 @@ from .typeddict_models import (
 from .future_dataclass_models import (
     FutureCLIPOut,
     FutureJinaV2Out,
+    FutureXTTSV2Out,
+    FutureBigLaMaOut,
+    FutureDISISNetOut,
     FutureFillMaskOut,
     FutureEmbedTextOut,
     FutureEmbedImageOut,
+    FutureRealESRGANOut,
+    FutureFetchVectorsOut,
     FutureFirellava13BOut,
     FutureGenerateJSONOut,
     FutureGenerateTextOut,
     FutureUpscaleImageOut,
+    FutureDeleteVectorsOut,
     FutureGenerateImageOut,
-    FutureDetectSegmentsOut,
+    FutureUpdateVectorsOut,
     FutureGenerateSpeechOut,
     FutureMultiEmbedTextOut,
     FutureMultiEmbedImageOut,
+    FutureSegmentAnythingOut,
     FutureTranscribeMediaOut,
+    FutureListVectorStoresOut,
+    FutureQueryVectorStoreOut,
     FutureRemoveBackgroundOut,
+    FutureCreateVectorStoreOut,
+    FutureDeleteVectorStoreOut,
     FutureMistral7BInstructOut,
     FutureMultiGenerateJSONOut,
     FutureMultiGenerateTextOut,
+    FutureSegmentUnderPointOut,
     FutureStableDiffusionXLOut,
     FutureGenerateTextVisionOut,
     FutureMultiGenerateImageOut,
@@ -332,7 +368,7 @@ class GenerateTextVision(CoreNode):
 
 class Mistral7BInstruct(CoreNode):
     """
-    Generate text using Mistral 7B Instruct.
+    Generate text using [Mistral 7B Instruct](https://mistral.ai/news/announcing-mistral-7b).
 
     https://substrate.run/library#Mistral7BInstruct
     """
@@ -379,7 +415,7 @@ class Mistral7BInstruct(CoreNode):
 
 class Firellava13B(CoreNode):
     """
-    Generate text with image input using FireLLaVA 13B.
+    Generate text with image input using [FireLLaVA 13B](https://fireworks.ai/blog/firellava-the-first-commercially-permissive-oss-llava-model).
 
     https://substrate.run/library#Firellava13B
     """
@@ -614,7 +650,7 @@ class MultiGenerativeEditImage(CoreNode):
 
 class StableDiffusionXL(CoreNode):
     """
-    Generate an image using Stable Diffusion XL.
+    Generate an image using [Stable Diffusion XL](https://arxiv.org/abs/2307.01952).
 
     https://substrate.run/library#StableDiffusionXL
     """
@@ -661,7 +697,7 @@ class StableDiffusionXL(CoreNode):
 
 class StableDiffusionXLInpaint(CoreNode):
     """
-    Inpaint an image using Stable Diffusion XL.
+    Edit an image using [Stable Diffusion XL](https://arxiv.org/abs/2307.01952). Supports inpainting (edit part of the image with a mask) and image-to-image (edit the full image).
 
     https://substrate.run/library#StableDiffusionXLInpaint
     """
@@ -708,7 +744,7 @@ class StableDiffusionXLInpaint(CoreNode):
 
 class StableDiffusionXLIPAdapter(CoreNode):
     """
-    Generate an image using Stable Diffusion XL with an image prompt.
+    Generate an image with an image prompt, using Stable Diffusion XL with [IP-Adapter](https://arxiv.org/abs/2308.06721).
 
     https://substrate.run/library#StableDiffusionXLIPAdapter
     """
@@ -755,7 +791,7 @@ class StableDiffusionXLIPAdapter(CoreNode):
 
 class StableDiffusionXLControlNet(CoreNode):
     """
-    Generate an image using Stable Diffusion XL structuring generation with an input image.
+    Generate an image with generation structured by an input image, using Stable Diffusion XL with [ControlNet](https://arxiv.org/abs/2302.05543).
 
     https://substrate.run/library#StableDiffusionXLControlNet
     """
@@ -802,14 +838,14 @@ class StableDiffusionXLControlNet(CoreNode):
 
 class FillMask(CoreNode):
     """
-    Edit an image with a generative model.
+    Fill (inpaint) part of an image, e.g. to 'remove' an object.
 
     https://substrate.run/library#FillMask
     """
 
     def __init__(self, args: FillMaskIn):
         """
-        Input arguments: `image_uri`, `mask_image_uri`, `model` (optional), `store` (optional)
+        Input arguments: `image_uri`, `mask_image_uri`, `store` (optional), `node` (optional)
 
         Output fields: `future.image_uri`
 
@@ -847,6 +883,53 @@ class FillMask(CoreNode):
         return super().future  # type: ignore
 
 
+class BigLaMa(CoreNode):
+    """
+    Inpaint a mask using [LaMa](https://github.com/advimman/lama).
+
+    https://substrate.run/library#BigLaMa
+    """
+
+    def __init__(self, args: BigLaMaIn):
+        """
+        Input arguments: `image_uri`, `mask_image_uri`, `store` (optional)
+
+        Output fields: `future.image_uri`
+
+        https://substrate.run/library#BigLaMa
+        """
+        super().__init__(**args)
+        self.node = "BigLaMa"
+
+    def output(self, response: SubstrateResponse) -> BigLaMaOut:
+        """
+        Retrieve this node's output from a response.
+
+        Output fields: `future.image_uri`
+
+        https://substrate.run/library#BigLaMa
+        """
+        klass = BigLaMaOut
+        json = response.api_response.json
+        if json and json.get("data"):
+            data = json["data"]
+            node_id = self.id
+            if data.get(self.id):
+                return klass(**data[self.id])
+        raise ValueError(f"Node {self.id} not found in response")
+
+    @property
+    def future(self) -> FutureBigLaMaOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.image_uri`
+
+        https://substrate.run/library#BigLaMa
+        """
+        return super().future  # type: ignore
+
+
 class UpscaleImage(CoreNode):
     """
     Upscale an image.
@@ -856,7 +939,7 @@ class UpscaleImage(CoreNode):
 
     def __init__(self, args: UpscaleImageIn):
         """
-        Input arguments: `image_uri`, `model` (optional), `store` (optional)
+        Input arguments: `image_uri`, `store` (optional), `node` (optional)
 
         Output fields: `future.image_uri`
 
@@ -894,6 +977,53 @@ class UpscaleImage(CoreNode):
         return super().future  # type: ignore
 
 
+class RealESRGAN(CoreNode):
+    """
+    Upscale an image using [RealESRGAN](https://github.com/xinntao/Real-ESRGAN).
+
+    https://substrate.run/library#RealESRGAN
+    """
+
+    def __init__(self, args: RealESRGANIn):
+        """
+        Input arguments: `image_uri`, `model` (optional), `store` (optional)
+
+        Output fields: `future.image_uri`
+
+        https://substrate.run/library#RealESRGAN
+        """
+        super().__init__(**args)
+        self.node = "RealESRGAN"
+
+    def output(self, response: SubstrateResponse) -> RealESRGANOut:
+        """
+        Retrieve this node's output from a response.
+
+        Output fields: `future.image_uri`
+
+        https://substrate.run/library#RealESRGAN
+        """
+        klass = RealESRGANOut
+        json = response.api_response.json
+        if json and json.get("data"):
+            data = json["data"]
+            node_id = self.id
+            if data.get(self.id):
+                return klass(**data[self.id])
+        raise ValueError(f"Node {self.id} not found in response")
+
+    @property
+    def future(self) -> FutureRealESRGANOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.image_uri`
+
+        https://substrate.run/library#RealESRGAN
+        """
+        return super().future  # type: ignore
+
+
 class RemoveBackground(CoreNode):
     """
     Remove the background from an image, with the option to return the foreground as a mask.
@@ -903,7 +1033,7 @@ class RemoveBackground(CoreNode):
 
     def __init__(self, args: RemoveBackgroundIn):
         """
-        Input arguments: `image_uri`, `return_mask` (optional), `background_color` (optional), `model` (optional), `store` (optional)
+        Input arguments: `image_uri`, `return_mask` (optional), `background_color` (optional), `store` (optional), `node` (optional)
 
         Output fields: `future.image_uri`
 
@@ -941,33 +1071,33 @@ class RemoveBackground(CoreNode):
         return super().future  # type: ignore
 
 
-class DetectSegments(CoreNode):
+class DISISNet(CoreNode):
     """
-    Detect segments in an image given point(s) or bounding box(es).
+    Segment an image using [DIS IS-Net](https://github.com/xuebinqin/DIS).
 
-    https://substrate.run/library#DetectSegments
+    https://substrate.run/library#DISISNet
     """
 
-    def __init__(self, args: DetectSegmentsIn):
+    def __init__(self, args: DISISNetIn):
         """
-        Input arguments: `image_uri`, `point_prompts` (optional), `box_prompts` (optional), `model` (optional), `store` (optional)
+        Input arguments: `image_uri`, `return_mask` (optional), `background_color` (optional), `store` (optional)
 
-        Output fields: `future.mask_image_uri`
+        Output fields: `future.image_uri`
 
-        https://substrate.run/library#DetectSegments
+        https://substrate.run/library#DISISNet
         """
         super().__init__(**args)
-        self.node = "DetectSegments"
+        self.node = "DISISNet"
 
-    def output(self, response: SubstrateResponse) -> DetectSegmentsOut:
+    def output(self, response: SubstrateResponse) -> DISISNetOut:
         """
         Retrieve this node's output from a response.
 
-        Output fields: `future.mask_image_uri`
+        Output fields: `future.image_uri`
 
-        https://substrate.run/library#DetectSegments
+        https://substrate.run/library#DISISNet
         """
-        klass = DetectSegmentsOut
+        klass = DISISNetOut
         json = response.api_response.json
         if json and json.get("data"):
             data = json["data"]
@@ -977,13 +1107,107 @@ class DetectSegments(CoreNode):
         raise ValueError(f"Node {self.id} not found in response")
 
     @property
-    def future(self) -> FutureDetectSegmentsOut:  # type: ignore
+    def future(self) -> FutureDISISNetOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.image_uri`
+
+        https://substrate.run/library#DISISNet
+        """
+        return super().future  # type: ignore
+
+
+class SegmentUnderPoint(CoreNode):
+    """
+    Segment an image under a point and return the segment.
+
+    https://substrate.run/library#SegmentUnderPoint
+    """
+
+    def __init__(self, args: SegmentUnderPointIn):
+        """
+        Input arguments: `image_uri`, `point`, `store` (optional), `node` (optional)
+
+        Output fields: `future.mask_image_uri`
+
+        https://substrate.run/library#SegmentUnderPoint
+        """
+        super().__init__(**args)
+        self.node = "SegmentUnderPoint"
+
+    def output(self, response: SubstrateResponse) -> SegmentUnderPointOut:
+        """
+        Retrieve this node's output from a response.
+
+        Output fields: `future.mask_image_uri`
+
+        https://substrate.run/library#SegmentUnderPoint
+        """
+        klass = SegmentUnderPointOut
+        json = response.api_response.json
+        if json and json.get("data"):
+            data = json["data"]
+            node_id = self.id
+            if data.get(self.id):
+                return klass(**data[self.id])
+        raise ValueError(f"Node {self.id} not found in response")
+
+    @property
+    def future(self) -> FutureSegmentUnderPointOut:  # type: ignore
         """
         Future reference to this node's output.
 
         Output fields: `future.mask_image_uri`
 
-        https://substrate.run/library#DetectSegments
+        https://substrate.run/library#SegmentUnderPoint
+        """
+        return super().future  # type: ignore
+
+
+class SegmentAnything(CoreNode):
+    """
+    Segment an image using [SegmentAnything](https://github.com/facebookresearch/segment-anything).
+
+    https://substrate.run/library#SegmentAnything
+    """
+
+    def __init__(self, args: SegmentAnythingIn):
+        """
+        Input arguments: `image_uri`, `point_prompts` (optional), `box_prompts` (optional), `store` (optional)
+
+        Output fields: `future.mask_image_uri`
+
+        https://substrate.run/library#SegmentAnything
+        """
+        super().__init__(**args)
+        self.node = "SegmentAnything"
+
+    def output(self, response: SubstrateResponse) -> SegmentAnythingOut:
+        """
+        Retrieve this node's output from a response.
+
+        Output fields: `future.mask_image_uri`
+
+        https://substrate.run/library#SegmentAnything
+        """
+        klass = SegmentAnythingOut
+        json = response.api_response.json
+        if json and json.get("data"):
+            data = json["data"]
+            node_id = self.id
+            if data.get(self.id):
+                return klass(**data[self.id])
+        raise ValueError(f"Node {self.id} not found in response")
+
+    @property
+    def future(self) -> FutureSegmentAnythingOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.mask_image_uri`
+
+        https://substrate.run/library#SegmentAnything
         """
         return super().future  # type: ignore
 
@@ -1044,7 +1268,7 @@ class GenerateSpeech(CoreNode):
 
     def __init__(self, args: GenerateSpeechIn):
         """
-        Input arguments: `text`, `audio_uri` (optional), `language` (optional), `store` (optional)
+        Input arguments: `text`, `store` (optional), `node` (optional)
 
         Output fields: `future.audio_uri`
 
@@ -1078,6 +1302,53 @@ class GenerateSpeech(CoreNode):
         Output fields: `future.audio_uri`
 
         https://substrate.run/library#GenerateSpeech
+        """
+        return super().future  # type: ignore
+
+
+class XTTSV2(CoreNode):
+    """
+    Generate speech from text using [XTTS v2](https://docs.coqui.ai/en/latest/models/xtts.html).
+
+    https://substrate.run/library#XTTSV2
+    """
+
+    def __init__(self, args: XTTSV2In):
+        """
+        Input arguments: `text`, `audio_uri` (optional), `language` (optional), `store` (optional)
+
+        Output fields: `future.audio_uri`
+
+        https://substrate.run/library#XTTSV2
+        """
+        super().__init__(**args)
+        self.node = "XTTSV2"
+
+    def output(self, response: SubstrateResponse) -> XTTSV2Out:
+        """
+        Retrieve this node's output from a response.
+
+        Output fields: `future.audio_uri`
+
+        https://substrate.run/library#XTTSV2
+        """
+        klass = XTTSV2Out
+        json = response.api_response.json
+        if json and json.get("data"):
+            data = json["data"]
+            node_id = self.id
+            if data.get(self.id):
+                return klass(**data[self.id])
+        raise ValueError(f"Node {self.id} not found in response")
+
+    @property
+    def future(self) -> FutureXTTSV2Out:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.audio_uri`
+
+        https://substrate.run/library#XTTSV2
         """
         return super().future  # type: ignore
 
@@ -1272,7 +1543,7 @@ class MultiEmbedImage(CoreNode):
 
 class JinaV2(CoreNode):
     """
-    Generate embeddings for multiple text documents using Jina V2.
+    Generate embeddings for multiple text documents using [Jina Embeddings 2](https://arxiv.org/abs/2310.19923).
 
     https://substrate.run/library#JinaV2
     """
@@ -1319,7 +1590,7 @@ class JinaV2(CoreNode):
 
 class CLIP(CoreNode):
     """
-    Generate embeddings for text or images using CLIP.
+    Generate embeddings for text or images using [CLIP](https://openai.com/research/clip).
 
     https://substrate.run/library#CLIP
     """
@@ -1360,5 +1631,334 @@ class CLIP(CoreNode):
         Output fields: `future.embeddings`
 
         https://substrate.run/library#CLIP
+        """
+        return super().future  # type: ignore
+
+
+class CreateVectorStore(CoreNode):
+    """
+    Create a vector store for storing and querying embeddings.
+
+    https://substrate.run/library#CreateVectorStore
+    """
+
+    def __init__(self, args: CreateVectorStoreIn):
+        """
+        Input arguments: `name`, `model`, `m` (optional), `ef_construction` (optional), `metric` (optional)
+
+        Output fields: `future.name`, `future.model`, `future.m`, `future.ef_construction`, `future.metric`
+
+        https://substrate.run/library#CreateVectorStore
+        """
+        super().__init__(**args)
+        self.node = "CreateVectorStore"
+
+    def output(self, response: SubstrateResponse) -> CreateVectorStoreOut:
+        """
+        Retrieve this node's output from a response.
+
+        Output fields: `future.name`, `future.model`, `future.m`, `future.ef_construction`, `future.metric`
+
+        https://substrate.run/library#CreateVectorStore
+        """
+        klass = CreateVectorStoreOut
+        json = response.api_response.json
+        if json and json.get("data"):
+            data = json["data"]
+            node_id = self.id
+            if data.get(self.id):
+                return klass(**data[self.id])
+        raise ValueError(f"Node {self.id} not found in response")
+
+    @property
+    def future(self) -> FutureCreateVectorStoreOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.name`, `future.model`, `future.m`, `future.ef_construction`, `future.metric`
+
+        https://substrate.run/library#CreateVectorStore
+        """
+        return super().future  # type: ignore
+
+
+class ListVectorStores(CoreNode):
+    """
+    List all vector stores.
+
+    https://substrate.run/library#ListVectorStores
+    """
+
+    def __init__(self, args: ListVectorStoresIn):
+        """
+        Input arguments:
+
+        Output fields: `future.stores` (optional)
+
+        https://substrate.run/library#ListVectorStores
+        """
+        super().__init__(**args)
+        self.node = "ListVectorStores"
+
+    def output(self, response: SubstrateResponse) -> ListVectorStoresOut:
+        """
+        Retrieve this node's output from a response.
+
+        Output fields: `future.stores` (optional)
+
+        https://substrate.run/library#ListVectorStores
+        """
+        klass = ListVectorStoresOut
+        json = response.api_response.json
+        if json and json.get("data"):
+            data = json["data"]
+            node_id = self.id
+            if data.get(self.id):
+                return klass(**data[self.id])
+        raise ValueError(f"Node {self.id} not found in response")
+
+    @property
+    def future(self) -> FutureListVectorStoresOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.stores` (optional)
+
+        https://substrate.run/library#ListVectorStores
+        """
+        return super().future  # type: ignore
+
+
+class DeleteVectorStore(CoreNode):
+    """
+    Delete a vector store.
+
+    https://substrate.run/library#DeleteVectorStore
+    """
+
+    def __init__(self, args: DeleteVectorStoreIn):
+        """
+        Input arguments: `name`, `model`
+
+        Output fields: `future.name`, `future.model`
+
+        https://substrate.run/library#DeleteVectorStore
+        """
+        super().__init__(**args)
+        self.node = "DeleteVectorStore"
+
+    def output(self, response: SubstrateResponse) -> DeleteVectorStoreOut:
+        """
+        Retrieve this node's output from a response.
+
+        Output fields: `future.name`, `future.model`
+
+        https://substrate.run/library#DeleteVectorStore
+        """
+        klass = DeleteVectorStoreOut
+        json = response.api_response.json
+        if json and json.get("data"):
+            data = json["data"]
+            node_id = self.id
+            if data.get(self.id):
+                return klass(**data[self.id])
+        raise ValueError(f"Node {self.id} not found in response")
+
+    @property
+    def future(self) -> FutureDeleteVectorStoreOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.name`, `future.model`
+
+        https://substrate.run/library#DeleteVectorStore
+        """
+        return super().future  # type: ignore
+
+
+class QueryVectorStore(CoreNode):
+    """
+    Query a vector store for similar vectors.
+
+    https://substrate.run/library#QueryVectorStore
+    """
+
+    def __init__(self, args: QueryVectorStoreIn):
+        """
+        Input arguments: `name`, `model`, `query_ids` (optional), `query_image_uris` (optional), `query_vectors` (optional), `query_strings` (optional), `top_k` (optional), `ef_search` (optional), `include_values` (optional), `include_metadata` (optional), `filters` (optional)
+
+        Output fields: `future.results`, `future.name` (optional), `future.model` (optional), `future.metric` (optional)
+
+        https://substrate.run/library#QueryVectorStore
+        """
+        super().__init__(**args)
+        self.node = "QueryVectorStore"
+
+    def output(self, response: SubstrateResponse) -> QueryVectorStoreOut:
+        """
+        Retrieve this node's output from a response.
+
+        Output fields: `future.results`, `future.name` (optional), `future.model` (optional), `future.metric` (optional)
+
+        https://substrate.run/library#QueryVectorStore
+        """
+        klass = QueryVectorStoreOut
+        json = response.api_response.json
+        if json and json.get("data"):
+            data = json["data"]
+            node_id = self.id
+            if data.get(self.id):
+                return klass(**data[self.id])
+        raise ValueError(f"Node {self.id} not found in response")
+
+    @property
+    def future(self) -> FutureQueryVectorStoreOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.results`, `future.name` (optional), `future.model` (optional), `future.metric` (optional)
+
+        https://substrate.run/library#QueryVectorStore
+        """
+        return super().future  # type: ignore
+
+
+class FetchVectors(CoreNode):
+    """
+    Fetch vectors from a vector store.
+
+    https://substrate.run/library#FetchVectors
+    """
+
+    def __init__(self, args: FetchVectorsIn):
+        """
+        Input arguments: `name`, `model`, `ids`
+
+        Output fields: `future.vectors`
+
+        https://substrate.run/library#FetchVectors
+        """
+        super().__init__(**args)
+        self.node = "FetchVectors"
+
+    def output(self, response: SubstrateResponse) -> FetchVectorsOut:
+        """
+        Retrieve this node's output from a response.
+
+        Output fields: `future.vectors`
+
+        https://substrate.run/library#FetchVectors
+        """
+        klass = FetchVectorsOut
+        json = response.api_response.json
+        if json and json.get("data"):
+            data = json["data"]
+            node_id = self.id
+            if data.get(self.id):
+                return klass(**data[self.id])
+        raise ValueError(f"Node {self.id} not found in response")
+
+    @property
+    def future(self) -> FutureFetchVectorsOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.vectors`
+
+        https://substrate.run/library#FetchVectors
+        """
+        return super().future  # type: ignore
+
+
+class UpdateVectors(CoreNode):
+    """
+    Update vectors in a vector store.
+
+    https://substrate.run/library#UpdateVectors
+    """
+
+    def __init__(self, args: UpdateVectorsIn):
+        """
+        Input arguments: `name`, `model`, `vectors`
+
+        Output fields: `future.count`
+
+        https://substrate.run/library#UpdateVectors
+        """
+        super().__init__(**args)
+        self.node = "UpdateVectors"
+
+    def output(self, response: SubstrateResponse) -> UpdateVectorsOut:
+        """
+        Retrieve this node's output from a response.
+
+        Output fields: `future.count`
+
+        https://substrate.run/library#UpdateVectors
+        """
+        klass = UpdateVectorsOut
+        json = response.api_response.json
+        if json and json.get("data"):
+            data = json["data"]
+            node_id = self.id
+            if data.get(self.id):
+                return klass(**data[self.id])
+        raise ValueError(f"Node {self.id} not found in response")
+
+    @property
+    def future(self) -> FutureUpdateVectorsOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.count`
+
+        https://substrate.run/library#UpdateVectors
+        """
+        return super().future  # type: ignore
+
+
+class DeleteVectors(CoreNode):
+    """
+    Delete vectors in a vector store.
+
+    https://substrate.run/library#DeleteVectors
+    """
+
+    def __init__(self, args: DeleteVectorsIn):
+        """
+        Input arguments: `name`, `model`, `ids`
+
+        Output fields: `future.count`
+
+        https://substrate.run/library#DeleteVectors
+        """
+        super().__init__(**args)
+        self.node = "DeleteVectors"
+
+    def output(self, response: SubstrateResponse) -> DeleteVectorsOut:
+        """
+        Retrieve this node's output from a response.
+
+        Output fields: `future.count`
+
+        https://substrate.run/library#DeleteVectors
+        """
+        klass = DeleteVectorsOut
+        json = response.api_response.json
+        if json and json.get("data"):
+            data = json["data"]
+            node_id = self.id
+            if data.get(self.id):
+                return klass(**data[self.id])
+        raise ValueError(f"Node {self.id} not found in response")
+
+    @property
+    def future(self) -> FutureDeleteVectorsOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.count`
+
+        https://substrate.run/library#DeleteVectors
         """
         return super().future  # type: ignore

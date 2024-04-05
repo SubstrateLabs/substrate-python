@@ -22,7 +22,12 @@ b = GenerateText(
 
 s = Substrate(api_key=api_key)
 res = s.run(a, b)
-a_out = a.output(res)
+import json
+
+print("response", res.api_response.status_code)
+print("json", json.dumps(res.api_response.json, indent=2))
+
+# a_out = a.output(res)
 
 
-print(a_out.text)
+# print(a_out.text)

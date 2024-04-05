@@ -558,9 +558,31 @@ class FillMaskIn(TypedDict):
     """
     Mask image that controls which pixels are inpainted.
     """
-    model: NotRequired[Literal["big-lama"]]
+    store: NotRequired[str]
     """
-    (Optional) Selected model.
+    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    node: NotRequired[Literal["BigLaMa"]]
+    """
+    (Optional) Selected node.
+    """
+
+
+class FillMaskOut(TypedDict):
+    image_uri: NotRequired[str]
+    """
+    Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
+    """
+
+
+class BigLaMaIn(TypedDict):
+    image_uri: NotRequired[str]
+    """
+    Input image.
+    """
+    mask_image_uri: NotRequired[str]
+    """
+    Mask image that controls which pixels are inpainted.
     """
     store: NotRequired[str]
     """
@@ -568,7 +590,7 @@ class FillMaskIn(TypedDict):
     """
 
 
-class FillMaskOut(TypedDict):
+class BigLaMaOut(TypedDict):
     image_uri: NotRequired[str]
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
@@ -588,13 +610,13 @@ class RemoveBackgroundIn(TypedDict):
     """
     (Optional) Hex value background color. Transparent if unset.
     """
-    model: NotRequired[Literal["isnet"]]
-    """
-    (Optional) Selected model.
-    """
     store: NotRequired[str]
     """
     (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    node: NotRequired[Literal["DISISNet"]]
+    """
+    (Optional) Selected node.
     """
 
 
@@ -605,7 +627,55 @@ class RemoveBackgroundOut(TypedDict):
     """
 
 
+class DISISNetIn(TypedDict):
+    image_uri: NotRequired[str]
+    """
+    Input image.
+    """
+    return_mask: NotRequired[bool]
+    """
+    (Optional) Return a mask image instead of the original content.
+    """
+    background_color: NotRequired[str]
+    """
+    (Optional) Hex value background color. Transparent if unset.
+    """
+    store: NotRequired[str]
+    """
+    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+
+
+class DISISNetOut(TypedDict):
+    image_uri: NotRequired[str]
+    """
+    Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
+    """
+
+
 class UpscaleImageIn(TypedDict):
+    image_uri: NotRequired[str]
+    """
+    Input image.
+    """
+    store: NotRequired[str]
+    """
+    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    node: NotRequired[Literal["RealESRGAN"]]
+    """
+    (Optional) Selected node.
+    """
+
+
+class UpscaleImageOut(TypedDict):
+    image_uri: NotRequired[str]
+    """
+    Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
+    """
+
+
+class RealESRGANIn(TypedDict):
     image_uri: NotRequired[str]
     """
     Input image.
@@ -620,14 +690,40 @@ class UpscaleImageIn(TypedDict):
     """
 
 
-class UpscaleImageOut(TypedDict):
+class RealESRGANOut(TypedDict):
     image_uri: NotRequired[str]
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
     """
 
 
-class DetectSegmentsIn(TypedDict):
+class SegmentUnderPointIn(TypedDict):
+    image_uri: NotRequired[str]
+    """
+    Input image.
+    """
+    point: NotRequired[Point]
+    """
+    Point prompt.
+    """
+    store: NotRequired[str]
+    """
+    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    node: NotRequired[Literal["SegmentAnything"]]
+    """
+    (Optional) Selected node.
+    """
+
+
+class SegmentUnderPointOut(TypedDict):
+    mask_image_uri: NotRequired[str]
+    """
+    Detected segments in 'mask image' format. Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
+    """
+
+
+class SegmentAnythingIn(TypedDict):
     image_uri: NotRequired[str]
     """
     Input image.
@@ -640,17 +736,13 @@ class DetectSegmentsIn(TypedDict):
     """
     (Optional) Box prompts, to detect a segment within the bounding box. One of `point_prompts` or `box_prompts` must be set.
     """
-    model: NotRequired[Literal["segment-anything"]]
-    """
-    (Optional) Selected model.
-    """
     store: NotRequired[str]
     """
     (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
-class DetectSegmentsOut(TypedDict):
+class SegmentAnythingOut(TypedDict):
     mask_image_uri: NotRequired[str]
     """
     Detected segments in 'mask image' format. Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
@@ -761,6 +853,28 @@ class GenerateSpeechIn(TypedDict):
     """
     Input text.
     """
+    store: NotRequired[str]
+    """
+    (Optional) Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the audio data will be returned as a base64-encoded string.
+    """
+    node: NotRequired[Literal["XTTSV2"]]
+    """
+    (Optional) Selected node.
+    """
+
+
+class GenerateSpeechOut(TypedDict):
+    audio_uri: NotRequired[str]
+    """
+    Base 64-encoded WAV audio bytes, or a hosted audio url if `store` is provided.
+    """
+
+
+class XTTSV2In(TypedDict):
+    text: NotRequired[str]
+    """
+    Input text.
+    """
     audio_uri: NotRequired[str]
     """
     (Optional) Reference audio used to synthesize the speaker. If unset, a default speaker voice will be used.
@@ -775,7 +889,7 @@ class GenerateSpeechIn(TypedDict):
     """
 
 
-class GenerateSpeechOut(TypedDict):
+class XTTSV2Out(TypedDict):
     audio_uri: NotRequired[str]
     """
     Base 64-encoded WAV audio bytes, or a hosted audio url if `store` is provided.
@@ -994,7 +1108,7 @@ class CLIPOut(TypedDict):
     """
 
 
-class VectorStoreParams(TypedDict):
+class CreateVectorStoreIn(TypedDict):
     name: NotRequired[str]
     """
     Vector store name.
@@ -1017,7 +1131,52 @@ class VectorStoreParams(TypedDict):
     """
 
 
-class DeleteVectorStoreParams(TypedDict):
+class CreateVectorStoreOut(TypedDict):
+    name: NotRequired[str]
+    """
+    Vector store name.
+    """
+    model: NotRequired[Literal["jina-v2", "clip"]]
+    """
+    Selected embedding model
+    """
+    m: NotRequired[int]
+    """
+    The max number of connections per layer for the index.
+    """
+    ef_construction: NotRequired[int]
+    """
+    The size of the dynamic candidate list for constructing the index graph.
+    """
+    metric: NotRequired[Literal["cosine", "l2", "inner"]]
+    """
+    The distance metric to construct the index with.
+    """
+
+
+class ListVectorStoresIn(TypedDict):
+    pass
+
+
+class ListVectorStoresOut(TypedDict):
+    stores: NotRequired[List[CreateVectorStoreOut]]
+    """
+    (Optional) List of vector stores.
+    """
+
+
+class DeleteVectorStoreIn(TypedDict):
+    name: NotRequired[str]
+    """
+    Vector store name.
+    """
+    model: NotRequired[Literal["jina-v2", "clip"]]
+    """
+    Selected embedding model
+    """
+
+
+class DeleteVectorStoreOut(TypedDict):
     name: NotRequired[str]
     """
     Vector store name.
@@ -1047,7 +1206,7 @@ class Vector(TypedDict):
     """
 
 
-class GetVectorsParams(TypedDict):
+class FetchVectorsIn(TypedDict):
     name: NotRequired[str]
     """
     Vector store name.
@@ -1062,14 +1221,21 @@ class GetVectorsParams(TypedDict):
     """
 
 
-class GetVectorsResponse(TypedDict):
+class FetchVectorsOut(TypedDict):
     vectors: NotRequired[List[Vector]]
     """
     Retrieved vectors.
     """
 
 
-class VectorUpdateCountResponse(TypedDict):
+class UpdateVectorsOut(TypedDict):
+    count: NotRequired[int]
+    """
+    Number of vectors modified.
+    """
+
+
+class DeleteVectorsOut(TypedDict):
     count: NotRequired[int]
     """
     Number of vectors modified.
@@ -1077,10 +1243,6 @@ class VectorUpdateCountResponse(TypedDict):
 
 
 class UpdateVectorParams(TypedDict):
-    """
-    Document to update.
-    """
-
     id: NotRequired[str]
     """
     Document ID.
@@ -1095,7 +1257,7 @@ class UpdateVectorParams(TypedDict):
     """
 
 
-class UpdateVectorsParams(TypedDict):
+class UpdateVectorsIn(TypedDict):
     name: NotRequired[str]
     """
     Vector store name.
@@ -1110,7 +1272,7 @@ class UpdateVectorsParams(TypedDict):
     """
 
 
-class DeleteVectorsParams(TypedDict):
+class DeleteVectorsIn(TypedDict):
     name: NotRequired[str]
     """
     Vector store name.
@@ -1125,7 +1287,7 @@ class DeleteVectorsParams(TypedDict):
     """
 
 
-class QueryVectorStoreParams(TypedDict):
+class QueryVectorStoreIn(TypedDict):
     name: NotRequired[str]
     """
     Vector store to query against.
@@ -1191,7 +1353,7 @@ class VectorStoreQueryResult(TypedDict):
     """
 
 
-class QueryVectorStoreResponse(TypedDict):
+class QueryVectorStoreOut(TypedDict):
     results: NotRequired[List[List[VectorStoreQueryResult]]]
     """
     Query results.

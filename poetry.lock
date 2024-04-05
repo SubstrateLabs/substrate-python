@@ -526,18 +526,18 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-ena
 
 [[package]]
 name = "jaraco-context"
-version = "4.3.0"
-description = "Context managers by jaraco"
+version = "5.1.0"
+description = "Useful decorators and context managers"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "jaraco.context-4.3.0-py3-none-any.whl", hash = "sha256:5d9e95ca0faa78943ed66f6bc658dd637430f16125d86988e77844c741ff2f11"},
-    {file = "jaraco.context-4.3.0.tar.gz", hash = "sha256:4dad2404540b936a20acedec53355bdaea223acb88fd329fa6de9261c941566e"},
+    {file = "jaraco.context-5.1.0-py3-none-any.whl", hash = "sha256:0e4161ebbaeead78850b4ca5465b5853217cf23ad74ec82d00ebfb69d8ea5fcb"},
+    {file = "jaraco.context-5.1.0.tar.gz", hash = "sha256:24ec1f739aec2c5766c68027ccc70d91d7b0cb931699442f5c7ed93515b955e7"},
 ]
 
 [package.extras]
-docs = ["furo", "jaraco.packaging (>=9)", "jaraco.tidelift (>=1.4)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-lint"]
-testing = ["flake8 (<5)", "pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=1.3)", "pytest-flake8", "pytest-mypy (>=0.9.1)"]
+docs = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-lint"]
+testing = ["pytest (>=6,!=8.1.1)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-mypy", "pytest-ruff (>=0.2.1)"]
 
 [[package]]
 name = "jaraco-functools"
@@ -618,13 +618,13 @@ testing = ["pytest (>=6,!=8.1.1)", "pytest-checkdocs (>=2.4)", "pytest-cov", "py
 
 [[package]]
 name = "marimo"
-version = "0.3.8"
+version = "0.3.9"
 description = "A library for making reactive notebooks and apps"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "marimo-0.3.8-py3-none-any.whl", hash = "sha256:097825e040ab66488c1af47befd3703f176e304e9a031bc8ec3afbd3dbbb23dc"},
-    {file = "marimo-0.3.8.tar.gz", hash = "sha256:c65f21375060dee19b00c68a34b3c0830d3abe4a9990968d45ee6598e63c7cf0"},
+    {file = "marimo-0.3.9-py3-none-any.whl", hash = "sha256:1cfa884dcab3ef31e450ec81b97a6767d88a5251313ad3e0381445240f925d86"},
+    {file = "marimo-0.3.9.tar.gz", hash = "sha256:b640427ce31ebe161c0ef44da6cd34cef1b1e394bf69517f2870f1353081abdf"},
 ]
 
 [package.dependencies]
@@ -637,7 +637,7 @@ pygments = ">=2.13,<3"
 pymdown-extensions = ">=9.0,<11"
 starlette = ">=0.26.1,<0.36.0 || >0.36.0"
 tomlkit = ">=0.12.0"
-typing-extensions = {version = ">=4.4.0", markers = "python_version < \"3.10\""}
+typing-extensions = {version = ">=4.4.0", markers = "python_version < \"3.11\""}
 uvicorn = ">=0.22.0"
 websockets = ">=10.0.0,<13.0.0"
 
@@ -836,18 +836,18 @@ files = [
 
 [[package]]
 name = "parso"
-version = "0.8.3"
+version = "0.8.4"
 description = "A Python Parser"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "parso-0.8.3-py2.py3-none-any.whl", hash = "sha256:c001d4636cd3aecdaf33cbb40aebb59b094be2a74c556778ef5576c175e19e75"},
-    {file = "parso-0.8.3.tar.gz", hash = "sha256:8c07be290bb59f03588915921e29e8a50002acaf2cdc5fa0e0114f91709fafa0"},
+    {file = "parso-0.8.4-py2.py3-none-any.whl", hash = "sha256:a418670a20291dacd2dddc80c377c5c3791378ee1e8d12bffc35420643d43f18"},
+    {file = "parso-0.8.4.tar.gz", hash = "sha256:eb3a7b58240fb99099a345571deecc0f9540ea5f4dd2fe14c2a99d6b281ab92d"},
 ]
 
 [package.extras]
-qa = ["flake8 (==3.8.3)", "mypy (==0.782)"]
-testing = ["docopt", "pytest (<6.0.0)"]
+qa = ["flake8 (==5.0.4)", "mypy (==0.971)", "types-setuptools (==67.2.0.1)"]
+testing = ["docopt", "pytest"]
 
 [[package]]
 name = "pathspec"
@@ -968,13 +968,13 @@ extra = ["pygments (>=2.12)"]
 
 [[package]]
 name = "pyright"
-version = "1.1.356"
+version = "1.1.357"
 description = "Command line wrapper for pyright"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pyright-1.1.356-py3-none-any.whl", hash = "sha256:a101b0f375f93d7082f9046cfaa7ba15b7cf8e1939ace45e984c351f6e8feb99"},
-    {file = "pyright-1.1.356.tar.gz", hash = "sha256:f05b8b29d06b96ed4a0885dad5a31d9dff691ca12b2f658249f583d5f2754021"},
+    {file = "pyright-1.1.357-py3-none-any.whl", hash = "sha256:1cf29ee38e4928131895cd8e90eef37b5b77e2ed72a14e6e8e2405266f5f0aca"},
+    {file = "pyright-1.1.357.tar.gz", hash = "sha256:7c66261116c78c5fa9629134fe85c54cc5302ab73e376be4b0a99d89c80a9403"},
 ]
 
 [package.dependencies]
@@ -1042,6 +1042,7 @@ files = [
     {file = "PyYAML-6.0.1-cp311-cp311-win_amd64.whl", hash = "sha256:bf07ee2fef7014951eeb99f56f39c9bb4af143d8aa3c21b1677805985307da34"},
     {file = "PyYAML-6.0.1-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:855fb52b0dc35af121542a76b9a84f8d1cd886ea97c84703eaa6d88e37a2ad28"},
     {file = "PyYAML-6.0.1-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:40df9b996c2b73138957fe23a16a4f0ba614f4c0efce1e9406a184b6d07fa3a9"},
+    {file = "PyYAML-6.0.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:a08c6f0fe150303c1c6b71ebcd7213c2858041a7e01975da3a99aed1e7a378ef"},
     {file = "PyYAML-6.0.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:6c22bec3fbe2524cde73d7ada88f6566758a8f7227bfbf93a408a9d86bcc12a0"},
     {file = "PyYAML-6.0.1-cp312-cp312-musllinux_1_1_x86_64.whl", hash = "sha256:8d4e9c88387b0f5c7d5f281e55304de64cf7f9c0021a3525bd3b1c542da3b0e4"},
     {file = "PyYAML-6.0.1-cp312-cp312-win32.whl", hash = "sha256:d483d2cdf104e7c9fa60c544d92981f12ad66a457afae824d146093b8c294c54"},
@@ -1330,13 +1331,13 @@ files = [
 
 [[package]]
 name = "typing-extensions"
-version = "4.10.0"
+version = "4.11.0"
 description = "Backported and Experimental Type Hints for Python 3.8+"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "typing_extensions-4.10.0-py3-none-any.whl", hash = "sha256:69b1a937c3a517342112fb4c6df7e72fc39a38e7891a5730ed4985b5214b5475"},
-    {file = "typing_extensions-4.10.0.tar.gz", hash = "sha256:b0abd7c89e8fb96f98db18d86106ff1d90ab692004eb746cf6eda2682f91b3cb"},
+    {file = "typing_extensions-4.11.0-py3-none-any.whl", hash = "sha256:c1f94d72897edaf4ce775bb7558d5b79d8126906a14ea5ed1635921406c0387a"},
+    {file = "typing_extensions-4.11.0.tar.gz", hash = "sha256:83f085bd5ca59c80295fc2a82ab5dac679cbe02b9f33f7d83af68e241bea51b0"},
 ]
 
 [[package]]
