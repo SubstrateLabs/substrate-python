@@ -5,9 +5,10 @@ from typing import List, Optional
 
 import networkx as nx
 
-from .base_future import BaseFuture, TraceDirective
+from .base_future import BaseFuture
 from .id_generator import IDGenerator
 from .client.future import TracedFuture
+from .future_directive import TraceDirective
 from .client.find_futures_client import find_futures_client
 
 

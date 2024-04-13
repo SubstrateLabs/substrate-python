@@ -1,7 +1,7 @@
 """
 ꩜ Substrate Python SDK
 
-20240405.20240405
+20240411.20240411
 """
 
 from .nodes import (
@@ -43,6 +43,7 @@ from .nodes import (
     MultiGenerativeEditImage,
     StableDiffusionXLInpaint,
     StableDiffusionXLIPAdapter,
+    StableDiffusionXLLightning,
     StableDiffusionXLControlNet,
 )
 from .core.sb import sb
@@ -67,6 +68,7 @@ __all__ = [
     "GenerativeEditImage",
     "MultiGenerativeEditImage",
     "StableDiffusionXL",
+    "StableDiffusionXLLightning",
     "StableDiffusionXLInpaint",
     "StableDiffusionXLIPAdapter",
     "StableDiffusionXLControlNet",

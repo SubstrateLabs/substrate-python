@@ -27,7 +27,7 @@ class GenerateTextIn(TypedDict):
     """
     Input prompt.
     """
-    temperature: NotRequired[int]
+    temperature: NotRequired[float]
     """
     (Optional) Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
     """
@@ -57,7 +57,7 @@ class GenerateJSONIn(TypedDict):
     """
     JSON schema to guide `json_object` response.
     """
-    temperature: NotRequired[int]
+    temperature: NotRequired[float]
     """
     (Optional) Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
     """
@@ -87,7 +87,7 @@ class MultiGenerateTextIn(TypedDict):
     """
     Number of choices to generate.
     """
-    temperature: NotRequired[int]
+    temperature: NotRequired[float]
     """
     (Optional) Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
     """
@@ -118,7 +118,7 @@ class MultiGenerateJSONIn(TypedDict):
     """
     Number of choices to generate.
     """
-    temperature: NotRequired[int]
+    temperature: NotRequired[float]
     """
     (Optional) Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
     """
@@ -182,10 +182,6 @@ class GenerateTextVisionIn(TypedDict):
     image_uris: NotRequired[List[str]]
     """
     Image prompts.
-    """
-    temperature: NotRequired[int]
-    """
-    (Optional) Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
     """
     max_tokens: NotRequired[int]
     """
@@ -304,7 +300,7 @@ class StableDiffusionXLIn(TypedDict):
     """
     (Optional) Width of output image, in pixels.
     """
-    seeds: NotRequired[int]
+    seeds: NotRequired[List[int]]
     """
     (Optional) Seeds for deterministic generation. Default is a random seed.
     """
@@ -326,6 +322,41 @@ class StableDiffusionImage(TypedDict):
 
 
 class StableDiffusionXLOut(TypedDict):
+    outputs: NotRequired[List[StableDiffusionImage]]
+
+
+class StableDiffusionXLLightningIn(TypedDict):
+    prompt: NotRequired[str]
+    """
+    Text prompt.
+    """
+    negative_prompt: NotRequired[str]
+    """
+    (Optional) Negative input prompt.
+    """
+    num_images: NotRequired[int]
+    """
+    (Optional) Number of images to generate.
+    """
+    store: NotRequired[str]
+    """
+    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    height: NotRequired[int]
+    """
+    (Optional) Height of output image, in pixels.
+    """
+    width: NotRequired[int]
+    """
+    (Optional) Width of output image, in pixels.
+    """
+    seeds: NotRequired[List[int]]
+    """
+    (Optional) Seeds for deterministic generation. Default is a random seed.
+    """
+
+
+class StableDiffusionXLLightningOut(TypedDict):
     outputs: NotRequired[List[StableDiffusionImage]]
 
 
@@ -632,14 +663,6 @@ class DISISNetIn(TypedDict):
     """
     Input image.
     """
-    return_mask: NotRequired[bool]
-    """
-    (Optional) Return a mask image instead of the original content.
-    """
-    background_color: NotRequired[str]
-    """
-    (Optional) Hex value background color. Transparent if unset.
-    """
     store: NotRequired[str]
     """
     (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
@@ -679,10 +702,6 @@ class RealESRGANIn(TypedDict):
     image_uri: NotRequired[str]
     """
     Input image.
-    """
-    model: NotRequired[Literal["real-esrgan-x4"]]
-    """
-    (Optional) Selected model.
     """
     store: NotRequired[str]
     """
@@ -1331,6 +1350,10 @@ class QueryVectorStoreIn(TypedDict):
     filters: NotRequired[Dict[str, Any]]
     """
     (Optional) Filter metadata by key-value pairs.
+    """
+    metric: NotRequired[Literal["cosine", "l2", "inner"]]
+    """
+    (Optional) The distance metric used for the query. Defaults to the distance metric the vector store was created with.
     """
 
 

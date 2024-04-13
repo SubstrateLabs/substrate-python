@@ -1,34 +1,29 @@
 """
 CORE ꩜ SUBSTRATE
 """
-from typing import (
-    Union,
-    Optional,
-)
+from typing import Union, TypeVar, Optional
 
 import networkx as nx
 
-from ..base_future import (
-    Directive,
-    TraceType,
-    BaseFuture,
-    TraceDirective,
-    TraceOperation,
-)
+from ..base_future import BaseFuture
+from ..future_directive import TraceType, TraceDirective, TraceOperation
+
+T = TypeVar("T", bound="BaseDirective")
 
 
-class Future(BaseFuture):
+class Future(BaseFuture[T]):
     def __init__(
         self,
-        directive: Directive,
+        directive: T,
         FG: Optional["nx.DiGraph[Future]"] = None,
         **kwargs,
     ):
         super().__init__(directive, **kwargs)
+        self.directive = directive
         self.FutureG = FG if FG is not None else nx.DiGraph()
 
 
-class TracedFuture(Future):
+class TracedFuture(Future[TraceDirective]):
     """
     You can think of this as a logical handle to a future result. This means that you can access attributes or items
     from it as if it were a resolved instance. If you use a traced future as an argument to other nodes, it will

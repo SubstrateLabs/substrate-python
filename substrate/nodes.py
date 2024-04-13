@@ -1,7 +1,7 @@
 """
 ꩜ Substrate
 @GENERATED FILE
-20240405.20240405
+20240411.20240411
 """
 
 from .substrate import SubstrateResponse
@@ -45,6 +45,7 @@ from .dataclass_models import (
     MultiGenerativeEditImageOut,
     StableDiffusionXLInpaintOut,
     StableDiffusionXLIPAdapterOut,
+    StableDiffusionXLLightningOut,
     StableDiffusionXLControlNetOut,
 )
 from .typeddict_models import (
@@ -86,6 +87,7 @@ from .typeddict_models import (
     MultiGenerativeEditImageIn,
     StableDiffusionXLInpaintIn,
     StableDiffusionXLIPAdapterIn,
+    StableDiffusionXLLightningIn,
     StableDiffusionXLControlNetIn,
 )
 from .future_dataclass_models import (
@@ -127,6 +129,7 @@ from .future_dataclass_models import (
     FutureMultiGenerativeEditImageOut,
     FutureStableDiffusionXLInpaintOut,
     FutureStableDiffusionXLIPAdapterOut,
+    FutureStableDiffusionXLLightningOut,
     FutureStableDiffusionXLControlNetOut,
 )
 
@@ -328,7 +331,7 @@ class GenerateTextVision(CoreNode):
 
     def __init__(self, args: GenerateTextVisionIn):
         """
-        Input arguments: `prompt`, `image_uris`, `temperature` (optional), `max_tokens` (optional), `node` (optional)
+        Input arguments: `prompt`, `image_uris`, `max_tokens` (optional), `node` (optional)
 
         Output fields: `future.text`
 
@@ -695,6 +698,53 @@ class StableDiffusionXL(CoreNode):
         return super().future  # type: ignore
 
 
+class StableDiffusionXLLightning(CoreNode):
+    """
+    Generate an image using [Stable Diffusion XL Lightning](https://arxiv.org/abs/2402.13929).
+
+    https://substrate.run/library#StableDiffusionXLLightning
+    """
+
+    def __init__(self, args: StableDiffusionXLLightningIn):
+        """
+        Input arguments: `prompt`, `negative_prompt` (optional), `num_images` (optional), `store` (optional), `height` (optional), `width` (optional), `seeds` (optional)
+
+        Output fields: `future.outputs`
+
+        https://substrate.run/library#StableDiffusionXLLightning
+        """
+        super().__init__(**args)
+        self.node = "StableDiffusionXLLightning"
+
+    def output(self, response: SubstrateResponse) -> StableDiffusionXLLightningOut:
+        """
+        Retrieve this node's output from a response.
+
+        Output fields: `future.outputs`
+
+        https://substrate.run/library#StableDiffusionXLLightning
+        """
+        klass = StableDiffusionXLLightningOut
+        json = response.api_response.json
+        if json and json.get("data"):
+            data = json["data"]
+            node_id = self.id
+            if data.get(self.id):
+                return klass(**data[self.id])
+        raise ValueError(f"Node {self.id} not found in response")
+
+    @property
+    def future(self) -> FutureStableDiffusionXLLightningOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.outputs`
+
+        https://substrate.run/library#StableDiffusionXLLightning
+        """
+        return super().future  # type: ignore
+
+
 class StableDiffusionXLInpaint(CoreNode):
     """
     Edit an image using [Stable Diffusion XL](https://arxiv.org/abs/2307.01952). Supports inpainting (edit part of the image with a mask) and image-to-image (edit the full image).
@@ -986,7 +1036,7 @@ class RealESRGAN(CoreNode):
 
     def __init__(self, args: RealESRGANIn):
         """
-        Input arguments: `image_uri`, `model` (optional), `store` (optional)
+        Input arguments: `image_uri`, `store` (optional)
 
         Output fields: `future.image_uri`
 
@@ -1073,14 +1123,14 @@ class RemoveBackground(CoreNode):
 
 class DISISNet(CoreNode):
     """
-    Segment an image using [DIS IS-Net](https://github.com/xuebinqin/DIS).
+    Segment image foreground using [DIS IS-Net](https://github.com/xuebinqin/DIS).
 
     https://substrate.run/library#DISISNet
     """
 
     def __init__(self, args: DISISNetIn):
         """
-        Input arguments: `image_uri`, `return_mask` (optional), `background_color` (optional), `store` (optional)
+        Input arguments: `image_uri`, `store` (optional)
 
         Output fields: `future.image_uri`
 
@@ -1785,7 +1835,7 @@ class QueryVectorStore(CoreNode):
 
     def __init__(self, args: QueryVectorStoreIn):
         """
-        Input arguments: `name`, `model`, `query_ids` (optional), `query_image_uris` (optional), `query_vectors` (optional), `query_strings` (optional), `top_k` (optional), `ef_search` (optional), `include_values` (optional), `include_metadata` (optional), `filters` (optional)
+        Input arguments: `name`, `model`, `query_ids` (optional), `query_image_uris` (optional), `query_vectors` (optional), `query_strings` (optional), `top_k` (optional), `ef_search` (optional), `include_values` (optional), `include_metadata` (optional), `filters` (optional), `metric` (optional)
 
         Output fields: `future.results`, `future.name` (optional), `future.model` (optional), `future.metric` (optional)
 
