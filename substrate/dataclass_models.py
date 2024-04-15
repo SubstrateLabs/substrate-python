@@ -22,6 +22,10 @@ class ErrorOut:
     """
     A message providing more details about the error.
     """
+    request_id: Optional[str] = None
+    """
+    A unique identifier for the request.
+    """
 
 
 @dataclass
@@ -30,7 +34,7 @@ class GenerateTextIn:
     """
     Input prompt.
     """
-    temperature: Optional[int] = 4
+    temperature: float = 0.4
     """
     Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
     """
@@ -38,7 +42,7 @@ class GenerateTextIn:
     """
     Maximum number of tokens to generate.
     """
-    node: Optional[Literal["Mistral7BInstruct"]] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct"] = "Mistral7BInstruct"
     """
     Selected node.
     """
@@ -62,7 +66,7 @@ class GenerateJSONIn:
     """
     JSON schema to guide `json_object` response.
     """
-    temperature: Optional[int] = 4
+    temperature: float = 0.4
     """
     Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
     """
@@ -70,7 +74,7 @@ class GenerateJSONIn:
     """
     Maximum number of tokens to generate.
     """
-    node: Optional[Literal["Mistral7BInstruct"]] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct"] = "Mistral7BInstruct"
     """
     Selected node.
     """
@@ -94,7 +98,7 @@ class MultiGenerateTextIn:
     """
     Number of choices to generate.
     """
-    temperature: Optional[int] = 4
+    temperature: float = 0.4
     """
     Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
     """
@@ -102,7 +106,7 @@ class MultiGenerateTextIn:
     """
     Maximum number of tokens to generate.
     """
-    node: Optional[Literal["Mistral7BInstruct"]] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct"] = "Mistral7BInstruct"
     """
     Selected node.
     """
@@ -111,6 +115,9 @@ class MultiGenerateTextIn:
 @dataclass
 class MultiGenerateTextOut:
     choices: List[GenerateTextOut]
+    """
+    Response choices.
+    """
 
 
 @dataclass
@@ -127,7 +134,7 @@ class MultiGenerateJSONIn:
     """
     Number of choices to generate.
     """
-    temperature: Optional[int] = 4
+    temperature: float = 0.4
     """
     Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
     """
@@ -135,7 +142,7 @@ class MultiGenerateJSONIn:
     """
     Maximum number of tokens to generate.
     """
-    node: Optional[Literal["Mistral7BInstruct"]] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct"] = "Mistral7BInstruct"
     """
     Selected node.
     """
@@ -144,6 +151,9 @@ class MultiGenerateJSONIn:
 @dataclass
 class MultiGenerateJSONOut:
     choices: List[GenerateJSONOut]
+    """
+    Response choices.
+    """
 
 
 @dataclass
@@ -185,6 +195,9 @@ class Mistral7BInstructChoice:
 @dataclass
 class Mistral7BInstructOut:
     choices: List[Mistral7BInstructChoice]
+    """
+    Response choices.
+    """
 
 
 @dataclass
@@ -197,15 +210,11 @@ class GenerateTextVisionIn:
     """
     Image prompts.
     """
-    temperature: Optional[int] = 4
-    """
-    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
-    """
-    max_tokens: Optional[int] = 800
+    max_tokens: int = 800
     """
     Maximum number of tokens to generate.
     """
-    node: Optional[Literal["Firellava13B"]] = "Firellava13B"
+    node: Literal["Firellava13B"] = "Firellava13B"
     """
     Selected node.
     """
@@ -229,11 +238,7 @@ class Firellava13BIn:
     """
     Image prompts.
     """
-    temperature: Optional[float] = None
-    """
-    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
-    """
-    max_tokens: Optional[int] = 800
+    max_tokens: int = 800
     """
     Maximum number of tokens to generate.
     """
@@ -257,7 +262,7 @@ class GenerateImageIn:
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    node: Optional[Literal["StableDiffusionXL"]] = "StableDiffusionXL"
+    node: Literal["StableDiffusionXL"] = "StableDiffusionXL"
     """
     Selected node.
     """
@@ -285,7 +290,7 @@ class MultiGenerateImageIn:
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    node: Optional[Literal["StableDiffusionXL"]] = "StableDiffusionXL"
+    node: Literal["StableDiffusionXL"] = "StableDiffusionXL"
     """
     Selected node.
     """
@@ -294,6 +299,9 @@ class MultiGenerateImageIn:
 @dataclass
 class MultiGenerateImageOut:
     outputs: List[GenerateImageOut]
+    """
+    Generated images.
+    """
 
 
 @dataclass
@@ -302,35 +310,35 @@ class StableDiffusionXLIn:
     """
     Text prompt.
     """
+    num_images: int
+    """
+    Number of images to generate.
+    """
     negative_prompt: Optional[str] = None
     """
     Negative input prompt.
     """
-    steps: Optional[int] = None
+    steps: int = 30
     """
     Number of diffusion steps.
-    """
-    num_images: Optional[int] = None
-    """
-    Number of images to generate.
     """
     store: Optional[str] = None
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    height: Optional[int] = None
+    height: int = 1024
     """
     Height of output image, in pixels.
     """
-    width: Optional[int] = None
+    width: int = 1024
     """
     Width of output image, in pixels.
     """
-    seeds: Optional[int] = None
+    seeds: Optional[List[int]] = None
     """
     Seeds for deterministic generation. Default is a random seed.
     """
-    guidance_scale: Optional[float] = 5
+    guidance_scale: float = 7
     """
     Higher values adhere to the text prompt more strongly, typically at the expense of image quality.
     """
@@ -351,6 +359,49 @@ class StableDiffusionImage:
 @dataclass
 class StableDiffusionXLOut:
     outputs: List[StableDiffusionImage]
+    """
+    Generated images.
+    """
+
+
+@dataclass
+class StableDiffusionXLLightningIn:
+    prompt: str
+    """
+    Text prompt.
+    """
+    negative_prompt: Optional[str] = None
+    """
+    Negative input prompt.
+    """
+    num_images: int = 1
+    """
+    Number of images to generate.
+    """
+    store: Optional[str] = None
+    """
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    height: Optional[int] = None
+    """
+    Height of output image, in pixels.
+    """
+    width: Optional[int] = None
+    """
+    Width of output image, in pixels.
+    """
+    seeds: Optional[List[int]] = None
+    """
+    Seeds for deterministic generation. Default is a random seed.
+    """
+
+
+@dataclass
+class StableDiffusionXLLightningOut:
+    outputs: List[StableDiffusionImage]
+    """
+    Generated images.
+    """
 
 
 @dataclass
@@ -396,6 +447,9 @@ class StableDiffusionXLIPAdapterIn:
 @dataclass
 class StableDiffusionXLIPAdapterOut:
     outputs: List[StableDiffusionImage]
+    """
+    Generated images.
+    """
 
 
 @dataclass
@@ -416,7 +470,7 @@ class StableDiffusionXLControlNetIn:
     """
     Number of images to generate.
     """
-    output_resolution: Optional[int] = 1024
+    output_resolution: int = 1024
     """
     Resolution of the output image, in pixels.
     """
@@ -441,6 +495,9 @@ class StableDiffusionXLControlNetIn:
 @dataclass
 class StableDiffusionXLControlNetOut:
     outputs: List[StableDiffusionImage]
+    """
+    Generated images.
+    """
 
 
 @dataclass
@@ -461,7 +518,7 @@ class GenerativeEditImageIn:
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    node: Optional[Literal["StableDiffusionXLInpaint"]] = "StableDiffusionXLInpaint"
+    node: Literal["StableDiffusionXLInpaint"] = "StableDiffusionXLInpaint"
     """
     Selected node.
     """
@@ -497,7 +554,7 @@ class MultiGenerativeEditImageIn:
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    node: Optional[Literal["StableDiffusionXLInpaint"]] = "StableDiffusionXLInpaint"
+    node: Literal["StableDiffusionXLInpaint"] = "StableDiffusionXLInpaint"
     """
     Selected node.
     """
@@ -506,6 +563,9 @@ class MultiGenerativeEditImageIn:
 @dataclass
 class MultiGenerativeEditImageOut:
     outputs: List[GenerativeEditImageOut]
+    """
+    Generated images.
+    """
 
 
 @dataclass
@@ -526,7 +586,7 @@ class StableDiffusionXLInpaintIn:
     """
     Mask image that controls which pixels are edited (inpainting). If unset, the entire image is edited (image-to-image).
     """
-    output_resolution: Optional[int] = 1024
+    output_resolution: int = 1024
     """
     Resolution of the output image, in pixels.
     """
@@ -538,7 +598,7 @@ class StableDiffusionXLInpaintIn:
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    strength: Optional[float] = 0.5
+    strength: float = 1
     """
     Controls the strength of the generation process.
     """
@@ -551,6 +611,9 @@ class StableDiffusionXLInpaintIn:
 @dataclass
 class StableDiffusionXLInpaintOut:
     outputs: List[StableDiffusionImage]
+    """
+    Generated images.
+    """
 
 
 @dataclass
@@ -599,7 +662,7 @@ class FillMaskIn:
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    node: Optional[Literal["BigLaMa"]] = "BigLaMa"
+    node: Literal["BigLaMa"] = "BigLaMa"
     """
     Selected node.
     """
@@ -643,7 +706,7 @@ class RemoveBackgroundIn:
     """
     Input image.
     """
-    return_mask: Optional[bool] = None
+    return_mask: bool = False
     """
     Return a mask image instead of the original content.
     """
@@ -655,7 +718,7 @@ class RemoveBackgroundIn:
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    node: Optional[Literal["DISISNet"]] = "DISISNet"
+    node: Literal["DISISNet"] = "DISISNet"
     """
     Selected node.
     """
@@ -674,14 +737,6 @@ class DISISNetIn:
     image_uri: str
     """
     Input image.
-    """
-    return_mask: Optional[bool] = None
-    """
-    Return a mask image instead of the original content.
-    """
-    background_color: Optional[str] = None
-    """
-    Hex value background color. Transparent if unset.
     """
     store: Optional[str] = None
     """
@@ -707,7 +762,7 @@ class UpscaleImageIn:
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    node: Optional[Literal["RealESRGAN"]] = "RealESRGAN"
+    node: Literal["RealESRGAN"] = "RealESRGAN"
     """
     Selected node.
     """
@@ -726,10 +781,6 @@ class RealESRGANIn:
     image_uri: str
     """
     Input image.
-    """
-    model: Optional[Literal["real-esrgan-x4"]] = "real-esrgan-x4"
-    """
-    Selected model.
     """
     store: Optional[str] = None
     """
@@ -759,7 +810,7 @@ class SegmentUnderPointIn:
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    node: Optional[Literal["SegmentAnything"]] = "SegmentAnything"
+    node: Literal["SegmentAnything"] = "SegmentAnything"
     """
     Selected node.
     """
@@ -811,23 +862,23 @@ class TranscribeMediaIn:
     """
     Prompt to guide model on the content and context of input audio.
     """
-    language: Optional[str] = "en"
+    language: str = "en"
     """
     Language of input audio in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) format.
     """
-    segment: Optional[bool] = False
+    segment: bool = False
     """
     Segment the text into sentences with approximate timestamps.
     """
-    align: Optional[bool] = False
+    align: bool = False
     """
     Align transcription to produce more accurate sentence-level timestamps and word-level timestamps. An array of word segments will be included in each sentence segment.
     """
-    diarize: Optional[bool] = False
+    diarize: bool = False
     """
     Identify speakers for each segment. Speaker IDs will be included in each segment.
     """
-    suggest_chapters: Optional[bool] = False
+    suggest_chapters: bool = False
     """
     Suggest automatic chapter markers.
     """
@@ -915,7 +966,7 @@ class GenerateSpeechIn:
     """
     Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the audio data will be returned as a base64-encoded string.
     """
-    node: Optional[Literal["XTTSV2"]] = "XTTSV2"
+    node: Literal["XTTSV2"] = "XTTSV2"
     """
     Selected node.
     """
@@ -939,7 +990,7 @@ class XTTSV2In:
     """
     Reference audio used to synthesize the speaker. If unset, a default speaker voice will be used.
     """
-    language: Optional[str] = "en"
+    language: str = "en"
     """
     Language of input text. Supported languages: `en, de, fr, es, it, pt, pl, zh, ar, cs, ru, nl, tr, hu, ko`.
     """
@@ -995,7 +1046,7 @@ class EmbedTextIn:
     """
     Vector store document ID. Ignored if `store` is unset.
     """
-    node: Optional[Literal["JinaV2", "CLIP"]] = "JinaV2"
+    node: Literal["JinaV2", "CLIP"] = "JinaV2"
     """
     Selected node.
     """
@@ -1039,7 +1090,7 @@ class MultiEmbedTextIn:
     """
     Choose keys from `metadata` to embed with text.
     """
-    node: Optional[Literal["JinaV2", "CLIP"]] = "JinaV2"
+    node: Literal["JinaV2", "CLIP"] = "JinaV2"
     """
     Selected node.
     """
@@ -1091,7 +1142,7 @@ class EmbedImageIn:
     """
     Vector store document ID. Ignored if `store` is unset.
     """
-    node: Optional[Literal["CLIP"]] = "CLIP"
+    node: Literal["CLIP"] = "CLIP"
     """
     Selected node.
     """
@@ -1147,7 +1198,7 @@ class MultiEmbedImageIn:
     """
     [Vector store](/docs/vector-stores) identifier.
     """
-    node: Optional[Literal["CLIP"]] = "CLIP"
+    node: Literal["CLIP"] = "CLIP"
     """
     Selected node.
     """
@@ -1195,15 +1246,15 @@ class CreateVectorStoreIn:
     """
     Selected embedding model
     """
-    m: Optional[int] = 16
+    m: int = 16
     """
     The max number of connections per layer for the index.
     """
-    ef_construction: Optional[int] = 64
+    ef_construction: int = 64
     """
     The size of the dynamic candidate list for constructing the index graph.
     """
-    metric: Optional[Literal["cosine", "l2", "inner"]] = "inner"
+    metric: Literal["cosine", "l2", "inner"] = "inner"
     """
     The distance metric to construct the index with.
     """
@@ -1404,25 +1455,29 @@ class QueryVectorStoreIn:
     """
     Texts to embed and use for the query.
     """
-    top_k: Optional[int] = 10
+    top_k: int = 10
     """
     Number of results to return.
     """
-    ef_search: Optional[int] = 40
+    ef_search: int = 40
     """
     The size of the dynamic candidate list for searching the index graph.
     """
-    include_values: Optional[bool] = False
+    include_values: bool = False
     """
     Include the values of the vectors in the response.
     """
-    include_metadata: Optional[bool] = False
+    include_metadata: bool = False
     """
     Include the metadata of the vectors in the response.
     """
     filters: Optional[Dict[str, Any]] = None
     """
     Filter metadata by key-value pairs.
+    """
+    metric: Optional[Literal["cosine", "l2", "inner"]] = None
+    """
+    The distance metric used for the query. Defaults to the distance metric the vector store was created with.
     """
 
 

@@ -28,6 +28,11 @@ class ErrorOut:
     (Future reference)
     A message providing more details about the error.
     """
+    request_id: Optional[str] = None
+    """
+    (Future reference)
+    A unique identifier for the request.
+    """
 
 
 @dataclass
@@ -41,7 +46,7 @@ class FutureGenerateTextIn:
     (Future reference)
     Input prompt.
     """
-    temperature: Optional[int] = 4
+    temperature: float = 0.4
     """
     (Future reference)
     Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
@@ -51,7 +56,7 @@ class FutureGenerateTextIn:
     (Future reference)
     Maximum number of tokens to generate.
     """
-    node: Optional[Literal["Mistral7BInstruct"]] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct"] = "Mistral7BInstruct"
     """
     (Future reference)
     Selected node.
@@ -87,7 +92,7 @@ class FutureGenerateJSONIn:
     (Future reference)
     JSON schema to guide `json_object` response.
     """
-    temperature: Optional[int] = 4
+    temperature: float = 0.4
     """
     (Future reference)
     Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
@@ -97,7 +102,7 @@ class FutureGenerateJSONIn:
     (Future reference)
     Maximum number of tokens to generate.
     """
-    node: Optional[Literal["Mistral7BInstruct"]] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct"] = "Mistral7BInstruct"
     """
     (Future reference)
     Selected node.
@@ -133,7 +138,7 @@ class FutureMultiGenerateTextIn:
     (Future reference)
     Number of choices to generate.
     """
-    temperature: Optional[int] = 4
+    temperature: float = 0.4
     """
     (Future reference)
     Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
@@ -143,7 +148,7 @@ class FutureMultiGenerateTextIn:
     (Future reference)
     Maximum number of tokens to generate.
     """
-    node: Optional[Literal["Mistral7BInstruct"]] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct"] = "Mistral7BInstruct"
     """
     (Future reference)
     Selected node.
@@ -157,6 +162,10 @@ class FutureMultiGenerateTextOut:
     """
 
     choices: List[FutureGenerateTextOut]
+    """
+    (Future reference)
+    Response choices.
+    """
 
 
 @dataclass
@@ -180,7 +189,7 @@ class FutureMultiGenerateJSONIn:
     (Future reference)
     Number of choices to generate.
     """
-    temperature: Optional[int] = 4
+    temperature: float = 0.4
     """
     (Future reference)
     Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
@@ -190,7 +199,7 @@ class FutureMultiGenerateJSONIn:
     (Future reference)
     Maximum number of tokens to generate.
     """
-    node: Optional[Literal["Mistral7BInstruct"]] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct"] = "Mistral7BInstruct"
     """
     (Future reference)
     Selected node.
@@ -204,6 +213,10 @@ class FutureMultiGenerateJSONOut:
     """
 
     choices: List[FutureGenerateJSONOut]
+    """
+    (Future reference)
+    Response choices.
+    """
 
 
 @dataclass
@@ -264,6 +277,10 @@ class FutureMistral7BInstructOut:
     """
 
     choices: List[Mistral7BInstructChoice]
+    """
+    (Future reference)
+    Response choices.
+    """
 
 
 @dataclass
@@ -282,17 +299,12 @@ class FutureGenerateTextVisionIn:
     (Future reference)
     Image prompts.
     """
-    temperature: Optional[int] = 4
-    """
-    (Future reference)
-    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
-    """
-    max_tokens: Optional[int] = 800
+    max_tokens: int = 800
     """
     (Future reference)
     Maximum number of tokens to generate.
     """
-    node: Optional[Literal["Firellava13B"]] = "Firellava13B"
+    node: Literal["Firellava13B"] = "Firellava13B"
     """
     (Future reference)
     Selected node.
@@ -328,12 +340,7 @@ class FutureFirellava13BIn:
     (Future reference)
     Image prompts.
     """
-    temperature: Optional[float] = None
-    """
-    (Future reference)
-    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
-    """
-    max_tokens: Optional[int] = 800
+    max_tokens: int = 800
     """
     (Future reference)
     Maximum number of tokens to generate.
@@ -369,7 +376,7 @@ class FutureGenerateImageIn:
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    node: Optional[Literal["StableDiffusionXL"]] = "StableDiffusionXL"
+    node: Literal["StableDiffusionXL"] = "StableDiffusionXL"
     """
     (Future reference)
     Selected node.
@@ -410,7 +417,7 @@ class FutureMultiGenerateImageIn:
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    node: Optional[Literal["StableDiffusionXL"]] = "StableDiffusionXL"
+    node: Literal["StableDiffusionXL"] = "StableDiffusionXL"
     """
     (Future reference)
     Selected node.
@@ -424,6 +431,10 @@ class FutureMultiGenerateImageOut:
     """
 
     outputs: List[FutureGenerateImageOut]
+    """
+    (Future reference)
+    Generated images.
+    """
 
 
 @dataclass
@@ -437,42 +448,42 @@ class FutureStableDiffusionXLIn:
     (Future reference)
     Text prompt.
     """
+    num_images: int
+    """
+    (Future reference)
+    Number of images to generate.
+    """
     negative_prompt: Optional[str] = None
     """
     (Future reference)
     Negative input prompt.
     """
-    steps: Optional[int] = None
+    steps: int = 30
     """
     (Future reference)
     Number of diffusion steps.
-    """
-    num_images: Optional[int] = None
-    """
-    (Future reference)
-    Number of images to generate.
     """
     store: Optional[str] = None
     """
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    height: Optional[int] = None
+    height: int = 1024
     """
     (Future reference)
     Height of output image, in pixels.
     """
-    width: Optional[int] = None
+    width: int = 1024
     """
     (Future reference)
     Width of output image, in pixels.
     """
-    seeds: Optional[int] = None
+    seeds: Optional[List[int]] = None
     """
     (Future reference)
     Seeds for deterministic generation. Default is a random seed.
     """
-    guidance_scale: Optional[float] = 5
+    guidance_scale: float = 7
     """
     (Future reference)
     Higher values adhere to the text prompt more strongly, typically at the expense of image quality.
@@ -504,6 +515,66 @@ class FutureStableDiffusionXLOut:
     """
 
     outputs: List[StableDiffusionImage]
+    """
+    (Future reference)
+    Generated images.
+    """
+
+
+@dataclass
+class FutureStableDiffusionXLLightningIn:
+    """
+    (Future reference)
+    """
+
+    prompt: str
+    """
+    (Future reference)
+    Text prompt.
+    """
+    negative_prompt: Optional[str] = None
+    """
+    (Future reference)
+    Negative input prompt.
+    """
+    num_images: int = 1
+    """
+    (Future reference)
+    Number of images to generate.
+    """
+    store: Optional[str] = None
+    """
+    (Future reference)
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    """
+    height: Optional[int] = None
+    """
+    (Future reference)
+    Height of output image, in pixels.
+    """
+    width: Optional[int] = None
+    """
+    (Future reference)
+    Width of output image, in pixels.
+    """
+    seeds: Optional[List[int]] = None
+    """
+    (Future reference)
+    Seeds for deterministic generation. Default is a random seed.
+    """
+
+
+@dataclass
+class FutureStableDiffusionXLLightningOut:
+    """
+    (Future reference)
+    """
+
+    outputs: List[StableDiffusionImage]
+    """
+    (Future reference)
+    Generated images.
+    """
 
 
 @dataclass
@@ -566,6 +637,10 @@ class FutureStableDiffusionXLIPAdapterOut:
     """
 
     outputs: List[StableDiffusionImage]
+    """
+    (Future reference)
+    Generated images.
+    """
 
 
 @dataclass
@@ -594,7 +669,7 @@ class FutureStableDiffusionXLControlNetIn:
     (Future reference)
     Number of images to generate.
     """
-    output_resolution: Optional[int] = 1024
+    output_resolution: int = 1024
     """
     (Future reference)
     Resolution of the output image, in pixels.
@@ -628,6 +703,10 @@ class FutureStableDiffusionXLControlNetOut:
     """
 
     outputs: List[StableDiffusionImage]
+    """
+    (Future reference)
+    Generated images.
+    """
 
 
 @dataclass
@@ -656,7 +735,7 @@ class FutureGenerativeEditImageIn:
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    node: Optional[Literal["StableDiffusionXLInpaint"]] = "StableDiffusionXLInpaint"
+    node: Literal["StableDiffusionXLInpaint"] = "StableDiffusionXLInpaint"
     """
     (Future reference)
     Selected node.
@@ -707,7 +786,7 @@ class FutureMultiGenerativeEditImageIn:
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    node: Optional[Literal["StableDiffusionXLInpaint"]] = "StableDiffusionXLInpaint"
+    node: Literal["StableDiffusionXLInpaint"] = "StableDiffusionXLInpaint"
     """
     (Future reference)
     Selected node.
@@ -721,6 +800,10 @@ class FutureMultiGenerativeEditImageOut:
     """
 
     outputs: List[FutureGenerativeEditImageOut]
+    """
+    (Future reference)
+    Generated images.
+    """
 
 
 @dataclass
@@ -749,7 +832,7 @@ class FutureStableDiffusionXLInpaintIn:
     (Future reference)
     Mask image that controls which pixels are edited (inpainting). If unset, the entire image is edited (image-to-image).
     """
-    output_resolution: Optional[int] = 1024
+    output_resolution: int = 1024
     """
     (Future reference)
     Resolution of the output image, in pixels.
@@ -764,7 +847,7 @@ class FutureStableDiffusionXLInpaintIn:
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    strength: Optional[float] = 0.5
+    strength: float = 1
     """
     (Future reference)
     Controls the strength of the generation process.
@@ -783,6 +866,10 @@ class FutureStableDiffusionXLInpaintOut:
     """
 
     outputs: List[StableDiffusionImage]
+    """
+    (Future reference)
+    Generated images.
+    """
 
 
 @dataclass
@@ -852,7 +939,7 @@ class FutureFillMaskIn:
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    node: Optional[Literal["BigLaMa"]] = "BigLaMa"
+    node: Literal["BigLaMa"] = "BigLaMa"
     """
     (Future reference)
     Selected node.
@@ -919,7 +1006,7 @@ class FutureRemoveBackgroundIn:
     (Future reference)
     Input image.
     """
-    return_mask: Optional[bool] = None
+    return_mask: bool = False
     """
     (Future reference)
     Return a mask image instead of the original content.
@@ -934,7 +1021,7 @@ class FutureRemoveBackgroundIn:
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    node: Optional[Literal["DISISNet"]] = "DISISNet"
+    node: Literal["DISISNet"] = "DISISNet"
     """
     (Future reference)
     Selected node.
@@ -964,16 +1051,6 @@ class FutureDISISNetIn:
     """
     (Future reference)
     Input image.
-    """
-    return_mask: Optional[bool] = None
-    """
-    (Future reference)
-    Return a mask image instead of the original content.
-    """
-    background_color: Optional[str] = None
-    """
-    (Future reference)
-    Hex value background color. Transparent if unset.
     """
     store: Optional[str] = None
     """
@@ -1011,7 +1088,7 @@ class FutureUpscaleImageIn:
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    node: Optional[Literal["RealESRGAN"]] = "RealESRGAN"
+    node: Literal["RealESRGAN"] = "RealESRGAN"
     """
     (Future reference)
     Selected node.
@@ -1041,11 +1118,6 @@ class FutureRealESRGANIn:
     """
     (Future reference)
     Input image.
-    """
-    model: Optional[Literal["real-esrgan-x4"]] = "real-esrgan-x4"
-    """
-    (Future reference)
-    Selected model.
     """
     store: Optional[str] = None
     """
@@ -1088,7 +1160,7 @@ class FutureSegmentUnderPointIn:
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    node: Optional[Literal["SegmentAnything"]] = "SegmentAnything"
+    node: Literal["SegmentAnything"] = "SegmentAnything"
     """
     (Future reference)
     Selected node.
@@ -1165,27 +1237,27 @@ class FutureTranscribeMediaIn:
     (Future reference)
     Prompt to guide model on the content and context of input audio.
     """
-    language: Optional[str] = "en"
+    language: str = "en"
     """
     (Future reference)
     Language of input audio in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) format.
     """
-    segment: Optional[bool] = False
+    segment: bool = False
     """
     (Future reference)
     Segment the text into sentences with approximate timestamps.
     """
-    align: Optional[bool] = False
+    align: bool = False
     """
     (Future reference)
     Align transcription to produce more accurate sentence-level timestamps and word-level timestamps. An array of word segments will be included in each sentence segment.
     """
-    diarize: Optional[bool] = False
+    diarize: bool = False
     """
     (Future reference)
     Identify speakers for each segment. Speaker IDs will be included in each segment.
     """
-    suggest_chapters: Optional[bool] = False
+    suggest_chapters: bool = False
     """
     (Future reference)
     Suggest automatic chapter markers.
@@ -1310,7 +1382,7 @@ class FutureGenerateSpeechIn:
     (Future reference)
     Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the audio data will be returned as a base64-encoded string.
     """
-    node: Optional[Literal["XTTSV2"]] = "XTTSV2"
+    node: Literal["XTTSV2"] = "XTTSV2"
     """
     (Future reference)
     Selected node.
@@ -1346,7 +1418,7 @@ class FutureXTTSV2In:
     (Future reference)
     Reference audio used to synthesize the speaker. If unset, a default speaker voice will be used.
     """
-    language: Optional[str] = "en"
+    language: str = "en"
     """
     (Future reference)
     Language of input text. Supported languages: `en, de, fr, es, it, pt, pl, zh, ar, cs, ru, nl, tr, hu, ko`.
@@ -1425,7 +1497,7 @@ class FutureEmbedTextIn:
     (Future reference)
     Vector store document ID. Ignored if `store` is unset.
     """
-    node: Optional[Literal["JinaV2", "CLIP"]] = "JinaV2"
+    node: Literal["JinaV2", "CLIP"] = "JinaV2"
     """
     (Future reference)
     Selected node.
@@ -1489,7 +1561,7 @@ class FutureMultiEmbedTextIn:
     (Future reference)
     Choose keys from `metadata` to embed with text.
     """
-    node: Optional[Literal["JinaV2", "CLIP"]] = "JinaV2"
+    node: Literal["JinaV2", "CLIP"] = "JinaV2"
     """
     (Future reference)
     Selected node.
@@ -1566,7 +1638,7 @@ class FutureEmbedImageIn:
     (Future reference)
     Vector store document ID. Ignored if `store` is unset.
     """
-    node: Optional[Literal["CLIP"]] = "CLIP"
+    node: Literal["CLIP"] = "CLIP"
     """
     (Future reference)
     Selected node.
@@ -1648,7 +1720,7 @@ class FutureMultiEmbedImageIn:
     (Future reference)
     [Vector store](/docs/vector-stores) identifier.
     """
-    node: Optional[Literal["CLIP"]] = "CLIP"
+    node: Literal["CLIP"] = "CLIP"
     """
     (Future reference)
     Selected node.
@@ -1720,17 +1792,17 @@ class FutureCreateVectorStoreIn:
     (Future reference)
     Selected embedding model
     """
-    m: Optional[int] = 16
+    m: int = 16
     """
     (Future reference)
     The max number of connections per layer for the index.
     """
-    ef_construction: Optional[int] = 64
+    ef_construction: int = 64
     """
     (Future reference)
     The size of the dynamic candidate list for constructing the index graph.
     """
-    metric: Optional[Literal["cosine", "l2", "inner"]] = "inner"
+    metric: Literal["cosine", "l2", "inner"] = "inner"
     """
     (Future reference)
     The distance metric to construct the index with.
@@ -2019,22 +2091,22 @@ class FutureQueryVectorStoreIn:
     (Future reference)
     Texts to embed and use for the query.
     """
-    top_k: Optional[int] = 10
+    top_k: int = 10
     """
     (Future reference)
     Number of results to return.
     """
-    ef_search: Optional[int] = 40
+    ef_search: int = 40
     """
     (Future reference)
     The size of the dynamic candidate list for searching the index graph.
     """
-    include_values: Optional[bool] = False
+    include_values: bool = False
     """
     (Future reference)
     Include the values of the vectors in the response.
     """
-    include_metadata: Optional[bool] = False
+    include_metadata: bool = False
     """
     (Future reference)
     Include the metadata of the vectors in the response.
@@ -2043,6 +2115,11 @@ class FutureQueryVectorStoreIn:
     """
     (Future reference)
     Filter metadata by key-value pairs.
+    """
+    metric: Optional[Literal["cosine", "l2", "inner"]] = None
+    """
+    (Future reference)
+    The distance metric used for the query. Defaults to the distance metric the vector store was created with.
     """
 
 

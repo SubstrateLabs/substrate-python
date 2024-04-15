@@ -88,6 +88,7 @@ def get_architecture() -> Arch:
 class APIResponse:
     http_response: httpx.Response
     _json: Optional[Dict[str, Any]]
+    request: Optional[Dict[str, Any]] = None
 
     def __init__(self, http_response: httpx.Response):
         self.http_response = http_response
@@ -194,10 +195,13 @@ class APIClient:
         body = {"dag": dag}
         http_response = self._client.post(url, headers=self.default_headers, json=body)
         res = APIResponse(http_response=http_response)
+        res.request = body
         return res
 
     async def async_post_compose(self, dag: Dict[str, Any]) -> APIResponse:
         url = f"{self.base_url}/compose"
         body = {"dag": dag}
         http_response = await self._async_client.post(url, headers=self.default_headers, json=body)
-        return APIResponse(http_response=http_response)
+        res = APIResponse(http_response=http_response)
+        res.request = body
+        return res
