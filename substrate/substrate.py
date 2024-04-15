@@ -1,25 +1,10 @@
-from ._client import APIClient, APIResponse
+from ._client import APIClient
 from .core.corenode import CoreNode
 from .core.client.graph import Graph
+from .substrate_response import SubstrateResponse
 
 
-class SubstrateResponse:
-    """
-    Substrate run response.
-    """
-
-    def __init__(self, api_response: APIResponse):
-        self._api_response = api_response
-
-    @property
-    def api_response(self) -> APIResponse:
-        """
-        The raw API response.
-        """
-        return self._api_response
-
-
-class SubstrateBase:
+class Substrate:
     """
     Substrate client.
     """
@@ -42,15 +27,9 @@ class SubstrateBase:
         api_response = self._client.post_compose(dag=graph_serialized)
         return SubstrateResponse(api_response=api_response)
 
-
-class AsyncSubstrate(SubstrateBase):
-    """
-    Async Substrate client.
-    """
-
-    async def run(self, *nodes: CoreNode) -> SubstrateResponse:
+    async def async_run(self, *nodes: CoreNode) -> SubstrateResponse:
         """
-        Run the given nodes.
+        Asynchronously run the given nodes.
         """
         graph = Graph()
         for node in nodes:
