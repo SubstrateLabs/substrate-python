@@ -48,11 +48,10 @@ from .nodes import (
 )
 from .core.sb import sb
 from ._version import __version__
-from .substrate import Substrate, AsyncSubstrate, SubstrateResponse
+from .substrate import Substrate, SubstrateResponse
 
 __all__ = [
     "__version__",
-    "AsyncSubstrate",
     "SubstrateResponse",
     "sb",
     "Substrate",
