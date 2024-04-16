@@ -1,3 +1,5 @@
+from typing import Any, Dict
+
 from ._client import APIClient
 from .core.corenode import CoreNode
 from .core.client.graph import Graph
@@ -9,12 +11,23 @@ class Substrate:
     Substrate client.
     """
 
-    def __init__(self, api_key: str, base_url: str = "https://api.substrate.run", backend: str = "v0"):
+    def __init__(
+        self,
+        api_key: str,
+        base_url: str = "https://api.substrate.run",
+        backend: str = "v0",
+        additional_headers: Dict[str, Any] = {},
+    ):
         """
         Initialize the Substrate SDK.
         """
         self.api_key = api_key
-        self._client = APIClient(api_key=api_key, base_url=base_url, backend=backend)
+        self._client = APIClient(
+            api_key=api_key,
+            base_url=base_url,
+            backend=backend,
+            additional_headers=additional_headers,
+        )
 
     def run(self, *nodes: CoreNode) -> SubstrateResponse:
         """

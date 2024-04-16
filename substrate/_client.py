@@ -141,16 +141,25 @@ class APIResponse:
 
 
 class APIClient:
-    api_key: str
-    base_url: str
+    _api_key: str
+    _base_url: str
     _client: httpx.Client
     _async_client: httpx.AsyncClient
     _version: str
+    _backend: str
+    _additional_headers: Dict[str, Any]
 
-    def __init__(self, api_key: str, base_url: str, backend: str) -> None:
-        self.api_key = api_key
-        self.base_url = base_url
-        self.backend = backend
+    def __init__(
+        self,
+        api_key: str,
+        base_url: str,
+        backend: str,
+        additional_headers: Dict[str, Any] = {},
+    ) -> None:
+        self._api_key = api_key
+        self._base_url = base_url
+        self._backend = backend
+        self._additional_headers = additional_headers
         timeout = httpx.Timeout(60.0)  # default is 5s
         self._client = httpx.Client(timeout=timeout)
         self._async_client = httpx.AsyncClient(timeout=timeout)
@@ -185,13 +194,14 @@ class APIClient:
             "Accept": "application/json",
             "Content-Type": "application/json",
             "User-Agent": self.user_agent,
-            "X-Substrate-Backend": self.backend,
+            "X-Substrate-Backend": self._backend,
             **self.platform_headers,
             **self.auth_headers,
+            **self._additional_headers,
         }
 
     def post_compose(self, dag: Dict[str, Any]) -> APIResponse:
-        url = f"{self.base_url}/compose"
+        url = f"{self._base_url}/compose"
         body = {"dag": dag}
         http_response = self._client.post(url, headers=self.default_headers, json=body)
         res = APIResponse(http_response=http_response)
@@ -199,7 +209,7 @@ class APIClient:
         return res
 
     async def async_post_compose(self, dag: Dict[str, Any]) -> APIResponse:
-        url = f"{self.base_url}/compose"
+        url = f"{self._base_url}/compose"
         body = {"dag": dag}
         http_response = await self._async_client.post(url, headers=self.default_headers, json=body)
         res = APIResponse(http_response=http_response)
