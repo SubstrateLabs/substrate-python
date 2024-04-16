@@ -24,18 +24,18 @@ trio = ["trio (>=0.23)"]
 
 [[package]]
 name = "backports-tarfile"
-version = "1.0.0"
+version = "1.1.0"
 description = "Backport of CPython tarfile module"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "backports.tarfile-1.0.0-py3-none-any.whl", hash = "sha256:bcd36290d9684beb524d3fe74f4a2db056824c47746583f090b8e55daf0776e4"},
-    {file = "backports.tarfile-1.0.0.tar.gz", hash = "sha256:2688f159c21afd56a07b75f01306f9f52c79aebcc5f4a117fb8fbb4445352c75"},
+    {file = "backports.tarfile-1.1.0-py3-none-any.whl", hash = "sha256:b2f4df351db942d094db94588bbf2c6938697a5f190f44c934acc697da56008b"},
+    {file = "backports_tarfile-1.1.0.tar.gz", hash = "sha256:91d59138ea401ee2a95e8b839c1e2f51f3e9ca76bdba8b6a29f8d773564686a8"},
 ]
 
 [package.extras]
 docs = ["furo", "jaraco.packaging (>=9.3)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-lint"]
-testing = ["pytest (>=6,!=8.1.1)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)"]
+testing = ["jaraco.test", "pytest (>=6,!=8.1.1)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)"]
 
 [[package]]
 name = "black"
@@ -636,13 +636,13 @@ testing = ["pytest (>=6,!=8.1.1)", "pytest-checkdocs (>=2.4)", "pytest-cov", "py
 
 [[package]]
 name = "marimo"
-version = "0.3.12"
+version = "0.4.0"
 description = "A library for making reactive notebooks and apps"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "marimo-0.3.12-py3-none-any.whl", hash = "sha256:769720a49d9512372f7260bbb48390828eb42e253175d0b04b9b245a70f835ef"},
-    {file = "marimo-0.3.12.tar.gz", hash = "sha256:e0ec1363838591341c42a1e7b6371fc0f4f1e30fb618f114072fd7816fe70135"},
+    {file = "marimo-0.4.0-py3-none-any.whl", hash = "sha256:b393829b49f96a832fd821f48ffbbfcbdb6f54e3fdbb097f2c7d88060b873168"},
+    {file = "marimo-0.4.0.tar.gz", hash = "sha256:22233b889b3708897a5a3b2d82fb49cc8ca554be3d8d11b6e3a194e46e46106d"},
 ]
 
 [package.dependencies]
@@ -660,7 +660,7 @@ uvicorn = ">=0.22.0"
 websockets = ">=10.0.0,<13.0.0"
 
 [package.extras]
-dev = ["autoclasstoc (>=1.6.0,<1.7.0)", "black (>=23.3.0,<23.4.0)", "build (>=0.10.0,<0.11.0)", "click (<8.1.4)", "furo (==2023.5.20)", "httpx (>=0.26.0,<0.27.0)", "mypy (>=1.7.0,<1.8.0)", "myst-parser (>=2.0.0,<2.1.0)", "pandas (>=1.3.0)", "pandas-stubs (>=1.3.0)", "pillow (>=10.2.0,<10.3.0)", "polars (==0.19.12)", "pyarrow (>=15.0.2,<16)", "pyarrow-stubs (>=10)", "pypandoc (>=1.11,<2.0)", "pytest (>=7.4.0,<7.5.0)", "pytest-asyncio (>=0.23.4,<0.24.0)", "pytest-codecov (>=0.5.1,<0.6.0)", "ruff (>=0.0.275,<0.1.0)", "sphinx (==7.0.1)", "sphinx-copybutton (>=0.5.2,<0.6.0)", "sphinx-design (>=0.5.0,<0.6.0)", "sphinx-new-tab-link (>=0.1.1,<0.2.0)", "sphinx-sitemap (>=2.5.1,<2.6.0)", "types-Pillow (>=10.2.0.20240311,<10.3.0.0)", "typos (>=1.17.1,<1.18.0)"]
+dev = ["autoclasstoc (>=1.6.0,<1.7.0)", "black (>=23.3.0,<23.4.0)", "build (>=0.10.0,<0.11.0)", "click (<8.1.4)", "furo (==2023.5.20)", "httpx (>=0.26.0,<0.27.0)", "mypy (>=1.7.0,<1.8.0)", "myst-parser (>=2.0.0,<2.1.0)", "pandas (>=1.3.0)", "pandas-stubs (>=1.3.0)", "pillow (>=10.2.0,<10.3.0)", "polars (==0.19.12)", "pyarrow (>=15.0.2,<16)", "pyarrow-stubs (>=10)", "pypandoc (>=1.11,<2.0)", "pytest (>=7.4.0,<7.5.0)", "pytest-asyncio (>=0.23.4,<0.24.0)", "pytest-codecov (>=0.5.1,<0.6.0)", "ruff (>=0.3.6,<0.4.0)", "sphinx (==7.0.1)", "sphinx-copybutton (>=0.5.2,<0.6.0)", "sphinx-design (>=0.5.0,<0.6.0)", "sphinx-new-tab-link (>=0.1.1,<0.2.0)", "sphinx-sitemap (>=2.5.1,<2.6.0)", "types-Pillow (>=10.2.0.20240311,<10.3.0.0)", "typos (>=1.17.1,<1.18.0)"]
 testcore = ["click (<8.1.4)", "httpx (>=0.26.0,<0.27.0)", "pytest (>=7.4.0,<7.5.0)", "pytest-asyncio (>=0.23.4,<0.24.0)", "pytest-codecov (>=0.5.1,<0.6.0)"]
 testoptional = ["altair (>=5.0.0)", "anywidget (>=0.9.3,<0.10.0)", "ipython (>=8.12.3,<8.13.0)", "openai (>=1.12.0,<1.13.0)", "pandas (>=1.3.0)", "pandas-stubs (>=1.3.0)", "pillow (>=10.2.0,<10.3.0)", "polars (==0.19.12)", "pyarrow (>=15.0.2,<16)", "pyarrow-stubs (>=10)", "types-Pillow (>=10.2.0.20240311,<10.3.0.0)"]
 

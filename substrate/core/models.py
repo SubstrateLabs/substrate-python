@@ -103,11 +103,15 @@ class MultiGenerateTextIn(BaseModel):
     class Config:
         extra = Extra.allow
 
-    prompt: str
+    prompt: Optional[str] = None
     """
     Input prompt.
     """
-    num_choices: Annotated[int, Field(ge=1, le=8)]
+    batch_prompts: Optional[List[str]] = None
+    """
+    Batch input prompts.
+    """
+    num_choices: Annotated[int, Field(ge=1, le=8)] = 1
     """
     Number of choices to generate.
     """
@@ -125,7 +129,7 @@ class MultiGenerateTextIn(BaseModel):
     """
 
 
-class MultiGenerateTextOut(BaseModel):
+class MultiGenerateTextOutput(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -135,11 +139,21 @@ class MultiGenerateTextOut(BaseModel):
     """
 
 
+class MultiGenerateTextOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    outputs: List[MultiGenerateTextOutput]
+    """
+    A single output for `prompt`, or multiple outputs for `batch_prompts`.
+    """
+
+
 class MultiGenerateJSONIn(BaseModel):
     class Config:
         extra = Extra.allow
 
-    prompt: str
+    prompt: Optional[str] = None
     """
     Input prompt.
     """
@@ -147,7 +161,11 @@ class MultiGenerateJSONIn(BaseModel):
     """
     JSON schema to guide `json_object` response.
     """
-    num_choices: Annotated[int, Field(ge=1, le=8)]
+    batch_prompts: Optional[List[str]] = None
+    """
+    Batch input prompts.
+    """
+    num_choices: Annotated[int, Field(ge=1, le=8)] = 2
     """
     Number of choices to generate.
     """
@@ -165,7 +183,7 @@ class MultiGenerateJSONIn(BaseModel):
     """
 
 
-class MultiGenerateJSONOut(BaseModel):
+class MultiGenerateJSONOutput(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -175,21 +193,35 @@ class MultiGenerateJSONOut(BaseModel):
     """
 
 
+class MultiGenerateJSONOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    outputs: List[MultiGenerateJSONOutput]
+    """
+    A single output for `prompt`, or multiple outputs for `batch_prompts`.
+    """
+
+
 class Mistral7BInstructIn(BaseModel):
     class Config:
         extra = Extra.allow
 
-    prompt: str
+    prompt: Optional[str] = None
     """
     Input prompt.
     """
-    num_choices: Annotated[int, Field(ge=1, le=8)]
+    num_choices: Annotated[int, Field(ge=1, le=8)] = 1
     """
     Number of choices to generate.
     """
     json_schema: Optional[Dict[str, Any]] = None
     """
     JSON schema to guide response.
+    """
+    batch_prompts: Optional[List[str]] = None
+    """
+    Batch input prompts.
     """
     temperature: Annotated[Optional[float], Field(ge=0.0, le=1.0)] = None
     """
@@ -215,13 +247,23 @@ class Mistral7BInstructChoice(BaseModel):
     """
 
 
-class Mistral7BInstructOut(BaseModel):
+class Mistral7BInstructOutput(BaseModel):
     class Config:
         extra = Extra.allow
 
     choices: List[Mistral7BInstructChoice]
     """
     Response choices.
+    """
+
+
+class Mistral7BInstructOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    outputs: List[Mistral7BInstructOutput]
+    """
+    A single output for `prompt`, or multiple outputs for `batch_prompts`.
     """
 
 
@@ -369,11 +411,11 @@ class StableDiffusionXLIn(BaseModel):
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    height: Annotated[int, Field(ge=640, le=1536)] = 1024
+    height: Annotated[int, Field(ge=256, le=1536)] = 1024
     """
     Height of output image, in pixels.
     """
-    width: Annotated[int, Field(ge=640, le=1536)] = 1024
+    width: Annotated[int, Field(ge=256, le=1536)] = 1024
     """
     Width of output image, in pixels.
     """
@@ -431,11 +473,11 @@ class StableDiffusionXLLightningIn(BaseModel):
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    height: Optional[int] = None
+    height: Annotated[int, Field(ge=256, le=1536)] = 1024
     """
     Height of output image, in pixels.
     """
-    width: Optional[int] = None
+    width: Annotated[int, Field(ge=256, le=1536)] = 1024
     """
     Width of output image, in pixels.
     """
@@ -471,7 +513,7 @@ class StableDiffusionXLIPAdapterIn(BaseModel):
     """
     Number of images to generate.
     """
-    ip_adapter_scale: Annotated[Optional[float], Field(ge=0.0)] = None
+    ip_adapter_scale: Annotated[float, Field(ge=0.0, le=1.0)] = 0.5
     """
     Controls the influence of the image prompt on the generated output.
     """
@@ -483,11 +525,11 @@ class StableDiffusionXLIPAdapterIn(BaseModel):
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    width: Optional[int] = None
+    width: Annotated[int, Field(ge=640, le=1536)] = 1024
     """
     Width of output image, in pixels.
     """
-    height: Optional[int] = None
+    height: Annotated[int, Field(ge=640, le=1536)] = 1024
     """
     Height of output image, in pixels.
     """
@@ -539,7 +581,7 @@ class StableDiffusionXLControlNetIn(BaseModel):
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    conditioning_scale: Annotated[Optional[float], Field(ge=0.0)] = None
+    conditioning_scale: Annotated[float, Field(ge=0.0, le=1.0)] = 0.5
     """
     Controls the influence of the input image on the generated output.
     """
@@ -667,7 +709,7 @@ class StableDiffusionXLInpaintIn(BaseModel):
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    strength: Annotated[float, Field(ge=0.0, le=1.0)] = 1
+    strength: Annotated[float, Field(ge=0.0, le=1.0)] = 0.8
     """
     Controls the strength of the generation process.
     """
@@ -1373,10 +1415,6 @@ class CLIPIn(BaseModel):
     """
     Items to embed.
     """
-    embedded_metadata_keys: Optional[List[str]] = None
-    """
-    Choose keys from `metadata` to embed with text, when embedding and storing text documents.
-    """
     store: Optional[str] = None
     """
     [Vector store](/docs/vector-stores) identifier.
@@ -1403,7 +1441,7 @@ class CreateVectorStoreIn(BaseModel):
     """
     model: Literal["jina-v2", "clip"]
     """
-    Selected embedding model
+    Selected embedding model.
     """
     m: Annotated[int, Field(ge=1, le=64)] = 16
     """
@@ -1429,7 +1467,7 @@ class CreateVectorStoreOut(BaseModel):
     """
     model: Literal["jina-v2", "clip"]
     """
-    Selected embedding model
+    Selected embedding model.
     """
     m: Annotated[int, Field(ge=1, le=64)]
     """
@@ -1472,7 +1510,7 @@ class DeleteVectorStoreIn(BaseModel):
     """
     model: Literal["jina-v2", "clip"]
     """
-    Selected embedding model
+    Selected embedding model.
     """
 
 
@@ -1486,7 +1524,7 @@ class DeleteVectorStoreOut(BaseModel):
     """
     model: Literal["jina-v2", "clip"]
     """
-    Selected embedding model
+    Selected embedding model.
     """
 
 
@@ -1522,7 +1560,7 @@ class FetchVectorsIn(BaseModel):
     """
     model: Literal["jina-v2", "clip"]
     """
-    Selected embedding model
+    Selected embedding model.
     """
     ids: Annotated[List[str], Field(max_items=100)]
     """
@@ -1588,7 +1626,7 @@ class UpdateVectorsIn(BaseModel):
     """
     model: Literal["jina-v2", "clip"]
     """
-    Selected embedding model
+    Selected embedding model.
     """
     vectors: Annotated[List[UpdateVectorParams], Field(max_items=100)]
     """
@@ -1606,7 +1644,7 @@ class DeleteVectorsIn(BaseModel):
     """
     model: Literal["jina-v2", "clip"]
     """
-    Selected embedding model
+    Selected embedding model.
     """
     ids: Annotated[List[str], Field(max_items=100)]
     """
@@ -1624,11 +1662,11 @@ class QueryVectorStoreIn(BaseModel):
     """
     model: Literal["jina-v2", "clip"]
     """
-    Selected embedding model
+    Selected embedding model.
     """
-    query_ids: Optional[List[str]] = None
+    query_strings: Optional[List[str]] = None
     """
-    Document IDs to use for the query.
+    Texts to embed and use for the query.
     """
     query_image_uris: Optional[List[str]] = None
     """
@@ -1636,11 +1674,11 @@ class QueryVectorStoreIn(BaseModel):
     """
     query_vectors: Optional[List[List[float]]] = None
     """
-    Vector to use for the query.
+    Vectors to use for the query.
     """
-    query_strings: Optional[List[str]] = None
+    query_ids: Optional[List[str]] = None
     """
-    Texts to embed and use for the query.
+    Document IDs to use for the query.
     """
     top_k: Annotated[int, Field(ge=1, le=1000)] = 10
     """
@@ -1704,7 +1742,7 @@ class QueryVectorStoreOut(BaseModel):
     """
     model: Optional[Literal["jina-v2", "clip"]] = None
     """
-    Selected embedding model
+    Selected embedding model.
     """
     metric: Optional[Literal["cosine", "l2", "inner"]] = None
     """
