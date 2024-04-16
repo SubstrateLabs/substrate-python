@@ -1,10 +1,10 @@
 """
 ꩜ Substrate
 @GENERATED FILE
-20240411.20240414
+20240416.20240416
 """
+from typing import Type
 
-from .substrate import SubstrateResponse
 from .core.corenode import CoreNode
 from .dataclass_models import (
     CLIPOut,
@@ -152,22 +152,9 @@ class GenerateText(CoreNode):
         super().__init__(**args)
         self.node = "GenerateText"
 
-    def output(self, response: SubstrateResponse) -> GenerateTextOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.text` (optional)
-
-        https://substrate.run/library#GenerateText
-        """
-        klass = GenerateTextOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[GenerateTextOut]:
+        return GenerateTextOut
 
     @property
     def future(self) -> FutureGenerateTextOut:  # type: ignore
@@ -190,38 +177,25 @@ class MultiGenerateText(CoreNode):
 
     def __init__(self, args: MultiGenerateTextIn):
         """
-        Input arguments: `prompt`, `num_choices`, `temperature` (optional), `max_tokens` (optional), `node` (optional)
+        Input arguments: `prompt` (optional), `batch_prompts` (optional), `num_choices` (optional), `temperature` (optional), `max_tokens` (optional), `node` (optional)
 
-        Output fields: `future.choices`
+        Output fields: `future.outputs`
 
         https://substrate.run/library#MultiGenerateText
         """
         super().__init__(**args)
         self.node = "MultiGenerateText"
 
-    def output(self, response: SubstrateResponse) -> MultiGenerateTextOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.choices`
-
-        https://substrate.run/library#MultiGenerateText
-        """
-        klass = MultiGenerateTextOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[MultiGenerateTextOut]:
+        return MultiGenerateTextOut
 
     @property
     def future(self) -> FutureMultiGenerateTextOut:  # type: ignore
         """
         Future reference to this node's output.
 
-        Output fields: `future.choices`
+        Output fields: `future.outputs`
 
         https://substrate.run/library#MultiGenerateText
         """
@@ -246,22 +220,9 @@ class GenerateJSON(CoreNode):
         super().__init__(**args)
         self.node = "GenerateJSON"
 
-    def output(self, response: SubstrateResponse) -> GenerateJSONOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.json_object` (optional)
-
-        https://substrate.run/library#GenerateJSON
-        """
-        klass = GenerateJSONOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[GenerateJSONOut]:
+        return GenerateJSONOut
 
     @property
     def future(self) -> FutureGenerateJSONOut:  # type: ignore
@@ -284,38 +245,25 @@ class MultiGenerateJSON(CoreNode):
 
     def __init__(self, args: MultiGenerateJSONIn):
         """
-        Input arguments: `prompt`, `json_schema`, `num_choices`, `temperature` (optional), `max_tokens` (optional), `node` (optional)
+        Input arguments: `prompt` (optional), `json_schema`, `batch_prompts` (optional), `num_choices` (optional), `temperature` (optional), `max_tokens` (optional), `node` (optional)
 
-        Output fields: `future.choices`
+        Output fields: `future.outputs`
 
         https://substrate.run/library#MultiGenerateJSON
         """
         super().__init__(**args)
         self.node = "MultiGenerateJSON"
 
-    def output(self, response: SubstrateResponse) -> MultiGenerateJSONOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.choices`
-
-        https://substrate.run/library#MultiGenerateJSON
-        """
-        klass = MultiGenerateJSONOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[MultiGenerateJSONOut]:
+        return MultiGenerateJSONOut
 
     @property
     def future(self) -> FutureMultiGenerateJSONOut:  # type: ignore
         """
         Future reference to this node's output.
 
-        Output fields: `future.choices`
+        Output fields: `future.outputs`
 
         https://substrate.run/library#MultiGenerateJSON
         """
@@ -340,22 +288,9 @@ class GenerateTextVision(CoreNode):
         super().__init__(**args)
         self.node = "GenerateTextVision"
 
-    def output(self, response: SubstrateResponse) -> GenerateTextVisionOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.text`
-
-        https://substrate.run/library#GenerateTextVision
-        """
-        klass = GenerateTextVisionOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[GenerateTextVisionOut]:
+        return GenerateTextVisionOut
 
     @property
     def future(self) -> FutureGenerateTextVisionOut:  # type: ignore
@@ -378,38 +313,25 @@ class Mistral7BInstruct(CoreNode):
 
     def __init__(self, args: Mistral7BInstructIn):
         """
-        Input arguments: `prompt`, `num_choices`, `json_schema` (optional), `temperature` (optional), `max_tokens` (optional)
+        Input arguments: `prompt` (optional), `num_choices` (optional), `json_schema` (optional), `batch_prompts` (optional), `temperature` (optional), `max_tokens` (optional)
 
-        Output fields: `future.choices`
+        Output fields: `future.outputs`
 
         https://substrate.run/library#Mistral7BInstruct
         """
         super().__init__(**args)
         self.node = "Mistral7BInstruct"
 
-    def output(self, response: SubstrateResponse) -> Mistral7BInstructOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.choices`
-
-        https://substrate.run/library#Mistral7BInstruct
-        """
-        klass = Mistral7BInstructOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[Mistral7BInstructOut]:
+        return Mistral7BInstructOut
 
     @property
     def future(self) -> FutureMistral7BInstructOut:  # type: ignore
         """
         Future reference to this node's output.
 
-        Output fields: `future.choices`
+        Output fields: `future.outputs`
 
         https://substrate.run/library#Mistral7BInstruct
         """
@@ -434,22 +356,9 @@ class Firellava13B(CoreNode):
         super().__init__(**args)
         self.node = "Firellava13B"
 
-    def output(self, response: SubstrateResponse) -> Firellava13BOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.text`
-
-        https://substrate.run/library#Firellava13B
-        """
-        klass = Firellava13BOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[Firellava13BOut]:
+        return Firellava13BOut
 
     @property
     def future(self) -> FutureFirellava13BOut:  # type: ignore
@@ -481,22 +390,9 @@ class GenerateImage(CoreNode):
         super().__init__(**args)
         self.node = "GenerateImage"
 
-    def output(self, response: SubstrateResponse) -> GenerateImageOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.image_uri`
-
-        https://substrate.run/library#GenerateImage
-        """
-        klass = GenerateImageOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[GenerateImageOut]:
+        return GenerateImageOut
 
     @property
     def future(self) -> FutureGenerateImageOut:  # type: ignore
@@ -528,22 +424,9 @@ class MultiGenerateImage(CoreNode):
         super().__init__(**args)
         self.node = "MultiGenerateImage"
 
-    def output(self, response: SubstrateResponse) -> MultiGenerateImageOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#MultiGenerateImage
-        """
-        klass = MultiGenerateImageOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[MultiGenerateImageOut]:
+        return MultiGenerateImageOut
 
     @property
     def future(self) -> FutureMultiGenerateImageOut:  # type: ignore
@@ -575,22 +458,9 @@ class GenerativeEditImage(CoreNode):
         super().__init__(**args)
         self.node = "GenerativeEditImage"
 
-    def output(self, response: SubstrateResponse) -> GenerativeEditImageOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.image_uri`
-
-        https://substrate.run/library#GenerativeEditImage
-        """
-        klass = GenerativeEditImageOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[GenerativeEditImageOut]:
+        return GenerativeEditImageOut
 
     @property
     def future(self) -> FutureGenerativeEditImageOut:  # type: ignore
@@ -622,22 +492,9 @@ class MultiGenerativeEditImage(CoreNode):
         super().__init__(**args)
         self.node = "MultiGenerativeEditImage"
 
-    def output(self, response: SubstrateResponse) -> MultiGenerativeEditImageOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#MultiGenerativeEditImage
-        """
-        klass = MultiGenerativeEditImageOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[MultiGenerativeEditImageOut]:
+        return MultiGenerativeEditImageOut
 
     @property
     def future(self) -> FutureMultiGenerativeEditImageOut:  # type: ignore
@@ -669,22 +526,9 @@ class StableDiffusionXL(CoreNode):
         super().__init__(**args)
         self.node = "StableDiffusionXL"
 
-    def output(self, response: SubstrateResponse) -> StableDiffusionXLOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#StableDiffusionXL
-        """
-        klass = StableDiffusionXLOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[StableDiffusionXLOut]:
+        return StableDiffusionXLOut
 
     @property
     def future(self) -> FutureStableDiffusionXLOut:  # type: ignore
@@ -716,22 +560,9 @@ class StableDiffusionXLLightning(CoreNode):
         super().__init__(**args)
         self.node = "StableDiffusionXLLightning"
 
-    def output(self, response: SubstrateResponse) -> StableDiffusionXLLightningOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#StableDiffusionXLLightning
-        """
-        klass = StableDiffusionXLLightningOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[StableDiffusionXLLightningOut]:
+        return StableDiffusionXLLightningOut
 
     @property
     def future(self) -> FutureStableDiffusionXLLightningOut:  # type: ignore
@@ -763,22 +594,9 @@ class StableDiffusionXLInpaint(CoreNode):
         super().__init__(**args)
         self.node = "StableDiffusionXLInpaint"
 
-    def output(self, response: SubstrateResponse) -> StableDiffusionXLInpaintOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#StableDiffusionXLInpaint
-        """
-        klass = StableDiffusionXLInpaintOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[StableDiffusionXLInpaintOut]:
+        return StableDiffusionXLInpaintOut
 
     @property
     def future(self) -> FutureStableDiffusionXLInpaintOut:  # type: ignore
@@ -810,22 +628,9 @@ class StableDiffusionXLControlNet(CoreNode):
         super().__init__(**args)
         self.node = "StableDiffusionXLControlNet"
 
-    def output(self, response: SubstrateResponse) -> StableDiffusionXLControlNetOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#StableDiffusionXLControlNet
-        """
-        klass = StableDiffusionXLControlNetOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[StableDiffusionXLControlNetOut]:
+        return StableDiffusionXLControlNetOut
 
     @property
     def future(self) -> FutureStableDiffusionXLControlNetOut:  # type: ignore
@@ -857,22 +662,9 @@ class StableDiffusionXLIPAdapter(CoreNode):
         super().__init__(**args)
         self.node = "StableDiffusionXLIPAdapter"
 
-    def output(self, response: SubstrateResponse) -> StableDiffusionXLIPAdapterOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#StableDiffusionXLIPAdapter
-        """
-        klass = StableDiffusionXLIPAdapterOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[StableDiffusionXLIPAdapterOut]:
+        return StableDiffusionXLIPAdapterOut
 
     @property
     def future(self) -> FutureStableDiffusionXLIPAdapterOut:  # type: ignore
@@ -904,22 +696,9 @@ class TranscribeMedia(CoreNode):
         super().__init__(**args)
         self.node = "TranscribeMedia"
 
-    def output(self, response: SubstrateResponse) -> TranscribeMediaOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.text`, `future.segments` (optional), `future.chapters` (optional)
-
-        https://substrate.run/library#TranscribeMedia
-        """
-        klass = TranscribeMediaOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[TranscribeMediaOut]:
+        return TranscribeMediaOut
 
     @property
     def future(self) -> FutureTranscribeMediaOut:  # type: ignore
@@ -951,22 +730,9 @@ class GenerateSpeech(CoreNode):
         super().__init__(**args)
         self.node = "GenerateSpeech"
 
-    def output(self, response: SubstrateResponse) -> GenerateSpeechOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.audio_uri`
-
-        https://substrate.run/library#GenerateSpeech
-        """
-        klass = GenerateSpeechOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[GenerateSpeechOut]:
+        return GenerateSpeechOut
 
     @property
     def future(self) -> FutureGenerateSpeechOut:  # type: ignore
@@ -998,22 +764,9 @@ class XTTSV2(CoreNode):
         super().__init__(**args)
         self.node = "XTTSV2"
 
-    def output(self, response: SubstrateResponse) -> XTTSV2Out:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.audio_uri`
-
-        https://substrate.run/library#XTTSV2
-        """
-        klass = XTTSV2Out
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[XTTSV2Out]:
+        return XTTSV2Out
 
     @property
     def future(self) -> FutureXTTSV2Out:  # type: ignore
@@ -1045,22 +798,9 @@ class RemoveBackground(CoreNode):
         super().__init__(**args)
         self.node = "RemoveBackground"
 
-    def output(self, response: SubstrateResponse) -> RemoveBackgroundOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.image_uri`
-
-        https://substrate.run/library#RemoveBackground
-        """
-        klass = RemoveBackgroundOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[RemoveBackgroundOut]:
+        return RemoveBackgroundOut
 
     @property
     def future(self) -> FutureRemoveBackgroundOut:  # type: ignore
@@ -1092,22 +832,9 @@ class FillMask(CoreNode):
         super().__init__(**args)
         self.node = "FillMask"
 
-    def output(self, response: SubstrateResponse) -> FillMaskOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.image_uri`
-
-        https://substrate.run/library#FillMask
-        """
-        klass = FillMaskOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[FillMaskOut]:
+        return FillMaskOut
 
     @property
     def future(self) -> FutureFillMaskOut:  # type: ignore
@@ -1139,22 +866,9 @@ class UpscaleImage(CoreNode):
         super().__init__(**args)
         self.node = "UpscaleImage"
 
-    def output(self, response: SubstrateResponse) -> UpscaleImageOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.image_uri`
-
-        https://substrate.run/library#UpscaleImage
-        """
-        klass = UpscaleImageOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[UpscaleImageOut]:
+        return UpscaleImageOut
 
     @property
     def future(self) -> FutureUpscaleImageOut:  # type: ignore
@@ -1186,22 +900,9 @@ class SegmentUnderPoint(CoreNode):
         super().__init__(**args)
         self.node = "SegmentUnderPoint"
 
-    def output(self, response: SubstrateResponse) -> SegmentUnderPointOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.mask_image_uri`
-
-        https://substrate.run/library#SegmentUnderPoint
-        """
-        klass = SegmentUnderPointOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[SegmentUnderPointOut]:
+        return SegmentUnderPointOut
 
     @property
     def future(self) -> FutureSegmentUnderPointOut:  # type: ignore
@@ -1233,22 +934,9 @@ class DISISNet(CoreNode):
         super().__init__(**args)
         self.node = "DISISNet"
 
-    def output(self, response: SubstrateResponse) -> DISISNetOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.image_uri`
-
-        https://substrate.run/library#DISISNet
-        """
-        klass = DISISNetOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[DISISNetOut]:
+        return DISISNetOut
 
     @property
     def future(self) -> FutureDISISNetOut:  # type: ignore
@@ -1280,22 +968,9 @@ class BigLaMa(CoreNode):
         super().__init__(**args)
         self.node = "BigLaMa"
 
-    def output(self, response: SubstrateResponse) -> BigLaMaOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.image_uri`
-
-        https://substrate.run/library#BigLaMa
-        """
-        klass = BigLaMaOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[BigLaMaOut]:
+        return BigLaMaOut
 
     @property
     def future(self) -> FutureBigLaMaOut:  # type: ignore
@@ -1327,22 +1002,9 @@ class RealESRGAN(CoreNode):
         super().__init__(**args)
         self.node = "RealESRGAN"
 
-    def output(self, response: SubstrateResponse) -> RealESRGANOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.image_uri`
-
-        https://substrate.run/library#RealESRGAN
-        """
-        klass = RealESRGANOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[RealESRGANOut]:
+        return RealESRGANOut
 
     @property
     def future(self) -> FutureRealESRGANOut:  # type: ignore
@@ -1374,22 +1036,9 @@ class SegmentAnything(CoreNode):
         super().__init__(**args)
         self.node = "SegmentAnything"
 
-    def output(self, response: SubstrateResponse) -> SegmentAnythingOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.mask_image_uri`
-
-        https://substrate.run/library#SegmentAnything
-        """
-        klass = SegmentAnythingOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[SegmentAnythingOut]:
+        return SegmentAnythingOut
 
     @property
     def future(self) -> FutureSegmentAnythingOut:  # type: ignore
@@ -1421,22 +1070,9 @@ class EmbedText(CoreNode):
         super().__init__(**args)
         self.node = "EmbedText"
 
-    def output(self, response: SubstrateResponse) -> EmbedTextOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.embedding`
-
-        https://substrate.run/library#EmbedText
-        """
-        klass = EmbedTextOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[EmbedTextOut]:
+        return EmbedTextOut
 
     @property
     def future(self) -> FutureEmbedTextOut:  # type: ignore
@@ -1468,22 +1104,9 @@ class MultiEmbedText(CoreNode):
         super().__init__(**args)
         self.node = "MultiEmbedText"
 
-    def output(self, response: SubstrateResponse) -> MultiEmbedTextOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.embeddings`
-
-        https://substrate.run/library#MultiEmbedText
-        """
-        klass = MultiEmbedTextOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[MultiEmbedTextOut]:
+        return MultiEmbedTextOut
 
     @property
     def future(self) -> FutureMultiEmbedTextOut:  # type: ignore
@@ -1515,22 +1138,9 @@ class EmbedImage(CoreNode):
         super().__init__(**args)
         self.node = "EmbedImage"
 
-    def output(self, response: SubstrateResponse) -> EmbedImageOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.embedding`
-
-        https://substrate.run/library#EmbedImage
-        """
-        klass = EmbedImageOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[EmbedImageOut]:
+        return EmbedImageOut
 
     @property
     def future(self) -> FutureEmbedImageOut:  # type: ignore
@@ -1562,22 +1172,9 @@ class MultiEmbedImage(CoreNode):
         super().__init__(**args)
         self.node = "MultiEmbedImage"
 
-    def output(self, response: SubstrateResponse) -> MultiEmbedImageOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.embeddings`
-
-        https://substrate.run/library#MultiEmbedImage
-        """
-        klass = MultiEmbedImageOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[MultiEmbedImageOut]:
+        return MultiEmbedImageOut
 
     @property
     def future(self) -> FutureMultiEmbedImageOut:  # type: ignore
@@ -1609,22 +1206,9 @@ class JinaV2(CoreNode):
         super().__init__(**args)
         self.node = "JinaV2"
 
-    def output(self, response: SubstrateResponse) -> JinaV2Out:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.embeddings`
-
-        https://substrate.run/library#JinaV2
-        """
-        klass = JinaV2Out
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[JinaV2Out]:
+        return JinaV2Out
 
     @property
     def future(self) -> FutureJinaV2Out:  # type: ignore
@@ -1647,7 +1231,7 @@ class CLIP(CoreNode):
 
     def __init__(self, args: CLIPIn):
         """
-        Input arguments: `items`, `embedded_metadata_keys` (optional), `store` (optional)
+        Input arguments: `items`, `store` (optional)
 
         Output fields: `future.embeddings`
 
@@ -1656,22 +1240,9 @@ class CLIP(CoreNode):
         super().__init__(**args)
         self.node = "CLIP"
 
-    def output(self, response: SubstrateResponse) -> CLIPOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.embeddings`
-
-        https://substrate.run/library#CLIP
-        """
-        klass = CLIPOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[CLIPOut]:
+        return CLIPOut
 
     @property
     def future(self) -> FutureCLIPOut:  # type: ignore
@@ -1703,22 +1274,9 @@ class CreateVectorStore(CoreNode):
         super().__init__(**args)
         self.node = "CreateVectorStore"
 
-    def output(self, response: SubstrateResponse) -> CreateVectorStoreOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.name`, `future.model`, `future.m`, `future.ef_construction`, `future.metric`
-
-        https://substrate.run/library#CreateVectorStore
-        """
-        klass = CreateVectorStoreOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[CreateVectorStoreOut]:
+        return CreateVectorStoreOut
 
     @property
     def future(self) -> FutureCreateVectorStoreOut:  # type: ignore
@@ -1750,22 +1308,9 @@ class ListVectorStores(CoreNode):
         super().__init__(**args)
         self.node = "ListVectorStores"
 
-    def output(self, response: SubstrateResponse) -> ListVectorStoresOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.stores` (optional)
-
-        https://substrate.run/library#ListVectorStores
-        """
-        klass = ListVectorStoresOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[ListVectorStoresOut]:
+        return ListVectorStoresOut
 
     @property
     def future(self) -> FutureListVectorStoresOut:  # type: ignore
@@ -1797,22 +1342,9 @@ class DeleteVectorStore(CoreNode):
         super().__init__(**args)
         self.node = "DeleteVectorStore"
 
-    def output(self, response: SubstrateResponse) -> DeleteVectorStoreOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.name`, `future.model`
-
-        https://substrate.run/library#DeleteVectorStore
-        """
-        klass = DeleteVectorStoreOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[DeleteVectorStoreOut]:
+        return DeleteVectorStoreOut
 
     @property
     def future(self) -> FutureDeleteVectorStoreOut:  # type: ignore
@@ -1835,7 +1367,7 @@ class QueryVectorStore(CoreNode):
 
     def __init__(self, args: QueryVectorStoreIn):
         """
-        Input arguments: `name`, `model`, `query_ids` (optional), `query_image_uris` (optional), `query_vectors` (optional), `query_strings` (optional), `top_k` (optional), `ef_search` (optional), `include_values` (optional), `include_metadata` (optional), `filters` (optional), `metric` (optional)
+        Input arguments: `name`, `model`, `query_strings` (optional), `query_image_uris` (optional), `query_vectors` (optional), `query_ids` (optional), `top_k` (optional), `ef_search` (optional), `include_values` (optional), `include_metadata` (optional), `filters` (optional), `metric` (optional)
 
         Output fields: `future.results`, `future.name` (optional), `future.model` (optional), `future.metric` (optional)
 
@@ -1844,22 +1376,9 @@ class QueryVectorStore(CoreNode):
         super().__init__(**args)
         self.node = "QueryVectorStore"
 
-    def output(self, response: SubstrateResponse) -> QueryVectorStoreOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.results`, `future.name` (optional), `future.model` (optional), `future.metric` (optional)
-
-        https://substrate.run/library#QueryVectorStore
-        """
-        klass = QueryVectorStoreOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[QueryVectorStoreOut]:
+        return QueryVectorStoreOut
 
     @property
     def future(self) -> FutureQueryVectorStoreOut:  # type: ignore
@@ -1891,22 +1410,9 @@ class FetchVectors(CoreNode):
         super().__init__(**args)
         self.node = "FetchVectors"
 
-    def output(self, response: SubstrateResponse) -> FetchVectorsOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.vectors`
-
-        https://substrate.run/library#FetchVectors
-        """
-        klass = FetchVectorsOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[FetchVectorsOut]:
+        return FetchVectorsOut
 
     @property
     def future(self) -> FutureFetchVectorsOut:  # type: ignore
@@ -1938,22 +1444,9 @@ class UpdateVectors(CoreNode):
         super().__init__(**args)
         self.node = "UpdateVectors"
 
-    def output(self, response: SubstrateResponse) -> UpdateVectorsOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.count`
-
-        https://substrate.run/library#UpdateVectors
-        """
-        klass = UpdateVectorsOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[UpdateVectorsOut]:
+        return UpdateVectorsOut
 
     @property
     def future(self) -> FutureUpdateVectorsOut:  # type: ignore
@@ -1985,22 +1478,9 @@ class DeleteVectors(CoreNode):
         super().__init__(**args)
         self.node = "DeleteVectors"
 
-    def output(self, response: SubstrateResponse) -> DeleteVectorsOut:
-        """
-        Retrieve this node's output from a response.
-
-        Output fields: `future.count`
-
-        https://substrate.run/library#DeleteVectors
-        """
-        klass = DeleteVectorsOut
-        json = response.api_response.json
-        if json and json.get("data"):
-            data = json["data"]
-            node_id = self.id
-            if data.get(self.id):
-                return klass(**data[self.id])
-        raise ValueError(f"Node {self.id} not found in response")
+    @property
+    def out_type(self) -> Type[DeleteVectorsOut]:
+        return DeleteVectorsOut
 
     @property
     def future(self) -> FutureDeleteVectorsOut:  # type: ignore

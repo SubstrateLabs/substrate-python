@@ -128,12 +128,17 @@ class FutureMultiGenerateTextIn:
     (Future reference)
     """
 
-    prompt: str
+    prompt: Optional[str] = None
     """
     (Future reference)
     Input prompt.
     """
-    num_choices: int
+    batch_prompts: Optional[List[str]] = None
+    """
+    (Future reference)
+    Batch input prompts.
+    """
+    num_choices: int = 1
     """
     (Future reference)
     Number of choices to generate.
@@ -156,7 +161,7 @@ class FutureMultiGenerateTextIn:
 
 
 @dataclass
-class FutureMultiGenerateTextOut:
+class MultiGenerateTextOutput:
     """
     (Future reference)
     """
@@ -169,22 +174,40 @@ class FutureMultiGenerateTextOut:
 
 
 @dataclass
+class FutureMultiGenerateTextOut:
+    """
+    (Future reference)
+    """
+
+    outputs: List[MultiGenerateTextOutput]
+    """
+    (Future reference)
+    A single output for `prompt`, or multiple outputs for `batch_prompts`.
+    """
+
+
+@dataclass
 class FutureMultiGenerateJSONIn:
     """
     (Future reference)
     """
 
-    prompt: str
-    """
-    (Future reference)
-    Input prompt.
-    """
     json_schema: Dict[str, Any]
     """
     (Future reference)
     JSON schema to guide `json_object` response.
     """
-    num_choices: int
+    prompt: Optional[str] = None
+    """
+    (Future reference)
+    Input prompt.
+    """
+    batch_prompts: Optional[List[str]] = None
+    """
+    (Future reference)
+    Batch input prompts.
+    """
+    num_choices: int = 2
     """
     (Future reference)
     Number of choices to generate.
@@ -207,7 +230,7 @@ class FutureMultiGenerateJSONIn:
 
 
 @dataclass
-class FutureMultiGenerateJSONOut:
+class MultiGenerateJSONOutput:
     """
     (Future reference)
     """
@@ -220,17 +243,30 @@ class FutureMultiGenerateJSONOut:
 
 
 @dataclass
+class FutureMultiGenerateJSONOut:
+    """
+    (Future reference)
+    """
+
+    outputs: List[MultiGenerateJSONOutput]
+    """
+    (Future reference)
+    A single output for `prompt`, or multiple outputs for `batch_prompts`.
+    """
+
+
+@dataclass
 class FutureMistral7BInstructIn:
     """
     (Future reference)
     """
 
-    prompt: str
+    prompt: Optional[str] = None
     """
     (Future reference)
     Input prompt.
     """
-    num_choices: int
+    num_choices: int = 1
     """
     (Future reference)
     Number of choices to generate.
@@ -239,6 +275,11 @@ class FutureMistral7BInstructIn:
     """
     (Future reference)
     JSON schema to guide response.
+    """
+    batch_prompts: Optional[List[str]] = None
+    """
+    (Future reference)
+    Batch input prompts.
     """
     temperature: Optional[float] = None
     """
@@ -271,7 +312,7 @@ class Mistral7BInstructChoice:
 
 
 @dataclass
-class FutureMistral7BInstructOut:
+class Mistral7BInstructOutput:
     """
     (Future reference)
     """
@@ -280,6 +321,19 @@ class FutureMistral7BInstructOut:
     """
     (Future reference)
     Response choices.
+    """
+
+
+@dataclass
+class FutureMistral7BInstructOut:
+    """
+    (Future reference)
+    """
+
+    outputs: List[Mistral7BInstructOutput]
+    """
+    (Future reference)
+    A single output for `prompt`, or multiple outputs for `batch_prompts`.
     """
 
 
@@ -547,12 +601,12 @@ class FutureStableDiffusionXLLightningIn:
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    height: Optional[int] = None
+    height: int = 1024
     """
     (Future reference)
     Height of output image, in pixels.
     """
-    width: Optional[int] = None
+    width: int = 1024
     """
     (Future reference)
     Width of output image, in pixels.
@@ -598,7 +652,7 @@ class FutureStableDiffusionXLIPAdapterIn:
     (Future reference)
     Image prompt.
     """
-    ip_adapter_scale: Optional[float] = None
+    ip_adapter_scale: float = 0.5
     """
     (Future reference)
     Controls the influence of the image prompt on the generated output.
@@ -613,12 +667,12 @@ class FutureStableDiffusionXLIPAdapterIn:
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    width: Optional[int] = None
+    width: int = 1024
     """
     (Future reference)
     Width of output image, in pixels.
     """
-    height: Optional[int] = None
+    height: int = 1024
     """
     (Future reference)
     Height of output image, in pixels.
@@ -684,7 +738,7 @@ class FutureStableDiffusionXLControlNetIn:
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    conditioning_scale: Optional[float] = None
+    conditioning_scale: float = 0.5
     """
     (Future reference)
     Controls the influence of the input image on the generated output.
@@ -847,7 +901,7 @@ class FutureStableDiffusionXLInpaintIn:
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    strength: float = 1
+    strength: float = 0.8
     """
     (Future reference)
     Controls the strength of the generation process.
@@ -1751,11 +1805,6 @@ class FutureCLIPIn:
     (Future reference)
     Items to embed.
     """
-    embedded_metadata_keys: Optional[List[str]] = None
-    """
-    (Future reference)
-    Choose keys from `metadata` to embed with text, when embedding and storing text documents.
-    """
     store: Optional[str] = None
     """
     (Future reference)
@@ -1790,7 +1839,7 @@ class FutureCreateVectorStoreIn:
     model: Literal["jina-v2", "clip"]
     """
     (Future reference)
-    Selected embedding model
+    Selected embedding model.
     """
     m: int = 16
     """
@@ -1823,7 +1872,7 @@ class FutureCreateVectorStoreOut:
     model: Literal["jina-v2", "clip"]
     """
     (Future reference)
-    Selected embedding model
+    Selected embedding model.
     """
     m: int
     """
@@ -1878,7 +1927,7 @@ class FutureDeleteVectorStoreIn:
     model: Literal["jina-v2", "clip"]
     """
     (Future reference)
-    Selected embedding model
+    Selected embedding model.
     """
 
 
@@ -1896,7 +1945,7 @@ class FutureDeleteVectorStoreOut:
     model: Literal["jina-v2", "clip"]
     """
     (Future reference)
-    Selected embedding model
+    Selected embedding model.
     """
 
 
@@ -1938,7 +1987,7 @@ class FutureFetchVectorsIn:
     model: Literal["jina-v2", "clip"]
     """
     (Future reference)
-    Selected embedding model
+    Selected embedding model.
     """
     ids: List[str]
     """
@@ -2023,7 +2072,7 @@ class FutureUpdateVectorsIn:
     model: Literal["jina-v2", "clip"]
     """
     (Future reference)
-    Selected embedding model
+    Selected embedding model.
     """
     vectors: List[UpdateVectorParams]
     """
@@ -2046,7 +2095,7 @@ class FutureDeleteVectorsIn:
     model: Literal["jina-v2", "clip"]
     """
     (Future reference)
-    Selected embedding model
+    Selected embedding model.
     """
     ids: List[str]
     """
@@ -2069,12 +2118,12 @@ class FutureQueryVectorStoreIn:
     model: Literal["jina-v2", "clip"]
     """
     (Future reference)
-    Selected embedding model
+    Selected embedding model.
     """
-    query_ids: Optional[List[str]] = None
+    query_strings: Optional[List[str]] = None
     """
     (Future reference)
-    Document IDs to use for the query.
+    Texts to embed and use for the query.
     """
     query_image_uris: Optional[List[str]] = None
     """
@@ -2084,12 +2133,12 @@ class FutureQueryVectorStoreIn:
     query_vectors: Optional[List[List[float]]] = None
     """
     (Future reference)
-    Vector to use for the query.
+    Vectors to use for the query.
     """
-    query_strings: Optional[List[str]] = None
+    query_ids: Optional[List[str]] = None
     """
     (Future reference)
-    Texts to embed and use for the query.
+    Document IDs to use for the query.
     """
     top_k: int = 10
     """
@@ -2170,7 +2219,7 @@ class FutureQueryVectorStoreOut:
     model: Optional[Literal["jina-v2", "clip"]] = None
     """
     (Future reference)
-    Selected embedding model
+    Selected embedding model.
     """
     metric: Optional[Literal["cosine", "l2", "inner"]] = None
     """

@@ -1,7 +1,7 @@
 """
 CORE ꩜ SUBSTRATE
 """
-from typing import List, Optional
+from typing import Any, List, Type, Optional
 
 import networkx as nx
 
@@ -27,6 +27,13 @@ class CoreNode:
             self.args = {}
         self.SG.add_node(self, **self.args)
         self.futures_from_args: List[BaseFuture] = find_futures_client(attr)
+
+    @property
+    def out_type(self) -> Type[Any]:
+        """
+        Get the typed output of this node using `response.get(node, node.out_type)`
+        """
+        return Type[None]
 
     def to_dict(self):
         return {

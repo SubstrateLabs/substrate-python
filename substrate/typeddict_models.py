@@ -85,11 +85,15 @@ class GenerateJSONOut(TypedDict):
 class MultiGenerateTextIn(TypedDict):
     prompt: NotRequired[str]
     """
-    Input prompt.
+    (Optional) Input prompt.
+    """
+    batch_prompts: NotRequired[List[str]]
+    """
+    (Optional) Batch input prompts.
     """
     num_choices: NotRequired[int]
     """
-    Number of choices to generate.
+    (Optional) Number of choices to generate.
     """
     temperature: NotRequired[float]
     """
@@ -105,25 +109,36 @@ class MultiGenerateTextIn(TypedDict):
     """
 
 
-class MultiGenerateTextOut(TypedDict):
+class MultiGenerateTextOutput(TypedDict):
     choices: NotRequired[List[GenerateTextOut]]
     """
     Response choices.
     """
 
 
+class MultiGenerateTextOut(TypedDict):
+    outputs: NotRequired[List[MultiGenerateTextOutput]]
+    """
+    A single output for `prompt`, or multiple outputs for `batch_prompts`.
+    """
+
+
 class MultiGenerateJSONIn(TypedDict):
     prompt: NotRequired[str]
     """
-    Input prompt.
+    (Optional) Input prompt.
     """
     json_schema: NotRequired[Dict[str, Any]]
     """
     JSON schema to guide `json_object` response.
     """
+    batch_prompts: NotRequired[List[str]]
+    """
+    (Optional) Batch input prompts.
+    """
     num_choices: NotRequired[int]
     """
-    Number of choices to generate.
+    (Optional) Number of choices to generate.
     """
     temperature: NotRequired[float]
     """
@@ -139,25 +154,36 @@ class MultiGenerateJSONIn(TypedDict):
     """
 
 
-class MultiGenerateJSONOut(TypedDict):
+class MultiGenerateJSONOutput(TypedDict):
     choices: NotRequired[List[GenerateJSONOut]]
     """
     Response choices.
     """
 
 
+class MultiGenerateJSONOut(TypedDict):
+    outputs: NotRequired[List[MultiGenerateJSONOutput]]
+    """
+    A single output for `prompt`, or multiple outputs for `batch_prompts`.
+    """
+
+
 class Mistral7BInstructIn(TypedDict):
     prompt: NotRequired[str]
     """
-    Input prompt.
+    (Optional) Input prompt.
     """
     num_choices: NotRequired[int]
     """
-    Number of choices to generate.
+    (Optional) Number of choices to generate.
     """
     json_schema: NotRequired[Dict[str, Any]]
     """
     (Optional) JSON schema to guide response.
+    """
+    batch_prompts: NotRequired[List[str]]
+    """
+    (Optional) Batch input prompts.
     """
     temperature: NotRequired[float]
     """
@@ -180,10 +206,17 @@ class Mistral7BInstructChoice(TypedDict):
     """
 
 
-class Mistral7BInstructOut(TypedDict):
+class Mistral7BInstructOutput(TypedDict):
     choices: NotRequired[List[Mistral7BInstructChoice]]
     """
     Response choices.
+    """
+
+
+class Mistral7BInstructOut(TypedDict):
+    outputs: NotRequired[List[Mistral7BInstructOutput]]
+    """
+    A single output for `prompt`, or multiple outputs for `batch_prompts`.
     """
 
 
@@ -1140,10 +1173,6 @@ class CLIPIn(TypedDict):
     """
     Items to embed.
     """
-    embedded_metadata_keys: NotRequired[List[str]]
-    """
-    (Optional) Choose keys from `metadata` to embed with text, when embedding and storing text documents.
-    """
     store: NotRequired[str]
     """
     (Optional) [Vector store](/docs/vector-stores) identifier.
@@ -1164,7 +1193,7 @@ class CreateVectorStoreIn(TypedDict):
     """
     model: NotRequired[Literal["jina-v2", "clip"]]
     """
-    Selected embedding model
+    Selected embedding model.
     """
     m: NotRequired[int]
     """
@@ -1187,7 +1216,7 @@ class CreateVectorStoreOut(TypedDict):
     """
     model: NotRequired[Literal["jina-v2", "clip"]]
     """
-    Selected embedding model
+    Selected embedding model.
     """
     m: NotRequired[int]
     """
@@ -1221,7 +1250,7 @@ class DeleteVectorStoreIn(TypedDict):
     """
     model: NotRequired[Literal["jina-v2", "clip"]]
     """
-    Selected embedding model
+    Selected embedding model.
     """
 
 
@@ -1232,7 +1261,7 @@ class DeleteVectorStoreOut(TypedDict):
     """
     model: NotRequired[Literal["jina-v2", "clip"]]
     """
-    Selected embedding model
+    Selected embedding model.
     """
 
 
@@ -1262,7 +1291,7 @@ class FetchVectorsIn(TypedDict):
     """
     model: NotRequired[Literal["jina-v2", "clip"]]
     """
-    Selected embedding model
+    Selected embedding model.
     """
     ids: NotRequired[List[str]]
     """
@@ -1313,7 +1342,7 @@ class UpdateVectorsIn(TypedDict):
     """
     model: NotRequired[Literal["jina-v2", "clip"]]
     """
-    Selected embedding model
+    Selected embedding model.
     """
     vectors: NotRequired[List[UpdateVectorParams]]
     """
@@ -1328,7 +1357,7 @@ class DeleteVectorsIn(TypedDict):
     """
     model: NotRequired[Literal["jina-v2", "clip"]]
     """
-    Selected embedding model
+    Selected embedding model.
     """
     ids: NotRequired[List[str]]
     """
@@ -1343,11 +1372,11 @@ class QueryVectorStoreIn(TypedDict):
     """
     model: NotRequired[Literal["jina-v2", "clip"]]
     """
-    Selected embedding model
+    Selected embedding model.
     """
-    query_ids: NotRequired[List[str]]
+    query_strings: NotRequired[List[str]]
     """
-    (Optional) Document IDs to use for the query.
+    (Optional) Texts to embed and use for the query.
     """
     query_image_uris: NotRequired[List[str]]
     """
@@ -1355,11 +1384,11 @@ class QueryVectorStoreIn(TypedDict):
     """
     query_vectors: NotRequired[List[List[float]]]
     """
-    (Optional) Vector to use for the query.
+    (Optional) Vectors to use for the query.
     """
-    query_strings: NotRequired[List[str]]
+    query_ids: NotRequired[List[str]]
     """
-    (Optional) Texts to embed and use for the query.
+    (Optional) Document IDs to use for the query.
     """
     top_k: NotRequired[int]
     """
@@ -1417,7 +1446,7 @@ class QueryVectorStoreOut(TypedDict):
     """
     model: NotRequired[Literal["jina-v2", "clip"]]
     """
-    (Optional) Selected embedding model
+    (Optional) Selected embedding model.
     """
     metric: NotRequired[Literal["cosine", "l2", "inner"]]
     """
