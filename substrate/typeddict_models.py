@@ -22,7 +22,7 @@ class ErrorOut(TypedDict):
     """
     request_id: NotRequired[str]
     """
-    (Optional) A unique identifier for the request.
+    A unique identifier for the request.
     """
 
 
@@ -33,22 +33,22 @@ class GenerateTextIn(TypedDict):
     """
     temperature: NotRequired[float]
     """
-    (Optional) Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
     """
     max_tokens: NotRequired[int]
     """
-    (Optional) Maximum number of tokens to generate.
+    Maximum number of tokens to generate.
     """
     node: NotRequired[Literal["Mistral7BInstruct"]]
     """
-    (Optional) Selected node.
+    Selected node.
     """
 
 
 class GenerateTextOut(TypedDict):
     text: NotRequired[str]
     """
-    (Optional) Text response.
+    Text response.
     """
 
 
@@ -63,49 +63,49 @@ class GenerateJSONIn(TypedDict):
     """
     temperature: NotRequired[float]
     """
-    (Optional) Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
     """
     max_tokens: NotRequired[int]
     """
-    (Optional) Maximum number of tokens to generate.
+    Maximum number of tokens to generate.
     """
     node: NotRequired[Literal["Mistral7BInstruct"]]
     """
-    (Optional) Selected node.
+    Selected node.
     """
 
 
 class GenerateJSONOut(TypedDict):
     json_object: NotRequired[Dict[str, Any]]
     """
-    (Optional) JSON response.
+    JSON response.
     """
 
 
 class MultiGenerateTextIn(TypedDict):
     prompt: NotRequired[str]
     """
-    (Optional) Input prompt.
+    Input prompt.
     """
     batch_prompts: NotRequired[List[str]]
     """
-    (Optional) Batch input prompts.
+    Batch input prompts.
     """
     num_choices: NotRequired[int]
     """
-    (Optional) Number of choices to generate.
+    Number of choices to generate.
     """
     temperature: NotRequired[float]
     """
-    (Optional) Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
     """
     max_tokens: NotRequired[int]
     """
-    (Optional) Maximum number of tokens to generate.
+    Maximum number of tokens to generate.
     """
     node: NotRequired[Literal["Mistral7BInstruct"]]
     """
-    (Optional) Selected node.
+    Selected node.
     """
 
 
@@ -126,7 +126,7 @@ class MultiGenerateTextOut(TypedDict):
 class MultiGenerateJSONIn(TypedDict):
     prompt: NotRequired[str]
     """
-    (Optional) Input prompt.
+    Input prompt.
     """
     json_schema: NotRequired[Dict[str, Any]]
     """
@@ -134,23 +134,23 @@ class MultiGenerateJSONIn(TypedDict):
     """
     batch_prompts: NotRequired[List[str]]
     """
-    (Optional) Batch input prompts.
+    Batch input prompts.
     """
     num_choices: NotRequired[int]
     """
-    (Optional) Number of choices to generate.
+    Number of choices to generate.
     """
     temperature: NotRequired[float]
     """
-    (Optional) Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
     """
     max_tokens: NotRequired[int]
     """
-    (Optional) Maximum number of tokens to generate.
+    Maximum number of tokens to generate.
     """
     node: NotRequired[Literal["Mistral7BInstruct"]]
     """
-    (Optional) Selected node.
+    Selected node.
     """
 
 
@@ -171,38 +171,38 @@ class MultiGenerateJSONOut(TypedDict):
 class Mistral7BInstructIn(TypedDict):
     prompt: NotRequired[str]
     """
-    (Optional) Input prompt.
+    Input prompt.
     """
     num_choices: NotRequired[int]
     """
-    (Optional) Number of choices to generate.
+    Number of choices to generate.
     """
     json_schema: NotRequired[Dict[str, Any]]
     """
-    (Optional) JSON schema to guide response.
+    JSON schema to guide response.
     """
     batch_prompts: NotRequired[List[str]]
     """
-    (Optional) Batch input prompts.
+    Batch input prompts.
     """
     temperature: NotRequired[float]
     """
-    (Optional) Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
     """
     max_tokens: NotRequired[int]
     """
-    (Optional) Maximum number of tokens to generate.
+    Maximum number of tokens to generate.
     """
 
 
 class Mistral7BInstructChoice(TypedDict):
     text: NotRequired[str]
     """
-    (Optional) Text response, if `json_schema` was not provided.
+    Text response, if `json_schema` was not provided.
     """
     json_object: NotRequired[Dict[str, Any]]
     """
-    (Optional) JSON response, if `json_schema` was provided.
+    JSON response, if `json_schema` was provided.
     """
 
 
@@ -231,11 +231,11 @@ class GenerateTextVisionIn(TypedDict):
     """
     max_tokens: NotRequired[int]
     """
-    (Optional) Maximum number of tokens to generate.
+    Maximum number of tokens to generate.
     """
     node: NotRequired[Literal["Firellava13B"]]
     """
-    (Optional) Selected node.
+    Selected node.
     """
 
 
@@ -257,7 +257,7 @@ class Firellava13BIn(TypedDict):
     """
     max_tokens: NotRequired[int]
     """
-    (Optional) Maximum number of tokens to generate.
+    Maximum number of tokens to generate.
     """
 
 
@@ -275,11 +275,11 @@ class GenerateImageIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
     node: NotRequired[Literal["StableDiffusionXL"]]
     """
-    (Optional) Selected node.
+    Selected node.
     """
 
 
@@ -301,11 +301,11 @@ class MultiGenerateImageIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
     node: NotRequired[Literal["StableDiffusionXL"]]
     """
-    (Optional) Selected node.
+    Selected node.
     """
 
 
@@ -323,11 +323,11 @@ class StableDiffusionXLIn(TypedDict):
     """
     negative_prompt: NotRequired[str]
     """
-    (Optional) Negative input prompt.
+    Negative input prompt.
     """
     steps: NotRequired[int]
     """
-    (Optional) Number of diffusion steps.
+    Number of diffusion steps.
     """
     num_images: NotRequired[int]
     """
@@ -335,23 +335,23 @@ class StableDiffusionXLIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
     height: NotRequired[int]
     """
-    (Optional) Height of output image, in pixels.
+    Height of output image, in pixels.
     """
     width: NotRequired[int]
     """
-    (Optional) Width of output image, in pixels.
+    Width of output image, in pixels.
     """
     seeds: NotRequired[List[int]]
     """
-    (Optional) Seeds for deterministic generation. Default is a random seed.
+    Seeds for deterministic generation. Default is a random seed.
     """
     guidance_scale: NotRequired[float]
     """
-    (Optional) Higher values adhere to the text prompt more strongly, typically at the expense of image quality.
+    Higher values adhere to the text prompt more strongly, typically at the expense of image quality.
     """
 
 
@@ -380,27 +380,27 @@ class StableDiffusionXLLightningIn(TypedDict):
     """
     negative_prompt: NotRequired[str]
     """
-    (Optional) Negative input prompt.
+    Negative input prompt.
     """
     num_images: NotRequired[int]
     """
-    (Optional) Number of images to generate.
+    Number of images to generate.
     """
     store: NotRequired[str]
     """
-    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
     height: NotRequired[int]
     """
-    (Optional) Height of output image, in pixels.
+    Height of output image, in pixels.
     """
     width: NotRequired[int]
     """
-    (Optional) Width of output image, in pixels.
+    Width of output image, in pixels.
     """
     seeds: NotRequired[List[int]]
     """
-    (Optional) Seeds for deterministic generation. Default is a random seed.
+    Seeds for deterministic generation. Default is a random seed.
     """
 
 
@@ -418,7 +418,7 @@ class StableDiffusionXLIPAdapterIn(TypedDict):
     """
     image_prompt_uri: NotRequired[str]
     """
-    (Optional) Image prompt.
+    Image prompt.
     """
     num_images: NotRequired[int]
     """
@@ -426,27 +426,27 @@ class StableDiffusionXLIPAdapterIn(TypedDict):
     """
     ip_adapter_scale: NotRequired[float]
     """
-    (Optional) Controls the influence of the image prompt on the generated output.
+    Controls the influence of the image prompt on the generated output.
     """
     negative_prompt: NotRequired[str]
     """
-    (Optional) Negative input prompt.
+    Negative input prompt.
     """
     store: NotRequired[str]
     """
-    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
     width: NotRequired[int]
     """
-    (Optional) Width of output image, in pixels.
+    Width of output image, in pixels.
     """
     height: NotRequired[int]
     """
-    (Optional) Height of output image, in pixels.
+    Height of output image, in pixels.
     """
     seeds: NotRequired[List[int]]
     """
-    (Optional) Random noise seeds. Default is random seeds for each generation.
+    Random noise seeds. Default is random seeds for each generation.
     """
 
 
@@ -476,23 +476,23 @@ class StableDiffusionXLControlNetIn(TypedDict):
     """
     output_resolution: NotRequired[int]
     """
-    (Optional) Resolution of the output image, in pixels.
+    Resolution of the output image, in pixels.
     """
     negative_prompt: NotRequired[str]
     """
-    (Optional) Negative input prompt.
+    Negative input prompt.
     """
     store: NotRequired[str]
     """
-    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
     conditioning_scale: NotRequired[float]
     """
-    (Optional) Controls the influence of the input image on the generated output.
+    Controls the influence of the input image on the generated output.
     """
     seeds: NotRequired[List[int]]
     """
-    (Optional) Random noise seeds. Default is random seeds for each generation.
+    Random noise seeds. Default is random seeds for each generation.
     """
 
 
@@ -514,15 +514,15 @@ class GenerativeEditImageIn(TypedDict):
     """
     mask_image_uri: NotRequired[str]
     """
-    (Optional) Mask image that controls which pixels are inpainted. If unset, the entire image is edited (image-to-image).
+    Mask image that controls which pixels are inpainted. If unset, the entire image is edited (image-to-image).
     """
     store: NotRequired[str]
     """
-    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
     node: NotRequired[Literal["StableDiffusionXLInpaint"]]
     """
-    (Optional) Selected node.
+    Selected node.
     """
 
 
@@ -544,7 +544,7 @@ class MultiGenerativeEditImageIn(TypedDict):
     """
     mask_image_uri: NotRequired[str]
     """
-    (Optional) Mask image that controls which pixels are edited (inpainting). If unset, the entire image is edited (image-to-image).
+    Mask image that controls which pixels are edited (inpainting). If unset, the entire image is edited (image-to-image).
     """
     num_images: NotRequired[int]
     """
@@ -552,11 +552,11 @@ class MultiGenerativeEditImageIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
     node: NotRequired[Literal["StableDiffusionXLInpaint"]]
     """
-    (Optional) Selected node.
+    Selected node.
     """
 
 
@@ -578,7 +578,7 @@ class StableDiffusionXLInpaintIn(TypedDict):
     """
     mask_image_uri: NotRequired[str]
     """
-    (Optional) Mask image that controls which pixels are edited (inpainting). If unset, the entire image is edited (image-to-image).
+    Mask image that controls which pixels are edited (inpainting). If unset, the entire image is edited (image-to-image).
     """
     num_images: NotRequired[int]
     """
@@ -586,23 +586,23 @@ class StableDiffusionXLInpaintIn(TypedDict):
     """
     output_resolution: NotRequired[int]
     """
-    (Optional) Resolution of the output image, in pixels.
+    Resolution of the output image, in pixels.
     """
     negative_prompt: NotRequired[str]
     """
-    (Optional) Negative input prompt.
+    Negative input prompt.
     """
     store: NotRequired[str]
     """
-    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
     strength: NotRequired[float]
     """
-    (Optional) Controls the strength of the generation process.
+    Controls the strength of the generation process.
     """
     seeds: NotRequired[List[int]]
     """
-    (Optional) Random noise seeds. Default is random seeds for each generation.
+    Random noise seeds. Default is random seeds for each generation.
     """
 
 
@@ -654,11 +654,11 @@ class FillMaskIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
     node: NotRequired[Literal["BigLaMa"]]
     """
-    (Optional) Selected node.
+    Selected node.
     """
 
 
@@ -680,7 +680,7 @@ class BigLaMaIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -698,19 +698,19 @@ class RemoveBackgroundIn(TypedDict):
     """
     return_mask: NotRequired[bool]
     """
-    (Optional) Return a mask image instead of the original content.
+    Return a mask image instead of the original content.
     """
     background_color: NotRequired[str]
     """
-    (Optional) Hex value background color. Transparent if unset.
+    Hex value background color. Transparent if unset.
     """
     store: NotRequired[str]
     """
-    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
     node: NotRequired[Literal["DISISNet"]]
     """
-    (Optional) Selected node.
+    Selected node.
     """
 
 
@@ -728,7 +728,7 @@ class DISISNetIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -746,11 +746,11 @@ class UpscaleImageIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
     node: NotRequired[Literal["RealESRGAN"]]
     """
-    (Optional) Selected node.
+    Selected node.
     """
 
 
@@ -768,7 +768,7 @@ class RealESRGANIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -790,11 +790,11 @@ class SegmentUnderPointIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
     node: NotRequired[Literal["SegmentAnything"]]
     """
-    (Optional) Selected node.
+    Selected node.
     """
 
 
@@ -812,15 +812,15 @@ class SegmentAnythingIn(TypedDict):
     """
     point_prompts: NotRequired[List[Point]]
     """
-    (Optional) Point prompts, to detect a segment under the point. One of `point_prompts` or `box_prompts` must be set.
+    Point prompts, to detect a segment under the point. One of `point_prompts` or `box_prompts` must be set.
     """
     box_prompts: NotRequired[List[BoundingBox]]
     """
-    (Optional) Box prompts, to detect a segment within the bounding box. One of `point_prompts` or `box_prompts` must be set.
+    Box prompts, to detect a segment within the bounding box. One of `point_prompts` or `box_prompts` must be set.
     """
     store: NotRequired[str]
     """
-    (Optional) Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -838,27 +838,27 @@ class TranscribeMediaIn(TypedDict):
     """
     prompt: NotRequired[str]
     """
-    (Optional) Prompt to guide model on the content and context of input audio.
+    Prompt to guide model on the content and context of input audio.
     """
     language: NotRequired[str]
     """
-    (Optional) Language of input audio in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) format.
+    Language of input audio in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) format.
     """
     segment: NotRequired[bool]
     """
-    (Optional) Segment the text into sentences with approximate timestamps.
+    Segment the text into sentences with approximate timestamps.
     """
     align: NotRequired[bool]
     """
-    (Optional) Align transcription to produce more accurate sentence-level timestamps and word-level timestamps. An array of word segments will be included in each sentence segment.
+    Align transcription to produce more accurate sentence-level timestamps and word-level timestamps. An array of word segments will be included in each sentence segment.
     """
     diarize: NotRequired[bool]
     """
-    (Optional) Identify speakers for each segment. Speaker IDs will be included in each segment.
+    Identify speakers for each segment. Speaker IDs will be included in each segment.
     """
     suggest_chapters: NotRequired[bool]
     """
-    (Optional) Suggest automatic chapter markers.
+    Suggest automatic chapter markers.
     """
 
 
@@ -869,15 +869,15 @@ class TranscribedWord(TypedDict):
     """
     start: NotRequired[float]
     """
-    (Optional) Start time of word, in seconds.
+    Start time of word, in seconds.
     """
     end: NotRequired[float]
     """
-    (Optional) End time of word, in seconds.
+    End time of word, in seconds.
     """
     speaker: NotRequired[str]
     """
-    (Optional) ID of speaker, if `diarize` is enabled.
+    ID of speaker, if `diarize` is enabled.
     """
 
 
@@ -896,11 +896,11 @@ class TranscribedSegment(TypedDict):
     """
     speaker: NotRequired[str]
     """
-    (Optional) ID of speaker, if `diarize` is enabled.
+    ID of speaker, if `diarize` is enabled.
     """
     words: NotRequired[List[TranscribedWord]]
     """
-    (Optional) Aligned words, if `align` is enabled.
+    Aligned words, if `align` is enabled.
     """
 
 
@@ -922,11 +922,11 @@ class TranscribeMediaOut(TypedDict):
     """
     segments: NotRequired[List[TranscribedSegment]]
     """
-    (Optional) Transcribed segments, if `segment` is enabled.
+    Transcribed segments, if `segment` is enabled.
     """
     chapters: NotRequired[List[ChapterMarker]]
     """
-    (Optional) Chapter markers, if `suggest_chapters` is enabled.
+    Chapter markers, if `suggest_chapters` is enabled.
     """
 
 
@@ -937,11 +937,11 @@ class GenerateSpeechIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    (Optional) Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the audio data will be returned as a base64-encoded string.
+    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the audio data will be returned as a base64-encoded string.
     """
     node: NotRequired[Literal["XTTSV2"]]
     """
-    (Optional) Selected node.
+    Selected node.
     """
 
 
@@ -959,15 +959,15 @@ class XTTSV2In(TypedDict):
     """
     audio_uri: NotRequired[str]
     """
-    (Optional) Reference audio used to synthesize the speaker. If unset, a default speaker voice will be used.
+    Reference audio used to synthesize the speaker. If unset, a default speaker voice will be used.
     """
     language: NotRequired[str]
     """
-    (Optional) Language of input text. Supported languages: `en, de, fr, es, it, pt, pl, zh, ar, cs, ru, nl, tr, hu, ko`.
+    Language of input text. Supported languages: `en, de, fr, es, it, pt, pl, zh, ar, cs, ru, nl, tr, hu, ko`.
     """
     store: NotRequired[str]
     """
-    (Optional) Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the audio data will be returned as a base64-encoded string.
+    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the audio data will be returned as a base64-encoded string.
     """
 
 
@@ -985,11 +985,11 @@ class Embedding(TypedDict):
     """
     doc_id: NotRequired[str]
     """
-    (Optional) Vector store document ID.
+    Vector store document ID.
     """
     metadata: NotRequired[Dict[str, Any]]
     """
-    (Optional) Vector store document metadata.
+    Vector store document metadata.
     """
 
 
@@ -1000,23 +1000,23 @@ class EmbedTextIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    (Optional) [Vector store](/docs/vector-stores) identifier.
+    [Vector store](/docs/vector-stores) identifier.
     """
     metadata: NotRequired[Dict[str, Any]]
     """
-    (Optional) Metadata that can be used to query the vector store. Ignored if `store` is unset.
+    Metadata that can be used to query the vector store. Ignored if `store` is unset.
     """
     embedded_metadata_keys: NotRequired[List[str]]
     """
-    (Optional) Choose keys from `metadata` to embed with text.
+    Choose keys from `metadata` to embed with text.
     """
     doc_id: NotRequired[str]
     """
-    (Optional) Vector store document ID. Ignored if `store` is unset.
+    Vector store document ID. Ignored if `store` is unset.
     """
     node: NotRequired[Literal["JinaV2", "CLIP"]]
     """
-    (Optional) Selected node.
+    Selected node.
     """
 
 
@@ -1034,11 +1034,11 @@ class EmbedTextItem(TypedDict):
     """
     metadata: NotRequired[Dict[str, Any]]
     """
-    (Optional) Metadata that can be used to query the vector store. Ignored if `store` is unset.
+    Metadata that can be used to query the vector store. Ignored if `store` is unset.
     """
     doc_id: NotRequired[str]
     """
-    (Optional) Vector store document ID. Ignored if `store` is unset.
+    Vector store document ID. Ignored if `store` is unset.
     """
 
 
@@ -1049,15 +1049,15 @@ class MultiEmbedTextIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    (Optional) [Vector store](/docs/vector-stores) identifier.
+    [Vector store](/docs/vector-stores) identifier.
     """
     embedded_metadata_keys: NotRequired[List[str]]
     """
-    (Optional) Choose keys from `metadata` to embed with text.
+    Choose keys from `metadata` to embed with text.
     """
     node: NotRequired[Literal["JinaV2", "CLIP"]]
     """
-    (Optional) Selected node.
+    Selected node.
     """
 
 
@@ -1075,11 +1075,11 @@ class JinaV2In(TypedDict):
     """
     store: NotRequired[str]
     """
-    (Optional) [Vector store](/docs/vector-stores) identifier.
+    [Vector store](/docs/vector-stores) identifier.
     """
     embedded_metadata_keys: NotRequired[List[str]]
     """
-    (Optional) Choose keys from `metadata` to embed with text.
+    Choose keys from `metadata` to embed with text.
     """
 
 
@@ -1097,15 +1097,15 @@ class EmbedImageIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    (Optional) [Vector store](/docs/vector-stores) identifier.
+    [Vector store](/docs/vector-stores) identifier.
     """
     doc_id: NotRequired[str]
     """
-    (Optional) Vector store document ID. Ignored if `store` is unset.
+    Vector store document ID. Ignored if `store` is unset.
     """
     node: NotRequired[Literal["CLIP"]]
     """
-    (Optional) Selected node.
+    Selected node.
     """
 
 
@@ -1123,26 +1123,26 @@ class EmbedImageItem(TypedDict):
     """
     doc_id: NotRequired[str]
     """
-    (Optional) Vector store document ID. Ignored if `store` is unset.
+    Vector store document ID. Ignored if `store` is unset.
     """
 
 
 class EmbedTextOrImageItem(TypedDict):
     image_uri: NotRequired[str]
     """
-    (Optional) Image to embed.
+    Image to embed.
     """
     text: NotRequired[str]
     """
-    (Optional) Text to embed.
+    Text to embed.
     """
     metadata: NotRequired[Dict[str, Any]]
     """
-    (Optional) Metadata that can be used to query the vector store. Ignored if `store` is unset.
+    Metadata that can be used to query the vector store. Ignored if `store` is unset.
     """
     doc_id: NotRequired[str]
     """
-    (Optional) Vector store document ID. Ignored if `store` is unset.
+    Vector store document ID. Ignored if `store` is unset.
     """
 
 
@@ -1153,11 +1153,11 @@ class MultiEmbedImageIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    (Optional) [Vector store](/docs/vector-stores) identifier.
+    [Vector store](/docs/vector-stores) identifier.
     """
     node: NotRequired[Literal["CLIP"]]
     """
-    (Optional) Selected node.
+    Selected node.
     """
 
 
@@ -1175,7 +1175,7 @@ class CLIPIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    (Optional) [Vector store](/docs/vector-stores) identifier.
+    [Vector store](/docs/vector-stores) identifier.
     """
 
 
@@ -1197,15 +1197,15 @@ class CreateVectorStoreIn(TypedDict):
     """
     m: NotRequired[int]
     """
-    (Optional) The max number of connections per layer for the index.
+    The max number of connections per layer for the index.
     """
     ef_construction: NotRequired[int]
     """
-    (Optional) The size of the dynamic candidate list for constructing the index graph.
+    The size of the dynamic candidate list for constructing the index graph.
     """
     metric: NotRequired[Literal["cosine", "l2", "inner"]]
     """
-    (Optional) The distance metric to construct the index with.
+    The distance metric to construct the index with.
     """
 
 
@@ -1239,7 +1239,7 @@ class ListVectorStoresIn(TypedDict):
 class ListVectorStoresOut(TypedDict):
     stores: NotRequired[List[CreateVectorStoreOut]]
     """
-    (Optional) List of vector stores.
+    List of vector stores.
     """
 
 
@@ -1327,11 +1327,11 @@ class UpdateVectorParams(TypedDict):
     """
     vector: NotRequired[List[float]]
     """
-    (Optional) Embedding vector.
+    Embedding vector.
     """
     metadata: NotRequired[Dict[str, Any]]
     """
-    (Optional) Document metadata.
+    Document metadata.
     """
 
 
@@ -1376,43 +1376,43 @@ class QueryVectorStoreIn(TypedDict):
     """
     query_strings: NotRequired[List[str]]
     """
-    (Optional) Texts to embed and use for the query.
+    Texts to embed and use for the query.
     """
     query_image_uris: NotRequired[List[str]]
     """
-    (Optional) Image URIs to embed and use for the query.
+    Image URIs to embed and use for the query.
     """
     query_vectors: NotRequired[List[List[float]]]
     """
-    (Optional) Vectors to use for the query.
+    Vectors to use for the query.
     """
     query_ids: NotRequired[List[str]]
     """
-    (Optional) Document IDs to use for the query.
+    Document IDs to use for the query.
     """
     top_k: NotRequired[int]
     """
-    (Optional) Number of results to return.
+    Number of results to return.
     """
     ef_search: NotRequired[int]
     """
-    (Optional) The size of the dynamic candidate list for searching the index graph.
+    The size of the dynamic candidate list for searching the index graph.
     """
     include_values: NotRequired[bool]
     """
-    (Optional) Include the values of the vectors in the response.
+    Include the values of the vectors in the response.
     """
     include_metadata: NotRequired[bool]
     """
-    (Optional) Include the metadata of the vectors in the response.
+    Include the metadata of the vectors in the response.
     """
     filters: NotRequired[Dict[str, Any]]
     """
-    (Optional) Filter metadata by key-value pairs.
+    Filter metadata by key-value pairs.
     """
     metric: NotRequired[Literal["cosine", "l2", "inner"]]
     """
-    (Optional) The distance metric used for the query. Defaults to the distance metric the vector store was created with.
+    The distance metric used for the query. Defaults to the distance metric the vector store was created with.
     """
 
 
@@ -1427,11 +1427,11 @@ class VectorStoreQueryResult(TypedDict):
     """
     vector: NotRequired[List[float]]
     """
-    (Optional) Embedding vector.
+    Embedding vector.
     """
     metadata: NotRequired[Dict[str, Any]]
     """
-    (Optional) Document metadata.
+    Document metadata.
     """
 
 
@@ -1442,13 +1442,13 @@ class QueryVectorStoreOut(TypedDict):
     """
     name: NotRequired[str]
     """
-    (Optional) Vector store name.
+    Vector store name.
     """
     model: NotRequired[Literal["jina-v2", "clip"]]
     """
-    (Optional) Selected embedding model.
+    Selected embedding model.
     """
     metric: NotRequired[Literal["cosine", "l2", "inner"]]
     """
-    (Optional) The distance metric used for the query.
+    The distance metric used for the query.
     """

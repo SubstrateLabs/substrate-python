@@ -1,12 +1,11 @@
 """
 ꩜ Substrate
 @GENERATED FILE
-20240416.20240416
+20240416.20240418
 """
 from typing import Type
 
-from .core.corenode import CoreNode
-from .dataclass_models import (
+from .core.models import (
     CLIPOut,
     JinaV2Out,
     XTTSV2Out,
@@ -48,6 +47,7 @@ from .dataclass_models import (
     StableDiffusionXLLightningOut,
     StableDiffusionXLControlNetOut,
 )
+from .core.corenode import CoreNode
 from .typeddict_models import (
     CLIPIn,
     JinaV2In,
@@ -141,7 +141,7 @@ class GenerateText(CoreNode):
     https://substrate.run/library#GenerateText
     """
 
-    def __init__(self, args: GenerateTextIn):
+    def __init__(self, args: GenerateTextIn, hide: bool = False):
         """
         Input arguments: `prompt`, `temperature` (optional), `max_tokens` (optional), `node` (optional)
 
@@ -149,7 +149,7 @@ class GenerateText(CoreNode):
 
         https://substrate.run/library#GenerateText
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "GenerateText"
 
     @property
@@ -175,7 +175,7 @@ class MultiGenerateText(CoreNode):
     https://substrate.run/library#MultiGenerateText
     """
 
-    def __init__(self, args: MultiGenerateTextIn):
+    def __init__(self, args: MultiGenerateTextIn, hide: bool = False):
         """
         Input arguments: `prompt` (optional), `batch_prompts` (optional), `num_choices` (optional), `temperature` (optional), `max_tokens` (optional), `node` (optional)
 
@@ -183,7 +183,7 @@ class MultiGenerateText(CoreNode):
 
         https://substrate.run/library#MultiGenerateText
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "MultiGenerateText"
 
     @property
@@ -209,7 +209,7 @@ class GenerateJSON(CoreNode):
     https://substrate.run/library#GenerateJSON
     """
 
-    def __init__(self, args: GenerateJSONIn):
+    def __init__(self, args: GenerateJSONIn, hide: bool = False):
         """
         Input arguments: `prompt`, `json_schema`, `temperature` (optional), `max_tokens` (optional), `node` (optional)
 
@@ -217,7 +217,7 @@ class GenerateJSON(CoreNode):
 
         https://substrate.run/library#GenerateJSON
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "GenerateJSON"
 
     @property
@@ -243,7 +243,7 @@ class MultiGenerateJSON(CoreNode):
     https://substrate.run/library#MultiGenerateJSON
     """
 
-    def __init__(self, args: MultiGenerateJSONIn):
+    def __init__(self, args: MultiGenerateJSONIn, hide: bool = False):
         """
         Input arguments: `prompt` (optional), `json_schema`, `batch_prompts` (optional), `num_choices` (optional), `temperature` (optional), `max_tokens` (optional), `node` (optional)
 
@@ -251,7 +251,7 @@ class MultiGenerateJSON(CoreNode):
 
         https://substrate.run/library#MultiGenerateJSON
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "MultiGenerateJSON"
 
     @property
@@ -277,7 +277,7 @@ class GenerateTextVision(CoreNode):
     https://substrate.run/library#GenerateTextVision
     """
 
-    def __init__(self, args: GenerateTextVisionIn):
+    def __init__(self, args: GenerateTextVisionIn, hide: bool = False):
         """
         Input arguments: `prompt`, `image_uris`, `max_tokens` (optional), `node` (optional)
 
@@ -285,7 +285,7 @@ class GenerateTextVision(CoreNode):
 
         https://substrate.run/library#GenerateTextVision
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "GenerateTextVision"
 
     @property
@@ -311,7 +311,7 @@ class Mistral7BInstruct(CoreNode):
     https://substrate.run/library#Mistral7BInstruct
     """
 
-    def __init__(self, args: Mistral7BInstructIn):
+    def __init__(self, args: Mistral7BInstructIn, hide: bool = False):
         """
         Input arguments: `prompt` (optional), `num_choices` (optional), `json_schema` (optional), `batch_prompts` (optional), `temperature` (optional), `max_tokens` (optional)
 
@@ -319,7 +319,7 @@ class Mistral7BInstruct(CoreNode):
 
         https://substrate.run/library#Mistral7BInstruct
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "Mistral7BInstruct"
 
     @property
@@ -345,7 +345,7 @@ class Firellava13B(CoreNode):
     https://substrate.run/library#Firellava13B
     """
 
-    def __init__(self, args: Firellava13BIn):
+    def __init__(self, args: Firellava13BIn, hide: bool = False):
         """
         Input arguments: `prompt`, `image_uris`, `max_tokens` (optional)
 
@@ -353,7 +353,7 @@ class Firellava13B(CoreNode):
 
         https://substrate.run/library#Firellava13B
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "Firellava13B"
 
     @property
@@ -379,7 +379,7 @@ class GenerateImage(CoreNode):
     https://substrate.run/library#GenerateImage
     """
 
-    def __init__(self, args: GenerateImageIn):
+    def __init__(self, args: GenerateImageIn, hide: bool = False):
         """
         Input arguments: `prompt`, `store` (optional), `node` (optional)
 
@@ -387,7 +387,7 @@ class GenerateImage(CoreNode):
 
         https://substrate.run/library#GenerateImage
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "GenerateImage"
 
     @property
@@ -413,7 +413,7 @@ class MultiGenerateImage(CoreNode):
     https://substrate.run/library#MultiGenerateImage
     """
 
-    def __init__(self, args: MultiGenerateImageIn):
+    def __init__(self, args: MultiGenerateImageIn, hide: bool = False):
         """
         Input arguments: `prompt`, `num_images`, `store` (optional), `node` (optional)
 
@@ -421,7 +421,7 @@ class MultiGenerateImage(CoreNode):
 
         https://substrate.run/library#MultiGenerateImage
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "MultiGenerateImage"
 
     @property
@@ -447,7 +447,7 @@ class GenerativeEditImage(CoreNode):
     https://substrate.run/library#GenerativeEditImage
     """
 
-    def __init__(self, args: GenerativeEditImageIn):
+    def __init__(self, args: GenerativeEditImageIn, hide: bool = False):
         """
         Input arguments: `image_uri`, `prompt`, `mask_image_uri` (optional), `store` (optional), `node` (optional)
 
@@ -455,7 +455,7 @@ class GenerativeEditImage(CoreNode):
 
         https://substrate.run/library#GenerativeEditImage
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "GenerativeEditImage"
 
     @property
@@ -481,7 +481,7 @@ class MultiGenerativeEditImage(CoreNode):
     https://substrate.run/library#MultiGenerativeEditImage
     """
 
-    def __init__(self, args: MultiGenerativeEditImageIn):
+    def __init__(self, args: MultiGenerativeEditImageIn, hide: bool = False):
         """
         Input arguments: `image_uri`, `prompt`, `mask_image_uri` (optional), `num_images`, `store` (optional), `node` (optional)
 
@@ -489,7 +489,7 @@ class MultiGenerativeEditImage(CoreNode):
 
         https://substrate.run/library#MultiGenerativeEditImage
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "MultiGenerativeEditImage"
 
     @property
@@ -515,7 +515,7 @@ class StableDiffusionXL(CoreNode):
     https://substrate.run/library#StableDiffusionXL
     """
 
-    def __init__(self, args: StableDiffusionXLIn):
+    def __init__(self, args: StableDiffusionXLIn, hide: bool = False):
         """
         Input arguments: `prompt`, `negative_prompt` (optional), `steps` (optional), `num_images`, `store` (optional), `height` (optional), `width` (optional), `seeds` (optional), `guidance_scale` (optional)
 
@@ -523,7 +523,7 @@ class StableDiffusionXL(CoreNode):
 
         https://substrate.run/library#StableDiffusionXL
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "StableDiffusionXL"
 
     @property
@@ -549,7 +549,7 @@ class StableDiffusionXLLightning(CoreNode):
     https://substrate.run/library#StableDiffusionXLLightning
     """
 
-    def __init__(self, args: StableDiffusionXLLightningIn):
+    def __init__(self, args: StableDiffusionXLLightningIn, hide: bool = False):
         """
         Input arguments: `prompt`, `negative_prompt` (optional), `num_images` (optional), `store` (optional), `height` (optional), `width` (optional), `seeds` (optional)
 
@@ -557,7 +557,7 @@ class StableDiffusionXLLightning(CoreNode):
 
         https://substrate.run/library#StableDiffusionXLLightning
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "StableDiffusionXLLightning"
 
     @property
@@ -583,7 +583,7 @@ class StableDiffusionXLInpaint(CoreNode):
     https://substrate.run/library#StableDiffusionXLInpaint
     """
 
-    def __init__(self, args: StableDiffusionXLInpaintIn):
+    def __init__(self, args: StableDiffusionXLInpaintIn, hide: bool = False):
         """
         Input arguments: `image_uri`, `prompt`, `mask_image_uri` (optional), `num_images`, `output_resolution` (optional), `negative_prompt` (optional), `store` (optional), `strength` (optional), `seeds` (optional)
 
@@ -591,7 +591,7 @@ class StableDiffusionXLInpaint(CoreNode):
 
         https://substrate.run/library#StableDiffusionXLInpaint
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "StableDiffusionXLInpaint"
 
     @property
@@ -617,7 +617,7 @@ class StableDiffusionXLControlNet(CoreNode):
     https://substrate.run/library#StableDiffusionXLControlNet
     """
 
-    def __init__(self, args: StableDiffusionXLControlNetIn):
+    def __init__(self, args: StableDiffusionXLControlNetIn, hide: bool = False):
         """
         Input arguments: `image_uri`, `control_method`, `prompt`, `num_images`, `output_resolution` (optional), `negative_prompt` (optional), `store` (optional), `conditioning_scale` (optional), `seeds` (optional)
 
@@ -625,7 +625,7 @@ class StableDiffusionXLControlNet(CoreNode):
 
         https://substrate.run/library#StableDiffusionXLControlNet
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "StableDiffusionXLControlNet"
 
     @property
@@ -651,7 +651,7 @@ class StableDiffusionXLIPAdapter(CoreNode):
     https://substrate.run/library#StableDiffusionXLIPAdapter
     """
 
-    def __init__(self, args: StableDiffusionXLIPAdapterIn):
+    def __init__(self, args: StableDiffusionXLIPAdapterIn, hide: bool = False):
         """
         Input arguments: `prompt`, `image_prompt_uri` (optional), `num_images`, `ip_adapter_scale` (optional), `negative_prompt` (optional), `store` (optional), `width` (optional), `height` (optional), `seeds` (optional)
 
@@ -659,7 +659,7 @@ class StableDiffusionXLIPAdapter(CoreNode):
 
         https://substrate.run/library#StableDiffusionXLIPAdapter
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "StableDiffusionXLIPAdapter"
 
     @property
@@ -685,7 +685,7 @@ class TranscribeMedia(CoreNode):
     https://substrate.run/library#TranscribeMedia
     """
 
-    def __init__(self, args: TranscribeMediaIn):
+    def __init__(self, args: TranscribeMediaIn, hide: bool = False):
         """
         Input arguments: `audio_uri`, `prompt` (optional), `language` (optional), `segment` (optional), `align` (optional), `diarize` (optional), `suggest_chapters` (optional)
 
@@ -693,7 +693,7 @@ class TranscribeMedia(CoreNode):
 
         https://substrate.run/library#TranscribeMedia
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "TranscribeMedia"
 
     @property
@@ -719,7 +719,7 @@ class GenerateSpeech(CoreNode):
     https://substrate.run/library#GenerateSpeech
     """
 
-    def __init__(self, args: GenerateSpeechIn):
+    def __init__(self, args: GenerateSpeechIn, hide: bool = False):
         """
         Input arguments: `text`, `store` (optional), `node` (optional)
 
@@ -727,7 +727,7 @@ class GenerateSpeech(CoreNode):
 
         https://substrate.run/library#GenerateSpeech
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "GenerateSpeech"
 
     @property
@@ -753,7 +753,7 @@ class XTTSV2(CoreNode):
     https://substrate.run/library#XTTSV2
     """
 
-    def __init__(self, args: XTTSV2In):
+    def __init__(self, args: XTTSV2In, hide: bool = False):
         """
         Input arguments: `text`, `audio_uri` (optional), `language` (optional), `store` (optional)
 
@@ -761,7 +761,7 @@ class XTTSV2(CoreNode):
 
         https://substrate.run/library#XTTSV2
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "XTTSV2"
 
     @property
@@ -787,7 +787,7 @@ class RemoveBackground(CoreNode):
     https://substrate.run/library#RemoveBackground
     """
 
-    def __init__(self, args: RemoveBackgroundIn):
+    def __init__(self, args: RemoveBackgroundIn, hide: bool = False):
         """
         Input arguments: `image_uri`, `return_mask` (optional), `background_color` (optional), `store` (optional), `node` (optional)
 
@@ -795,7 +795,7 @@ class RemoveBackground(CoreNode):
 
         https://substrate.run/library#RemoveBackground
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "RemoveBackground"
 
     @property
@@ -821,7 +821,7 @@ class FillMask(CoreNode):
     https://substrate.run/library#FillMask
     """
 
-    def __init__(self, args: FillMaskIn):
+    def __init__(self, args: FillMaskIn, hide: bool = False):
         """
         Input arguments: `image_uri`, `mask_image_uri`, `store` (optional), `node` (optional)
 
@@ -829,7 +829,7 @@ class FillMask(CoreNode):
 
         https://substrate.run/library#FillMask
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "FillMask"
 
     @property
@@ -855,7 +855,7 @@ class UpscaleImage(CoreNode):
     https://substrate.run/library#UpscaleImage
     """
 
-    def __init__(self, args: UpscaleImageIn):
+    def __init__(self, args: UpscaleImageIn, hide: bool = False):
         """
         Input arguments: `image_uri`, `store` (optional), `node` (optional)
 
@@ -863,7 +863,7 @@ class UpscaleImage(CoreNode):
 
         https://substrate.run/library#UpscaleImage
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "UpscaleImage"
 
     @property
@@ -889,7 +889,7 @@ class SegmentUnderPoint(CoreNode):
     https://substrate.run/library#SegmentUnderPoint
     """
 
-    def __init__(self, args: SegmentUnderPointIn):
+    def __init__(self, args: SegmentUnderPointIn, hide: bool = False):
         """
         Input arguments: `image_uri`, `point`, `store` (optional), `node` (optional)
 
@@ -897,7 +897,7 @@ class SegmentUnderPoint(CoreNode):
 
         https://substrate.run/library#SegmentUnderPoint
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "SegmentUnderPoint"
 
     @property
@@ -923,7 +923,7 @@ class DISISNet(CoreNode):
     https://substrate.run/library#DISISNet
     """
 
-    def __init__(self, args: DISISNetIn):
+    def __init__(self, args: DISISNetIn, hide: bool = False):
         """
         Input arguments: `image_uri`, `store` (optional)
 
@@ -931,7 +931,7 @@ class DISISNet(CoreNode):
 
         https://substrate.run/library#DISISNet
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "DISISNet"
 
     @property
@@ -957,7 +957,7 @@ class BigLaMa(CoreNode):
     https://substrate.run/library#BigLaMa
     """
 
-    def __init__(self, args: BigLaMaIn):
+    def __init__(self, args: BigLaMaIn, hide: bool = False):
         """
         Input arguments: `image_uri`, `mask_image_uri`, `store` (optional)
 
@@ -965,7 +965,7 @@ class BigLaMa(CoreNode):
 
         https://substrate.run/library#BigLaMa
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "BigLaMa"
 
     @property
@@ -991,7 +991,7 @@ class RealESRGAN(CoreNode):
     https://substrate.run/library#RealESRGAN
     """
 
-    def __init__(self, args: RealESRGANIn):
+    def __init__(self, args: RealESRGANIn, hide: bool = False):
         """
         Input arguments: `image_uri`, `store` (optional)
 
@@ -999,7 +999,7 @@ class RealESRGAN(CoreNode):
 
         https://substrate.run/library#RealESRGAN
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "RealESRGAN"
 
     @property
@@ -1025,7 +1025,7 @@ class SegmentAnything(CoreNode):
     https://substrate.run/library#SegmentAnything
     """
 
-    def __init__(self, args: SegmentAnythingIn):
+    def __init__(self, args: SegmentAnythingIn, hide: bool = False):
         """
         Input arguments: `image_uri`, `point_prompts` (optional), `box_prompts` (optional), `store` (optional)
 
@@ -1033,7 +1033,7 @@ class SegmentAnything(CoreNode):
 
         https://substrate.run/library#SegmentAnything
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "SegmentAnything"
 
     @property
@@ -1059,7 +1059,7 @@ class EmbedText(CoreNode):
     https://substrate.run/library#EmbedText
     """
 
-    def __init__(self, args: EmbedTextIn):
+    def __init__(self, args: EmbedTextIn, hide: bool = False):
         """
         Input arguments: `text`, `store` (optional), `metadata` (optional), `embedded_metadata_keys` (optional), `doc_id` (optional), `node` (optional)
 
@@ -1067,7 +1067,7 @@ class EmbedText(CoreNode):
 
         https://substrate.run/library#EmbedText
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "EmbedText"
 
     @property
@@ -1093,7 +1093,7 @@ class MultiEmbedText(CoreNode):
     https://substrate.run/library#MultiEmbedText
     """
 
-    def __init__(self, args: MultiEmbedTextIn):
+    def __init__(self, args: MultiEmbedTextIn, hide: bool = False):
         """
         Input arguments: `items`, `store` (optional), `embedded_metadata_keys` (optional), `node` (optional)
 
@@ -1101,7 +1101,7 @@ class MultiEmbedText(CoreNode):
 
         https://substrate.run/library#MultiEmbedText
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "MultiEmbedText"
 
     @property
@@ -1127,7 +1127,7 @@ class EmbedImage(CoreNode):
     https://substrate.run/library#EmbedImage
     """
 
-    def __init__(self, args: EmbedImageIn):
+    def __init__(self, args: EmbedImageIn, hide: bool = False):
         """
         Input arguments: `image_uri`, `store` (optional), `doc_id` (optional), `node` (optional)
 
@@ -1135,7 +1135,7 @@ class EmbedImage(CoreNode):
 
         https://substrate.run/library#EmbedImage
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "EmbedImage"
 
     @property
@@ -1161,7 +1161,7 @@ class MultiEmbedImage(CoreNode):
     https://substrate.run/library#MultiEmbedImage
     """
 
-    def __init__(self, args: MultiEmbedImageIn):
+    def __init__(self, args: MultiEmbedImageIn, hide: bool = False):
         """
         Input arguments: `items`, `store` (optional), `node` (optional)
 
@@ -1169,7 +1169,7 @@ class MultiEmbedImage(CoreNode):
 
         https://substrate.run/library#MultiEmbedImage
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "MultiEmbedImage"
 
     @property
@@ -1195,7 +1195,7 @@ class JinaV2(CoreNode):
     https://substrate.run/library#JinaV2
     """
 
-    def __init__(self, args: JinaV2In):
+    def __init__(self, args: JinaV2In, hide: bool = False):
         """
         Input arguments: `items`, `store` (optional), `embedded_metadata_keys` (optional)
 
@@ -1203,7 +1203,7 @@ class JinaV2(CoreNode):
 
         https://substrate.run/library#JinaV2
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "JinaV2"
 
     @property
@@ -1229,7 +1229,7 @@ class CLIP(CoreNode):
     https://substrate.run/library#CLIP
     """
 
-    def __init__(self, args: CLIPIn):
+    def __init__(self, args: CLIPIn, hide: bool = False):
         """
         Input arguments: `items`, `store` (optional)
 
@@ -1237,7 +1237,7 @@ class CLIP(CoreNode):
 
         https://substrate.run/library#CLIP
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "CLIP"
 
     @property
@@ -1263,7 +1263,7 @@ class CreateVectorStore(CoreNode):
     https://substrate.run/library#CreateVectorStore
     """
 
-    def __init__(self, args: CreateVectorStoreIn):
+    def __init__(self, args: CreateVectorStoreIn, hide: bool = False):
         """
         Input arguments: `name`, `model`, `m` (optional), `ef_construction` (optional), `metric` (optional)
 
@@ -1271,7 +1271,7 @@ class CreateVectorStore(CoreNode):
 
         https://substrate.run/library#CreateVectorStore
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "CreateVectorStore"
 
     @property
@@ -1297,7 +1297,7 @@ class ListVectorStores(CoreNode):
     https://substrate.run/library#ListVectorStores
     """
 
-    def __init__(self, args: ListVectorStoresIn):
+    def __init__(self, args: ListVectorStoresIn, hide: bool = False):
         """
         Input arguments:
 
@@ -1305,7 +1305,7 @@ class ListVectorStores(CoreNode):
 
         https://substrate.run/library#ListVectorStores
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "ListVectorStores"
 
     @property
@@ -1331,7 +1331,7 @@ class DeleteVectorStore(CoreNode):
     https://substrate.run/library#DeleteVectorStore
     """
 
-    def __init__(self, args: DeleteVectorStoreIn):
+    def __init__(self, args: DeleteVectorStoreIn, hide: bool = False):
         """
         Input arguments: `name`, `model`
 
@@ -1339,7 +1339,7 @@ class DeleteVectorStore(CoreNode):
 
         https://substrate.run/library#DeleteVectorStore
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "DeleteVectorStore"
 
     @property
@@ -1365,7 +1365,7 @@ class QueryVectorStore(CoreNode):
     https://substrate.run/library#QueryVectorStore
     """
 
-    def __init__(self, args: QueryVectorStoreIn):
+    def __init__(self, args: QueryVectorStoreIn, hide: bool = False):
         """
         Input arguments: `name`, `model`, `query_strings` (optional), `query_image_uris` (optional), `query_vectors` (optional), `query_ids` (optional), `top_k` (optional), `ef_search` (optional), `include_values` (optional), `include_metadata` (optional), `filters` (optional), `metric` (optional)
 
@@ -1373,7 +1373,7 @@ class QueryVectorStore(CoreNode):
 
         https://substrate.run/library#QueryVectorStore
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "QueryVectorStore"
 
     @property
@@ -1399,7 +1399,7 @@ class FetchVectors(CoreNode):
     https://substrate.run/library#FetchVectors
     """
 
-    def __init__(self, args: FetchVectorsIn):
+    def __init__(self, args: FetchVectorsIn, hide: bool = False):
         """
         Input arguments: `name`, `model`, `ids`
 
@@ -1407,7 +1407,7 @@ class FetchVectors(CoreNode):
 
         https://substrate.run/library#FetchVectors
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "FetchVectors"
 
     @property
@@ -1433,7 +1433,7 @@ class UpdateVectors(CoreNode):
     https://substrate.run/library#UpdateVectors
     """
 
-    def __init__(self, args: UpdateVectorsIn):
+    def __init__(self, args: UpdateVectorsIn, hide: bool = False):
         """
         Input arguments: `name`, `model`, `vectors`
 
@@ -1441,7 +1441,7 @@ class UpdateVectors(CoreNode):
 
         https://substrate.run/library#UpdateVectors
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "UpdateVectors"
 
     @property
@@ -1467,7 +1467,7 @@ class DeleteVectors(CoreNode):
     https://substrate.run/library#DeleteVectors
     """
 
-    def __init__(self, args: DeleteVectorsIn):
+    def __init__(self, args: DeleteVectorsIn, hide: bool = False):
         """
         Input arguments: `name`, `model`, `ids`
 
@@ -1475,7 +1475,7 @@ class DeleteVectors(CoreNode):
 
         https://substrate.run/library#DeleteVectors
         """
-        super().__init__(**args)
+        super().__init__(hide=hide, **args)
         self.node = "DeleteVectors"
 
     @property

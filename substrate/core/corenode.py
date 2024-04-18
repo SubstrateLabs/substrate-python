@@ -1,7 +1,7 @@
 """
 CORE ꩜ SUBSTRATE
 """
-from typing import Any, List, Type
+from typing import Any, List, Type, Optional
 
 import networkx as nx
 
@@ -13,7 +13,7 @@ from .client.find_futures_client import find_futures_client
 
 
 class CoreNode:
-    def __init__(self, hide: bool = False, **attr):
+    def __init__(self, hide: bool = True, **attr):
         self.node = self.__class__.__name__
         self.args = attr
         generator_instance = IDGenerator.get_instance(self.__class__.__name__)
@@ -43,6 +43,12 @@ class CoreNode:
             **({"_should_output_globally": self._should_output_globally} if self._should_output_globally else {}),
             **({"_global_output_keys": self._global_output_keys} if self._global_output_keys else {}),
         }
+
+    def subscribe(self, keys: Optional[List[str]] = None):
+        self._should_output_globally = True
+        if keys:
+            self._global_output_keys = keys
+        return self
 
     @property
     def future(self) -> TracedFuture:
