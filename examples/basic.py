@@ -12,19 +12,20 @@ if api_key is None:
 
 from substrate import Substrate, GenerateText, sb
 
-a = GenerateText({"prompt": "Give me a random number. Return only the number, with no additional text."}).subscribe()
+a = GenerateText({"prompt": "Give me a random number. Return only the number, with no additional text."})
 b = GenerateText(
     {
         "prompt": sb.concat("multiply NUMBER by 8. NUMBER: ", a.future.text, "\n Return only the number, no text"),
         # "foo": "bar",
     }
-).subscribe()
+)
 
 s = Substrate(api_key=api_key)
 res = s.run(a, b)
 
 
 a_out = res.get(a, a.out_type)
+print(a_out)
 
 # print("response", res.api_response.status_code)
 # print("json", json.dumps(res.json, indent=2))
