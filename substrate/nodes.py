@@ -145,7 +145,7 @@ class GenerateText(CoreNode):
         """
         Input arguments: `prompt`, `temperature` (optional), `max_tokens` (optional), `node` (optional)
 
-        Output fields: `future.text` (optional)
+        Output fields: `future.text`
 
         https://substrate.run/library#GenerateText
         """
@@ -161,7 +161,7 @@ class GenerateText(CoreNode):
         """
         Future reference to this node's output.
 
-        Output fields: `future.text` (optional)
+        Output fields: `future.text`
 
         https://substrate.run/library#GenerateText
         """
@@ -213,7 +213,7 @@ class GenerateJSON(CoreNode):
         """
         Input arguments: `prompt`, `json_schema`, `temperature` (optional), `max_tokens` (optional), `node` (optional)
 
-        Output fields: `future.json_object` (optional)
+        Output fields: `future.json_object`
 
         https://substrate.run/library#GenerateJSON
         """
@@ -229,7 +229,7 @@ class GenerateJSON(CoreNode):
         """
         Future reference to this node's output.
 
-        Output fields: `future.json_object` (optional)
+        Output fields: `future.json_object`
 
         https://substrate.run/library#GenerateJSON
         """

@@ -69,7 +69,7 @@ class FutureGenerateTextOut:
     (Future reference)
     """
 
-    text: Optional[str] = None
+    text: str
     """
     (Future reference)
     Text response.
@@ -115,7 +115,7 @@ class FutureGenerateJSONOut:
     (Future reference)
     """
 
-    json_object: Optional[Dict[str, Any]] = None
+    json_object: Dict[str, Any]
     """
     (Future reference)
     JSON response.
