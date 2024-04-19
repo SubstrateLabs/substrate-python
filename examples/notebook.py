@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.3.4"
+__generated_with = "0.4.1"
 app = marimo.App()
 
 
@@ -21,7 +21,7 @@ def __():
 def __(api_key):
     from substrate import Substrate
 
-    s = Substrate(api_key=api_key, base_url="https://api-staging.substrate.run")
+    s = Substrate(api_key=api_key)
     return Substrate, s
 
 
@@ -32,15 +32,9 @@ def __(s):
     _node = StableDiffusionXL(
         {
             "prompt": "cinematic film still of a translucent (cybernetic chip data center predatory spiral Conus Conidae shell)1.5, (glowing veins)1.3 (cables going into body, circuits)1.3, extremely detailed, vignette, highly detailed, high budget, bokeh, moody, epic, gorgeous, film grain, grainy",
-            "num_images": 2,
-            # "steps": 30,
-            "width": 800,
-            "height": 512,
-            # "guidance_scale": 7
-            # "store": "hosted",
         }
     ).subscribe()
-    _res = s.run(_node)
+    _res = s.run(_node, use_requests=True)
     sdxl_out = _node.output(_res)
     print(sdxl_out)
     return StableDiffusionXL, sdxl_out

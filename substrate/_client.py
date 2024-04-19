@@ -1,5 +1,4 @@
 import logging
-import datetime
 import platform
 from typing import Any, Dict, Union, Optional
 from typing_extensions import Literal
@@ -86,58 +85,33 @@ def get_architecture() -> Arch:
 
 
 class APIResponse:
-    http_response: httpx.Response
-    _json: Optional[Dict[str, Any]]
-    request: Optional[Dict[str, Any]] = None
-
-    def __init__(self, http_response: httpx.Response):
-        self.http_response = http_response
-        self._json = None
-        try:
-            self._json = self.http_response.json()
-        except Exception as exc:
-            log.debug("Could not read JSON from response data due to %s - %s", type(exc), exc)
+    def __init__(
+        self,
+        status_code: int,
+        json: Any,
+        headers: Any,
+        request: Dict[str, Any],
+    ):
+        self._status_code = status_code
+        self._json = json
+        self._headers = headers
+        self._request = request
 
     @property
     def json(self) -> Optional[Dict[str, Any]]:
         return self._json
 
     @property
-    def headers(self) -> httpx.Headers:
-        return self.http_response.headers
+    def headers(self) -> Any:
+        return self._headers
 
     @property
-    def http_request(self) -> httpx.Request:
-        return self.http_response.request
+    def request(self) -> Dict[str, Any]:
+        return self._request
 
     @property
     def status_code(self) -> int:
-        return self.http_response.status_code
-
-    @property
-    def url(self) -> httpx.URL:
-        return self.http_response.url
-
-    @property
-    def method(self) -> str:
-        return str(self.http_request.method)
-
-    @property
-    def content(self) -> bytes:
-        return self.http_response.content
-
-    @property
-    def text(self) -> str:
-        return self.http_response.text
-
-    @property
-    def http_version(self) -> str:
-        return self.http_response.http_version
-
-    @property
-    def elapsed(self) -> datetime.timedelta:
-        """The time taken for the complete request/response cycle to complete."""
-        return self.http_response.elapsed
+        return self._status_code
 
 
 class APIClient:
@@ -204,14 +178,51 @@ class APIClient:
         url = f"{self._base_url}/compose"
         body = {"dag": dag}
         http_response = self._client.post(url, headers=self.default_headers, json=body)
-        res = APIResponse(http_response=http_response)
-        res.request = body
+        _json = None
+        try:
+            _json = http_response.json()
+        except Exception as exc:
+            log.debug("Could not read JSON from response data due to %s - %s", type(exc), exc)
+        res = APIResponse(
+            status_code=http_response.status_code,
+            json=_json,
+            headers=http_response.headers,
+            request=body,
+        )
         return res
 
     async def async_post_compose(self, dag: Dict[str, Any]) -> APIResponse:
         url = f"{self._base_url}/compose"
         body = {"dag": dag}
         http_response = await self._async_client.post(url, headers=self.default_headers, json=body)
-        res = APIResponse(http_response=http_response)
-        res.request = body
+        _json = None
+        try:
+            _json = http_response.json()
+        except Exception as exc:
+            log.debug("Could not read JSON from response data due to %s - %s", type(exc), exc)
+        res = APIResponse(
+            status_code=http_response.status_code,
+            json=_json,
+            headers=http_response.headers,
+            request=body,
+        )
+        return res
+
+    def post_compose_requests(self, dag: Dict[str, Any]) -> APIResponse:
+        import requests  # Ensure to import requests
+
+        url = f"{self._base_url}/compose"
+        body = {"dag": dag}
+        http_response = requests.post(url, headers=self.default_headers, json=body)
+        _json = None
+        try:
+            _json = http_response.json()
+        except Exception as exc:
+            log.debug("Could not read JSON from response data due to %s - %s", type(exc), exc)
+        res = APIResponse(
+            status_code=http_response.status_code,
+            json=_json,
+            headers=http_response.headers,
+            request=body,
+        )
         return res

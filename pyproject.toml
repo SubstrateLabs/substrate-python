@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "substrate"
-version = "120240416.0.8"
+version = "120240416.0.9"
 description = "Substrate Python SDK"
 readme = "README.md"
 authors = [ "vprtwn <ben@substrate.run>", "liamgriffiths <liam@substrate.run>",]
@@ -47,6 +47,7 @@ networkx = ">=3.2.1"
 httpx = ">=0.26.0"
 distro = ">=1.8.0"
 typing-extensions = "^4.10.0"
+requests = "^2.31.0"
 
 [tool.ruff.lint]
 ignore-init-module-imports = true
