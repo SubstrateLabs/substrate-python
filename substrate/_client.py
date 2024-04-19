@@ -171,7 +171,7 @@ class APIClient:
 
     @property
     def auth_headers(self) -> Dict[str, str]:
-        return {"Authorization": f"Bearer {self.api_key}"}
+        return {"Authorization": f"Bearer {self._api_key}"}
 
     @property
     def platform_headers(self) -> Dict[str, str]:

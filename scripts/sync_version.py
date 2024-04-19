@@ -10,7 +10,7 @@ def ok(message):
     print("\033[32m✓\033[0m", message)
 
 
-SDK_VERSION = "1.0.6"
+SDK_VERSION = "1.0.8"
 
 # Update version
 version_path = "substrate/GEN_VERSION"

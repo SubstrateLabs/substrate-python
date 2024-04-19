@@ -57,7 +57,7 @@ class GenerateTextOut(BaseModel):
     class Config:
         extra = Extra.allow
 
-    text: Optional[str] = None
+    text: str
     """
     Text response.
     """
@@ -93,7 +93,7 @@ class GenerateJSONOut(BaseModel):
     class Config:
         extra = Extra.allow
 
-    json_object: Optional[Dict[str, Any]] = None
+    json_object: Dict[str, Any]
     """
     JSON response.
     """

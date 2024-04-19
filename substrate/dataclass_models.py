@@ -50,7 +50,7 @@ class GenerateTextIn:
 
 @dataclass
 class GenerateTextOut:
-    text: Optional[str] = None
+    text: str
     """
     Text response.
     """
@@ -82,7 +82,7 @@ class GenerateJSONIn:
 
 @dataclass
 class GenerateJSONOut:
-    json_object: Optional[Dict[str, Any]] = None
+    json_object: Dict[str, Any]
     """
     JSON response.
     """

@@ -1,7 +1,7 @@
 """
 ꩜ Substrate Python SDK
 
-20240416.20240416
+20240416.20240418
 """
 
 from .nodes import (
