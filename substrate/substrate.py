@@ -15,7 +15,7 @@ class Substrate:
         self,
         api_key: str,
         base_url: str = "https://api.substrate.run",
-        backend: str = "v0",
+        backend: str = "v1",
         additional_headers: Dict[str, Any] = {},
     ):
         """
@@ -29,7 +29,7 @@ class Substrate:
             additional_headers=additional_headers,
         )
 
-    def run(self, *nodes: CoreNode, use_requests: bool = False) -> SubstrateResponse:
+    def run(self, *nodes: CoreNode) -> SubstrateResponse:
         """
         Run the given nodes.
         """
@@ -37,10 +37,7 @@ class Substrate:
         for node in nodes:
             graph.add_node(node)
         graph_serialized = graph.to_dict()
-        if use_requests:
-            api_response = self._client.post_compose_requests(dag=graph_serialized)
-        else:
-            api_response = self._client.post_compose(dag=graph_serialized)
+        api_response = self._client.post_compose(dag=graph_serialized)
         return SubstrateResponse(api_response=api_response)
 
     async def async_run(self, *nodes: CoreNode) -> SubstrateResponse:
