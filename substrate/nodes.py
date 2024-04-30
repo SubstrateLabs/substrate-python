@@ -3,7 +3,6 @@
 @GENERATED FILE
 20240418.20240429
 """
-from typing import Type
 
 from .core.models import (
     CLIPOut,
@@ -167,12 +166,8 @@ class RunCode(CoreNode[RunCodeOut]):
 
         https://substrate.run/library#RunCode
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=RunCodeOut, **args)
         self.node = "RunCode"
-
-    @property
-    def out_type(self) -> Type[RunCodeOut]:
-        return RunCodeOut
 
     @property
     def future(self) -> FutureRunCodeOut:  # type: ignore
@@ -201,12 +196,8 @@ class GenerateText(CoreNode[GenerateTextOut]):
 
         https://substrate.run/library#GenerateText
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=GenerateTextOut, **args)
         self.node = "GenerateText"
-
-    @property
-    def out_type(self) -> Type[GenerateTextOut]:
-        return GenerateTextOut
 
     @property
     def future(self) -> FutureGenerateTextOut:  # type: ignore
@@ -235,12 +226,8 @@ class MultiGenerateText(CoreNode[MultiGenerateTextOut]):
 
         https://substrate.run/library#MultiGenerateText
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=MultiGenerateTextOut, **args)
         self.node = "MultiGenerateText"
-
-    @property
-    def out_type(self) -> Type[MultiGenerateTextOut]:
-        return MultiGenerateTextOut
 
     @property
     def future(self) -> FutureMultiGenerateTextOut:  # type: ignore
@@ -269,12 +256,8 @@ class BatchGenerateText(CoreNode[BatchGenerateTextOut]):
 
         https://substrate.run/library#BatchGenerateText
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=BatchGenerateTextOut, **args)
         self.node = "BatchGenerateText"
-
-    @property
-    def out_type(self) -> Type[BatchGenerateTextOut]:
-        return BatchGenerateTextOut
 
     @property
     def future(self) -> FutureBatchGenerateTextOut:  # type: ignore
@@ -303,12 +286,8 @@ class BatchGenerateJSON(CoreNode[BatchGenerateJSONOut]):
 
         https://substrate.run/library#BatchGenerateJSON
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=BatchGenerateJSONOut, **args)
         self.node = "BatchGenerateJSON"
-
-    @property
-    def out_type(self) -> Type[BatchGenerateJSONOut]:
-        return BatchGenerateJSONOut
 
     @property
     def future(self) -> FutureBatchGenerateJSONOut:  # type: ignore
@@ -337,12 +316,8 @@ class GenerateJSON(CoreNode[GenerateJSONOut]):
 
         https://substrate.run/library#GenerateJSON
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=GenerateJSONOut, **args)
         self.node = "GenerateJSON"
-
-    @property
-    def out_type(self) -> Type[GenerateJSONOut]:
-        return GenerateJSONOut
 
     @property
     def future(self) -> FutureGenerateJSONOut:  # type: ignore
@@ -371,12 +346,8 @@ class MultiGenerateJSON(CoreNode[MultiGenerateJSONOut]):
 
         https://substrate.run/library#MultiGenerateJSON
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=MultiGenerateJSONOut, **args)
         self.node = "MultiGenerateJSON"
-
-    @property
-    def out_type(self) -> Type[MultiGenerateJSONOut]:
-        return MultiGenerateJSONOut
 
     @property
     def future(self) -> FutureMultiGenerateJSONOut:  # type: ignore
@@ -405,12 +376,8 @@ class GenerateTextVision(CoreNode[GenerateTextVisionOut]):
 
         https://substrate.run/library#GenerateTextVision
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=GenerateTextVisionOut, **args)
         self.node = "GenerateTextVision"
-
-    @property
-    def out_type(self) -> Type[GenerateTextVisionOut]:
-        return GenerateTextVisionOut
 
     @property
     def future(self) -> FutureGenerateTextVisionOut:  # type: ignore
@@ -439,12 +406,8 @@ class Mistral7BInstruct(CoreNode[Mistral7BInstructOut]):
 
         https://substrate.run/library#Mistral7BInstruct
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=Mistral7BInstructOut, **args)
         self.node = "Mistral7BInstruct"
-
-    @property
-    def out_type(self) -> Type[Mistral7BInstructOut]:
-        return Mistral7BInstructOut
 
     @property
     def future(self) -> FutureMistral7BInstructOut:  # type: ignore
@@ -473,12 +436,8 @@ class Mixtral8x7BInstruct(CoreNode[Mixtral8x7BInstructOut]):
 
         https://substrate.run/library#Mixtral8x7BInstruct
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=Mixtral8x7BInstructOut, **args)
         self.node = "Mixtral8x7BInstruct"
-
-    @property
-    def out_type(self) -> Type[Mixtral8x7BInstructOut]:
-        return Mixtral8x7BInstructOut
 
     @property
     def future(self) -> FutureMixtral8x7BInstructOut:  # type: ignore
@@ -507,12 +466,8 @@ class Llama3Instruct8B(CoreNode[Llama3Instruct8BOut]):
 
         https://substrate.run/library#Llama3Instruct8B
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=Llama3Instruct8BOut, **args)
         self.node = "Llama3Instruct8B"
-
-    @property
-    def out_type(self) -> Type[Llama3Instruct8BOut]:
-        return Llama3Instruct8BOut
 
     @property
     def future(self) -> FutureLlama3Instruct8BOut:  # type: ignore
@@ -541,12 +496,8 @@ class Llama3Instruct70B(CoreNode[Llama3Instruct70BOut]):
 
         https://substrate.run/library#Llama3Instruct70B
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=Llama3Instruct70BOut, **args)
         self.node = "Llama3Instruct70B"
-
-    @property
-    def out_type(self) -> Type[Llama3Instruct70BOut]:
-        return Llama3Instruct70BOut
 
     @property
     def future(self) -> FutureLlama3Instruct70BOut:  # type: ignore
@@ -575,12 +526,8 @@ class Firellava13B(CoreNode[Firellava13BOut]):
 
         https://substrate.run/library#Firellava13B
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=Firellava13BOut, **args)
         self.node = "Firellava13B"
-
-    @property
-    def out_type(self) -> Type[Firellava13BOut]:
-        return Firellava13BOut
 
     @property
     def future(self) -> FutureFirellava13BOut:  # type: ignore
@@ -609,12 +556,8 @@ class GenerateImage(CoreNode[GenerateImageOut]):
 
         https://substrate.run/library#GenerateImage
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=GenerateImageOut, **args)
         self.node = "GenerateImage"
-
-    @property
-    def out_type(self) -> Type[GenerateImageOut]:
-        return GenerateImageOut
 
     @property
     def future(self) -> FutureGenerateImageOut:  # type: ignore
@@ -643,12 +586,8 @@ class MultiGenerateImage(CoreNode[MultiGenerateImageOut]):
 
         https://substrate.run/library#MultiGenerateImage
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=MultiGenerateImageOut, **args)
         self.node = "MultiGenerateImage"
-
-    @property
-    def out_type(self) -> Type[MultiGenerateImageOut]:
-        return MultiGenerateImageOut
 
     @property
     def future(self) -> FutureMultiGenerateImageOut:  # type: ignore
@@ -677,12 +616,8 @@ class GenerativeEditImage(CoreNode[GenerativeEditImageOut]):
 
         https://substrate.run/library#GenerativeEditImage
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=GenerativeEditImageOut, **args)
         self.node = "GenerativeEditImage"
-
-    @property
-    def out_type(self) -> Type[GenerativeEditImageOut]:
-        return GenerativeEditImageOut
 
     @property
     def future(self) -> FutureGenerativeEditImageOut:  # type: ignore
@@ -711,12 +646,8 @@ class MultiGenerativeEditImage(CoreNode[MultiGenerativeEditImageOut]):
 
         https://substrate.run/library#MultiGenerativeEditImage
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=MultiGenerativeEditImageOut, **args)
         self.node = "MultiGenerativeEditImage"
-
-    @property
-    def out_type(self) -> Type[MultiGenerativeEditImageOut]:
-        return MultiGenerativeEditImageOut
 
     @property
     def future(self) -> FutureMultiGenerativeEditImageOut:  # type: ignore
@@ -745,12 +676,8 @@ class StableDiffusionXL(CoreNode[StableDiffusionXLOut]):
 
         https://substrate.run/library#StableDiffusionXL
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=StableDiffusionXLOut, **args)
         self.node = "StableDiffusionXL"
-
-    @property
-    def out_type(self) -> Type[StableDiffusionXLOut]:
-        return StableDiffusionXLOut
 
     @property
     def future(self) -> FutureStableDiffusionXLOut:  # type: ignore
@@ -779,12 +706,8 @@ class StableDiffusionXLLightning(CoreNode[StableDiffusionXLLightningOut]):
 
         https://substrate.run/library#StableDiffusionXLLightning
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=StableDiffusionXLLightningOut, **args)
         self.node = "StableDiffusionXLLightning"
-
-    @property
-    def out_type(self) -> Type[StableDiffusionXLLightningOut]:
-        return StableDiffusionXLLightningOut
 
     @property
     def future(self) -> FutureStableDiffusionXLLightningOut:  # type: ignore
@@ -813,12 +736,8 @@ class StableDiffusionXLInpaint(CoreNode[StableDiffusionXLInpaintOut]):
 
         https://substrate.run/library#StableDiffusionXLInpaint
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=StableDiffusionXLInpaintOut, **args)
         self.node = "StableDiffusionXLInpaint"
-
-    @property
-    def out_type(self) -> Type[StableDiffusionXLInpaintOut]:
-        return StableDiffusionXLInpaintOut
 
     @property
     def future(self) -> FutureStableDiffusionXLInpaintOut:  # type: ignore
@@ -847,12 +766,8 @@ class StableDiffusionXLControlNet(CoreNode[StableDiffusionXLControlNetOut]):
 
         https://substrate.run/library#StableDiffusionXLControlNet
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=StableDiffusionXLControlNetOut, **args)
         self.node = "StableDiffusionXLControlNet"
-
-    @property
-    def out_type(self) -> Type[StableDiffusionXLControlNetOut]:
-        return StableDiffusionXLControlNetOut
 
     @property
     def future(self) -> FutureStableDiffusionXLControlNetOut:  # type: ignore
@@ -881,12 +796,8 @@ class StableDiffusionXLIPAdapter(CoreNode[StableDiffusionXLIPAdapterOut]):
 
         https://substrate.run/library#StableDiffusionXLIPAdapter
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=StableDiffusionXLIPAdapterOut, **args)
         self.node = "StableDiffusionXLIPAdapter"
-
-    @property
-    def out_type(self) -> Type[StableDiffusionXLIPAdapterOut]:
-        return StableDiffusionXLIPAdapterOut
 
     @property
     def future(self) -> FutureStableDiffusionXLIPAdapterOut:  # type: ignore
@@ -915,12 +826,8 @@ class TranscribeMedia(CoreNode[TranscribeMediaOut]):
 
         https://substrate.run/library#TranscribeMedia
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=TranscribeMediaOut, **args)
         self.node = "TranscribeMedia"
-
-    @property
-    def out_type(self) -> Type[TranscribeMediaOut]:
-        return TranscribeMediaOut
 
     @property
     def future(self) -> FutureTranscribeMediaOut:  # type: ignore
@@ -949,12 +856,8 @@ class GenerateSpeech(CoreNode[GenerateSpeechOut]):
 
         https://substrate.run/library#GenerateSpeech
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=GenerateSpeechOut, **args)
         self.node = "GenerateSpeech"
-
-    @property
-    def out_type(self) -> Type[GenerateSpeechOut]:
-        return GenerateSpeechOut
 
     @property
     def future(self) -> FutureGenerateSpeechOut:  # type: ignore
@@ -983,12 +886,8 @@ class XTTSV2(CoreNode[XTTSV2Out]):
 
         https://substrate.run/library#XTTSV2
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=XTTSV2Out, **args)
         self.node = "XTTSV2"
-
-    @property
-    def out_type(self) -> Type[XTTSV2Out]:
-        return XTTSV2Out
 
     @property
     def future(self) -> FutureXTTSV2Out:  # type: ignore
@@ -1017,12 +916,8 @@ class RemoveBackground(CoreNode[RemoveBackgroundOut]):
 
         https://substrate.run/library#RemoveBackground
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=RemoveBackgroundOut, **args)
         self.node = "RemoveBackground"
-
-    @property
-    def out_type(self) -> Type[RemoveBackgroundOut]:
-        return RemoveBackgroundOut
 
     @property
     def future(self) -> FutureRemoveBackgroundOut:  # type: ignore
@@ -1051,12 +946,8 @@ class FillMask(CoreNode[FillMaskOut]):
 
         https://substrate.run/library#FillMask
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=FillMaskOut, **args)
         self.node = "FillMask"
-
-    @property
-    def out_type(self) -> Type[FillMaskOut]:
-        return FillMaskOut
 
     @property
     def future(self) -> FutureFillMaskOut:  # type: ignore
@@ -1085,12 +976,8 @@ class UpscaleImage(CoreNode[UpscaleImageOut]):
 
         https://substrate.run/library#UpscaleImage
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=UpscaleImageOut, **args)
         self.node = "UpscaleImage"
-
-    @property
-    def out_type(self) -> Type[UpscaleImageOut]:
-        return UpscaleImageOut
 
     @property
     def future(self) -> FutureUpscaleImageOut:  # type: ignore
@@ -1119,12 +1006,8 @@ class SegmentUnderPoint(CoreNode[SegmentUnderPointOut]):
 
         https://substrate.run/library#SegmentUnderPoint
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=SegmentUnderPointOut, **args)
         self.node = "SegmentUnderPoint"
-
-    @property
-    def out_type(self) -> Type[SegmentUnderPointOut]:
-        return SegmentUnderPointOut
 
     @property
     def future(self) -> FutureSegmentUnderPointOut:  # type: ignore
@@ -1153,12 +1036,8 @@ class DISISNet(CoreNode[DISISNetOut]):
 
         https://substrate.run/library#DISISNet
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=DISISNetOut, **args)
         self.node = "DISISNet"
-
-    @property
-    def out_type(self) -> Type[DISISNetOut]:
-        return DISISNetOut
 
     @property
     def future(self) -> FutureDISISNetOut:  # type: ignore
@@ -1187,12 +1066,8 @@ class BigLaMa(CoreNode[BigLaMaOut]):
 
         https://substrate.run/library#BigLaMa
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=BigLaMaOut, **args)
         self.node = "BigLaMa"
-
-    @property
-    def out_type(self) -> Type[BigLaMaOut]:
-        return BigLaMaOut
 
     @property
     def future(self) -> FutureBigLaMaOut:  # type: ignore
@@ -1221,12 +1096,8 @@ class RealESRGAN(CoreNode[RealESRGANOut]):
 
         https://substrate.run/library#RealESRGAN
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=RealESRGANOut, **args)
         self.node = "RealESRGAN"
-
-    @property
-    def out_type(self) -> Type[RealESRGANOut]:
-        return RealESRGANOut
 
     @property
     def future(self) -> FutureRealESRGANOut:  # type: ignore
@@ -1255,12 +1126,8 @@ class SegmentAnything(CoreNode[SegmentAnythingOut]):
 
         https://substrate.run/library#SegmentAnything
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=SegmentAnythingOut, **args)
         self.node = "SegmentAnything"
-
-    @property
-    def out_type(self) -> Type[SegmentAnythingOut]:
-        return SegmentAnythingOut
 
     @property
     def future(self) -> FutureSegmentAnythingOut:  # type: ignore
@@ -1289,12 +1156,8 @@ class EmbedText(CoreNode[EmbedTextOut]):
 
         https://substrate.run/library#EmbedText
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=EmbedTextOut, **args)
         self.node = "EmbedText"
-
-    @property
-    def out_type(self) -> Type[EmbedTextOut]:
-        return EmbedTextOut
 
     @property
     def future(self) -> FutureEmbedTextOut:  # type: ignore
@@ -1323,12 +1186,8 @@ class MultiEmbedText(CoreNode[MultiEmbedTextOut]):
 
         https://substrate.run/library#MultiEmbedText
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=MultiEmbedTextOut, **args)
         self.node = "MultiEmbedText"
-
-    @property
-    def out_type(self) -> Type[MultiEmbedTextOut]:
-        return MultiEmbedTextOut
 
     @property
     def future(self) -> FutureMultiEmbedTextOut:  # type: ignore
@@ -1357,12 +1216,8 @@ class EmbedImage(CoreNode[EmbedImageOut]):
 
         https://substrate.run/library#EmbedImage
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=EmbedImageOut, **args)
         self.node = "EmbedImage"
-
-    @property
-    def out_type(self) -> Type[EmbedImageOut]:
-        return EmbedImageOut
 
     @property
     def future(self) -> FutureEmbedImageOut:  # type: ignore
@@ -1391,12 +1246,8 @@ class MultiEmbedImage(CoreNode[MultiEmbedImageOut]):
 
         https://substrate.run/library#MultiEmbedImage
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=MultiEmbedImageOut, **args)
         self.node = "MultiEmbedImage"
-
-    @property
-    def out_type(self) -> Type[MultiEmbedImageOut]:
-        return MultiEmbedImageOut
 
     @property
     def future(self) -> FutureMultiEmbedImageOut:  # type: ignore
@@ -1425,12 +1276,8 @@ class JinaV2(CoreNode[JinaV2Out]):
 
         https://substrate.run/library#JinaV2
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=JinaV2Out, **args)
         self.node = "JinaV2"
-
-    @property
-    def out_type(self) -> Type[JinaV2Out]:
-        return JinaV2Out
 
     @property
     def future(self) -> FutureJinaV2Out:  # type: ignore
@@ -1459,12 +1306,8 @@ class CLIP(CoreNode[CLIPOut]):
 
         https://substrate.run/library#CLIP
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=CLIPOut, **args)
         self.node = "CLIP"
-
-    @property
-    def out_type(self) -> Type[CLIPOut]:
-        return CLIPOut
 
     @property
     def future(self) -> FutureCLIPOut:  # type: ignore
@@ -1493,12 +1336,8 @@ class CreateVectorStore(CoreNode[CreateVectorStoreOut]):
 
         https://substrate.run/library#CreateVectorStore
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=CreateVectorStoreOut, **args)
         self.node = "CreateVectorStore"
-
-    @property
-    def out_type(self) -> Type[CreateVectorStoreOut]:
-        return CreateVectorStoreOut
 
     @property
     def future(self) -> FutureCreateVectorStoreOut:  # type: ignore
@@ -1527,12 +1366,8 @@ class ListVectorStores(CoreNode[ListVectorStoresOut]):
 
         https://substrate.run/library#ListVectorStores
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=ListVectorStoresOut, **args)
         self.node = "ListVectorStores"
-
-    @property
-    def out_type(self) -> Type[ListVectorStoresOut]:
-        return ListVectorStoresOut
 
     @property
     def future(self) -> FutureListVectorStoresOut:  # type: ignore
@@ -1561,12 +1396,8 @@ class DeleteVectorStore(CoreNode[DeleteVectorStoreOut]):
 
         https://substrate.run/library#DeleteVectorStore
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=DeleteVectorStoreOut, **args)
         self.node = "DeleteVectorStore"
-
-    @property
-    def out_type(self) -> Type[DeleteVectorStoreOut]:
-        return DeleteVectorStoreOut
 
     @property
     def future(self) -> FutureDeleteVectorStoreOut:  # type: ignore
@@ -1595,12 +1426,8 @@ class QueryVectorStore(CoreNode[QueryVectorStoreOut]):
 
         https://substrate.run/library#QueryVectorStore
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=QueryVectorStoreOut, **args)
         self.node = "QueryVectorStore"
-
-    @property
-    def out_type(self) -> Type[QueryVectorStoreOut]:
-        return QueryVectorStoreOut
 
     @property
     def future(self) -> FutureQueryVectorStoreOut:  # type: ignore
@@ -1629,12 +1456,8 @@ class FetchVectors(CoreNode[FetchVectorsOut]):
 
         https://substrate.run/library#FetchVectors
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=FetchVectorsOut, **args)
         self.node = "FetchVectors"
-
-    @property
-    def out_type(self) -> Type[FetchVectorsOut]:
-        return FetchVectorsOut
 
     @property
     def future(self) -> FutureFetchVectorsOut:  # type: ignore
@@ -1663,12 +1486,8 @@ class UpdateVectors(CoreNode[UpdateVectorsOut]):
 
         https://substrate.run/library#UpdateVectors
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=UpdateVectorsOut, **args)
         self.node = "UpdateVectors"
-
-    @property
-    def out_type(self) -> Type[UpdateVectorsOut]:
-        return UpdateVectorsOut
 
     @property
     def future(self) -> FutureUpdateVectorsOut:  # type: ignore
@@ -1697,12 +1516,8 @@ class DeleteVectors(CoreNode[DeleteVectorsOut]):
 
         https://substrate.run/library#DeleteVectors
         """
-        super().__init__(hide=hide, **args)
+        super().__init__(hide=hide, out_type=DeleteVectorsOut, **args)
         self.node = "DeleteVectors"
-
-    @property
-    def out_type(self) -> Type[DeleteVectorsOut]:
-        return DeleteVectorsOut
 
     @property
     def future(self) -> FutureDeleteVectorsOut:  # type: ignore

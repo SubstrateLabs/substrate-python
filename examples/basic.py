@@ -22,3 +22,6 @@ response = substrate.run(story, summary)
 
 summary_out = response.get(story)
 print(summary_out.text)
+
+viz = Substrate.visualize(story, summary)
+print(viz)
