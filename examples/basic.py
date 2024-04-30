@@ -20,5 +20,5 @@ summary = GenerateText({"prompt": sb.concat("summarize this story in one sentenc
 
 response = substrate.run(story, summary)
 
-summary_out = response.get(story, story.out_type)
+summary_out = response.get(story)
 print(summary_out.text)

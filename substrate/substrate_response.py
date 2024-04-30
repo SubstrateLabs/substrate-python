@@ -1,9 +1,9 @@
-from typing import Any, Dict, Type, TypeVar, Optional
+from typing import Any, Dict, TypeVar, Optional
 
 from ._client import APIResponse
 from .core.corenode import CoreNode
 
-T = TypeVar("T", bound=Any)
+OT = TypeVar("OT", bound=Any)
 
 
 class SubstrateResponse:
@@ -14,7 +14,7 @@ class SubstrateResponse:
     def __init__(self, api_response: APIResponse):
         self._api_response = api_response
 
-    def get(self, node: CoreNode, output_type: Type[T]) -> T:
+    def get(self, node: CoreNode[OT]) -> OT:
         """
         Get the output of a specific node.
         """
@@ -22,7 +22,7 @@ class SubstrateResponse:
             data = self.json["data"]
             if data.get(node.id):
                 node_json = data[node.id]
-                return output_type(**node_json)
+                return node.out_type(**node_json)
         raise ValueError(f"Node {node.id} not found in response")
 
     @property

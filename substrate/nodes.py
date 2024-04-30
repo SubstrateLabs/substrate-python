@@ -152,7 +152,7 @@ from .future_dataclass_models import (
 )
 
 
-class RunCode(CoreNode):
+class RunCode(CoreNode[RunCodeOut]):
     """
     Evaluate code using a code interpreter.
 
@@ -186,7 +186,7 @@ class RunCode(CoreNode):
         return super().future  # type: ignore
 
 
-class GenerateText(CoreNode):
+class GenerateText(CoreNode[GenerateTextOut]):
     """
     Generate text using a language model.
 
@@ -220,7 +220,7 @@ class GenerateText(CoreNode):
         return super().future  # type: ignore
 
 
-class MultiGenerateText(CoreNode):
+class MultiGenerateText(CoreNode[MultiGenerateTextOut]):
     """
     Generate multiple text choices using a language model.
 
@@ -254,7 +254,7 @@ class MultiGenerateText(CoreNode):
         return super().future  # type: ignore
 
 
-class BatchGenerateText(CoreNode):
+class BatchGenerateText(CoreNode[BatchGenerateTextOut]):
     """
     Generate text for multiple prompts in batch using a language model.
 
@@ -288,7 +288,7 @@ class BatchGenerateText(CoreNode):
         return super().future  # type: ignore
 
 
-class BatchGenerateJSON(CoreNode):
+class BatchGenerateJSON(CoreNode[BatchGenerateJSONOut]):
     """
     Generate JSON for multiple prompts in batch using a language model.
 
@@ -322,7 +322,7 @@ class BatchGenerateJSON(CoreNode):
         return super().future  # type: ignore
 
 
-class GenerateJSON(CoreNode):
+class GenerateJSON(CoreNode[GenerateJSONOut]):
     """
     Generate JSON using a language model.
 
@@ -356,7 +356,7 @@ class GenerateJSON(CoreNode):
         return super().future  # type: ignore
 
 
-class MultiGenerateJSON(CoreNode):
+class MultiGenerateJSON(CoreNode[MultiGenerateJSONOut]):
     """
     Generate multiple JSON choices using a language model.
 
@@ -390,7 +390,7 @@ class MultiGenerateJSON(CoreNode):
         return super().future  # type: ignore
 
 
-class GenerateTextVision(CoreNode):
+class GenerateTextVision(CoreNode[GenerateTextVisionOut]):
     """
     Generate text with image input.
 
@@ -424,7 +424,7 @@ class GenerateTextVision(CoreNode):
         return super().future  # type: ignore
 
 
-class Mistral7BInstruct(CoreNode):
+class Mistral7BInstruct(CoreNode[Mistral7BInstructOut]):
     """
     Generate text using [Mistral 7B Instruct](https://mistral.ai/news/announcing-mistral-7b).
 
@@ -458,7 +458,7 @@ class Mistral7BInstruct(CoreNode):
         return super().future  # type: ignore
 
 
-class Mixtral8x7BInstruct(CoreNode):
+class Mixtral8x7BInstruct(CoreNode[Mixtral8x7BInstructOut]):
     """
     Generate text using instruct-tuned [Mixtral 8x7B](https://mistral.ai/news/mixtral-of-experts/).
 
@@ -492,7 +492,7 @@ class Mixtral8x7BInstruct(CoreNode):
         return super().future  # type: ignore
 
 
-class Llama3Instruct8B(CoreNode):
+class Llama3Instruct8B(CoreNode[Llama3Instruct8BOut]):
     """
     Generate text using instruct-tuned [Llama 3 8B](https://llama.meta.com/llama3/).
 
@@ -526,7 +526,7 @@ class Llama3Instruct8B(CoreNode):
         return super().future  # type: ignore
 
 
-class Llama3Instruct70B(CoreNode):
+class Llama3Instruct70B(CoreNode[Llama3Instruct70BOut]):
     """
     Generate text using instruct-tuned [Llama 3 70B](https://llama.meta.com/llama3/).
 
@@ -560,7 +560,7 @@ class Llama3Instruct70B(CoreNode):
         return super().future  # type: ignore
 
 
-class Firellava13B(CoreNode):
+class Firellava13B(CoreNode[Firellava13BOut]):
     """
     Generate text with image input using [FireLLaVA 13B](https://fireworks.ai/blog/firellava-the-first-commercially-permissive-oss-llava-model).
 
@@ -594,7 +594,7 @@ class Firellava13B(CoreNode):
         return super().future  # type: ignore
 
 
-class GenerateImage(CoreNode):
+class GenerateImage(CoreNode[GenerateImageOut]):
     """
     Generate an image.
 
@@ -628,7 +628,7 @@ class GenerateImage(CoreNode):
         return super().future  # type: ignore
 
 
-class MultiGenerateImage(CoreNode):
+class MultiGenerateImage(CoreNode[MultiGenerateImageOut]):
     """
     Generate multiple images.
 
@@ -662,7 +662,7 @@ class MultiGenerateImage(CoreNode):
         return super().future  # type: ignore
 
 
-class GenerativeEditImage(CoreNode):
+class GenerativeEditImage(CoreNode[GenerativeEditImageOut]):
     """
     Edit an image using image generation.
 
@@ -696,7 +696,7 @@ class GenerativeEditImage(CoreNode):
         return super().future  # type: ignore
 
 
-class MultiGenerativeEditImage(CoreNode):
+class MultiGenerativeEditImage(CoreNode[MultiGenerativeEditImageOut]):
     """
     Edit multiple images using image generation.
 
@@ -730,7 +730,7 @@ class MultiGenerativeEditImage(CoreNode):
         return super().future  # type: ignore
 
 
-class StableDiffusionXL(CoreNode):
+class StableDiffusionXL(CoreNode[StableDiffusionXLOut]):
     """
     Generate an image using [Stable Diffusion XL](https://arxiv.org/abs/2307.01952).
 
@@ -764,7 +764,7 @@ class StableDiffusionXL(CoreNode):
         return super().future  # type: ignore
 
 
-class StableDiffusionXLLightning(CoreNode):
+class StableDiffusionXLLightning(CoreNode[StableDiffusionXLLightningOut]):
     """
     Generate an image using [Stable Diffusion XL Lightning](https://arxiv.org/abs/2402.13929).
 
@@ -798,7 +798,7 @@ class StableDiffusionXLLightning(CoreNode):
         return super().future  # type: ignore
 
 
-class StableDiffusionXLInpaint(CoreNode):
+class StableDiffusionXLInpaint(CoreNode[StableDiffusionXLInpaintOut]):
     """
     Edit an image using [Stable Diffusion XL](https://arxiv.org/abs/2307.01952). Supports inpainting (edit part of the image with a mask) and image-to-image (edit the full image).
 
@@ -832,7 +832,7 @@ class StableDiffusionXLInpaint(CoreNode):
         return super().future  # type: ignore
 
 
-class StableDiffusionXLControlNet(CoreNode):
+class StableDiffusionXLControlNet(CoreNode[StableDiffusionXLControlNetOut]):
     """
     Generate an image with generation structured by an input image, using Stable Diffusion XL with [ControlNet](https://arxiv.org/abs/2302.05543).
 
@@ -866,7 +866,7 @@ class StableDiffusionXLControlNet(CoreNode):
         return super().future  # type: ignore
 
 
-class StableDiffusionXLIPAdapter(CoreNode):
+class StableDiffusionXLIPAdapter(CoreNode[StableDiffusionXLIPAdapterOut]):
     """
     Generate an image with an image prompt, using Stable Diffusion XL with [IP-Adapter](https://arxiv.org/abs/2308.06721).
 
@@ -900,7 +900,7 @@ class StableDiffusionXLIPAdapter(CoreNode):
         return super().future  # type: ignore
 
 
-class TranscribeMedia(CoreNode):
+class TranscribeMedia(CoreNode[TranscribeMediaOut]):
     """
     Transcribe speech in an audio or video file.
 
@@ -934,7 +934,7 @@ class TranscribeMedia(CoreNode):
         return super().future  # type: ignore
 
 
-class GenerateSpeech(CoreNode):
+class GenerateSpeech(CoreNode[GenerateSpeechOut]):
     """
     Generate speech from text.
 
@@ -968,7 +968,7 @@ class GenerateSpeech(CoreNode):
         return super().future  # type: ignore
 
 
-class XTTSV2(CoreNode):
+class XTTSV2(CoreNode[XTTSV2Out]):
     """
     Generate speech from text using [XTTS v2](https://docs.coqui.ai/en/latest/models/xtts.html).
 
@@ -1002,7 +1002,7 @@ class XTTSV2(CoreNode):
         return super().future  # type: ignore
 
 
-class RemoveBackground(CoreNode):
+class RemoveBackground(CoreNode[RemoveBackgroundOut]):
     """
     Remove the background from an image, with the option to return the foreground as a mask.
 
@@ -1036,7 +1036,7 @@ class RemoveBackground(CoreNode):
         return super().future  # type: ignore
 
 
-class FillMask(CoreNode):
+class FillMask(CoreNode[FillMaskOut]):
     """
     Fill (inpaint) part of an image, e.g. to 'remove' an object.
 
@@ -1070,7 +1070,7 @@ class FillMask(CoreNode):
         return super().future  # type: ignore
 
 
-class UpscaleImage(CoreNode):
+class UpscaleImage(CoreNode[UpscaleImageOut]):
     """
     Upscale an image.
 
@@ -1104,7 +1104,7 @@ class UpscaleImage(CoreNode):
         return super().future  # type: ignore
 
 
-class SegmentUnderPoint(CoreNode):
+class SegmentUnderPoint(CoreNode[SegmentUnderPointOut]):
     """
     Segment an image under a point and return the segment.
 
@@ -1138,7 +1138,7 @@ class SegmentUnderPoint(CoreNode):
         return super().future  # type: ignore
 
 
-class DISISNet(CoreNode):
+class DISISNet(CoreNode[DISISNetOut]):
     """
     Segment image foreground using [DIS IS-Net](https://github.com/xuebinqin/DIS).
 
@@ -1172,7 +1172,7 @@ class DISISNet(CoreNode):
         return super().future  # type: ignore
 
 
-class BigLaMa(CoreNode):
+class BigLaMa(CoreNode[BigLaMaOut]):
     """
     Inpaint a mask using [LaMa](https://github.com/advimman/lama).
 
@@ -1206,7 +1206,7 @@ class BigLaMa(CoreNode):
         return super().future  # type: ignore
 
 
-class RealESRGAN(CoreNode):
+class RealESRGAN(CoreNode[RealESRGANOut]):
     """
     Upscale an image using [RealESRGAN](https://github.com/xinntao/Real-ESRGAN).
 
@@ -1240,7 +1240,7 @@ class RealESRGAN(CoreNode):
         return super().future  # type: ignore
 
 
-class SegmentAnything(CoreNode):
+class SegmentAnything(CoreNode[SegmentAnythingOut]):
     """
     Segment an image using [SegmentAnything](https://github.com/facebookresearch/segment-anything).
 
@@ -1274,7 +1274,7 @@ class SegmentAnything(CoreNode):
         return super().future  # type: ignore
 
 
-class EmbedText(CoreNode):
+class EmbedText(CoreNode[EmbedTextOut]):
     """
     Generate embedding for a text document.
 
@@ -1308,7 +1308,7 @@ class EmbedText(CoreNode):
         return super().future  # type: ignore
 
 
-class MultiEmbedText(CoreNode):
+class MultiEmbedText(CoreNode[MultiEmbedTextOut]):
     """
     Generate embeddings for multiple text documents.
 
@@ -1342,7 +1342,7 @@ class MultiEmbedText(CoreNode):
         return super().future  # type: ignore
 
 
-class EmbedImage(CoreNode):
+class EmbedImage(CoreNode[EmbedImageOut]):
     """
     Generate embedding for an image.
 
@@ -1376,7 +1376,7 @@ class EmbedImage(CoreNode):
         return super().future  # type: ignore
 
 
-class MultiEmbedImage(CoreNode):
+class MultiEmbedImage(CoreNode[MultiEmbedImageOut]):
     """
     Generate embeddings for multiple images.
 
@@ -1410,7 +1410,7 @@ class MultiEmbedImage(CoreNode):
         return super().future  # type: ignore
 
 
-class JinaV2(CoreNode):
+class JinaV2(CoreNode[JinaV2Out]):
     """
     Generate embeddings for multiple text documents using [Jina Embeddings 2](https://arxiv.org/abs/2310.19923).
 
@@ -1444,7 +1444,7 @@ class JinaV2(CoreNode):
         return super().future  # type: ignore
 
 
-class CLIP(CoreNode):
+class CLIP(CoreNode[CLIPOut]):
     """
     Generate embeddings for text or images using [CLIP](https://openai.com/research/clip).
 
@@ -1478,7 +1478,7 @@ class CLIP(CoreNode):
         return super().future  # type: ignore
 
 
-class CreateVectorStore(CoreNode):
+class CreateVectorStore(CoreNode[CreateVectorStoreOut]):
     """
     Create a vector store for storing and querying embeddings.
 
@@ -1512,7 +1512,7 @@ class CreateVectorStore(CoreNode):
         return super().future  # type: ignore
 
 
-class ListVectorStores(CoreNode):
+class ListVectorStores(CoreNode[ListVectorStoresOut]):
     """
     List all vector stores.
 
@@ -1546,7 +1546,7 @@ class ListVectorStores(CoreNode):
         return super().future  # type: ignore
 
 
-class DeleteVectorStore(CoreNode):
+class DeleteVectorStore(CoreNode[DeleteVectorStoreOut]):
     """
     Delete a vector store.
 
@@ -1580,7 +1580,7 @@ class DeleteVectorStore(CoreNode):
         return super().future  # type: ignore
 
 
-class QueryVectorStore(CoreNode):
+class QueryVectorStore(CoreNode[QueryVectorStoreOut]):
     """
     Query a vector store for similar vectors.
 
@@ -1614,7 +1614,7 @@ class QueryVectorStore(CoreNode):
         return super().future  # type: ignore
 
 
-class FetchVectors(CoreNode):
+class FetchVectors(CoreNode[FetchVectorsOut]):
     """
     Fetch vectors from a vector store.
 
@@ -1648,7 +1648,7 @@ class FetchVectors(CoreNode):
         return super().future  # type: ignore
 
 
-class UpdateVectors(CoreNode):
+class UpdateVectors(CoreNode[UpdateVectorsOut]):
     """
     Update vectors in a vector store.
 
@@ -1682,7 +1682,7 @@ class UpdateVectors(CoreNode):
         return super().future  # type: ignore
 
 
-class DeleteVectors(CoreNode):
+class DeleteVectors(CoreNode[DeleteVectorsOut]):
     """
     Delete vectors in a vector store.
 
