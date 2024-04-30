@@ -36,6 +36,52 @@ class ErrorOut:
 
 
 @dataclass
+class FutureRunCodeIn:
+    """
+    (Future reference)
+    """
+
+    code: str
+    """
+    (Future reference)
+    Code to execute.
+    """
+    args: Optional[List[str]] = None
+    """
+    (Future reference)
+    List of command line arguments.
+    """
+    language: Literal["python", "typescript", "javascript"] = "python"
+    """
+    (Future reference)
+    Interpreter to use.
+    """
+
+
+@dataclass
+class FutureRunCodeOut:
+    """
+    (Future reference)
+    """
+
+    json_output: Dict[str, Any]
+    """
+    (Future reference)
+    `output` as parsed JSON. Print serialized json to `stdout` to receive JSON.
+    """
+    output: Optional[str] = None
+    """
+    (Future reference)
+    Contents of `stdout` after executing the code.
+    """
+    error: Optional[str] = None
+    """
+    (Future reference)
+    Contents of `stderr` after executing the code.
+    """
+
+
+@dataclass
 class FutureGenerateTextIn:
     """
     (Future reference)
@@ -56,7 +102,12 @@ class FutureGenerateTextIn:
     (Future reference)
     Maximum number of tokens to generate.
     """
-    node: Literal["Mistral7BInstruct"] = "Mistral7BInstruct"
+    node: Literal[
+        "Mistral7BInstruct",
+        "Mixtral8x7BInstruct",
+        "Llama3Instruct8B",
+        "Llama3Instruct70B",
+    ] = "Mistral7BInstruct"
     """
     (Future reference)
     Selected node.
@@ -102,7 +153,7 @@ class FutureGenerateJSONIn:
     (Future reference)
     Maximum number of tokens to generate.
     """
-    node: Literal["Mistral7BInstruct"] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct"] = "Mistral7BInstruct"
     """
     (Future reference)
     Selected node.
@@ -128,17 +179,12 @@ class FutureMultiGenerateTextIn:
     (Future reference)
     """
 
-    prompt: Optional[str] = None
+    prompt: str
     """
     (Future reference)
     Input prompt.
     """
-    batch_prompts: Optional[List[str]] = None
-    """
-    (Future reference)
-    Batch input prompts.
-    """
-    num_choices: int = 1
+    num_choices: int
     """
     (Future reference)
     Number of choices to generate.
@@ -153,7 +199,12 @@ class FutureMultiGenerateTextIn:
     (Future reference)
     Maximum number of tokens to generate.
     """
-    node: Literal["Mistral7BInstruct"] = "Mistral7BInstruct"
+    node: Literal[
+        "Mistral7BInstruct",
+        "Mixtral8x7BInstruct",
+        "Llama3Instruct8B",
+        "Llama3Instruct70B",
+    ] = "Mistral7BInstruct"
     """
     (Future reference)
     Selected node.
@@ -161,7 +212,7 @@ class FutureMultiGenerateTextIn:
 
 
 @dataclass
-class MultiGenerateTextOutput:
+class FutureMultiGenerateTextOut:
     """
     (Future reference)
     """
@@ -174,43 +225,15 @@ class MultiGenerateTextOutput:
 
 
 @dataclass
-class FutureMultiGenerateTextOut:
+class FutureBatchGenerateTextIn:
     """
     (Future reference)
     """
 
-    outputs: List[MultiGenerateTextOutput]
-    """
-    (Future reference)
-    A single output for `prompt`, or multiple outputs for `batch_prompts`.
-    """
-
-
-@dataclass
-class FutureMultiGenerateJSONIn:
-    """
-    (Future reference)
-    """
-
-    json_schema: Dict[str, Any]
-    """
-    (Future reference)
-    JSON schema to guide `json_object` response.
-    """
-    prompt: Optional[str] = None
-    """
-    (Future reference)
-    Input prompt.
-    """
-    batch_prompts: Optional[List[str]] = None
+    prompts: List[str]
     """
     (Future reference)
     Batch input prompts.
-    """
-    num_choices: int = 2
-    """
-    (Future reference)
-    Number of choices to generate.
     """
     temperature: float = 0.4
     """
@@ -230,7 +253,58 @@ class FutureMultiGenerateJSONIn:
 
 
 @dataclass
-class MultiGenerateJSONOutput:
+class FutureBatchGenerateTextOut:
+    """
+    (Future reference)
+    """
+
+    outputs: List[FutureGenerateTextOut]
+    """
+    (Future reference)
+    Batch outputs.
+    """
+
+
+@dataclass
+class FutureMultiGenerateJSONIn:
+    """
+    (Future reference)
+    """
+
+    prompt: str
+    """
+    (Future reference)
+    Input prompt.
+    """
+    json_schema: Dict[str, Any]
+    """
+    (Future reference)
+    JSON schema to guide `json_object` response.
+    """
+    num_choices: int
+    """
+    (Future reference)
+    Number of choices to generate.
+    """
+    temperature: float = 0.4
+    """
+    (Future reference)
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: Optional[int] = None
+    """
+    (Future reference)
+    Maximum number of tokens to generate.
+    """
+    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct"] = "Mistral7BInstruct"
+    """
+    (Future reference)
+    Selected node.
+    """
+
+
+@dataclass
+class FutureMultiGenerateJSONOut:
     """
     (Future reference)
     """
@@ -243,15 +317,48 @@ class MultiGenerateJSONOutput:
 
 
 @dataclass
-class FutureMultiGenerateJSONOut:
+class FutureBatchGenerateJSONIn:
     """
     (Future reference)
     """
 
-    outputs: List[MultiGenerateJSONOutput]
+    prompts: List[str]
     """
     (Future reference)
-    A single output for `prompt`, or multiple outputs for `batch_prompts`.
+    Batch input prompts.
+    """
+    json_schema: Dict[str, Any]
+    """
+    (Future reference)
+    JSON schema to guide `json_object` response.
+    """
+    temperature: float = 0.4
+    """
+    (Future reference)
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: Optional[int] = None
+    """
+    (Future reference)
+    Maximum number of tokens to generate.
+    """
+    node: Literal["Mistral7BInstruct"] = "Mistral7BInstruct"
+    """
+    (Future reference)
+    Selected node.
+    """
+
+
+@dataclass
+class FutureBatchGenerateJSONOut:
+    """
+    (Future reference)
+    """
+
+    outputs: List[FutureGenerateJSONOut]
+    """
+    (Future reference)
+    Batch outputs.
     """
 
 
@@ -261,7 +368,7 @@ class FutureMistral7BInstructIn:
     (Future reference)
     """
 
-    prompt: Optional[str] = None
+    prompt: str
     """
     (Future reference)
     Input prompt.
@@ -275,11 +382,6 @@ class FutureMistral7BInstructIn:
     """
     (Future reference)
     JSON schema to guide response.
-    """
-    batch_prompts: Optional[List[str]] = None
-    """
-    (Future reference)
-    Batch input prompts.
     """
     temperature: Optional[float] = None
     """
@@ -312,7 +414,7 @@ class Mistral7BInstructChoice:
 
 
 @dataclass
-class Mistral7BInstructOutput:
+class FutureMistral7BInstructOut:
     """
     (Future reference)
     """
@@ -325,15 +427,174 @@ class Mistral7BInstructOutput:
 
 
 @dataclass
-class FutureMistral7BInstructOut:
+class FutureMixtral8x7BInstructIn:
     """
     (Future reference)
     """
 
-    outputs: List[Mistral7BInstructOutput]
+    prompt: str
     """
     (Future reference)
-    A single output for `prompt`, or multiple outputs for `batch_prompts`.
+    Input prompt.
+    """
+    num_choices: int = 1
+    """
+    (Future reference)
+    Number of choices to generate.
+    """
+    json_schema: Optional[Dict[str, Any]] = None
+    """
+    (Future reference)
+    JSON schema to guide response.
+    """
+    temperature: Optional[float] = None
+    """
+    (Future reference)
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: Optional[int] = None
+    """
+    (Future reference)
+    Maximum number of tokens to generate.
+    """
+
+
+@dataclass
+class Mixtral8x7BChoice:
+    """
+    (Future reference)
+    """
+
+    text: Optional[str] = None
+    """
+    (Future reference)
+    Text response, if `json_schema` was not provided.
+    """
+    json_object: Optional[Dict[str, Any]] = None
+    """
+    (Future reference)
+    JSON response, if `json_schema` was provided.
+    """
+
+
+@dataclass
+class FutureMixtral8x7BInstructOut:
+    """
+    (Future reference)
+    """
+
+    choices: List[Mixtral8x7BChoice]
+    """
+    (Future reference)
+    Response choices.
+    """
+
+
+@dataclass
+class FutureLlama3Instruct8BIn:
+    """
+    (Future reference)
+    """
+
+    prompt: str
+    """
+    (Future reference)
+    Input prompt.
+    """
+    num_choices: int = 1
+    """
+    (Future reference)
+    Number of choices to generate.
+    """
+    temperature: Optional[float] = None
+    """
+    (Future reference)
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: Optional[int] = None
+    """
+    (Future reference)
+    Maximum number of tokens to generate.
+    """
+
+
+@dataclass
+class Llama3Instruct8BChoice:
+    """
+    (Future reference)
+    """
+
+    text: Optional[str] = None
+    """
+    (Future reference)
+    Text response.
+    """
+
+
+@dataclass
+class FutureLlama3Instruct8BOut:
+    """
+    (Future reference)
+    """
+
+    choices: List[Llama3Instruct8BChoice]
+    """
+    (Future reference)
+    Response choices.
+    """
+
+
+@dataclass
+class FutureLlama3Instruct70BIn:
+    """
+    (Future reference)
+    """
+
+    prompt: str
+    """
+    (Future reference)
+    Input prompt.
+    """
+    num_choices: int = 1
+    """
+    (Future reference)
+    Number of choices to generate.
+    """
+    temperature: Optional[float] = None
+    """
+    (Future reference)
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: Optional[int] = None
+    """
+    (Future reference)
+    Maximum number of tokens to generate.
+    """
+
+
+@dataclass
+class Llama3Instruct70BChoice:
+    """
+    (Future reference)
+    """
+
+    text: Optional[str] = None
+    """
+    (Future reference)
+    Text response.
+    """
+
+
+@dataclass
+class FutureLlama3Instruct70BOut:
+    """
+    (Future reference)
+    """
+
+    choices: List[Llama3Instruct70BChoice]
+    """
+    (Future reference)
+    Response choices.
     """
 
 
@@ -428,7 +689,7 @@ class FutureGenerateImageIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     node: Literal["StableDiffusionXL"] = "StableDiffusionXL"
     """
@@ -469,7 +730,7 @@ class FutureMultiGenerateImageIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     node: Literal["StableDiffusionXL"] = "StableDiffusionXL"
     """
@@ -520,7 +781,7 @@ class FutureStableDiffusionXLIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     height: int = 1024
     """
@@ -599,7 +860,7 @@ class FutureStableDiffusionXLLightningIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     height: int = 1024
     """
@@ -665,7 +926,7 @@ class FutureStableDiffusionXLIPAdapterIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     width: int = 1024
     """
@@ -736,7 +997,7 @@ class FutureStableDiffusionXLControlNetIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     conditioning_scale: float = 0.5
     """
@@ -787,7 +1048,7 @@ class FutureGenerativeEditImageIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     node: Literal["StableDiffusionXLInpaint"] = "StableDiffusionXLInpaint"
     """
@@ -838,7 +1099,7 @@ class FutureMultiGenerativeEditImageIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     node: Literal["StableDiffusionXLInpaint"] = "StableDiffusionXLInpaint"
     """
@@ -899,7 +1160,7 @@ class FutureStableDiffusionXLInpaintIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     strength: float = 0.8
     """
@@ -991,7 +1252,7 @@ class FutureFillMaskIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     node: Literal["BigLaMa"] = "BigLaMa"
     """
@@ -1032,7 +1293,7 @@ class FutureBigLaMaIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -1073,7 +1334,7 @@ class FutureRemoveBackgroundIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     node: Literal["DISISNet"] = "DISISNet"
     """
@@ -1109,7 +1370,7 @@ class FutureDISISNetIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -1140,7 +1401,7 @@ class FutureUpscaleImageIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     node: Literal["RealESRGAN"] = "RealESRGAN"
     """
@@ -1176,7 +1437,7 @@ class FutureRealESRGANIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -1212,7 +1473,7 @@ class FutureSegmentUnderPointIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     node: Literal["SegmentAnything"] = "SegmentAnything"
     """
@@ -1258,7 +1519,7 @@ class FutureSegmentAnythingIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -1434,7 +1695,7 @@ class FutureGenerateSpeechIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the audio data will be returned as a base64-encoded string.
+    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the audio data will be returned as a base64-encoded string.
     """
     node: Literal["XTTSV2"] = "XTTSV2"
     """
@@ -1480,7 +1741,7 @@ class FutureXTTSV2In:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the audio data will be returned as a base64-encoded string.
+    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the audio data will be returned as a base64-encoded string.
     """
 
 
@@ -1531,10 +1792,10 @@ class FutureEmbedTextIn:
     (Future reference)
     Text to embed.
     """
-    store: Optional[str] = None
+    collection_name: Optional[str] = None
     """
     (Future reference)
-    [Vector store](/docs/vector-stores) identifier.
+    Vector store name.
     """
     metadata: Optional[Dict[str, Any]] = None
     """
@@ -1551,10 +1812,10 @@ class FutureEmbedTextIn:
     (Future reference)
     Vector store document ID. Ignored if `store` is unset.
     """
-    node: Literal["JinaV2", "CLIP"] = "JinaV2"
+    model: Literal["jina-v2", "clip"] = "jina-v2"
     """
     (Future reference)
-    Selected node.
+    Selected embedding model.
     """
 
 
@@ -1605,20 +1866,20 @@ class FutureMultiEmbedTextIn:
     (Future reference)
     Items to embed.
     """
-    store: Optional[str] = None
+    collection_name: Optional[str] = None
     """
     (Future reference)
-    [Vector store](/docs/vector-stores) identifier.
+    Vector store name.
     """
     embedded_metadata_keys: Optional[List[str]] = None
     """
     (Future reference)
     Choose keys from `metadata` to embed with text.
     """
-    node: Literal["JinaV2", "CLIP"] = "JinaV2"
+    model: Literal["jina-v2", "clip"] = "jina-v2"
     """
     (Future reference)
-    Selected node.
+    Selected embedding model.
     """
 
 
@@ -1646,10 +1907,10 @@ class FutureJinaV2In:
     (Future reference)
     Items to embed.
     """
-    store: Optional[str] = None
+    collection_name: Optional[str] = None
     """
     (Future reference)
-    [Vector store](/docs/vector-stores) identifier.
+    Vector store name.
     """
     embedded_metadata_keys: Optional[List[str]] = None
     """
@@ -1682,20 +1943,20 @@ class FutureEmbedImageIn:
     (Future reference)
     Image to embed.
     """
-    store: Optional[str] = None
+    collection_name: Optional[str] = None
     """
     (Future reference)
-    [Vector store](/docs/vector-stores) identifier.
+    Vector store name.
     """
     doc_id: Optional[str] = None
     """
     (Future reference)
     Vector store document ID. Ignored if `store` is unset.
     """
-    node: Literal["CLIP"] = "CLIP"
+    model: Literal["clip"] = "clip"
     """
     (Future reference)
-    Selected node.
+    Selected embedding model.
     """
 
 
@@ -1769,15 +2030,15 @@ class FutureMultiEmbedImageIn:
     (Future reference)
     Items to embed.
     """
-    store: Optional[str] = None
+    collection_name: Optional[str] = None
     """
     (Future reference)
-    [Vector store](/docs/vector-stores) identifier.
+    Vector store name.
     """
-    node: Literal["CLIP"] = "CLIP"
+    model: Literal["clip"] = "clip"
     """
     (Future reference)
-    Selected node.
+    Selected embedding model.
     """
 
 
@@ -1805,10 +2066,15 @@ class FutureCLIPIn:
     (Future reference)
     Items to embed.
     """
-    store: Optional[str] = None
+    collection_name: Optional[str] = None
     """
     (Future reference)
-    [Vector store](/docs/vector-stores) identifier.
+    Vector store name.
+    """
+    embedded_metadata_keys: Optional[List[str]] = None
+    """
+    (Future reference)
+    Choose keys from `metadata` to embed with text. Only applies to text items.
     """
 
 
@@ -1831,7 +2097,7 @@ class FutureCreateVectorStoreIn:
     (Future reference)
     """
 
-    name: str
+    collection_name: str
     """
     (Future reference)
     Vector store name.
@@ -1864,7 +2130,7 @@ class FutureCreateVectorStoreOut:
     (Future reference)
     """
 
-    name: str
+    collection_name: str
     """
     (Future reference)
     Vector store name.
@@ -1906,7 +2172,7 @@ class FutureListVectorStoresOut:
     (Future reference)
     """
 
-    stores: Optional[List[FutureCreateVectorStoreOut]] = None
+    items: Optional[List[FutureCreateVectorStoreOut]] = None
     """
     (Future reference)
     List of vector stores.
@@ -1919,7 +2185,7 @@ class FutureDeleteVectorStoreIn:
     (Future reference)
     """
 
-    name: str
+    collection_name: str
     """
     (Future reference)
     Vector store name.
@@ -1937,7 +2203,7 @@ class FutureDeleteVectorStoreOut:
     (Future reference)
     """
 
-    name: str
+    collection_name: str
     """
     (Future reference)
     Vector store name.
@@ -1979,7 +2245,7 @@ class FutureFetchVectorsIn:
     (Future reference)
     """
 
-    name: str
+    collection_name: str
     """
     (Future reference)
     Vector store name.
@@ -2064,7 +2330,7 @@ class FutureUpdateVectorsIn:
     (Future reference)
     """
 
-    name: str
+    collection_name: str
     """
     (Future reference)
     Vector store name.
@@ -2087,7 +2353,7 @@ class FutureDeleteVectorsIn:
     (Future reference)
     """
 
-    name: str
+    collection_name: str
     """
     (Future reference)
     Vector store name.
@@ -2110,7 +2376,7 @@ class FutureQueryVectorStoreIn:
     (Future reference)
     """
 
-    name: str
+    collection_name: str
     """
     (Future reference)
     Vector store to query against.
@@ -2165,11 +2431,6 @@ class FutureQueryVectorStoreIn:
     (Future reference)
     Filter metadata by key-value pairs.
     """
-    metric: Optional[Literal["cosine", "l2", "inner"]] = None
-    """
-    (Future reference)
-    The distance metric used for the query. Defaults to the distance metric the vector store was created with.
-    """
 
 
 @dataclass
@@ -2211,7 +2472,7 @@ class FutureQueryVectorStoreOut:
     (Future reference)
     Query results.
     """
-    name: Optional[str] = None
+    collection_name: Optional[str] = None
     """
     (Future reference)
     Vector store name.

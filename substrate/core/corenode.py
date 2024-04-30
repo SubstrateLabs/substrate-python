@@ -1,7 +1,7 @@
 """
 CORE ꩜ SUBSTRATE
 """
-from typing import Any, List, Type, Optional
+from typing import Any, List, Type, Generic, TypeVar, Optional
 
 import networkx as nx
 
@@ -11,9 +11,12 @@ from .client.future import TracedFuture
 from .future_directive import TraceDirective
 from .client.find_futures_client import find_futures_client
 
+OT = TypeVar("OT")
 
-class CoreNode:
-    def __init__(self, hide: bool = True, **attr):
+
+class CoreNode(Generic[OT]):
+    def __init__(self, out_type: Type[OT] = Type[Any], hide: bool = True, **attr):
+        self._out_type = out_type
         self.node = self.__class__.__name__
         self.args = attr
         generator_instance = IDGenerator.get_instance(self.__class__.__name__)
@@ -29,11 +32,11 @@ class CoreNode:
         self.futures_from_args: List[BaseFuture] = find_futures_client(attr)
 
     @property
-    def out_type(self) -> Type[Any]:
+    def out_type(self) -> Type[OT]:
         """
-        Get the typed output of this node using `response.get(node, node.out_type)`
+        The output type of this node.
         """
-        return Type[None]
+        return self._out_type
 
     def to_dict(self):
         return {

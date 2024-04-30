@@ -31,6 +31,42 @@ class ErrorOut(BaseModel):
     """
 
 
+class RunCodeIn(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    code: str
+    """
+    Code to execute.
+    """
+    args: Optional[List[str]] = None
+    """
+    List of command line arguments.
+    """
+    language: Literal["python", "typescript", "javascript"] = "python"
+    """
+    Interpreter to use.
+    """
+
+
+class RunCodeOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    output: Optional[str] = None
+    """
+    Contents of `stdout` after executing the code.
+    """
+    json_output: Dict[str, Any]
+    """
+    `output` as parsed JSON. Print serialized json to `stdout` to receive JSON.
+    """
+    error: Optional[str] = None
+    """
+    Contents of `stderr` after executing the code.
+    """
+
+
 class GenerateTextIn(BaseModel):
     class Config:
         extra = Extra.allow
@@ -47,7 +83,12 @@ class GenerateTextIn(BaseModel):
     """
     Maximum number of tokens to generate.
     """
-    node: Literal["Mistral7BInstruct"] = "Mistral7BInstruct"
+    node: Literal[
+        "Mistral7BInstruct",
+        "Mixtral8x7BInstruct",
+        "Llama3Instruct8B",
+        "Llama3Instruct70B",
+    ] = "Mistral7BInstruct"
     """
     Selected node.
     """
@@ -83,7 +124,7 @@ class GenerateJSONIn(BaseModel):
     """
     Maximum number of tokens to generate.
     """
-    node: Literal["Mistral7BInstruct"] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct"] = "Mistral7BInstruct"
     """
     Selected node.
     """
@@ -103,15 +144,11 @@ class MultiGenerateTextIn(BaseModel):
     class Config:
         extra = Extra.allow
 
-    prompt: Optional[str] = None
+    prompt: str
     """
     Input prompt.
     """
-    batch_prompts: Optional[List[str]] = None
-    """
-    Batch input prompts.
-    """
-    num_choices: Annotated[int, Field(ge=1, le=8)] = 1
+    num_choices: Annotated[int, Field(ge=1, le=8)]
     """
     Number of choices to generate.
     """
@@ -123,13 +160,18 @@ class MultiGenerateTextIn(BaseModel):
     """
     Maximum number of tokens to generate.
     """
-    node: Literal["Mistral7BInstruct"] = "Mistral7BInstruct"
+    node: Literal[
+        "Mistral7BInstruct",
+        "Mixtral8x7BInstruct",
+        "Llama3Instruct8B",
+        "Llama3Instruct70B",
+    ] = "Mistral7BInstruct"
     """
     Selected node.
     """
 
 
-class MultiGenerateTextOutput(BaseModel):
+class MultiGenerateTextOut(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -139,35 +181,13 @@ class MultiGenerateTextOutput(BaseModel):
     """
 
 
-class MultiGenerateTextOut(BaseModel):
+class BatchGenerateTextIn(BaseModel):
     class Config:
         extra = Extra.allow
 
-    outputs: List[MultiGenerateTextOutput]
-    """
-    A single output for `prompt`, or multiple outputs for `batch_prompts`.
-    """
-
-
-class MultiGenerateJSONIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
-    prompt: Optional[str] = None
-    """
-    Input prompt.
-    """
-    json_schema: Dict[str, Any]
-    """
-    JSON schema to guide `json_object` response.
-    """
-    batch_prompts: Optional[List[str]] = None
+    prompts: List[str]
     """
     Batch input prompts.
-    """
-    num_choices: Annotated[int, Field(ge=1, le=8)] = 2
-    """
-    Number of choices to generate.
     """
     temperature: Annotated[float, Field(ge=0.0, le=1.0)] = 0.4
     """
@@ -183,7 +203,47 @@ class MultiGenerateJSONIn(BaseModel):
     """
 
 
-class MultiGenerateJSONOutput(BaseModel):
+class BatchGenerateTextOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    outputs: List[GenerateTextOut]
+    """
+    Batch outputs.
+    """
+
+
+class MultiGenerateJSONIn(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    prompt: str
+    """
+    Input prompt.
+    """
+    json_schema: Dict[str, Any]
+    """
+    JSON schema to guide `json_object` response.
+    """
+    num_choices: Annotated[int, Field(ge=1, le=8)]
+    """
+    Number of choices to generate.
+    """
+    temperature: Annotated[float, Field(ge=0.0, le=1.0)] = 0.4
+    """
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: Optional[int] = None
+    """
+    Maximum number of tokens to generate.
+    """
+    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct"] = "Mistral7BInstruct"
+    """
+    Selected node.
+    """
+
+
+class MultiGenerateJSONOut(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -193,13 +253,39 @@ class MultiGenerateJSONOutput(BaseModel):
     """
 
 
-class MultiGenerateJSONOut(BaseModel):
+class BatchGenerateJSONIn(BaseModel):
     class Config:
         extra = Extra.allow
 
-    outputs: List[MultiGenerateJSONOutput]
+    prompts: List[str]
     """
-    A single output for `prompt`, or multiple outputs for `batch_prompts`.
+    Batch input prompts.
+    """
+    json_schema: Dict[str, Any]
+    """
+    JSON schema to guide `json_object` response.
+    """
+    temperature: Annotated[float, Field(ge=0.0, le=1.0)] = 0.4
+    """
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: Optional[int] = None
+    """
+    Maximum number of tokens to generate.
+    """
+    node: Literal["Mistral7BInstruct"] = "Mistral7BInstruct"
+    """
+    Selected node.
+    """
+
+
+class BatchGenerateJSONOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    outputs: List[GenerateJSONOut]
+    """
+    Batch outputs.
     """
 
 
@@ -207,7 +293,7 @@ class Mistral7BInstructIn(BaseModel):
     class Config:
         extra = Extra.allow
 
-    prompt: Optional[str] = None
+    prompt: str
     """
     Input prompt.
     """
@@ -218,10 +304,6 @@ class Mistral7BInstructIn(BaseModel):
     json_schema: Optional[Dict[str, Any]] = None
     """
     JSON schema to guide response.
-    """
-    batch_prompts: Optional[List[str]] = None
-    """
-    Batch input prompts.
     """
     temperature: Annotated[Optional[float], Field(ge=0.0, le=1.0)] = None
     """
@@ -247,7 +329,7 @@ class Mistral7BInstructChoice(BaseModel):
     """
 
 
-class Mistral7BInstructOutput(BaseModel):
+class Mistral7BInstructOut(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -257,13 +339,137 @@ class Mistral7BInstructOutput(BaseModel):
     """
 
 
-class Mistral7BInstructOut(BaseModel):
+class Mixtral8x7BInstructIn(BaseModel):
     class Config:
         extra = Extra.allow
 
-    outputs: List[Mistral7BInstructOutput]
+    prompt: str
     """
-    A single output for `prompt`, or multiple outputs for `batch_prompts`.
+    Input prompt.
+    """
+    num_choices: Annotated[int, Field(ge=1, le=8)] = 1
+    """
+    Number of choices to generate.
+    """
+    json_schema: Optional[Dict[str, Any]] = None
+    """
+    JSON schema to guide response.
+    """
+    temperature: Annotated[Optional[float], Field(ge=0.0, le=1.0)] = None
+    """
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: Optional[int] = None
+    """
+    Maximum number of tokens to generate.
+    """
+
+
+class Mixtral8x7BChoice(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    text: Optional[str] = None
+    """
+    Text response, if `json_schema` was not provided.
+    """
+    json_object: Optional[Dict[str, Any]] = None
+    """
+    JSON response, if `json_schema` was provided.
+    """
+
+
+class Mixtral8x7BInstructOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    choices: List[Mixtral8x7BChoice]
+    """
+    Response choices.
+    """
+
+
+class Llama3Instruct8BIn(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    prompt: str
+    """
+    Input prompt.
+    """
+    num_choices: Annotated[int, Field(ge=1, le=8)] = 1
+    """
+    Number of choices to generate.
+    """
+    temperature: Annotated[Optional[float], Field(ge=0.0, le=1.0)] = None
+    """
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: Optional[int] = None
+    """
+    Maximum number of tokens to generate.
+    """
+
+
+class Llama3Instruct8BChoice(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    text: Optional[str] = None
+    """
+    Text response.
+    """
+
+
+class Llama3Instruct8BOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    choices: List[Llama3Instruct8BChoice]
+    """
+    Response choices.
+    """
+
+
+class Llama3Instruct70BIn(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    prompt: str
+    """
+    Input prompt.
+    """
+    num_choices: Annotated[int, Field(ge=1, le=8)] = 1
+    """
+    Number of choices to generate.
+    """
+    temperature: Annotated[Optional[float], Field(ge=0.0, le=1.0)] = None
+    """
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: Optional[int] = None
+    """
+    Maximum number of tokens to generate.
+    """
+
+
+class Llama3Instruct70BChoice(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    text: Optional[str] = None
+    """
+    Text response.
+    """
+
+
+class Llama3Instruct70BOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    choices: List[Llama3Instruct70BChoice]
+    """
+    Response choices.
     """
 
 
@@ -337,7 +543,7 @@ class GenerateImageIn(BaseModel):
     """
     store: Optional[str] = None
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     node: Literal["StableDiffusionXL"] = "StableDiffusionXL"
     """
@@ -369,7 +575,7 @@ class MultiGenerateImageIn(BaseModel):
     """
     store: Optional[str] = None
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     node: Literal["StableDiffusionXL"] = "StableDiffusionXL"
     """
@@ -409,7 +615,7 @@ class StableDiffusionXLIn(BaseModel):
     """
     store: Optional[str] = None
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     height: Annotated[int, Field(ge=256, le=1536)] = 1024
     """
@@ -471,7 +677,7 @@ class StableDiffusionXLLightningIn(BaseModel):
     """
     store: Optional[str] = None
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     height: Annotated[int, Field(ge=256, le=1536)] = 1024
     """
@@ -523,7 +729,7 @@ class StableDiffusionXLIPAdapterIn(BaseModel):
     """
     store: Optional[str] = None
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     width: Annotated[int, Field(ge=640, le=1536)] = 1024
     """
@@ -579,7 +785,7 @@ class StableDiffusionXLControlNetIn(BaseModel):
     """
     store: Optional[str] = None
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     conditioning_scale: Annotated[float, Field(ge=0.0, le=1.0)] = 0.5
     """
@@ -619,7 +825,7 @@ class GenerativeEditImageIn(BaseModel):
     """
     store: Optional[str] = None
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     node: Literal["StableDiffusionXLInpaint"] = "StableDiffusionXLInpaint"
     """
@@ -659,7 +865,7 @@ class MultiGenerativeEditImageIn(BaseModel):
     """
     store: Optional[str] = None
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     node: Literal["StableDiffusionXLInpaint"] = "StableDiffusionXLInpaint"
     """
@@ -707,7 +913,7 @@ class StableDiffusionXLInpaintIn(BaseModel):
     """
     store: Optional[str] = None
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     strength: Annotated[float, Field(ge=0.0, le=1.0)] = 0.8
     """
@@ -779,7 +985,7 @@ class FillMaskIn(BaseModel):
     """
     store: Optional[str] = None
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     node: Literal["BigLaMa"] = "BigLaMa"
     """
@@ -811,7 +1017,7 @@ class BigLaMaIn(BaseModel):
     """
     store: Optional[str] = None
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -843,7 +1049,7 @@ class RemoveBackgroundIn(BaseModel):
     """
     store: Optional[str] = None
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     node: Literal["DISISNet"] = "DISISNet"
     """
@@ -871,7 +1077,7 @@ class DISISNetIn(BaseModel):
     """
     store: Optional[str] = None
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -895,7 +1101,7 @@ class UpscaleImageIn(BaseModel):
     """
     store: Optional[str] = None
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     node: Literal["RealESRGAN"] = "RealESRGAN"
     """
@@ -923,7 +1129,7 @@ class RealESRGANIn(BaseModel):
     """
     store: Optional[str] = None
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -951,7 +1157,7 @@ class SegmentUnderPointIn(BaseModel):
     """
     store: Optional[str] = None
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     node: Literal["SegmentAnything"] = "SegmentAnything"
     """
@@ -987,7 +1193,7 @@ class SegmentAnythingIn(BaseModel):
     """
     store: Optional[str] = None
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -1125,7 +1331,7 @@ class GenerateSpeechIn(BaseModel):
     """
     store: Optional[str] = None
     """
-    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the audio data will be returned as a base64-encoded string.
+    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the audio data will be returned as a base64-encoded string.
     """
     node: Literal["XTTSV2"] = "XTTSV2"
     """
@@ -1161,7 +1367,7 @@ class XTTSV2In(BaseModel):
     """
     store: Optional[str] = None
     """
-    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the audio data will be returned as a base64-encoded string.
+    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the audio data will be returned as a base64-encoded string.
     """
 
 
@@ -1201,9 +1407,9 @@ class EmbedTextIn(BaseModel):
     """
     Text to embed.
     """
-    store: Optional[str] = None
+    collection_name: Optional[str] = None
     """
-    [Vector store](/docs/vector-stores) identifier.
+    Vector store name.
     """
     metadata: Optional[Dict[str, Any]] = None
     """
@@ -1217,9 +1423,9 @@ class EmbedTextIn(BaseModel):
     """
     Vector store document ID. Ignored if `store` is unset.
     """
-    node: Literal["JinaV2", "CLIP"] = "JinaV2"
+    model: Literal["jina-v2", "clip"] = "jina-v2"
     """
-    Selected node.
+    Selected embedding model.
     """
 
 
@@ -1259,17 +1465,17 @@ class MultiEmbedTextIn(BaseModel):
     """
     Items to embed.
     """
-    store: Optional[str] = None
+    collection_name: Optional[str] = None
     """
-    [Vector store](/docs/vector-stores) identifier.
+    Vector store name.
     """
     embedded_metadata_keys: Optional[List[str]] = None
     """
     Choose keys from `metadata` to embed with text.
     """
-    node: Literal["JinaV2", "CLIP"] = "JinaV2"
+    model: Literal["jina-v2", "clip"] = "jina-v2"
     """
-    Selected node.
+    Selected embedding model.
     """
 
 
@@ -1291,9 +1497,9 @@ class JinaV2In(BaseModel):
     """
     Items to embed.
     """
-    store: Optional[str] = None
+    collection_name: Optional[str] = None
     """
-    [Vector store](/docs/vector-stores) identifier.
+    Vector store name.
     """
     embedded_metadata_keys: Optional[List[str]] = None
     """
@@ -1319,17 +1525,17 @@ class EmbedImageIn(BaseModel):
     """
     Image to embed.
     """
-    store: Optional[str] = None
+    collection_name: Optional[str] = None
     """
-    [Vector store](/docs/vector-stores) identifier.
+    Vector store name.
     """
     doc_id: Optional[str] = None
     """
     Vector store document ID. Ignored if `store` is unset.
     """
-    node: Literal["CLIP"] = "CLIP"
+    model: Literal["clip"] = "clip"
     """
-    Selected node.
+    Selected embedding model.
     """
 
 
@@ -1387,13 +1593,13 @@ class MultiEmbedImageIn(BaseModel):
     """
     Items to embed.
     """
-    store: Optional[str] = None
+    collection_name: Optional[str] = None
     """
-    [Vector store](/docs/vector-stores) identifier.
+    Vector store name.
     """
-    node: Literal["CLIP"] = "CLIP"
+    model: Literal["clip"] = "clip"
     """
-    Selected node.
+    Selected embedding model.
     """
 
 
@@ -1415,9 +1621,13 @@ class CLIPIn(BaseModel):
     """
     Items to embed.
     """
-    store: Optional[str] = None
+    collection_name: Optional[str] = None
     """
-    [Vector store](/docs/vector-stores) identifier.
+    Vector store name.
+    """
+    embedded_metadata_keys: Optional[List[str]] = None
+    """
+    Choose keys from `metadata` to embed with text. Only applies to text items.
     """
 
 
@@ -1435,7 +1645,7 @@ class CreateVectorStoreIn(BaseModel):
     class Config:
         extra = Extra.allow
 
-    name: Annotated[str, Field(max_length=63, min_length=1)]
+    collection_name: Annotated[str, Field(max_length=63, min_length=1)]
     """
     Vector store name.
     """
@@ -1461,7 +1671,7 @@ class CreateVectorStoreOut(BaseModel):
     class Config:
         extra = Extra.allow
 
-    name: Annotated[str, Field(max_length=63, min_length=1)]
+    collection_name: Annotated[str, Field(max_length=63, min_length=1)]
     """
     Vector store name.
     """
@@ -1494,7 +1704,7 @@ class ListVectorStoresOut(BaseModel):
     class Config:
         extra = Extra.allow
 
-    stores: Optional[List[CreateVectorStoreOut]] = None
+    items: Optional[List[CreateVectorStoreOut]] = None
     """
     List of vector stores.
     """
@@ -1504,7 +1714,7 @@ class DeleteVectorStoreIn(BaseModel):
     class Config:
         extra = Extra.allow
 
-    name: str
+    collection_name: str
     """
     Vector store name.
     """
@@ -1518,7 +1728,7 @@ class DeleteVectorStoreOut(BaseModel):
     class Config:
         extra = Extra.allow
 
-    name: str
+    collection_name: str
     """
     Vector store name.
     """
@@ -1554,7 +1764,7 @@ class FetchVectorsIn(BaseModel):
     class Config:
         extra = Extra.allow
 
-    name: str
+    collection_name: str
     """
     Vector store name.
     """
@@ -1620,7 +1830,7 @@ class UpdateVectorsIn(BaseModel):
     class Config:
         extra = Extra.allow
 
-    name: str
+    collection_name: str
     """
     Vector store name.
     """
@@ -1638,7 +1848,7 @@ class DeleteVectorsIn(BaseModel):
     class Config:
         extra = Extra.allow
 
-    name: str
+    collection_name: str
     """
     Vector store name.
     """
@@ -1656,7 +1866,7 @@ class QueryVectorStoreIn(BaseModel):
     class Config:
         extra = Extra.allow
 
-    name: str
+    collection_name: str
     """
     Vector store to query against.
     """
@@ -1700,10 +1910,6 @@ class QueryVectorStoreIn(BaseModel):
     """
     Filter metadata by key-value pairs.
     """
-    metric: Optional[Literal["cosine", "l2", "inner"]] = None
-    """
-    The distance metric used for the query. Defaults to the distance metric the vector store was created with.
-    """
 
 
 class VectorStoreQueryResult(BaseModel):
@@ -1736,7 +1942,7 @@ class QueryVectorStoreOut(BaseModel):
     """
     Query results.
     """
-    name: Optional[str] = None
+    collection_name: Optional[str] = None
     """
     Vector store name.
     """

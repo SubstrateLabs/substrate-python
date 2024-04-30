@@ -26,6 +26,36 @@ class ErrorOut(TypedDict):
     """
 
 
+class RunCodeIn(TypedDict):
+    code: NotRequired[str]
+    """
+    Code to execute.
+    """
+    args: NotRequired[List[str]]
+    """
+    List of command line arguments.
+    """
+    language: NotRequired[Literal["python", "typescript", "javascript"]]
+    """
+    Interpreter to use.
+    """
+
+
+class RunCodeOut(TypedDict):
+    output: NotRequired[str]
+    """
+    Contents of `stdout` after executing the code.
+    """
+    json_output: NotRequired[Dict[str, Any]]
+    """
+    `output` as parsed JSON. Print serialized json to `stdout` to receive JSON.
+    """
+    error: NotRequired[str]
+    """
+    Contents of `stderr` after executing the code.
+    """
+
+
 class GenerateTextIn(TypedDict):
     prompt: NotRequired[str]
     """
@@ -39,7 +69,14 @@ class GenerateTextIn(TypedDict):
     """
     Maximum number of tokens to generate.
     """
-    node: NotRequired[Literal["Mistral7BInstruct"]]
+    node: NotRequired[
+        Literal[
+            "Mistral7BInstruct",
+            "Mixtral8x7BInstruct",
+            "Llama3Instruct8B",
+            "Llama3Instruct70B",
+        ]
+    ]
     """
     Selected node.
     """
@@ -69,7 +106,7 @@ class GenerateJSONIn(TypedDict):
     """
     Maximum number of tokens to generate.
     """
-    node: NotRequired[Literal["Mistral7BInstruct"]]
+    node: NotRequired[Literal["Mistral7BInstruct", "Mixtral8x7BInstruct"]]
     """
     Selected node.
     """
@@ -87,13 +124,42 @@ class MultiGenerateTextIn(TypedDict):
     """
     Input prompt.
     """
-    batch_prompts: NotRequired[List[str]]
-    """
-    Batch input prompts.
-    """
     num_choices: NotRequired[int]
     """
     Number of choices to generate.
+    """
+    temperature: NotRequired[float]
+    """
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: NotRequired[int]
+    """
+    Maximum number of tokens to generate.
+    """
+    node: NotRequired[
+        Literal[
+            "Mistral7BInstruct",
+            "Mixtral8x7BInstruct",
+            "Llama3Instruct8B",
+            "Llama3Instruct70B",
+        ]
+    ]
+    """
+    Selected node.
+    """
+
+
+class MultiGenerateTextOut(TypedDict):
+    choices: NotRequired[List[GenerateTextOut]]
+    """
+    Response choices.
+    """
+
+
+class BatchGenerateTextIn(TypedDict):
+    prompts: NotRequired[List[str]]
+    """
+    Batch input prompts.
     """
     temperature: NotRequired[float]
     """
@@ -109,17 +175,10 @@ class MultiGenerateTextIn(TypedDict):
     """
 
 
-class MultiGenerateTextOutput(TypedDict):
-    choices: NotRequired[List[GenerateTextOut]]
+class BatchGenerateTextOut(TypedDict):
+    outputs: NotRequired[List[GenerateTextOut]]
     """
-    Response choices.
-    """
-
-
-class MultiGenerateTextOut(TypedDict):
-    outputs: NotRequired[List[MultiGenerateTextOutput]]
-    """
-    A single output for `prompt`, or multiple outputs for `batch_prompts`.
+    Batch outputs.
     """
 
 
@@ -132,13 +191,39 @@ class MultiGenerateJSONIn(TypedDict):
     """
     JSON schema to guide `json_object` response.
     """
-    batch_prompts: NotRequired[List[str]]
-    """
-    Batch input prompts.
-    """
     num_choices: NotRequired[int]
     """
     Number of choices to generate.
+    """
+    temperature: NotRequired[float]
+    """
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: NotRequired[int]
+    """
+    Maximum number of tokens to generate.
+    """
+    node: NotRequired[Literal["Mistral7BInstruct", "Mixtral8x7BInstruct"]]
+    """
+    Selected node.
+    """
+
+
+class MultiGenerateJSONOut(TypedDict):
+    choices: NotRequired[List[GenerateJSONOut]]
+    """
+    Response choices.
+    """
+
+
+class BatchGenerateJSONIn(TypedDict):
+    prompts: NotRequired[List[str]]
+    """
+    Batch input prompts.
+    """
+    json_schema: NotRequired[Dict[str, Any]]
+    """
+    JSON schema to guide `json_object` response.
     """
     temperature: NotRequired[float]
     """
@@ -154,17 +239,10 @@ class MultiGenerateJSONIn(TypedDict):
     """
 
 
-class MultiGenerateJSONOutput(TypedDict):
-    choices: NotRequired[List[GenerateJSONOut]]
+class BatchGenerateJSONOut(TypedDict):
+    outputs: NotRequired[List[GenerateJSONOut]]
     """
-    Response choices.
-    """
-
-
-class MultiGenerateJSONOut(TypedDict):
-    outputs: NotRequired[List[MultiGenerateJSONOutput]]
-    """
-    A single output for `prompt`, or multiple outputs for `batch_prompts`.
+    Batch outputs.
     """
 
 
@@ -180,10 +258,6 @@ class Mistral7BInstructIn(TypedDict):
     json_schema: NotRequired[Dict[str, Any]]
     """
     JSON schema to guide response.
-    """
-    batch_prompts: NotRequired[List[str]]
-    """
-    Batch input prompts.
     """
     temperature: NotRequired[float]
     """
@@ -206,17 +280,117 @@ class Mistral7BInstructChoice(TypedDict):
     """
 
 
-class Mistral7BInstructOutput(TypedDict):
+class Mistral7BInstructOut(TypedDict):
     choices: NotRequired[List[Mistral7BInstructChoice]]
     """
     Response choices.
     """
 
 
-class Mistral7BInstructOut(TypedDict):
-    outputs: NotRequired[List[Mistral7BInstructOutput]]
+class Mixtral8x7BInstructIn(TypedDict):
+    prompt: NotRequired[str]
     """
-    A single output for `prompt`, or multiple outputs for `batch_prompts`.
+    Input prompt.
+    """
+    num_choices: NotRequired[int]
+    """
+    Number of choices to generate.
+    """
+    json_schema: NotRequired[Dict[str, Any]]
+    """
+    JSON schema to guide response.
+    """
+    temperature: NotRequired[float]
+    """
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: NotRequired[int]
+    """
+    Maximum number of tokens to generate.
+    """
+
+
+class Mixtral8x7BChoice(TypedDict):
+    text: NotRequired[str]
+    """
+    Text response, if `json_schema` was not provided.
+    """
+    json_object: NotRequired[Dict[str, Any]]
+    """
+    JSON response, if `json_schema` was provided.
+    """
+
+
+class Mixtral8x7BInstructOut(TypedDict):
+    choices: NotRequired[List[Mixtral8x7BChoice]]
+    """
+    Response choices.
+    """
+
+
+class Llama3Instruct8BIn(TypedDict):
+    prompt: NotRequired[str]
+    """
+    Input prompt.
+    """
+    num_choices: NotRequired[int]
+    """
+    Number of choices to generate.
+    """
+    temperature: NotRequired[float]
+    """
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: NotRequired[int]
+    """
+    Maximum number of tokens to generate.
+    """
+
+
+class Llama3Instruct8BChoice(TypedDict):
+    text: NotRequired[str]
+    """
+    Text response.
+    """
+
+
+class Llama3Instruct8BOut(TypedDict):
+    choices: NotRequired[List[Llama3Instruct8BChoice]]
+    """
+    Response choices.
+    """
+
+
+class Llama3Instruct70BIn(TypedDict):
+    prompt: NotRequired[str]
+    """
+    Input prompt.
+    """
+    num_choices: NotRequired[int]
+    """
+    Number of choices to generate.
+    """
+    temperature: NotRequired[float]
+    """
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: NotRequired[int]
+    """
+    Maximum number of tokens to generate.
+    """
+
+
+class Llama3Instruct70BChoice(TypedDict):
+    text: NotRequired[str]
+    """
+    Text response.
+    """
+
+
+class Llama3Instruct70BOut(TypedDict):
+    choices: NotRequired[List[Llama3Instruct70BChoice]]
+    """
+    Response choices.
     """
 
 
@@ -275,7 +449,7 @@ class GenerateImageIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     node: NotRequired[Literal["StableDiffusionXL"]]
     """
@@ -301,7 +475,7 @@ class MultiGenerateImageIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     node: NotRequired[Literal["StableDiffusionXL"]]
     """
@@ -335,7 +509,7 @@ class StableDiffusionXLIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     height: NotRequired[int]
     """
@@ -388,7 +562,7 @@ class StableDiffusionXLLightningIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     height: NotRequired[int]
     """
@@ -434,7 +608,7 @@ class StableDiffusionXLIPAdapterIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     width: NotRequired[int]
     """
@@ -484,7 +658,7 @@ class StableDiffusionXLControlNetIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     conditioning_scale: NotRequired[float]
     """
@@ -518,7 +692,7 @@ class GenerativeEditImageIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     node: NotRequired[Literal["StableDiffusionXLInpaint"]]
     """
@@ -552,7 +726,7 @@ class MultiGenerativeEditImageIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     node: NotRequired[Literal["StableDiffusionXLInpaint"]]
     """
@@ -594,7 +768,7 @@ class StableDiffusionXLInpaintIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     strength: NotRequired[float]
     """
@@ -654,7 +828,7 @@ class FillMaskIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     node: NotRequired[Literal["BigLaMa"]]
     """
@@ -680,7 +854,7 @@ class BigLaMaIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -706,7 +880,7 @@ class RemoveBackgroundIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     node: NotRequired[Literal["DISISNet"]]
     """
@@ -728,7 +902,7 @@ class DISISNetIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -746,7 +920,7 @@ class UpscaleImageIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     node: NotRequired[Literal["RealESRGAN"]]
     """
@@ -768,7 +942,7 @@ class RealESRGANIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -790,7 +964,7 @@ class SegmentUnderPointIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     node: NotRequired[Literal["SegmentAnything"]]
     """
@@ -820,7 +994,7 @@ class SegmentAnythingIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -937,7 +1111,7 @@ class GenerateSpeechIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the audio data will be returned as a base64-encoded string.
+    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the audio data will be returned as a base64-encoded string.
     """
     node: NotRequired[Literal["XTTSV2"]]
     """
@@ -967,7 +1141,7 @@ class XTTSV2In(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the audio data will be returned as a base64-encoded string.
+    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the audio data will be returned as a base64-encoded string.
     """
 
 
@@ -998,9 +1172,9 @@ class EmbedTextIn(TypedDict):
     """
     Text to embed.
     """
-    store: NotRequired[str]
+    collection_name: NotRequired[str]
     """
-    [Vector store](/docs/vector-stores) identifier.
+    Vector store name.
     """
     metadata: NotRequired[Dict[str, Any]]
     """
@@ -1014,9 +1188,9 @@ class EmbedTextIn(TypedDict):
     """
     Vector store document ID. Ignored if `store` is unset.
     """
-    node: NotRequired[Literal["JinaV2", "CLIP"]]
+    model: NotRequired[Literal["jina-v2", "clip"]]
     """
-    Selected node.
+    Selected embedding model.
     """
 
 
@@ -1047,17 +1221,17 @@ class MultiEmbedTextIn(TypedDict):
     """
     Items to embed.
     """
-    store: NotRequired[str]
+    collection_name: NotRequired[str]
     """
-    [Vector store](/docs/vector-stores) identifier.
+    Vector store name.
     """
     embedded_metadata_keys: NotRequired[List[str]]
     """
     Choose keys from `metadata` to embed with text.
     """
-    node: NotRequired[Literal["JinaV2", "CLIP"]]
+    model: NotRequired[Literal["jina-v2", "clip"]]
     """
-    Selected node.
+    Selected embedding model.
     """
 
 
@@ -1073,9 +1247,9 @@ class JinaV2In(TypedDict):
     """
     Items to embed.
     """
-    store: NotRequired[str]
+    collection_name: NotRequired[str]
     """
-    [Vector store](/docs/vector-stores) identifier.
+    Vector store name.
     """
     embedded_metadata_keys: NotRequired[List[str]]
     """
@@ -1095,17 +1269,17 @@ class EmbedImageIn(TypedDict):
     """
     Image to embed.
     """
-    store: NotRequired[str]
+    collection_name: NotRequired[str]
     """
-    [Vector store](/docs/vector-stores) identifier.
+    Vector store name.
     """
     doc_id: NotRequired[str]
     """
     Vector store document ID. Ignored if `store` is unset.
     """
-    node: NotRequired[Literal["CLIP"]]
+    model: NotRequired[Literal["clip"]]
     """
-    Selected node.
+    Selected embedding model.
     """
 
 
@@ -1151,13 +1325,13 @@ class MultiEmbedImageIn(TypedDict):
     """
     Items to embed.
     """
-    store: NotRequired[str]
+    collection_name: NotRequired[str]
     """
-    [Vector store](/docs/vector-stores) identifier.
+    Vector store name.
     """
-    node: NotRequired[Literal["CLIP"]]
+    model: NotRequired[Literal["clip"]]
     """
-    Selected node.
+    Selected embedding model.
     """
 
 
@@ -1173,9 +1347,13 @@ class CLIPIn(TypedDict):
     """
     Items to embed.
     """
-    store: NotRequired[str]
+    collection_name: NotRequired[str]
     """
-    [Vector store](/docs/vector-stores) identifier.
+    Vector store name.
+    """
+    embedded_metadata_keys: NotRequired[List[str]]
+    """
+    Choose keys from `metadata` to embed with text. Only applies to text items.
     """
 
 
@@ -1187,7 +1365,7 @@ class CLIPOut(TypedDict):
 
 
 class CreateVectorStoreIn(TypedDict):
-    name: NotRequired[str]
+    collection_name: NotRequired[str]
     """
     Vector store name.
     """
@@ -1210,7 +1388,7 @@ class CreateVectorStoreIn(TypedDict):
 
 
 class CreateVectorStoreOut(TypedDict):
-    name: NotRequired[str]
+    collection_name: NotRequired[str]
     """
     Vector store name.
     """
@@ -1237,14 +1415,14 @@ class ListVectorStoresIn(TypedDict):
 
 
 class ListVectorStoresOut(TypedDict):
-    stores: NotRequired[List[CreateVectorStoreOut]]
+    items: NotRequired[List[CreateVectorStoreOut]]
     """
     List of vector stores.
     """
 
 
 class DeleteVectorStoreIn(TypedDict):
-    name: NotRequired[str]
+    collection_name: NotRequired[str]
     """
     Vector store name.
     """
@@ -1255,7 +1433,7 @@ class DeleteVectorStoreIn(TypedDict):
 
 
 class DeleteVectorStoreOut(TypedDict):
-    name: NotRequired[str]
+    collection_name: NotRequired[str]
     """
     Vector store name.
     """
@@ -1285,7 +1463,7 @@ class Vector(TypedDict):
 
 
 class FetchVectorsIn(TypedDict):
-    name: NotRequired[str]
+    collection_name: NotRequired[str]
     """
     Vector store name.
     """
@@ -1336,7 +1514,7 @@ class UpdateVectorParams(TypedDict):
 
 
 class UpdateVectorsIn(TypedDict):
-    name: NotRequired[str]
+    collection_name: NotRequired[str]
     """
     Vector store name.
     """
@@ -1351,7 +1529,7 @@ class UpdateVectorsIn(TypedDict):
 
 
 class DeleteVectorsIn(TypedDict):
-    name: NotRequired[str]
+    collection_name: NotRequired[str]
     """
     Vector store name.
     """
@@ -1366,7 +1544,7 @@ class DeleteVectorsIn(TypedDict):
 
 
 class QueryVectorStoreIn(TypedDict):
-    name: NotRequired[str]
+    collection_name: NotRequired[str]
     """
     Vector store to query against.
     """
@@ -1410,10 +1588,6 @@ class QueryVectorStoreIn(TypedDict):
     """
     Filter metadata by key-value pairs.
     """
-    metric: NotRequired[Literal["cosine", "l2", "inner"]]
-    """
-    The distance metric used for the query. Defaults to the distance metric the vector store was created with.
-    """
 
 
 class VectorStoreQueryResult(TypedDict):
@@ -1440,7 +1614,7 @@ class QueryVectorStoreOut(TypedDict):
     """
     Query results.
     """
-    name: NotRequired[str]
+    collection_name: NotRequired[str]
     """
     Vector store name.
     """
