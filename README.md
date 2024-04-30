@@ -58,7 +58,16 @@ response = await substrate.async_run(story, summary)
 Get the output of the summary node by passing it to `response.get`.
 
 ```python
-summary_out = response.get(story)
-print(summary_out.text);
+summary_out = response.get(summary)
+print(summary_out.text)
 // Princess Lily, a kind-hearted young princess, discovers a book of spells and uses it to grant her family and kingdom happiness.
+```
+
+## Examples
+
+To run the above example as a notebook, navigate to the `examples/notebooks` directory and run:
+
+```sh
+make ensure     # install dependencies
+make basic      # run the notebook
 ```
