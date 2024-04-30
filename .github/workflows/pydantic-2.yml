@@ -1,0 +1,30 @@
+name: Pydantic 2
+
+on:
+  - pull_request
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  build:
+    name: Pydantic 2
+    runs-on: ubuntu-latest
+    env:
+      SUBSTRATE_API_KEY: ${{ secrets.SUBSTRATE_API_KEY }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+
+      - name: Install project
+        run: cd tests/pydantic-2 && poetry install --no-root
+
+      - name: Run tests
+        shell: bash -el {0}
+        run: |
+          cd tests/pydantic-2 && poetry run pytest -Werror
