@@ -1,7 +1,7 @@
 """
 ꩜ Substrate
 @GENERATED FILE
-20240416.20240418
+20240418.20240429
 """
 from typing import Type
 
@@ -10,6 +10,7 @@ from .core.models import (
     JinaV2Out,
     XTTSV2Out,
     BigLaMaOut,
+    RunCodeOut,
     DISISNetOut,
     FillMaskOut,
     EmbedTextOut,
@@ -29,10 +30,14 @@ from .core.models import (
     SegmentAnythingOut,
     TranscribeMediaOut,
     ListVectorStoresOut,
+    Llama3Instruct8BOut,
     QueryVectorStoreOut,
     RemoveBackgroundOut,
+    BatchGenerateJSONOut,
+    BatchGenerateTextOut,
     CreateVectorStoreOut,
     DeleteVectorStoreOut,
+    Llama3Instruct70BOut,
     Mistral7BInstructOut,
     MultiGenerateJSONOut,
     MultiGenerateTextOut,
@@ -41,6 +46,7 @@ from .core.models import (
     GenerateTextVisionOut,
     MultiGenerateImageOut,
     GenerativeEditImageOut,
+    Mixtral8x7BInstructOut,
     MultiGenerativeEditImageOut,
     StableDiffusionXLInpaintOut,
     StableDiffusionXLIPAdapterOut,
@@ -53,6 +59,7 @@ from .typeddict_models import (
     JinaV2In,
     XTTSV2In,
     BigLaMaIn,
+    RunCodeIn,
     DISISNetIn,
     FillMaskIn,
     EmbedTextIn,
@@ -72,10 +79,14 @@ from .typeddict_models import (
     SegmentAnythingIn,
     TranscribeMediaIn,
     ListVectorStoresIn,
+    Llama3Instruct8BIn,
     QueryVectorStoreIn,
     RemoveBackgroundIn,
+    BatchGenerateJSONIn,
+    BatchGenerateTextIn,
     CreateVectorStoreIn,
     DeleteVectorStoreIn,
+    Llama3Instruct70BIn,
     Mistral7BInstructIn,
     MultiGenerateJSONIn,
     MultiGenerateTextIn,
@@ -84,6 +95,7 @@ from .typeddict_models import (
     GenerateTextVisionIn,
     MultiGenerateImageIn,
     GenerativeEditImageIn,
+    Mixtral8x7BInstructIn,
     MultiGenerativeEditImageIn,
     StableDiffusionXLInpaintIn,
     StableDiffusionXLIPAdapterIn,
@@ -95,6 +107,7 @@ from .future_dataclass_models import (
     FutureJinaV2Out,
     FutureXTTSV2Out,
     FutureBigLaMaOut,
+    FutureRunCodeOut,
     FutureDISISNetOut,
     FutureFillMaskOut,
     FutureEmbedTextOut,
@@ -114,10 +127,14 @@ from .future_dataclass_models import (
     FutureSegmentAnythingOut,
     FutureTranscribeMediaOut,
     FutureListVectorStoresOut,
+    FutureLlama3Instruct8BOut,
     FutureQueryVectorStoreOut,
     FutureRemoveBackgroundOut,
+    FutureBatchGenerateJSONOut,
+    FutureBatchGenerateTextOut,
     FutureCreateVectorStoreOut,
     FutureDeleteVectorStoreOut,
+    FutureLlama3Instruct70BOut,
     FutureMistral7BInstructOut,
     FutureMultiGenerateJSONOut,
     FutureMultiGenerateTextOut,
@@ -126,12 +143,47 @@ from .future_dataclass_models import (
     FutureGenerateTextVisionOut,
     FutureMultiGenerateImageOut,
     FutureGenerativeEditImageOut,
+    FutureMixtral8x7BInstructOut,
     FutureMultiGenerativeEditImageOut,
     FutureStableDiffusionXLInpaintOut,
     FutureStableDiffusionXLIPAdapterOut,
     FutureStableDiffusionXLLightningOut,
     FutureStableDiffusionXLControlNetOut,
 )
+
+
+class RunCode(CoreNode):
+    """
+    Evaluate code using a code interpreter.
+
+    https://substrate.run/library#RunCode
+    """
+
+    def __init__(self, args: RunCodeIn, hide: bool = False):
+        """
+        Input arguments: `code`, `args` (optional), `language` (optional)
+
+        Output fields: `future.output` (optional), `future.json_output`, `future.error` (optional)
+
+        https://substrate.run/library#RunCode
+        """
+        super().__init__(hide=hide, **args)
+        self.node = "RunCode"
+
+    @property
+    def out_type(self) -> Type[RunCodeOut]:
+        return RunCodeOut
+
+    @property
+    def future(self) -> FutureRunCodeOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.output` (optional), `future.json_output`, `future.error` (optional)
+
+        https://substrate.run/library#RunCode
+        """
+        return super().future  # type: ignore
 
 
 class GenerateText(CoreNode):
@@ -177,9 +229,9 @@ class MultiGenerateText(CoreNode):
 
     def __init__(self, args: MultiGenerateTextIn, hide: bool = False):
         """
-        Input arguments: `prompt` (optional), `batch_prompts` (optional), `num_choices` (optional), `temperature` (optional), `max_tokens` (optional), `node` (optional)
+        Input arguments: `prompt`, `num_choices`, `temperature` (optional), `max_tokens` (optional), `node` (optional)
 
-        Output fields: `future.outputs`
+        Output fields: `future.choices`
 
         https://substrate.run/library#MultiGenerateText
         """
@@ -195,9 +247,77 @@ class MultiGenerateText(CoreNode):
         """
         Future reference to this node's output.
 
-        Output fields: `future.outputs`
+        Output fields: `future.choices`
 
         https://substrate.run/library#MultiGenerateText
+        """
+        return super().future  # type: ignore
+
+
+class BatchGenerateText(CoreNode):
+    """
+    Generate text for multiple prompts in batch using a language model.
+
+    https://substrate.run/library#BatchGenerateText
+    """
+
+    def __init__(self, args: BatchGenerateTextIn, hide: bool = False):
+        """
+        Input arguments: `prompts`, `temperature` (optional), `max_tokens` (optional), `node` (optional)
+
+        Output fields: `future.outputs`
+
+        https://substrate.run/library#BatchGenerateText
+        """
+        super().__init__(hide=hide, **args)
+        self.node = "BatchGenerateText"
+
+    @property
+    def out_type(self) -> Type[BatchGenerateTextOut]:
+        return BatchGenerateTextOut
+
+    @property
+    def future(self) -> FutureBatchGenerateTextOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.outputs`
+
+        https://substrate.run/library#BatchGenerateText
+        """
+        return super().future  # type: ignore
+
+
+class BatchGenerateJSON(CoreNode):
+    """
+    Generate JSON for multiple prompts in batch using a language model.
+
+    https://substrate.run/library#BatchGenerateJSON
+    """
+
+    def __init__(self, args: BatchGenerateJSONIn, hide: bool = False):
+        """
+        Input arguments: `prompts`, `json_schema`, `temperature` (optional), `max_tokens` (optional), `node` (optional)
+
+        Output fields: `future.outputs`
+
+        https://substrate.run/library#BatchGenerateJSON
+        """
+        super().__init__(hide=hide, **args)
+        self.node = "BatchGenerateJSON"
+
+    @property
+    def out_type(self) -> Type[BatchGenerateJSONOut]:
+        return BatchGenerateJSONOut
+
+    @property
+    def future(self) -> FutureBatchGenerateJSONOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.outputs`
+
+        https://substrate.run/library#BatchGenerateJSON
         """
         return super().future  # type: ignore
 
@@ -245,9 +365,9 @@ class MultiGenerateJSON(CoreNode):
 
     def __init__(self, args: MultiGenerateJSONIn, hide: bool = False):
         """
-        Input arguments: `prompt` (optional), `json_schema`, `batch_prompts` (optional), `num_choices` (optional), `temperature` (optional), `max_tokens` (optional), `node` (optional)
+        Input arguments: `prompt`, `json_schema`, `num_choices`, `temperature` (optional), `max_tokens` (optional), `node` (optional)
 
-        Output fields: `future.outputs`
+        Output fields: `future.choices`
 
         https://substrate.run/library#MultiGenerateJSON
         """
@@ -263,7 +383,7 @@ class MultiGenerateJSON(CoreNode):
         """
         Future reference to this node's output.
 
-        Output fields: `future.outputs`
+        Output fields: `future.choices`
 
         https://substrate.run/library#MultiGenerateJSON
         """
@@ -313,9 +433,9 @@ class Mistral7BInstruct(CoreNode):
 
     def __init__(self, args: Mistral7BInstructIn, hide: bool = False):
         """
-        Input arguments: `prompt` (optional), `num_choices` (optional), `json_schema` (optional), `batch_prompts` (optional), `temperature` (optional), `max_tokens` (optional)
+        Input arguments: `prompt`, `num_choices` (optional), `json_schema` (optional), `temperature` (optional), `max_tokens` (optional)
 
-        Output fields: `future.outputs`
+        Output fields: `future.choices`
 
         https://substrate.run/library#Mistral7BInstruct
         """
@@ -331,9 +451,111 @@ class Mistral7BInstruct(CoreNode):
         """
         Future reference to this node's output.
 
-        Output fields: `future.outputs`
+        Output fields: `future.choices`
 
         https://substrate.run/library#Mistral7BInstruct
+        """
+        return super().future  # type: ignore
+
+
+class Mixtral8x7BInstruct(CoreNode):
+    """
+    Generate text using instruct-tuned [Mixtral 8x7B](https://mistral.ai/news/mixtral-of-experts/).
+
+    https://substrate.run/library#Mixtral8x7BInstruct
+    """
+
+    def __init__(self, args: Mixtral8x7BInstructIn, hide: bool = False):
+        """
+        Input arguments: `prompt`, `num_choices` (optional), `json_schema` (optional), `temperature` (optional), `max_tokens` (optional)
+
+        Output fields: `future.choices`
+
+        https://substrate.run/library#Mixtral8x7BInstruct
+        """
+        super().__init__(hide=hide, **args)
+        self.node = "Mixtral8x7BInstruct"
+
+    @property
+    def out_type(self) -> Type[Mixtral8x7BInstructOut]:
+        return Mixtral8x7BInstructOut
+
+    @property
+    def future(self) -> FutureMixtral8x7BInstructOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.choices`
+
+        https://substrate.run/library#Mixtral8x7BInstruct
+        """
+        return super().future  # type: ignore
+
+
+class Llama3Instruct8B(CoreNode):
+    """
+    Generate text using instruct-tuned [Llama 3 8B](https://llama.meta.com/llama3/).
+
+    https://substrate.run/library#Llama3Instruct8B
+    """
+
+    def __init__(self, args: Llama3Instruct8BIn, hide: bool = False):
+        """
+        Input arguments: `prompt`, `num_choices` (optional), `temperature` (optional), `max_tokens` (optional)
+
+        Output fields: `future.choices`
+
+        https://substrate.run/library#Llama3Instruct8B
+        """
+        super().__init__(hide=hide, **args)
+        self.node = "Llama3Instruct8B"
+
+    @property
+    def out_type(self) -> Type[Llama3Instruct8BOut]:
+        return Llama3Instruct8BOut
+
+    @property
+    def future(self) -> FutureLlama3Instruct8BOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.choices`
+
+        https://substrate.run/library#Llama3Instruct8B
+        """
+        return super().future  # type: ignore
+
+
+class Llama3Instruct70B(CoreNode):
+    """
+    Generate text using instruct-tuned [Llama 3 70B](https://llama.meta.com/llama3/).
+
+    https://substrate.run/library#Llama3Instruct70B
+    """
+
+    def __init__(self, args: Llama3Instruct70BIn, hide: bool = False):
+        """
+        Input arguments: `prompt`, `num_choices` (optional), `temperature` (optional), `max_tokens` (optional)
+
+        Output fields: `future.choices`
+
+        https://substrate.run/library#Llama3Instruct70B
+        """
+        super().__init__(hide=hide, **args)
+        self.node = "Llama3Instruct70B"
+
+    @property
+    def out_type(self) -> Type[Llama3Instruct70BOut]:
+        return Llama3Instruct70BOut
+
+    @property
+    def future(self) -> FutureLlama3Instruct70BOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        Output fields: `future.choices`
+
+        https://substrate.run/library#Llama3Instruct70B
         """
         return super().future  # type: ignore
 
@@ -1061,7 +1283,7 @@ class EmbedText(CoreNode):
 
     def __init__(self, args: EmbedTextIn, hide: bool = False):
         """
-        Input arguments: `text`, `store` (optional), `metadata` (optional), `embedded_metadata_keys` (optional), `doc_id` (optional), `node` (optional)
+        Input arguments: `text`, `collection_name` (optional), `metadata` (optional), `embedded_metadata_keys` (optional), `doc_id` (optional), `model` (optional)
 
         Output fields: `future.embedding`
 
@@ -1095,7 +1317,7 @@ class MultiEmbedText(CoreNode):
 
     def __init__(self, args: MultiEmbedTextIn, hide: bool = False):
         """
-        Input arguments: `items`, `store` (optional), `embedded_metadata_keys` (optional), `node` (optional)
+        Input arguments: `items`, `collection_name` (optional), `embedded_metadata_keys` (optional), `model` (optional)
 
         Output fields: `future.embeddings`
 
@@ -1129,7 +1351,7 @@ class EmbedImage(CoreNode):
 
     def __init__(self, args: EmbedImageIn, hide: bool = False):
         """
-        Input arguments: `image_uri`, `store` (optional), `doc_id` (optional), `node` (optional)
+        Input arguments: `image_uri`, `collection_name` (optional), `doc_id` (optional), `model` (optional)
 
         Output fields: `future.embedding`
 
@@ -1163,7 +1385,7 @@ class MultiEmbedImage(CoreNode):
 
     def __init__(self, args: MultiEmbedImageIn, hide: bool = False):
         """
-        Input arguments: `items`, `store` (optional), `node` (optional)
+        Input arguments: `items`, `collection_name` (optional), `model` (optional)
 
         Output fields: `future.embeddings`
 
@@ -1197,7 +1419,7 @@ class JinaV2(CoreNode):
 
     def __init__(self, args: JinaV2In, hide: bool = False):
         """
-        Input arguments: `items`, `store` (optional), `embedded_metadata_keys` (optional)
+        Input arguments: `items`, `collection_name` (optional), `embedded_metadata_keys` (optional)
 
         Output fields: `future.embeddings`
 
@@ -1231,7 +1453,7 @@ class CLIP(CoreNode):
 
     def __init__(self, args: CLIPIn, hide: bool = False):
         """
-        Input arguments: `items`, `store` (optional)
+        Input arguments: `items`, `collection_name` (optional), `embedded_metadata_keys` (optional)
 
         Output fields: `future.embeddings`
 
@@ -1265,9 +1487,9 @@ class CreateVectorStore(CoreNode):
 
     def __init__(self, args: CreateVectorStoreIn, hide: bool = False):
         """
-        Input arguments: `name`, `model`, `m` (optional), `ef_construction` (optional), `metric` (optional)
+        Input arguments: `collection_name`, `model`, `m` (optional), `ef_construction` (optional), `metric` (optional)
 
-        Output fields: `future.name`, `future.model`, `future.m`, `future.ef_construction`, `future.metric`
+        Output fields: `future.collection_name`, `future.model`, `future.m`, `future.ef_construction`, `future.metric`
 
         https://substrate.run/library#CreateVectorStore
         """
@@ -1283,7 +1505,7 @@ class CreateVectorStore(CoreNode):
         """
         Future reference to this node's output.
 
-        Output fields: `future.name`, `future.model`, `future.m`, `future.ef_construction`, `future.metric`
+        Output fields: `future.collection_name`, `future.model`, `future.m`, `future.ef_construction`, `future.metric`
 
         https://substrate.run/library#CreateVectorStore
         """
@@ -1301,7 +1523,7 @@ class ListVectorStores(CoreNode):
         """
         Input arguments:
 
-        Output fields: `future.stores` (optional)
+        Output fields: `future.items` (optional)
 
         https://substrate.run/library#ListVectorStores
         """
@@ -1317,7 +1539,7 @@ class ListVectorStores(CoreNode):
         """
         Future reference to this node's output.
 
-        Output fields: `future.stores` (optional)
+        Output fields: `future.items` (optional)
 
         https://substrate.run/library#ListVectorStores
         """
@@ -1333,9 +1555,9 @@ class DeleteVectorStore(CoreNode):
 
     def __init__(self, args: DeleteVectorStoreIn, hide: bool = False):
         """
-        Input arguments: `name`, `model`
+        Input arguments: `collection_name`, `model`
 
-        Output fields: `future.name`, `future.model`
+        Output fields: `future.collection_name`, `future.model`
 
         https://substrate.run/library#DeleteVectorStore
         """
@@ -1351,7 +1573,7 @@ class DeleteVectorStore(CoreNode):
         """
         Future reference to this node's output.
 
-        Output fields: `future.name`, `future.model`
+        Output fields: `future.collection_name`, `future.model`
 
         https://substrate.run/library#DeleteVectorStore
         """
@@ -1367,9 +1589,9 @@ class QueryVectorStore(CoreNode):
 
     def __init__(self, args: QueryVectorStoreIn, hide: bool = False):
         """
-        Input arguments: `name`, `model`, `query_strings` (optional), `query_image_uris` (optional), `query_vectors` (optional), `query_ids` (optional), `top_k` (optional), `ef_search` (optional), `include_values` (optional), `include_metadata` (optional), `filters` (optional), `metric` (optional)
+        Input arguments: `collection_name`, `model`, `query_strings` (optional), `query_image_uris` (optional), `query_vectors` (optional), `query_ids` (optional), `top_k` (optional), `ef_search` (optional), `include_values` (optional), `include_metadata` (optional), `filters` (optional)
 
-        Output fields: `future.results`, `future.name` (optional), `future.model` (optional), `future.metric` (optional)
+        Output fields: `future.results`, `future.collection_name` (optional), `future.model` (optional), `future.metric` (optional)
 
         https://substrate.run/library#QueryVectorStore
         """
@@ -1385,7 +1607,7 @@ class QueryVectorStore(CoreNode):
         """
         Future reference to this node's output.
 
-        Output fields: `future.results`, `future.name` (optional), `future.model` (optional), `future.metric` (optional)
+        Output fields: `future.results`, `future.collection_name` (optional), `future.model` (optional), `future.metric` (optional)
 
         https://substrate.run/library#QueryVectorStore
         """
@@ -1401,7 +1623,7 @@ class FetchVectors(CoreNode):
 
     def __init__(self, args: FetchVectorsIn, hide: bool = False):
         """
-        Input arguments: `name`, `model`, `ids`
+        Input arguments: `collection_name`, `model`, `ids`
 
         Output fields: `future.vectors`
 
@@ -1435,7 +1657,7 @@ class UpdateVectors(CoreNode):
 
     def __init__(self, args: UpdateVectorsIn, hide: bool = False):
         """
-        Input arguments: `name`, `model`, `vectors`
+        Input arguments: `collection_name`, `model`, `vectors`
 
         Output fields: `future.count`
 
@@ -1469,7 +1691,7 @@ class DeleteVectors(CoreNode):
 
     def __init__(self, args: DeleteVectorsIn, hide: bool = False):
         """
-        Input arguments: `name`, `model`, `ids`
+        Input arguments: `collection_name`, `model`, `ids`
 
         Output fields: `future.count`
 
