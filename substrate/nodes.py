@@ -1,7 +1,7 @@
 """
 ꩜ Substrate
 @GENERATED FILE
-20240418.20240429
+20240430.20240430
 """
 
 from .core.models import (

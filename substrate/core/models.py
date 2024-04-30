@@ -10,13 +10,10 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional
 from typing_extensions import Literal, Annotated
 
-from pydantic import Extra, Field, BaseModel
+from pydantic import Field, BaseModel
 
 
 class ErrorOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     type: Literal["api_error", "invalid_request_error"]
     """
     The type of error returned.
@@ -32,9 +29,6 @@ class ErrorOut(BaseModel):
 
 
 class RunCodeIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     code: str
     """
     Code to execute.
@@ -50,9 +44,6 @@ class RunCodeIn(BaseModel):
 
 
 class RunCodeOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     output: Optional[str] = None
     """
     Contents of `stdout` after executing the code.
@@ -68,9 +59,6 @@ class RunCodeOut(BaseModel):
 
 
 class GenerateTextIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     prompt: str
     """
     Input prompt.
@@ -95,9 +83,6 @@ class GenerateTextIn(BaseModel):
 
 
 class GenerateTextOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     text: str
     """
     Text response.
@@ -105,9 +90,6 @@ class GenerateTextOut(BaseModel):
 
 
 class GenerateJSONIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     prompt: str
     """
     Input prompt.
@@ -131,9 +113,6 @@ class GenerateJSONIn(BaseModel):
 
 
 class GenerateJSONOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     json_object: Dict[str, Any]
     """
     JSON response.
@@ -141,9 +120,6 @@ class GenerateJSONOut(BaseModel):
 
 
 class MultiGenerateTextIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     prompt: str
     """
     Input prompt.
@@ -172,9 +148,6 @@ class MultiGenerateTextIn(BaseModel):
 
 
 class MultiGenerateTextOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     choices: List[GenerateTextOut]
     """
     Response choices.
@@ -182,9 +155,6 @@ class MultiGenerateTextOut(BaseModel):
 
 
 class BatchGenerateTextIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     prompts: List[str]
     """
     Batch input prompts.
@@ -204,9 +174,6 @@ class BatchGenerateTextIn(BaseModel):
 
 
 class BatchGenerateTextOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     outputs: List[GenerateTextOut]
     """
     Batch outputs.
@@ -214,9 +181,6 @@ class BatchGenerateTextOut(BaseModel):
 
 
 class MultiGenerateJSONIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     prompt: str
     """
     Input prompt.
@@ -244,9 +208,6 @@ class MultiGenerateJSONIn(BaseModel):
 
 
 class MultiGenerateJSONOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     choices: List[GenerateJSONOut]
     """
     Response choices.
@@ -254,9 +215,6 @@ class MultiGenerateJSONOut(BaseModel):
 
 
 class BatchGenerateJSONIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     prompts: List[str]
     """
     Batch input prompts.
@@ -280,9 +238,6 @@ class BatchGenerateJSONIn(BaseModel):
 
 
 class BatchGenerateJSONOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     outputs: List[GenerateJSONOut]
     """
     Batch outputs.
@@ -290,9 +245,6 @@ class BatchGenerateJSONOut(BaseModel):
 
 
 class Mistral7BInstructIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     prompt: str
     """
     Input prompt.
@@ -316,9 +268,6 @@ class Mistral7BInstructIn(BaseModel):
 
 
 class Mistral7BInstructChoice(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     text: Optional[str] = None
     """
     Text response, if `json_schema` was not provided.
@@ -330,9 +279,6 @@ class Mistral7BInstructChoice(BaseModel):
 
 
 class Mistral7BInstructOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     choices: List[Mistral7BInstructChoice]
     """
     Response choices.
@@ -340,9 +286,6 @@ class Mistral7BInstructOut(BaseModel):
 
 
 class Mixtral8x7BInstructIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     prompt: str
     """
     Input prompt.
@@ -366,9 +309,6 @@ class Mixtral8x7BInstructIn(BaseModel):
 
 
 class Mixtral8x7BChoice(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     text: Optional[str] = None
     """
     Text response, if `json_schema` was not provided.
@@ -380,9 +320,6 @@ class Mixtral8x7BChoice(BaseModel):
 
 
 class Mixtral8x7BInstructOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     choices: List[Mixtral8x7BChoice]
     """
     Response choices.
@@ -390,9 +327,6 @@ class Mixtral8x7BInstructOut(BaseModel):
 
 
 class Llama3Instruct8BIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     prompt: str
     """
     Input prompt.
@@ -412,9 +346,6 @@ class Llama3Instruct8BIn(BaseModel):
 
 
 class Llama3Instruct8BChoice(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     text: Optional[str] = None
     """
     Text response.
@@ -422,9 +353,6 @@ class Llama3Instruct8BChoice(BaseModel):
 
 
 class Llama3Instruct8BOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     choices: List[Llama3Instruct8BChoice]
     """
     Response choices.
@@ -432,9 +360,6 @@ class Llama3Instruct8BOut(BaseModel):
 
 
 class Llama3Instruct70BIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     prompt: str
     """
     Input prompt.
@@ -454,9 +379,6 @@ class Llama3Instruct70BIn(BaseModel):
 
 
 class Llama3Instruct70BChoice(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     text: Optional[str] = None
     """
     Text response.
@@ -464,9 +386,6 @@ class Llama3Instruct70BChoice(BaseModel):
 
 
 class Llama3Instruct70BOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     choices: List[Llama3Instruct70BChoice]
     """
     Response choices.
@@ -474,9 +393,6 @@ class Llama3Instruct70BOut(BaseModel):
 
 
 class GenerateTextVisionIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     prompt: str
     """
     Text prompt.
@@ -496,9 +412,6 @@ class GenerateTextVisionIn(BaseModel):
 
 
 class GenerateTextVisionOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     text: str
     """
     Text response.
@@ -506,9 +419,6 @@ class GenerateTextVisionOut(BaseModel):
 
 
 class Firellava13BIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     prompt: str
     """
     Text prompt.
@@ -524,9 +434,6 @@ class Firellava13BIn(BaseModel):
 
 
 class Firellava13BOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     text: str
     """
     Text response.
@@ -534,9 +441,6 @@ class Firellava13BOut(BaseModel):
 
 
 class GenerateImageIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     prompt: str
     """
     Text prompt.
@@ -552,9 +456,6 @@ class GenerateImageIn(BaseModel):
 
 
 class GenerateImageOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     image_uri: str
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
@@ -562,9 +463,6 @@ class GenerateImageOut(BaseModel):
 
 
 class MultiGenerateImageIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     prompt: str
     """
     Text prompt.
@@ -584,9 +482,6 @@ class MultiGenerateImageIn(BaseModel):
 
 
 class MultiGenerateImageOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     outputs: List[GenerateImageOut]
     """
     Generated images.
@@ -594,9 +489,6 @@ class MultiGenerateImageOut(BaseModel):
 
 
 class StableDiffusionXLIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     prompt: str
     """
     Text prompt.
@@ -636,9 +528,6 @@ class StableDiffusionXLIn(BaseModel):
 
 
 class StableDiffusionImage(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     image_uri: str
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
@@ -650,9 +539,6 @@ class StableDiffusionImage(BaseModel):
 
 
 class StableDiffusionXLOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     outputs: List[StableDiffusionImage]
     """
     Generated images.
@@ -660,9 +546,6 @@ class StableDiffusionXLOut(BaseModel):
 
 
 class StableDiffusionXLLightningIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     prompt: str
     """
     Text prompt.
@@ -694,9 +577,6 @@ class StableDiffusionXLLightningIn(BaseModel):
 
 
 class StableDiffusionXLLightningOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     outputs: List[StableDiffusionImage]
     """
     Generated images.
@@ -704,9 +584,6 @@ class StableDiffusionXLLightningOut(BaseModel):
 
 
 class StableDiffusionXLIPAdapterIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     prompt: str
     """
     Text prompt.
@@ -746,9 +623,6 @@ class StableDiffusionXLIPAdapterIn(BaseModel):
 
 
 class StableDiffusionXLIPAdapterOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     outputs: List[StableDiffusionImage]
     """
     Generated images.
@@ -756,9 +630,6 @@ class StableDiffusionXLIPAdapterOut(BaseModel):
 
 
 class StableDiffusionXLControlNetIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     image_uri: str
     """
     Input image.
@@ -798,9 +669,6 @@ class StableDiffusionXLControlNetIn(BaseModel):
 
 
 class StableDiffusionXLControlNetOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     outputs: List[StableDiffusionImage]
     """
     Generated images.
@@ -808,9 +676,6 @@ class StableDiffusionXLControlNetOut(BaseModel):
 
 
 class GenerativeEditImageIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     image_uri: str
     """
     Original image.
@@ -834,9 +699,6 @@ class GenerativeEditImageIn(BaseModel):
 
 
 class GenerativeEditImageOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     image_uri: str
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
@@ -844,9 +706,6 @@ class GenerativeEditImageOut(BaseModel):
 
 
 class MultiGenerativeEditImageIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     image_uri: str
     """
     Original image.
@@ -874,9 +733,6 @@ class MultiGenerativeEditImageIn(BaseModel):
 
 
 class MultiGenerativeEditImageOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     outputs: List[GenerativeEditImageOut]
     """
     Generated images.
@@ -884,9 +740,6 @@ class MultiGenerativeEditImageOut(BaseModel):
 
 
 class StableDiffusionXLInpaintIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     image_uri: str
     """
     Original image.
@@ -926,9 +779,6 @@ class StableDiffusionXLInpaintIn(BaseModel):
 
 
 class StableDiffusionXLInpaintOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     outputs: List[StableDiffusionImage]
     """
     Generated images.
@@ -936,9 +786,6 @@ class StableDiffusionXLInpaintOut(BaseModel):
 
 
 class BoundingBox(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     x1: float
     """
     Top left corner x.
@@ -958,9 +805,6 @@ class BoundingBox(BaseModel):
 
 
 class Point(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     x: int
     """
     X position.
@@ -972,9 +816,6 @@ class Point(BaseModel):
 
 
 class FillMaskIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     image_uri: str
     """
     Input image.
@@ -994,9 +835,6 @@ class FillMaskIn(BaseModel):
 
 
 class FillMaskOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     image_uri: str
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
@@ -1004,9 +842,6 @@ class FillMaskOut(BaseModel):
 
 
 class BigLaMaIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     image_uri: str
     """
     Input image.
@@ -1022,9 +857,6 @@ class BigLaMaIn(BaseModel):
 
 
 class BigLaMaOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     image_uri: str
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
@@ -1032,9 +864,6 @@ class BigLaMaOut(BaseModel):
 
 
 class RemoveBackgroundIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     image_uri: str
     """
     Input image.
@@ -1058,9 +887,6 @@ class RemoveBackgroundIn(BaseModel):
 
 
 class RemoveBackgroundOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     image_uri: str
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
@@ -1068,9 +894,6 @@ class RemoveBackgroundOut(BaseModel):
 
 
 class DISISNetIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     image_uri: str
     """
     Input image.
@@ -1082,9 +905,6 @@ class DISISNetIn(BaseModel):
 
 
 class DISISNetOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     image_uri: str
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
@@ -1092,9 +912,6 @@ class DISISNetOut(BaseModel):
 
 
 class UpscaleImageIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     image_uri: str
     """
     Input image.
@@ -1110,9 +927,6 @@ class UpscaleImageIn(BaseModel):
 
 
 class UpscaleImageOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     image_uri: str
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
@@ -1120,9 +934,6 @@ class UpscaleImageOut(BaseModel):
 
 
 class RealESRGANIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     image_uri: str
     """
     Input image.
@@ -1134,9 +945,6 @@ class RealESRGANIn(BaseModel):
 
 
 class RealESRGANOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     image_uri: str
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
@@ -1144,9 +952,6 @@ class RealESRGANOut(BaseModel):
 
 
 class SegmentUnderPointIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     image_uri: str
     """
     Input image.
@@ -1166,9 +971,6 @@ class SegmentUnderPointIn(BaseModel):
 
 
 class SegmentUnderPointOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     mask_image_uri: str
     """
     Detected segments in 'mask image' format. Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
@@ -1176,9 +978,6 @@ class SegmentUnderPointOut(BaseModel):
 
 
 class SegmentAnythingIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     image_uri: str
     """
     Input image.
@@ -1198,9 +997,6 @@ class SegmentAnythingIn(BaseModel):
 
 
 class SegmentAnythingOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     mask_image_uri: str
     """
     Detected segments in 'mask image' format. Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
@@ -1208,9 +1004,6 @@ class SegmentAnythingOut(BaseModel):
 
 
 class TranscribeMediaIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     audio_uri: str
     """
     Input audio.
@@ -1242,9 +1035,6 @@ class TranscribeMediaIn(BaseModel):
 
 
 class TranscribedWord(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     word: str
     """
     Text of word.
@@ -1264,9 +1054,6 @@ class TranscribedWord(BaseModel):
 
 
 class TranscribedSegment(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     text: str
     """
     Text of segment.
@@ -1290,9 +1077,6 @@ class TranscribedSegment(BaseModel):
 
 
 class ChapterMarker(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     title: str
     """
     Chapter title.
@@ -1304,9 +1088,6 @@ class ChapterMarker(BaseModel):
 
 
 class TranscribeMediaOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     text: str
     """
     Transcribed text.
@@ -1322,9 +1103,6 @@ class TranscribeMediaOut(BaseModel):
 
 
 class GenerateSpeechIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     text: str
     """
     Input text.
@@ -1340,9 +1118,6 @@ class GenerateSpeechIn(BaseModel):
 
 
 class GenerateSpeechOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     audio_uri: str
     """
     Base 64-encoded WAV audio bytes, or a hosted audio url if `store` is provided.
@@ -1350,9 +1125,6 @@ class GenerateSpeechOut(BaseModel):
 
 
 class XTTSV2In(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     text: str
     """
     Input text.
@@ -1372,9 +1144,6 @@ class XTTSV2In(BaseModel):
 
 
 class XTTSV2Out(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     audio_uri: str
     """
     Base 64-encoded WAV audio bytes, or a hosted audio url if `store` is provided.
@@ -1382,9 +1151,6 @@ class XTTSV2Out(BaseModel):
 
 
 class Embedding(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     vector: List[float]
     """
     Embedding vector.
@@ -1400,9 +1166,6 @@ class Embedding(BaseModel):
 
 
 class EmbedTextIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     text: str
     """
     Text to embed.
@@ -1430,9 +1193,6 @@ class EmbedTextIn(BaseModel):
 
 
 class EmbedTextOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     embedding: Embedding
     """
     Generated embedding.
@@ -1440,9 +1200,6 @@ class EmbedTextOut(BaseModel):
 
 
 class EmbedTextItem(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     text: str
     """
     Text to embed.
@@ -1458,9 +1215,6 @@ class EmbedTextItem(BaseModel):
 
 
 class MultiEmbedTextIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     items: List[EmbedTextItem]
     """
     Items to embed.
@@ -1480,9 +1234,6 @@ class MultiEmbedTextIn(BaseModel):
 
 
 class MultiEmbedTextOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     embeddings: List[Embedding]
     """
     Generated embeddings.
@@ -1490,9 +1241,6 @@ class MultiEmbedTextOut(BaseModel):
 
 
 class JinaV2In(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     items: List[EmbedTextItem]
     """
     Items to embed.
@@ -1508,9 +1256,6 @@ class JinaV2In(BaseModel):
 
 
 class JinaV2Out(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     embeddings: List[Embedding]
     """
     Generated embeddings.
@@ -1518,9 +1263,6 @@ class JinaV2Out(BaseModel):
 
 
 class EmbedImageIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     image_uri: str
     """
     Image to embed.
@@ -1540,9 +1282,6 @@ class EmbedImageIn(BaseModel):
 
 
 class EmbedImageOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     embedding: Embedding
     """
     Generated embedding.
@@ -1550,9 +1289,6 @@ class EmbedImageOut(BaseModel):
 
 
 class EmbedImageItem(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     image_uri: str
     """
     Image to embed.
@@ -1564,9 +1300,6 @@ class EmbedImageItem(BaseModel):
 
 
 class EmbedTextOrImageItem(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     image_uri: Optional[str] = None
     """
     Image to embed.
@@ -1586,9 +1319,6 @@ class EmbedTextOrImageItem(BaseModel):
 
 
 class MultiEmbedImageIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     items: List[EmbedImageItem]
     """
     Items to embed.
@@ -1604,9 +1334,6 @@ class MultiEmbedImageIn(BaseModel):
 
 
 class MultiEmbedImageOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     embeddings: List[Embedding]
     """
     Generated embeddings.
@@ -1614,9 +1341,6 @@ class MultiEmbedImageOut(BaseModel):
 
 
 class CLIPIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     items: List[EmbedTextOrImageItem]
     """
     Items to embed.
@@ -1632,9 +1356,6 @@ class CLIPIn(BaseModel):
 
 
 class CLIPOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     embeddings: List[Embedding]
     """
     Generated embeddings.
@@ -1642,9 +1363,6 @@ class CLIPOut(BaseModel):
 
 
 class CreateVectorStoreIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     collection_name: Annotated[str, Field(max_length=63, min_length=1)]
     """
     Vector store name.
@@ -1668,9 +1386,6 @@ class CreateVectorStoreIn(BaseModel):
 
 
 class CreateVectorStoreOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     collection_name: Annotated[str, Field(max_length=63, min_length=1)]
     """
     Vector store name.
@@ -1696,14 +1411,8 @@ class CreateVectorStoreOut(BaseModel):
 class ListVectorStoresIn(BaseModel):
     pass
 
-    class Config:
-        extra = Extra.allow
-
 
 class ListVectorStoresOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     items: Optional[List[CreateVectorStoreOut]] = None
     """
     List of vector stores.
@@ -1711,9 +1420,6 @@ class ListVectorStoresOut(BaseModel):
 
 
 class DeleteVectorStoreIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     collection_name: str
     """
     Vector store name.
@@ -1725,9 +1431,6 @@ class DeleteVectorStoreIn(BaseModel):
 
 
 class DeleteVectorStoreOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     collection_name: str
     """
     Vector store name.
@@ -1742,9 +1445,6 @@ class Vector(BaseModel):
     """
     Canonical representation of document with embedding vector.
     """
-
-    class Config:
-        extra = Extra.allow
 
     id: str
     """
@@ -1761,9 +1461,6 @@ class Vector(BaseModel):
 
 
 class FetchVectorsIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     collection_name: str
     """
     Vector store name.
@@ -1779,9 +1476,6 @@ class FetchVectorsIn(BaseModel):
 
 
 class FetchVectorsOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     vectors: List[Vector]
     """
     Retrieved vectors.
@@ -1789,9 +1483,6 @@ class FetchVectorsOut(BaseModel):
 
 
 class UpdateVectorsOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     count: int
     """
     Number of vectors modified.
@@ -1799,9 +1490,6 @@ class UpdateVectorsOut(BaseModel):
 
 
 class DeleteVectorsOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     count: int
     """
     Number of vectors modified.
@@ -1809,9 +1497,6 @@ class DeleteVectorsOut(BaseModel):
 
 
 class UpdateVectorParams(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     id: str
     """
     Document ID.
@@ -1827,9 +1512,6 @@ class UpdateVectorParams(BaseModel):
 
 
 class UpdateVectorsIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     collection_name: str
     """
     Vector store name.
@@ -1845,9 +1527,6 @@ class UpdateVectorsIn(BaseModel):
 
 
 class DeleteVectorsIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     collection_name: str
     """
     Vector store name.
@@ -1863,9 +1542,6 @@ class DeleteVectorsIn(BaseModel):
 
 
 class QueryVectorStoreIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     collection_name: str
     """
     Vector store to query against.
@@ -1913,9 +1589,6 @@ class QueryVectorStoreIn(BaseModel):
 
 
 class VectorStoreQueryResult(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     id: str
     """
     Document ID.
@@ -1935,9 +1608,6 @@ class VectorStoreQueryResult(BaseModel):
 
 
 class QueryVectorStoreOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
     results: List[List[VectorStoreQueryResult]]
     """
     Query results.
