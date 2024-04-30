@@ -1469,7 +1469,7 @@ class FetchVectorsIn(BaseModel):
     """
     Selected embedding model.
     """
-    ids: Annotated[List[str], Field(max_items=100)]
+    ids: List[str]
     """
     Document IDs to retrieve.
     """
@@ -1520,7 +1520,7 @@ class UpdateVectorsIn(BaseModel):
     """
     Selected embedding model.
     """
-    vectors: Annotated[List[UpdateVectorParams], Field(max_items=100)]
+    vectors: List[UpdateVectorParams]
     """
     Vectors to upsert.
     """
@@ -1535,7 +1535,7 @@ class DeleteVectorsIn(BaseModel):
     """
     Selected embedding model.
     """
-    ids: Annotated[List[str], Field(max_items=100)]
+    ids: List[str]
     """
     Document IDs to delete.
     """
