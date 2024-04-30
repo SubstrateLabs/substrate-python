@@ -346,24 +346,6 @@ files = [
 ]
 
 [[package]]
-name = "substrate"
-version = "120240430.0.0"
-description = "Substrate Python SDK"
-optional = false
-python-versions = ">=3.9"
-files = [
-    {file = "substrate-120240430.0.0-py3-none-any.whl", hash = "sha256:0addf8bdfab8beaf450a32b31170ffe35c58a0d3d763a5691f4754a9dd6f1a32"},
-    {file = "substrate-120240430.0.0.tar.gz", hash = "sha256:b43c5bcef674f7a1ea227e6d0a7deacff09e8b5d8a7bcb784d580b1f80c3ecd8"},
-]
-
-[package.dependencies]
-distro = ">=1.8.0"
-httpx = ">=0.26.0"
-networkx = ">=3.2.1"
-pydantic = ">=1.0.0"
-typing-extensions = ">=4.10.0,<5.0.0"
-
-[[package]]
 name = "tomli"
 version = "2.0.1"
 description = "A lil' TOML parser"
@@ -388,4 +370,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "bdbe814dd88e74ad64a9b2940c8f951e5e2c51e038207ffefc062c4e15aba59b"
+content-hash = "1e5f4f054a6ea8602c2343bbb01a62a7b81aefa6baaf1e1907fb35ee6372eb59"
