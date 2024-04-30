@@ -1,7 +1,7 @@
 """
 CORE ꩜ SUBSTRATE
 """
-from typing import List, Type, Generic, TypeVar, Optional
+from typing import Any, List, Type, Generic, TypeVar, Optional
 
 import networkx as nx
 
@@ -15,7 +15,7 @@ OT = TypeVar("OT")
 
 
 class CoreNode(Generic[OT]):
-    def __init__(self, out_type: Type[OT], hide: bool = True, **attr):
+    def __init__(self, out_type: Type[OT] = Type[Any], hide: bool = True, **attr):
         self._out_type = out_type
         self.node = self.__class__.__name__
         self.args = attr
