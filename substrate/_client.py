@@ -207,22 +207,3 @@ class APIClient:
             request=body,
         )
         return res
-
-    def post_compose_requests(self, dag: Dict[str, Any]) -> APIResponse:
-        import requests  # Ensure to import requests
-
-        url = f"{self._base_url}/compose"
-        body = {"dag": dag}
-        http_response = requests.post(url, headers=self.default_headers, json=body)
-        _json = None
-        try:
-            _json = http_response.json()
-        except Exception as exc:
-            log.debug("Could not read JSON from response data due to %s - %s", type(exc), exc)
-        res = APIResponse(
-            status_code=http_response.status_code,
-            json=_json,
-            headers=http_response.headers,
-            request=body,
-        )
-        return res
