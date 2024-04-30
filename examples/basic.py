@@ -10,28 +10,15 @@ api_key = os.environ.get("SUBSTRATE_API_KEY")
 if api_key is None:
     raise EnvironmentError("No SUBSTRATE_API_KEY set")
 
-from substrate import Substrate, GenerateText
+from substrate import Substrate, GenerateText, sb
 
-a = GenerateText({"prompt": "tell me a short story in a few sentences"})
-# b = GenerateText({"prompt": a.future.text})
-# b = EmbedText({"text": a.future.text})
+substrate = Substrate(api_key=api_key)
 
-s = Substrate(api_key=api_key)
-res = s.run(a, use_requests=True)
+story = GenerateText({"prompt": "tell me a story"})
 
+summary = GenerateText({"prompt": sb.concat("summarize this story in one sentence: ", story.future.text)})
 
-a_out = res.get(a, a.out_type)
-print(a_out.text)
+response = substrate.run(story, summary)
 
-# b_out = res.get(b, b.out_type)
-# print(type(b_out.embedding))
-# print(b_out.embedding.vector)
-
-# print("response", res.api_response.status_code)
-# print("json", json.dumps(res.json, indent=2))
-
-
-# a_out = a.output(res)
-
-
-# print(a_out.text)
+summary_out = response.get(story, story.out_type)
+print(summary_out.text)
