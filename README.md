@@ -68,6 +68,6 @@ print(summary_out.text)
 To run the above example as a notebook, navigate to the `examples/notebooks` directory and run:
 
 ```sh
-make ensure     # install dependencies
-make basic      # run the notebook
+make ensure               # install dependencies
+marimo edit basic.py      # run the notebook
 ```

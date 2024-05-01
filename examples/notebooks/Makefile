@@ -8,7 +8,6 @@ help:
 	@echo "Substrate notebooks"
 	@echo ""
 	@echo "  ensure               Install dependencies"
-	@echo "  basic                Basic notebook with the example from the README"
 	@echo "  update               Update substrate-python to the latest version"
 
 poetry.lock: pyproject.toml
@@ -20,7 +19,3 @@ ensure: poetry.lock
 .PHONY: update
 update:
 	poetry cache clear pypi --all && poetry update substrate
-
-.PHONY: basic
-basic:
-	poetry run marimo edit basic.py
