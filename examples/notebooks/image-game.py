@@ -8,6 +8,7 @@ app = marimo.App(width="medium")
 def __():
     # enter your API key (or store it in the SUBSTRATE_API_KEY env var)
     import os
+
     api_key = os.environ.get("SUBSTRATE_API_KEY")
     api_key = api_key or "YOUR_API_KEY"
     return api_key, os
@@ -98,14 +99,14 @@ def __(embed, image, mo, res):
     return
 
 
-@app.cell(hide_code=True)
+@app.cell
 def __(mo):
     guesses = (
         mo.md(
             """
-        ### Try to generate a similar image:
-        - Prompt 1 {guess1}
-        - Prompt 2 {guess2}
+        ### Let two other people try to generate a similar image:
+        - Guess prompt 1 {guess1}
+        - Guess prompt 2 {guess2}
         """
         )
         .batch(
@@ -196,18 +197,22 @@ def __(embed, mo, query_items, res):
     match2 = next((i for i in query_items[1] if i.id == orig_embed_id), None)
     match1_wins = match1.distance < match2.distance
 
-    mo.accordion({"result": mo.tree(
+    mo.accordion(
         {
-            "orig_embed_id": orig_embed_id,
-            "image1_distance": match1.distance,
-            "image2_distance": match2.distance,
-            "match1_wins": match1_wins,
+            "result": mo.tree(
+                {
+                    "orig_embed_id": orig_embed_id,
+                    "image1_distance": match1.distance,
+                    "image2_distance": match2.distance,
+                    "match1_wins": match1_wins,
+                }
+            )
         }
-    )})
+    )
     return match1, match1_wins, match2, orig_embed_id
 
 
-@app.cell(hide_code=True)
+@app.cell
 def __(
     guess1image,
     guess2image,
@@ -226,23 +231,23 @@ def __(
             mo.vstack(
                 [
                     mo.image(src=res.get(image).image_uri),
-                    mo.md(f"prompt: {prompt.value}"),
+                    mo.md(f"Original prompt: {prompt.value}"),
                 ]
             ),
             mo.vstack(
                 [
                     mo.image(src=guess_res.get(guess1image).image_uri),
-                    mo.md(f"prompt: {guesses.value["guess1"]}"),
-                    mo.md(f"distance: {match1.distance}"),
-                    mo.md(f"**{'WINNER' if match1_wins else 'LOSER'}**")
+                    mo.md(f"Guess 1: {guesses.value["guess1"]}"),
+                    mo.md(f"Distance: {match1.distance}"),
+                    mo.md(f"**{'WINNER' if match1_wins else 'LOSER'}**"),
                 ]
             ),
             mo.vstack(
                 [
                     mo.image(src=guess_res.get(guess2image).image_uri),
-                    mo.md(f"prompt: {guesses.value["guess2"]}"),
-                    mo.md(f"distance: {match2.distance}"),
-                    mo.md(f"**{'LOSER' if match1_wins else 'WINNER'}**")
+                    mo.md(f"Guess 2: {guesses.value["guess2"]}"),
+                    mo.md(f"Distance: {match2.distance}"),
+                    mo.md(f"**{'LOSER' if match1_wins else 'WINNER'}**"),
                 ]
             ),
         ]
