@@ -30,22 +30,12 @@ def __():
 
 
 @app.cell
-def __(Substrate, api_key, os):
-    user_id = os.environ.get("SUBSTRATE_USER_ID")
-    ray_api_key = os.environ.get("RAY_API_KEY")
-    base_url = "http://localhost:8000"
-    headers = {
-        "substrate-api-key": ray_api_key,
-        "x-user-id": user_id,
-        "x-proxy-path": "/compose",
-    }
+def __(Substrate, api_key):
     substrate = Substrate(
         api_key=api_key,
-        base_url=base_url,
         backend="v1",
-        additional_headers=headers,
     )
-    return base_url, headers, ray_api_key, substrate, user_id
+    return substrate,
 
 
 @app.cell
@@ -85,20 +75,15 @@ def __(GenerateText, RunCode, question):
             "args": [text.future.text],
         }
     )
-    run_code = RunCode(
-        {
-            "code": get_code.future.output
-        }
-    )
+    run_code = RunCode({"code": get_code.future.output})
     return get_code, prompt, run_code, text
 
 
 @app.cell
-def __(get_code, run_code, substrate, text):
+def __(get_code, mo, run_code, substrate, text):
     res = substrate.run(text, get_code, run_code)
     viz = substrate.visualize(text, get_code, run_code)
-    print(viz)
-    # res = substrate.run(text)
+    mo.md(f"[visualize]({viz})")
     return res, viz
 
 
