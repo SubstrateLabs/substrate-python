@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.10"
 marimo = "^0.3.4"
 substrate = "*"
+openai = "^1.25.0"
 
 [build-system]
 requires = ["poetry-core"]
