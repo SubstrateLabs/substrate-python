@@ -57,26 +57,20 @@ def __(prompt, sb):
 
 
 @app.cell
-def __(bg, image, mo, rmbg, rmbg_mask, substrate, upscale):
-    res = substrate.run(image, rmbg, rmbg_mask, bg, upscale)
-    viz = substrate.visualize(image, rmbg, rmbg_mask, bg, upscale)
+def __(bg, image, mo, rmbg_mask, substrate):
+    res = substrate.run(image, rmbg_mask, bg)
+    viz = substrate.visualize(image, rmbg_mask, bg)
     mo.md(f"[visualize]({viz})")
     return res, viz
 
 
 @app.cell
-def __(bg, image, mo, res, rmbg, rmbg_mask, upscale):
+def __(bg, image, mo, res, rmbg_mask):
     mo.hstack(
         [
             mo.image(src=res.get(image).image_uri),
-            mo.image(src=res.get(rmbg).image_uri),
             mo.image(src=res.get(rmbg_mask).image_uri),
             mo.image(src=res.get(bg).image_uri),
-            mo.download(
-                data=res.get(upscale).image_uri,
-                filename="upscaled.jpeg",
-                label="Upscaled background",
-            ),
         ]
     )
     return
