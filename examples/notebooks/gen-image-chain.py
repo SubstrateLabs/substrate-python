@@ -14,24 +14,18 @@ def __():
 
     api_key = os.environ.get("SUBSTRATE_API_KEY")
     api_key = api_key or "YOUR_API_KEY"
-    mo.md(f"`{api_key}`")
-    return api_key, base64, json, mo, os, sb
-
-
-@app.cell
-def __(api_key, sb):
     substrate = sb.Substrate(
         api_key=api_key,
         backend="v1",
     )
-    return substrate,
+    return api_key, base64, json, mo, os, sb, substrate
 
 
 @app.cell
 def __(mo):
     prompt = mo.ui.text(
         placeholder="prompt",
-        value="A bowl of fruit",
+        value="A dragon in a forest",
         full_width=True,
     ).form()
     prompt
@@ -45,55 +39,47 @@ def __(prompt, sb):
             "prompt": prompt.value,
         }
     )
-    return image,
+    rmbg = sb.RemoveBackground({"image_uri": image.future.image_uri})
+    rmbg_mask = sb.RemoveBackground(
+        {
+            "image_uri": image.future.image_uri,
+            "return_mask": True,
+        }
+    )
+    bg = sb.FillMask(
+        {
+            "image_uri": image.future.image_uri,
+            "mask_image_uri": rmbg_mask.future.image_uri,
+        }
+    )
+    upscale = sb.UpscaleImage({"image_uri": bg.future.image_uri})
+    return bg, image, rmbg, rmbg_mask, upscale
 
 
 @app.cell
-def __(image, sb):
-    rmbg = sb.RemoveBackground({
-        "image_uri": image.future.image_uri
-    })
-    return rmbg,
-
-
-@app.cell
-def __(image, sb):
-    upscale = sb.UpscaleImage({
-        "image_uri": image.future.image_uri
-    })
-    return upscale,
-
-
-@app.cell
-def __(image, mo, rmbg, substrate, upscale):
-    res = substrate.run(image, rmbg, upscale)
-    viz = substrate.visualize(image, rmbg, upscale)
+def __(bg, image, mo, rmbg, rmbg_mask, substrate, upscale):
+    res = substrate.run(image, rmbg, rmbg_mask, bg, upscale)
+    viz = substrate.visualize(image, rmbg, rmbg_mask, bg, upscale)
     mo.md(f"[visualize]({viz})")
     return res, viz
 
 
 @app.cell
-def __(image, mo, res):
-    image_out = res.get(image)
-    mo.image(src=image_out.image_uri)
-    return image_out,
-
-
-@app.cell
-def __(mo, res, rmbg):
-    rmbg_out = res.get(rmbg)
-    mo.image(src=rmbg_out.image_uri)
-    return rmbg_out,
-
-
-@app.cell
-def __(mo, res, upscale):
-    upscale_out = res.get(upscale)
-    mo.download(
-        data=upscale_out.image_uri,
-        filename="upscaled.jpeg",
+def __(bg, image, mo, res, rmbg, rmbg_mask, upscale):
+    mo.hstack(
+        [
+            mo.image(src=res.get(image).image_uri),
+            mo.image(src=res.get(rmbg).image_uri),
+            mo.image(src=res.get(rmbg_mask).image_uri),
+            mo.image(src=res.get(bg).image_uri),
+            mo.download(
+                data=res.get(upscale).image_uri,
+                filename="upscaled.jpeg",
+                label="Upscaled background",
+            ),
+        ]
     )
-    return upscale_out,
+    return
 
 
 if __name__ == "__main__":
