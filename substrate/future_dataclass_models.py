@@ -245,11 +245,6 @@ class FutureBatchGenerateTextIn:
     (Future reference)
     Maximum number of tokens to generate.
     """
-    node: Literal["Mistral7BInstruct"] = "Mistral7BInstruct"
-    """
-    (Future reference)
-    Selected node.
-    """
 
 
 @dataclass
@@ -341,11 +336,6 @@ class FutureBatchGenerateJSONIn:
     """
     (Future reference)
     Maximum number of tokens to generate.
-    """
-    node: Literal["Mistral7BInstruct"] = "Mistral7BInstruct"
-    """
-    (Future reference)
-    Selected node.
     """
 
 
@@ -619,11 +609,6 @@ class FutureGenerateTextVisionIn:
     (Future reference)
     Maximum number of tokens to generate.
     """
-    node: Literal["Firellava13B"] = "Firellava13B"
-    """
-    (Future reference)
-    Selected node.
-    """
 
 
 @dataclass
@@ -691,11 +676,6 @@ class FutureGenerateImageIn:
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
-    node: Literal["StableDiffusionXL"] = "StableDiffusionXL"
-    """
-    (Future reference)
-    Selected node.
-    """
 
 
 @dataclass
@@ -731,11 +711,6 @@ class FutureMultiGenerateImageIn:
     """
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
-    """
-    node: Literal["StableDiffusionXL"] = "StableDiffusionXL"
-    """
-    (Future reference)
-    Selected node.
     """
 
 
@@ -1050,11 +1025,6 @@ class FutureGenerativeEditImageIn:
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
-    node: Literal["StableDiffusionXLInpaint"] = "StableDiffusionXLInpaint"
-    """
-    (Future reference)
-    Selected node.
-    """
 
 
 @dataclass
@@ -1100,11 +1070,6 @@ class FutureMultiGenerativeEditImageIn:
     """
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
-    """
-    node: Literal["StableDiffusionXLInpaint"] = "StableDiffusionXLInpaint"
-    """
-    (Future reference)
-    Selected node.
     """
 
 
@@ -1254,11 +1219,6 @@ class FutureFillMaskIn:
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
-    node: Literal["BigLaMa"] = "BigLaMa"
-    """
-    (Future reference)
-    Selected node.
-    """
 
 
 @dataclass
@@ -1336,11 +1296,6 @@ class FutureRemoveBackgroundIn:
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
-    node: Literal["DISISNet"] = "DISISNet"
-    """
-    (Future reference)
-    Selected node.
-    """
 
 
 @dataclass
@@ -1402,11 +1357,6 @@ class FutureUpscaleImageIn:
     """
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
-    """
-    node: Literal["RealESRGAN"] = "RealESRGAN"
-    """
-    (Future reference)
-    Selected node.
     """
 
 
@@ -1474,11 +1424,6 @@ class FutureSegmentUnderPointIn:
     """
     (Future reference)
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
-    """
-    node: Literal["SegmentAnything"] = "SegmentAnything"
-    """
-    (Future reference)
-    Selected node.
     """
 
 
@@ -1696,11 +1641,6 @@ class FutureGenerateSpeechIn:
     """
     (Future reference)
     Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the audio data will be returned as a base64-encoded string.
-    """
-    node: Literal["XTTSV2"] = "XTTSV2"
-    """
-    (Future reference)
-    Selected node.
     """
 
 

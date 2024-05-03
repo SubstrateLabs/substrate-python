@@ -11,8 +11,7 @@ from typing import (
 )
 from dataclasses import asdict, dataclass
 
-OpType = Literal["trace", "string-concat", "jq"]
-ConcatDirection = Literal["left", "right"]
+OpType = Literal["trace", "string-concat", "jq", "short-circuit"]
 
 
 class BaseDirective(ABC):
@@ -49,6 +48,25 @@ class JQDirective(BaseDirective):
     target: JQDirectiveTarget
     query: str
     type: Literal["jq"] = "jq"
+
+
+@dataclass
+class ShortCircuitConditionTarget:
+    future_id: Optional[str]
+    val: Optional[bool]
+
+
+@dataclass
+class ShortCircuitInputTarget:
+    future_id: Optional[str]
+    val: Optional[bool]
+
+
+@dataclass
+class ShortCircuitDirective(BaseDirective):
+    condition: ShortCircuitConditionTarget
+    input: ShortCircuitInputTarget
+    type: Literal["short-circuit"] = "short-circuit"
 
 
 TraceType = Literal["attr", "item"]

@@ -169,10 +169,6 @@ class BatchGenerateTextIn(TypedDict):
     """
     Maximum number of tokens to generate.
     """
-    node: NotRequired[Literal["Mistral7BInstruct"]]
-    """
-    Selected node.
-    """
 
 
 class BatchGenerateTextOut(TypedDict):
@@ -232,10 +228,6 @@ class BatchGenerateJSONIn(TypedDict):
     max_tokens: NotRequired[int]
     """
     Maximum number of tokens to generate.
-    """
-    node: NotRequired[Literal["Mistral7BInstruct"]]
-    """
-    Selected node.
     """
 
 
@@ -407,10 +399,6 @@ class GenerateTextVisionIn(TypedDict):
     """
     Maximum number of tokens to generate.
     """
-    node: NotRequired[Literal["Firellava13B"]]
-    """
-    Selected node.
-    """
 
 
 class GenerateTextVisionOut(TypedDict):
@@ -451,10 +439,6 @@ class GenerateImageIn(TypedDict):
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
-    node: NotRequired[Literal["StableDiffusionXL"]]
-    """
-    Selected node.
-    """
 
 
 class GenerateImageOut(TypedDict):
@@ -476,10 +460,6 @@ class MultiGenerateImageIn(TypedDict):
     store: NotRequired[str]
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
-    """
-    node: NotRequired[Literal["StableDiffusionXL"]]
-    """
-    Selected node.
     """
 
 
@@ -694,10 +674,6 @@ class GenerativeEditImageIn(TypedDict):
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
-    node: NotRequired[Literal["StableDiffusionXLInpaint"]]
-    """
-    Selected node.
-    """
 
 
 class GenerativeEditImageOut(TypedDict):
@@ -727,10 +703,6 @@ class MultiGenerativeEditImageIn(TypedDict):
     store: NotRequired[str]
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
-    """
-    node: NotRequired[Literal["StableDiffusionXLInpaint"]]
-    """
-    Selected node.
     """
 
 
@@ -830,10 +802,6 @@ class FillMaskIn(TypedDict):
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
-    node: NotRequired[Literal["BigLaMa"]]
-    """
-    Selected node.
-    """
 
 
 class FillMaskOut(TypedDict):
@@ -882,10 +850,6 @@ class RemoveBackgroundIn(TypedDict):
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
-    node: NotRequired[Literal["DISISNet"]]
-    """
-    Selected node.
-    """
 
 
 class RemoveBackgroundOut(TypedDict):
@@ -921,10 +885,6 @@ class UpscaleImageIn(TypedDict):
     store: NotRequired[str]
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
-    """
-    node: NotRequired[Literal["RealESRGAN"]]
-    """
-    Selected node.
     """
 
 
@@ -965,10 +925,6 @@ class SegmentUnderPointIn(TypedDict):
     store: NotRequired[str]
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
-    """
-    node: NotRequired[Literal["SegmentAnything"]]
-    """
-    Selected node.
     """
 
 
@@ -1112,10 +1068,6 @@ class GenerateSpeechIn(TypedDict):
     store: NotRequired[str]
     """
     Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the audio data will be returned as a base64-encoded string.
-    """
-    node: NotRequired[Literal["XTTSV2"]]
-    """
-    Selected node.
     """
 
 
