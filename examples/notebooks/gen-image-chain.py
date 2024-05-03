@@ -68,9 +68,30 @@ def __(bg, image, mo, rmbg_mask, substrate):
 def __(bg, image, mo, res, rmbg_mask):
     mo.hstack(
         [
-            mo.image(src=res.get(image).image_uri),
-            mo.image(src=res.get(rmbg_mask).image_uri),
-            mo.image(src=res.get(bg).image_uri),
+            mo.vstack(
+                [
+                    mo.image(src=res.get(image).image_uri),
+                    mo.download(
+                        data=res.get(image).image_uri, filename="image.jpeg"
+                    ),
+                ]
+            ),
+            mo.vstack(
+                [
+                    mo.image(src=res.get(rmbg_mask).image_uri),
+                    mo.download(
+                        data=res.get(rmbg_mask).image_uri, filename="mask.jpeg"
+                    ),
+                ]
+            ),
+            mo.vstack(
+                [
+                    mo.image(src=res.get(bg).image_uri),
+                    mo.download(
+                        data=res.get(bg).image_uri, filename="removed.jpeg"
+                    ),
+                ]
+            ),
         ]
     )
     return
