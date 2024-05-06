@@ -1,20 +1,17 @@
 """
 ꩜ Substrate
 @GENERATED FILE
-20240430.20240430
+20240502.20240502
 """
 
 from .core.models import (
     CLIPOut,
     JinaV2Out,
     XTTSV2Out,
-    BigLaMaOut,
     RunCodeOut,
-    DISISNetOut,
     FillMaskOut,
     EmbedTextOut,
     EmbedImageOut,
-    RealESRGANOut,
     FetchVectorsOut,
     Firellava13BOut,
     GenerateJSONOut,
@@ -57,13 +54,10 @@ from .typeddict_models import (
     CLIPIn,
     JinaV2In,
     XTTSV2In,
-    BigLaMaIn,
     RunCodeIn,
-    DISISNetIn,
     FillMaskIn,
     EmbedTextIn,
     EmbedImageIn,
-    RealESRGANIn,
     FetchVectorsIn,
     Firellava13BIn,
     GenerateJSONIn,
@@ -105,13 +99,10 @@ from .future_dataclass_models import (
     FutureCLIPOut,
     FutureJinaV2Out,
     FutureXTTSV2Out,
-    FutureBigLaMaOut,
     FutureRunCodeOut,
-    FutureDISISNetOut,
     FutureFillMaskOut,
     FutureEmbedTextOut,
     FutureEmbedImageOut,
-    FutureRealESRGANOut,
     FutureFetchVectorsOut,
     FutureFirellava13BOut,
     FutureGenerateJSONOut,
@@ -250,7 +241,7 @@ class BatchGenerateText(CoreNode[BatchGenerateTextOut]):
 
     def __init__(self, args: BatchGenerateTextIn, hide: bool = False):
         """
-        Input arguments: `prompts`, `temperature` (optional), `max_tokens` (optional), `node` (optional)
+        Input arguments: `prompts`, `temperature` (optional), `max_tokens` (optional)
 
         Output fields: `future.outputs`
 
@@ -280,7 +271,7 @@ class BatchGenerateJSON(CoreNode[BatchGenerateJSONOut]):
 
     def __init__(self, args: BatchGenerateJSONIn, hide: bool = False):
         """
-        Input arguments: `prompts`, `json_schema`, `temperature` (optional), `max_tokens` (optional), `node` (optional)
+        Input arguments: `prompts`, `json_schema`, `temperature` (optional), `max_tokens` (optional)
 
         Output fields: `future.outputs`
 
@@ -370,7 +361,7 @@ class GenerateTextVision(CoreNode[GenerateTextVisionOut]):
 
     def __init__(self, args: GenerateTextVisionIn, hide: bool = False):
         """
-        Input arguments: `prompt`, `image_uris`, `max_tokens` (optional), `node` (optional)
+        Input arguments: `prompt`, `image_uris`, `max_tokens` (optional)
 
         Output fields: `future.text`
 
@@ -550,7 +541,7 @@ class GenerateImage(CoreNode[GenerateImageOut]):
 
     def __init__(self, args: GenerateImageIn, hide: bool = False):
         """
-        Input arguments: `prompt`, `store` (optional), `node` (optional)
+        Input arguments: `prompt`, `store` (optional)
 
         Output fields: `future.image_uri`
 
@@ -580,7 +571,7 @@ class MultiGenerateImage(CoreNode[MultiGenerateImageOut]):
 
     def __init__(self, args: MultiGenerateImageIn, hide: bool = False):
         """
-        Input arguments: `prompt`, `num_images`, `store` (optional), `node` (optional)
+        Input arguments: `prompt`, `num_images`, `store` (optional)
 
         Output fields: `future.outputs`
 
@@ -610,7 +601,7 @@ class GenerativeEditImage(CoreNode[GenerativeEditImageOut]):
 
     def __init__(self, args: GenerativeEditImageIn, hide: bool = False):
         """
-        Input arguments: `image_uri`, `prompt`, `mask_image_uri` (optional), `store` (optional), `node` (optional)
+        Input arguments: `image_uri`, `prompt`, `mask_image_uri` (optional), `store` (optional)
 
         Output fields: `future.image_uri`
 
@@ -640,7 +631,7 @@ class MultiGenerativeEditImage(CoreNode[MultiGenerativeEditImageOut]):
 
     def __init__(self, args: MultiGenerativeEditImageIn, hide: bool = False):
         """
-        Input arguments: `image_uri`, `prompt`, `mask_image_uri` (optional), `num_images`, `store` (optional), `node` (optional)
+        Input arguments: `image_uri`, `prompt`, `mask_image_uri` (optional), `num_images`, `store` (optional)
 
         Output fields: `future.outputs`
 
@@ -850,7 +841,7 @@ class GenerateSpeech(CoreNode[GenerateSpeechOut]):
 
     def __init__(self, args: GenerateSpeechIn, hide: bool = False):
         """
-        Input arguments: `text`, `store` (optional), `node` (optional)
+        Input arguments: `text`, `store` (optional)
 
         Output fields: `future.audio_uri`
 
@@ -910,7 +901,7 @@ class RemoveBackground(CoreNode[RemoveBackgroundOut]):
 
     def __init__(self, args: RemoveBackgroundIn, hide: bool = False):
         """
-        Input arguments: `image_uri`, `return_mask` (optional), `background_color` (optional), `store` (optional), `node` (optional)
+        Input arguments: `image_uri`, `return_mask` (optional), `background_color` (optional), `store` (optional)
 
         Output fields: `future.image_uri`
 
@@ -940,7 +931,7 @@ class FillMask(CoreNode[FillMaskOut]):
 
     def __init__(self, args: FillMaskIn, hide: bool = False):
         """
-        Input arguments: `image_uri`, `mask_image_uri`, `store` (optional), `node` (optional)
+        Input arguments: `image_uri`, `mask_image_uri`, `store` (optional)
 
         Output fields: `future.image_uri`
 
@@ -970,7 +961,7 @@ class UpscaleImage(CoreNode[UpscaleImageOut]):
 
     def __init__(self, args: UpscaleImageIn, hide: bool = False):
         """
-        Input arguments: `image_uri`, `store` (optional), `node` (optional)
+        Input arguments: `image_uri`, `store` (optional)
 
         Output fields: `future.image_uri`
 
@@ -1000,7 +991,7 @@ class SegmentUnderPoint(CoreNode[SegmentUnderPointOut]):
 
     def __init__(self, args: SegmentUnderPointIn, hide: bool = False):
         """
-        Input arguments: `image_uri`, `point`, `store` (optional), `node` (optional)
+        Input arguments: `image_uri`, `point`, `store` (optional)
 
         Output fields: `future.mask_image_uri`
 
@@ -1017,96 +1008,6 @@ class SegmentUnderPoint(CoreNode[SegmentUnderPointOut]):
         Output fields: `future.mask_image_uri`
 
         https://substrate.run/library#SegmentUnderPoint
-        """
-        return super().future  # type: ignore
-
-
-class DISISNet(CoreNode[DISISNetOut]):
-    """
-    Segment image foreground using [DIS IS-Net](https://github.com/xuebinqin/DIS).
-
-    https://substrate.run/library#DISISNet
-    """
-
-    def __init__(self, args: DISISNetIn, hide: bool = False):
-        """
-        Input arguments: `image_uri`, `store` (optional)
-
-        Output fields: `future.image_uri`
-
-        https://substrate.run/library#DISISNet
-        """
-        super().__init__(hide=hide, out_type=DISISNetOut, **args)
-        self.node = "DISISNet"
-
-    @property
-    def future(self) -> FutureDISISNetOut:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        Output fields: `future.image_uri`
-
-        https://substrate.run/library#DISISNet
-        """
-        return super().future  # type: ignore
-
-
-class BigLaMa(CoreNode[BigLaMaOut]):
-    """
-    Inpaint a mask using [LaMa](https://github.com/advimman/lama).
-
-    https://substrate.run/library#BigLaMa
-    """
-
-    def __init__(self, args: BigLaMaIn, hide: bool = False):
-        """
-        Input arguments: `image_uri`, `mask_image_uri`, `store` (optional)
-
-        Output fields: `future.image_uri`
-
-        https://substrate.run/library#BigLaMa
-        """
-        super().__init__(hide=hide, out_type=BigLaMaOut, **args)
-        self.node = "BigLaMa"
-
-    @property
-    def future(self) -> FutureBigLaMaOut:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        Output fields: `future.image_uri`
-
-        https://substrate.run/library#BigLaMa
-        """
-        return super().future  # type: ignore
-
-
-class RealESRGAN(CoreNode[RealESRGANOut]):
-    """
-    Upscale an image using [RealESRGAN](https://github.com/xinntao/Real-ESRGAN).
-
-    https://substrate.run/library#RealESRGAN
-    """
-
-    def __init__(self, args: RealESRGANIn, hide: bool = False):
-        """
-        Input arguments: `image_uri`, `store` (optional)
-
-        Output fields: `future.image_uri`
-
-        https://substrate.run/library#RealESRGAN
-        """
-        super().__init__(hide=hide, out_type=RealESRGANOut, **args)
-        self.node = "RealESRGAN"
-
-    @property
-    def future(self) -> FutureRealESRGANOut:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        Output fields: `future.image_uri`
-
-        https://substrate.run/library#RealESRGAN
         """
         return super().future  # type: ignore
 

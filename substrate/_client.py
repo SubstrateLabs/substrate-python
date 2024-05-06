@@ -128,7 +128,7 @@ class APIClient:
         api_key: str,
         base_url: str,
         backend: str,
-        timeout: float = 60 * 5.0,
+        timeout: float,
         additional_headers: Dict[str, Any] = {},
     ) -> None:
         self._api_key = api_key
