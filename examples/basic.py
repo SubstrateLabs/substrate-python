@@ -10,18 +10,20 @@ api_key = os.environ.get("SUBSTRATE_API_KEY")
 if api_key is None:
     raise EnvironmentError("No SUBSTRATE_API_KEY set")
 
-from substrate import Substrate, GenerateText, sb
+from substrate import Substrate, TranscribeMedia
 
-substrate = Substrate(api_key=api_key)
+substrate = Substrate(api_key=api_key, timeout=60 * 5)
 
-story = GenerateText({"prompt": "tell me a story"})
+transcribe = TranscribeMedia({"audio_uri": "s3://"})
 
-summary = GenerateText({"prompt": sb.concat("summarize this story in one sentence: ", story.future.text)})
+# summary = GenerateText({"prompt": sb.concat("summarize this story in one sentence: ", story.future.text)})
 
-response = substrate.run(story, summary)
+response = substrate.run(transcribe)
+print(response.api_response.json)
+print(response.api_response.status_code)
 
-summary_out = response.get(summary)
-print(summary_out.text)
+# summary_out = response.get(summary)
+# print(summary_out.text)
 
-viz = Substrate.visualize(story, summary)
-print(viz)
+# viz = Substrate.visualize(ry)
+# print(viz)

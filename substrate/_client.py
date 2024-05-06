@@ -135,8 +135,8 @@ class APIClient:
         self._base_url = base_url
         self._backend = backend
         self._additional_headers = additional_headers
-        self._client = httpx.Client(timeout=timeout)
-        self._async_client = httpx.AsyncClient(timeout=timeout)
+        self._client = httpx.Client(timeout=timeout, follow_redirects=True)
+        self._async_client = httpx.AsyncClient(timeout=timeout, follow_redirects=True)
         self._version = __version__
 
     @property
