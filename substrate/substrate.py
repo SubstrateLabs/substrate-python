@@ -19,6 +19,7 @@ class Substrate:
         api_key: str,
         base_url: str = "https://api.substrate.run",
         backend: str = "v1",
+        timeout: float = 60 * 5.0,
         additional_headers: Dict[str, Any] = {},
     ):
         """
@@ -29,6 +30,7 @@ class Substrate:
             api_key=api_key,
             base_url=base_url,
             backend=backend,
+            timeout=timeout,
             additional_headers=additional_headers,
         )
 

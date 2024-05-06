@@ -128,13 +128,13 @@ class APIClient:
         api_key: str,
         base_url: str,
         backend: str,
+        timeout: float,
         additional_headers: Dict[str, Any] = {},
     ) -> None:
         self._api_key = api_key
         self._base_url = base_url
         self._backend = backend
         self._additional_headers = additional_headers
-        timeout = httpx.Timeout(60.0)  # default is 5s
         self._client = httpx.Client(timeout=timeout)
         self._async_client = httpx.AsyncClient(timeout=timeout)
         self._version = __version__

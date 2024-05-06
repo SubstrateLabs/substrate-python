@@ -1,20 +1,17 @@
 """
 ꩜ Substrate Python SDK
 
-20240430.20240430
+20240502.20240502
 """
 
 from .nodes import (
     CLIP,
     XTTSV2,
     JinaV2,
-    BigLaMa,
     RunCode,
-    DISISNet,
     FillMask,
     EmbedText,
     EmbedImage,
-    RealESRGAN,
     FetchVectors,
     Firellava13B,
     GenerateJSON,
@@ -90,9 +87,6 @@ __all__ = [
     "FillMask",
     "UpscaleImage",
     "SegmentUnderPoint",
-    "DISISNet",
-    "BigLaMa",
-    "RealESRGAN",
     "SegmentAnything",
     "EmbedText",
     "MultiEmbedText",
