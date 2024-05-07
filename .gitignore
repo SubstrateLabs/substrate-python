@@ -18,6 +18,4 @@ dist
 
 .pypirc
 
-examples/notebooks/scratch.py
-examples/scratch.py
-examples/scratch*.py
+examples/**/scratch*

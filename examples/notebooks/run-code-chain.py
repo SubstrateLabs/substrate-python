@@ -50,47 +50,42 @@ def __(mo):
 
 
 @app.cell
-def __(GenerateText, RunCode, question):
+def __(GenerateText, RunCode, question, sb):
     prompt = f"""
     {question.value}
 
-    Think step by step and run Python code to check your work or solve problems before returning an answer. Print the output. The Python runtime does not have network or filesystem access, but does include the entire standard library. Read input from stdin and write output to stdout. Remember to print the output in your code. Wrap the code in your response inside a <code></code> tag.
+    Think step by step and return Python code to solve the problem. The Python runtime does not have network or filesystem access, but does include the entire standard library. Read input from stdin and write output to stdout. Your code should end by printing the answer as json along with an explanation using json.dumps. Wrap the code in your response inside a <code></code> tag. Don't forget to import json.
     """
-    text = GenerateText(
+    gen_code = GenerateText(
         {
             "prompt": prompt,
             "node": "Llama3Instruct70B",
-            # "node": "Mistral7BInstruct",
         }
     )
-    get_code = RunCode(
+    run_code = RunCode(
         {
-            "code": """import re
-    import sys
-
-    s = sys.argv[1]
-    match = re.search(r'<code>(.*?)</code>', s, re.DOTALL)
-    print(match.group(1) if match else "")
-    """,
-            "args": [text.future.text],
+            "code": sb.jq(
+                gen_code.future.text,
+                'ascii_downcase | split("<code>") | .[1] | split("</code>") | .[0]',
+                # 'capture("<code>(?<content>.*?)</code>") | .content',
+            )
         }
     )
-    run_code = RunCode({"code": get_code.future.output})
-    return get_code, prompt, run_code, text
+    return gen_code, prompt, run_code
 
 
 @app.cell
-def __(get_code, mo, run_code, substrate, text):
-    res = substrate.run(text, get_code, run_code)
-    viz = substrate.visualize(text, get_code, run_code)
-    mo.md(f"[visualize]({viz})")
-    return res, viz
+def __(gen_code, run_code, substrate):
+    res = substrate.run(gen_code, run_code)
+    # viz = substrate.visualize(text, run_code)
+    # mo.md(f"[visualize]({viz})")
+    return res,
 
 
 @app.cell
-def __(json, mo, res, run_code):
+def __(json, res):
     print(json.dumps(res.json, indent=2))
-    mo.md(res.get(run_code).output)
+    # mo.tree(res.json)
     return
 
 
