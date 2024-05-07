@@ -10,7 +10,7 @@ def ok(message):
     print("\033[32m✓\033[0m", message)
 
 
-SDK_VERSION = "1.0.1"
+SDK_VERSION = "1.0.2"
 
 # Update version
 version_path = "substrate/GEN_VERSION"
@@ -29,3 +29,12 @@ with open(toml_path, "r") as f:
     with open(toml_path, "w") as f:
         toml.dump(toml_content, f)
     ok(f"Updated version to {new_version} in {toml_path}")
+
+# Write the API Version (as a formatted date) to the following. This is used by the
+# SDK client to select which API version to use and should be in sync with the types
+# used in the SDK.
+version_file = "substrate/_version.py"
+with open(version_file, "w") as f:
+    version_file_content = f"__version__ = \"{new_version}\""
+    f.write(version_file_content)
+    ok(f"Updated {version_file} content to {version_file_content}")
