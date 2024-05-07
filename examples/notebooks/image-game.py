@@ -237,7 +237,7 @@ def __(
             mo.vstack(
                 [
                     mo.image(src=guess_res.get(guess1image).image_uri),
-                    mo.md(f"Guess 1: {guesses.value["guess1"]}"),
+                    mo.md(f"Guess 1: {guesses.value['guess1']}"),
                     mo.md(f"Distance: {match1.distance}"),
                     mo.md(f"**{'WINNER' if match1_wins else 'LOSER'}**"),
                 ]
@@ -245,7 +245,7 @@ def __(
             mo.vstack(
                 [
                     mo.image(src=guess_res.get(guess2image).image_uri),
-                    mo.md(f"Guess 2: {guesses.value["guess2"]}"),
+                    mo.md(f"Guess 2: {guesses.value['guess2']}"),
                     mo.md(f"Distance: {match2.distance}"),
                     mo.md(f"**{'LOSER' if match1_wins else 'WINNER'}**"),
                 ]
