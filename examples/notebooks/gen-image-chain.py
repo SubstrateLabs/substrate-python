@@ -25,7 +25,7 @@ def __():
 def __(mo):
     prompt = mo.ui.text(
         placeholder="prompt",
-        value="A dragon in a forest",
+        value="a dark red chesterfield leather wing chair in a dark majestic room, pillars, celestial galaxy wallpaper",
         full_width=True,
     ).form()
     prompt
@@ -57,15 +57,16 @@ def __(prompt, sb):
 
 
 @app.cell
-def __(bg, image, mo, rmbg_mask, substrate):
-    res = substrate.run(image, rmbg_mask, bg)
-    viz = substrate.visualize(image, rmbg_mask, bg)
-    mo.md(f"[visualize]({viz})")
+def __(bg, image, mo, rmbg, rmbg_mask, substrate):
+    res = substrate.run(image, rmbg, rmbg_mask, bg)
+    viz = substrate.visualize(image, rmbg, rmbg_mask, bg)
+    # mo.md(f"[visualize]({viz})")
+    mo.tree(res.json)
     return res, viz
 
 
 @app.cell
-def __(bg, image, mo, res, rmbg_mask):
+def __(bg, image, mo, res, rmbg, rmbg_mask):
     mo.hstack(
         [
             mo.vstack(
@@ -73,6 +74,14 @@ def __(bg, image, mo, res, rmbg_mask):
                     mo.image(src=res.get(image).image_uri),
                     mo.download(
                         data=res.get(image).image_uri, filename="image.jpeg"
+                    ),
+                ]
+            ),
+            mo.vstack(
+                [
+                    mo.image(src=res.get(rmbg).image_uri),
+                    mo.download(
+                        data=res.get(rmbg).image_uri, filename="no-bg.jpeg"
                     ),
                 ]
             ),
@@ -88,7 +97,7 @@ def __(bg, image, mo, res, rmbg_mask):
                 [
                     mo.image(src=res.get(bg).image_uri),
                     mo.download(
-                        data=res.get(bg).image_uri, filename="removed.jpeg"
+                        data=res.get(bg).image_uri, filename="just-bg.jpeg"
                     ),
                 ]
             ),
