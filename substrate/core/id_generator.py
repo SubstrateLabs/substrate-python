@@ -10,17 +10,23 @@ class IDGenerator:
     _generators: Dict[str, "IDGenerator"] = {}
     _lock = Lock()
 
-    def __init__(self, prefix: str):
+    def __init__(self, prefix: str, length: int = 8):
         self.prefix = prefix
         self.n = 1
+        self.length = length
 
     def get_next_id(self):
         with IDGenerator._lock:
-            alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-"
-            random_string = "".join(random.choices(alphabet, k=8))
+            random_string = IDGenerator.random_string(self.length)
             next_id = f"{self.prefix}{self.n}_{random_string}"
             self.n += 1
             return next_id
+
+    @staticmethod
+    def random_string(length: int) -> str:
+        alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-"
+        random_string = "".join(random.choices(alphabet, k=length))
+        return random_string
 
     @staticmethod
     def get_instance(class_name: str) -> "IDGenerator":

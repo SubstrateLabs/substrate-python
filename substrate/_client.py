@@ -2,6 +2,7 @@ import logging
 import platform
 from typing import Any, Dict, Union, Optional
 from typing_extensions import Literal
+from .core.id_generator import IDGenerator
 
 import httpx
 import distro
@@ -169,6 +170,7 @@ class APIClient:
             "Content-Type": "application/json",
             "User-Agent": self.user_agent,
             "X-Substrate-Backend": self._backend,
+            "X-Substrate-Request-Id": IDGenerator.random_string(32),
             **self.platform_headers,
             **self.auth_headers,
             **self._additional_headers,
