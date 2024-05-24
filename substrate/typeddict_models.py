@@ -1,5 +1,5 @@
 """
-꩜ Substrate
+𐃏 Substrate
 @generated file
 (using datamodel-codegen)
 """
@@ -116,6 +116,10 @@ class GenerateJSONOut(TypedDict):
     json_object: NotRequired[Dict[str, Any]]
     """
     JSON response.
+    """
+    text: NotRequired[str]
+    """
+    If the model output could not be parsed to JSON, this is the raw text output.
     """
 
 
@@ -1130,7 +1134,7 @@ class EmbedTextIn(TypedDict):
     """
     metadata: NotRequired[Dict[str, Any]]
     """
-    Metadata that can be used to query the vector store. Ignored if `store` is unset.
+    Metadata that can be used to query the vector store. Ignored if `collection_name` is unset.
     """
     embedded_metadata_keys: NotRequired[List[str]]
     """
@@ -1160,11 +1164,11 @@ class EmbedTextItem(TypedDict):
     """
     metadata: NotRequired[Dict[str, Any]]
     """
-    Metadata that can be used to query the vector store. Ignored if `store` is unset.
+    Metadata that can be used to query the vector store. Ignored if `collection_name` is unset.
     """
     doc_id: NotRequired[str]
     """
-    Vector store document ID. Ignored if `store` is unset.
+    Vector store document ID. Ignored if `collection_name` is unset.
     """
 
 
@@ -1227,7 +1231,7 @@ class EmbedImageIn(TypedDict):
     """
     doc_id: NotRequired[str]
     """
-    Vector store document ID. Ignored if `store` is unset.
+    Vector store document ID. Ignored if `collection_name` is unset.
     """
     model: NotRequired[Literal["clip"]]
     """
@@ -1249,7 +1253,7 @@ class EmbedImageItem(TypedDict):
     """
     doc_id: NotRequired[str]
     """
-    Vector store document ID. Ignored if `store` is unset.
+    Vector store document ID. Ignored if `collection_name` is unset.
     """
 
 
@@ -1264,11 +1268,11 @@ class EmbedTextOrImageItem(TypedDict):
     """
     metadata: NotRequired[Dict[str, Any]]
     """
-    Metadata that can be used to query the vector store. Ignored if `store` is unset.
+    Metadata that can be used to query the vector store. Ignored if `collection_name` is unset.
     """
     doc_id: NotRequired[str]
     """
-    Vector store document ID. Ignored if `store` is unset.
+    Vector store document ID. Ignored if `collection_name` is unset.
     """
 
 

@@ -1,5 +1,5 @@
 """
-꩜ Substrate
+𐃏 Substrate
 @generated file
 (using datamodel-codegen)
 """
@@ -15,7 +15,7 @@ from typing_extensions import Literal
 @dataclass
 class ErrorOut:
     """
-    (Future reference)
+    Future reference to ErrorOut
     """
 
     type: Literal["api_error", "invalid_request_error"]
@@ -38,7 +38,7 @@ class ErrorOut:
 @dataclass
 class FutureRunCodeIn:
     """
-    (Future reference)
+    Future reference to FutureRunCodeIn
     """
 
     code: str
@@ -61,7 +61,7 @@ class FutureRunCodeIn:
 @dataclass
 class FutureRunCodeOut:
     """
-    (Future reference)
+    Future reference to FutureRunCodeOut
     """
 
     json_output: Dict[str, Any]
@@ -84,7 +84,7 @@ class FutureRunCodeOut:
 @dataclass
 class FutureGenerateTextIn:
     """
-    (Future reference)
+    Future reference to FutureGenerateTextIn
     """
 
     prompt: str
@@ -117,7 +117,7 @@ class FutureGenerateTextIn:
 @dataclass
 class FutureGenerateTextOut:
     """
-    (Future reference)
+    Future reference to FutureGenerateTextOut
     """
 
     text: str
@@ -130,7 +130,7 @@ class FutureGenerateTextOut:
 @dataclass
 class FutureGenerateJSONIn:
     """
-    (Future reference)
+    Future reference to FutureGenerateJSONIn
     """
 
     prompt: str
@@ -163,20 +163,25 @@ class FutureGenerateJSONIn:
 @dataclass
 class FutureGenerateJSONOut:
     """
-    (Future reference)
+    Future reference to FutureGenerateJSONOut
     """
 
-    json_object: Dict[str, Any]
+    json_object: Optional[Dict[str, Any]] = None
     """
     (Future reference)
     JSON response.
+    """
+    text: Optional[str] = None
+    """
+    (Future reference)
+    If the model output could not be parsed to JSON, this is the raw text output.
     """
 
 
 @dataclass
 class FutureMultiGenerateTextIn:
     """
-    (Future reference)
+    Future reference to FutureMultiGenerateTextIn
     """
 
     prompt: str
@@ -214,7 +219,7 @@ class FutureMultiGenerateTextIn:
 @dataclass
 class FutureMultiGenerateTextOut:
     """
-    (Future reference)
+    Future reference to FutureMultiGenerateTextOut
     """
 
     choices: List[FutureGenerateTextOut]
@@ -227,7 +232,7 @@ class FutureMultiGenerateTextOut:
 @dataclass
 class FutureBatchGenerateTextIn:
     """
-    (Future reference)
+    Future reference to FutureBatchGenerateTextIn
     """
 
     prompts: List[str]
@@ -250,7 +255,7 @@ class FutureBatchGenerateTextIn:
 @dataclass
 class FutureBatchGenerateTextOut:
     """
-    (Future reference)
+    Future reference to FutureBatchGenerateTextOut
     """
 
     outputs: List[FutureGenerateTextOut]
@@ -263,7 +268,7 @@ class FutureBatchGenerateTextOut:
 @dataclass
 class FutureMultiGenerateJSONIn:
     """
-    (Future reference)
+    Future reference to FutureMultiGenerateJSONIn
     """
 
     prompt: str
@@ -301,7 +306,7 @@ class FutureMultiGenerateJSONIn:
 @dataclass
 class FutureMultiGenerateJSONOut:
     """
-    (Future reference)
+    Future reference to FutureMultiGenerateJSONOut
     """
 
     choices: List[FutureGenerateJSONOut]
@@ -314,7 +319,7 @@ class FutureMultiGenerateJSONOut:
 @dataclass
 class FutureBatchGenerateJSONIn:
     """
-    (Future reference)
+    Future reference to FutureBatchGenerateJSONIn
     """
 
     prompts: List[str]
@@ -342,7 +347,7 @@ class FutureBatchGenerateJSONIn:
 @dataclass
 class FutureBatchGenerateJSONOut:
     """
-    (Future reference)
+    Future reference to FutureBatchGenerateJSONOut
     """
 
     outputs: List[FutureGenerateJSONOut]
@@ -355,7 +360,7 @@ class FutureBatchGenerateJSONOut:
 @dataclass
 class FutureMistral7BInstructIn:
     """
-    (Future reference)
+    Future reference to FutureMistral7BInstructIn
     """
 
     prompt: str
@@ -388,7 +393,7 @@ class FutureMistral7BInstructIn:
 @dataclass
 class Mistral7BInstructChoice:
     """
-    (Future reference)
+    Future reference to Mistral7BInstructChoice
     """
 
     text: Optional[str] = None
@@ -406,7 +411,7 @@ class Mistral7BInstructChoice:
 @dataclass
 class FutureMistral7BInstructOut:
     """
-    (Future reference)
+    Future reference to FutureMistral7BInstructOut
     """
 
     choices: List[Mistral7BInstructChoice]
@@ -419,7 +424,7 @@ class FutureMistral7BInstructOut:
 @dataclass
 class FutureMixtral8x7BInstructIn:
     """
-    (Future reference)
+    Future reference to FutureMixtral8x7BInstructIn
     """
 
     prompt: str
@@ -452,7 +457,7 @@ class FutureMixtral8x7BInstructIn:
 @dataclass
 class Mixtral8x7BChoice:
     """
-    (Future reference)
+    Future reference to Mixtral8x7BChoice
     """
 
     text: Optional[str] = None
@@ -470,7 +475,7 @@ class Mixtral8x7BChoice:
 @dataclass
 class FutureMixtral8x7BInstructOut:
     """
-    (Future reference)
+    Future reference to FutureMixtral8x7BInstructOut
     """
 
     choices: List[Mixtral8x7BChoice]
@@ -483,7 +488,7 @@ class FutureMixtral8x7BInstructOut:
 @dataclass
 class FutureLlama3Instruct8BIn:
     """
-    (Future reference)
+    Future reference to FutureLlama3Instruct8BIn
     """
 
     prompt: str
@@ -511,7 +516,7 @@ class FutureLlama3Instruct8BIn:
 @dataclass
 class Llama3Instruct8BChoice:
     """
-    (Future reference)
+    Future reference to Llama3Instruct8BChoice
     """
 
     text: Optional[str] = None
@@ -524,7 +529,7 @@ class Llama3Instruct8BChoice:
 @dataclass
 class FutureLlama3Instruct8BOut:
     """
-    (Future reference)
+    Future reference to FutureLlama3Instruct8BOut
     """
 
     choices: List[Llama3Instruct8BChoice]
@@ -537,7 +542,7 @@ class FutureLlama3Instruct8BOut:
 @dataclass
 class FutureLlama3Instruct70BIn:
     """
-    (Future reference)
+    Future reference to FutureLlama3Instruct70BIn
     """
 
     prompt: str
@@ -565,7 +570,7 @@ class FutureLlama3Instruct70BIn:
 @dataclass
 class Llama3Instruct70BChoice:
     """
-    (Future reference)
+    Future reference to Llama3Instruct70BChoice
     """
 
     text: Optional[str] = None
@@ -578,7 +583,7 @@ class Llama3Instruct70BChoice:
 @dataclass
 class FutureLlama3Instruct70BOut:
     """
-    (Future reference)
+    Future reference to FutureLlama3Instruct70BOut
     """
 
     choices: List[Llama3Instruct70BChoice]
@@ -591,7 +596,7 @@ class FutureLlama3Instruct70BOut:
 @dataclass
 class FutureGenerateTextVisionIn:
     """
-    (Future reference)
+    Future reference to FutureGenerateTextVisionIn
     """
 
     prompt: str
@@ -614,7 +619,7 @@ class FutureGenerateTextVisionIn:
 @dataclass
 class FutureGenerateTextVisionOut:
     """
-    (Future reference)
+    Future reference to FutureGenerateTextVisionOut
     """
 
     text: str
@@ -627,7 +632,7 @@ class FutureGenerateTextVisionOut:
 @dataclass
 class FutureFirellava13BIn:
     """
-    (Future reference)
+    Future reference to FutureFirellava13BIn
     """
 
     prompt: str
@@ -650,7 +655,7 @@ class FutureFirellava13BIn:
 @dataclass
 class FutureFirellava13BOut:
     """
-    (Future reference)
+    Future reference to FutureFirellava13BOut
     """
 
     text: str
@@ -663,7 +668,7 @@ class FutureFirellava13BOut:
 @dataclass
 class FutureGenerateImageIn:
     """
-    (Future reference)
+    Future reference to FutureGenerateImageIn
     """
 
     prompt: str
@@ -681,7 +686,7 @@ class FutureGenerateImageIn:
 @dataclass
 class FutureGenerateImageOut:
     """
-    (Future reference)
+    Future reference to FutureGenerateImageOut
     """
 
     image_uri: str
@@ -694,7 +699,7 @@ class FutureGenerateImageOut:
 @dataclass
 class FutureMultiGenerateImageIn:
     """
-    (Future reference)
+    Future reference to FutureMultiGenerateImageIn
     """
 
     prompt: str
@@ -717,7 +722,7 @@ class FutureMultiGenerateImageIn:
 @dataclass
 class FutureMultiGenerateImageOut:
     """
-    (Future reference)
+    Future reference to FutureMultiGenerateImageOut
     """
 
     outputs: List[FutureGenerateImageOut]
@@ -730,7 +735,7 @@ class FutureMultiGenerateImageOut:
 @dataclass
 class FutureStableDiffusionXLIn:
     """
-    (Future reference)
+    Future reference to FutureStableDiffusionXLIn
     """
 
     prompt: str
@@ -783,7 +788,7 @@ class FutureStableDiffusionXLIn:
 @dataclass
 class StableDiffusionImage:
     """
-    (Future reference)
+    Future reference to StableDiffusionImage
     """
 
     image_uri: str
@@ -801,7 +806,7 @@ class StableDiffusionImage:
 @dataclass
 class FutureStableDiffusionXLOut:
     """
-    (Future reference)
+    Future reference to FutureStableDiffusionXLOut
     """
 
     outputs: List[StableDiffusionImage]
@@ -814,7 +819,7 @@ class FutureStableDiffusionXLOut:
 @dataclass
 class FutureStableDiffusionXLLightningIn:
     """
-    (Future reference)
+    Future reference to FutureStableDiffusionXLLightningIn
     """
 
     prompt: str
@@ -857,7 +862,7 @@ class FutureStableDiffusionXLLightningIn:
 @dataclass
 class FutureStableDiffusionXLLightningOut:
     """
-    (Future reference)
+    Future reference to FutureStableDiffusionXLLightningOut
     """
 
     outputs: List[StableDiffusionImage]
@@ -870,7 +875,7 @@ class FutureStableDiffusionXLLightningOut:
 @dataclass
 class FutureStableDiffusionXLIPAdapterIn:
     """
-    (Future reference)
+    Future reference to FutureStableDiffusionXLIPAdapterIn
     """
 
     prompt: str
@@ -878,15 +883,15 @@ class FutureStableDiffusionXLIPAdapterIn:
     (Future reference)
     Text prompt.
     """
+    image_prompt_uri: str
+    """
+    (Future reference)
+    Image prompt.
+    """
     num_images: int
     """
     (Future reference)
     Number of images to generate.
-    """
-    image_prompt_uri: Optional[str] = None
-    """
-    (Future reference)
-    Image prompt.
     """
     ip_adapter_scale: float = 0.5
     """
@@ -923,7 +928,7 @@ class FutureStableDiffusionXLIPAdapterIn:
 @dataclass
 class FutureStableDiffusionXLIPAdapterOut:
     """
-    (Future reference)
+    Future reference to FutureStableDiffusionXLIPAdapterOut
     """
 
     outputs: List[StableDiffusionImage]
@@ -936,7 +941,7 @@ class FutureStableDiffusionXLIPAdapterOut:
 @dataclass
 class FutureStableDiffusionXLControlNetIn:
     """
-    (Future reference)
+    Future reference to FutureStableDiffusionXLControlNetIn
     """
 
     image_uri: str
@@ -989,7 +994,7 @@ class FutureStableDiffusionXLControlNetIn:
 @dataclass
 class FutureStableDiffusionXLControlNetOut:
     """
-    (Future reference)
+    Future reference to FutureStableDiffusionXLControlNetOut
     """
 
     outputs: List[StableDiffusionImage]
@@ -1002,7 +1007,7 @@ class FutureStableDiffusionXLControlNetOut:
 @dataclass
 class FutureGenerativeEditImageIn:
     """
-    (Future reference)
+    Future reference to FutureGenerativeEditImageIn
     """
 
     image_uri: str
@@ -1030,7 +1035,7 @@ class FutureGenerativeEditImageIn:
 @dataclass
 class FutureGenerativeEditImageOut:
     """
-    (Future reference)
+    Future reference to FutureGenerativeEditImageOut
     """
 
     image_uri: str
@@ -1043,7 +1048,7 @@ class FutureGenerativeEditImageOut:
 @dataclass
 class FutureMultiGenerativeEditImageIn:
     """
-    (Future reference)
+    Future reference to FutureMultiGenerativeEditImageIn
     """
 
     image_uri: str
@@ -1076,7 +1081,7 @@ class FutureMultiGenerativeEditImageIn:
 @dataclass
 class FutureMultiGenerativeEditImageOut:
     """
-    (Future reference)
+    Future reference to FutureMultiGenerativeEditImageOut
     """
 
     outputs: List[FutureGenerativeEditImageOut]
@@ -1089,7 +1094,7 @@ class FutureMultiGenerativeEditImageOut:
 @dataclass
 class FutureStableDiffusionXLInpaintIn:
     """
-    (Future reference)
+    Future reference to FutureStableDiffusionXLInpaintIn
     """
 
     image_uri: str
@@ -1142,7 +1147,7 @@ class FutureStableDiffusionXLInpaintIn:
 @dataclass
 class FutureStableDiffusionXLInpaintOut:
     """
-    (Future reference)
+    Future reference to FutureStableDiffusionXLInpaintOut
     """
 
     outputs: List[StableDiffusionImage]
@@ -1155,7 +1160,7 @@ class FutureStableDiffusionXLInpaintOut:
 @dataclass
 class BoundingBox:
     """
-    (Future reference)
+    Future reference to BoundingBox
     """
 
     x1: float
@@ -1183,7 +1188,7 @@ class BoundingBox:
 @dataclass
 class Point:
     """
-    (Future reference)
+    Future reference to Point
     """
 
     x: int
@@ -1201,7 +1206,7 @@ class Point:
 @dataclass
 class FutureFillMaskIn:
     """
-    (Future reference)
+    Future reference to FutureFillMaskIn
     """
 
     image_uri: str
@@ -1224,7 +1229,7 @@ class FutureFillMaskIn:
 @dataclass
 class FutureFillMaskOut:
     """
-    (Future reference)
+    Future reference to FutureFillMaskOut
     """
 
     image_uri: str
@@ -1237,7 +1242,7 @@ class FutureFillMaskOut:
 @dataclass
 class FutureBigLaMaIn:
     """
-    (Future reference)
+    Future reference to FutureBigLaMaIn
     """
 
     image_uri: str
@@ -1260,7 +1265,7 @@ class FutureBigLaMaIn:
 @dataclass
 class FutureBigLaMaOut:
     """
-    (Future reference)
+    Future reference to FutureBigLaMaOut
     """
 
     image_uri: str
@@ -1273,7 +1278,7 @@ class FutureBigLaMaOut:
 @dataclass
 class FutureRemoveBackgroundIn:
     """
-    (Future reference)
+    Future reference to FutureRemoveBackgroundIn
     """
 
     image_uri: str
@@ -1301,7 +1306,7 @@ class FutureRemoveBackgroundIn:
 @dataclass
 class FutureRemoveBackgroundOut:
     """
-    (Future reference)
+    Future reference to FutureRemoveBackgroundOut
     """
 
     image_uri: str
@@ -1314,7 +1319,7 @@ class FutureRemoveBackgroundOut:
 @dataclass
 class FutureDISISNetIn:
     """
-    (Future reference)
+    Future reference to FutureDISISNetIn
     """
 
     image_uri: str
@@ -1332,7 +1337,7 @@ class FutureDISISNetIn:
 @dataclass
 class FutureDISISNetOut:
     """
-    (Future reference)
+    Future reference to FutureDISISNetOut
     """
 
     image_uri: str
@@ -1345,7 +1350,7 @@ class FutureDISISNetOut:
 @dataclass
 class FutureUpscaleImageIn:
     """
-    (Future reference)
+    Future reference to FutureUpscaleImageIn
     """
 
     image_uri: str
@@ -1363,7 +1368,7 @@ class FutureUpscaleImageIn:
 @dataclass
 class FutureUpscaleImageOut:
     """
-    (Future reference)
+    Future reference to FutureUpscaleImageOut
     """
 
     image_uri: str
@@ -1376,7 +1381,7 @@ class FutureUpscaleImageOut:
 @dataclass
 class FutureRealESRGANIn:
     """
-    (Future reference)
+    Future reference to FutureRealESRGANIn
     """
 
     image_uri: str
@@ -1394,7 +1399,7 @@ class FutureRealESRGANIn:
 @dataclass
 class FutureRealESRGANOut:
     """
-    (Future reference)
+    Future reference to FutureRealESRGANOut
     """
 
     image_uri: str
@@ -1407,7 +1412,7 @@ class FutureRealESRGANOut:
 @dataclass
 class FutureSegmentUnderPointIn:
     """
-    (Future reference)
+    Future reference to FutureSegmentUnderPointIn
     """
 
     image_uri: str
@@ -1430,7 +1435,7 @@ class FutureSegmentUnderPointIn:
 @dataclass
 class FutureSegmentUnderPointOut:
     """
-    (Future reference)
+    Future reference to FutureSegmentUnderPointOut
     """
 
     mask_image_uri: str
@@ -1443,7 +1448,7 @@ class FutureSegmentUnderPointOut:
 @dataclass
 class FutureSegmentAnythingIn:
     """
-    (Future reference)
+    Future reference to FutureSegmentAnythingIn
     """
 
     image_uri: str
@@ -1471,7 +1476,7 @@ class FutureSegmentAnythingIn:
 @dataclass
 class FutureSegmentAnythingOut:
     """
-    (Future reference)
+    Future reference to FutureSegmentAnythingOut
     """
 
     mask_image_uri: str
@@ -1484,7 +1489,7 @@ class FutureSegmentAnythingOut:
 @dataclass
 class FutureTranscribeMediaIn:
     """
-    (Future reference)
+    Future reference to FutureTranscribeMediaIn
     """
 
     audio_uri: str
@@ -1527,7 +1532,7 @@ class FutureTranscribeMediaIn:
 @dataclass
 class TranscribedWord:
     """
-    (Future reference)
+    Future reference to TranscribedWord
     """
 
     word: str
@@ -1555,7 +1560,7 @@ class TranscribedWord:
 @dataclass
 class TranscribedSegment:
     """
-    (Future reference)
+    Future reference to TranscribedSegment
     """
 
     text: str
@@ -1588,7 +1593,7 @@ class TranscribedSegment:
 @dataclass
 class ChapterMarker:
     """
-    (Future reference)
+    Future reference to ChapterMarker
     """
 
     title: str
@@ -1606,7 +1611,7 @@ class ChapterMarker:
 @dataclass
 class FutureTranscribeMediaOut:
     """
-    (Future reference)
+    Future reference to FutureTranscribeMediaOut
     """
 
     text: str
@@ -1629,7 +1634,7 @@ class FutureTranscribeMediaOut:
 @dataclass
 class FutureGenerateSpeechIn:
     """
-    (Future reference)
+    Future reference to FutureGenerateSpeechIn
     """
 
     text: str
@@ -1647,7 +1652,7 @@ class FutureGenerateSpeechIn:
 @dataclass
 class FutureGenerateSpeechOut:
     """
-    (Future reference)
+    Future reference to FutureGenerateSpeechOut
     """
 
     audio_uri: str
@@ -1660,7 +1665,7 @@ class FutureGenerateSpeechOut:
 @dataclass
 class FutureXTTSV2In:
     """
-    (Future reference)
+    Future reference to FutureXTTSV2In
     """
 
     text: str
@@ -1688,7 +1693,7 @@ class FutureXTTSV2In:
 @dataclass
 class FutureXTTSV2Out:
     """
-    (Future reference)
+    Future reference to FutureXTTSV2Out
     """
 
     audio_uri: str
@@ -1701,7 +1706,7 @@ class FutureXTTSV2Out:
 @dataclass
 class Embedding:
     """
-    (Future reference)
+    Future reference to Embedding
     """
 
     vector: List[float]
@@ -1724,7 +1729,7 @@ class Embedding:
 @dataclass
 class FutureEmbedTextIn:
     """
-    (Future reference)
+    Future reference to FutureEmbedTextIn
     """
 
     text: str
@@ -1740,7 +1745,7 @@ class FutureEmbedTextIn:
     metadata: Optional[Dict[str, Any]] = None
     """
     (Future reference)
-    Metadata that can be used to query the vector store. Ignored if `store` is unset.
+    Metadata that can be used to query the vector store. Ignored if `collection_name` is unset.
     """
     embedded_metadata_keys: Optional[List[str]] = None
     """
@@ -1762,7 +1767,7 @@ class FutureEmbedTextIn:
 @dataclass
 class FutureEmbedTextOut:
     """
-    (Future reference)
+    Future reference to FutureEmbedTextOut
     """
 
     embedding: Embedding
@@ -1775,7 +1780,7 @@ class FutureEmbedTextOut:
 @dataclass
 class EmbedTextItem:
     """
-    (Future reference)
+    Future reference to EmbedTextItem
     """
 
     text: str
@@ -1786,19 +1791,19 @@ class EmbedTextItem:
     metadata: Optional[Dict[str, Any]] = None
     """
     (Future reference)
-    Metadata that can be used to query the vector store. Ignored if `store` is unset.
+    Metadata that can be used to query the vector store. Ignored if `collection_name` is unset.
     """
     doc_id: Optional[str] = None
     """
     (Future reference)
-    Vector store document ID. Ignored if `store` is unset.
+    Vector store document ID. Ignored if `collection_name` is unset.
     """
 
 
 @dataclass
 class FutureMultiEmbedTextIn:
     """
-    (Future reference)
+    Future reference to FutureMultiEmbedTextIn
     """
 
     items: List[EmbedTextItem]
@@ -1826,7 +1831,7 @@ class FutureMultiEmbedTextIn:
 @dataclass
 class FutureMultiEmbedTextOut:
     """
-    (Future reference)
+    Future reference to FutureMultiEmbedTextOut
     """
 
     embeddings: List[Embedding]
@@ -1839,7 +1844,7 @@ class FutureMultiEmbedTextOut:
 @dataclass
 class FutureJinaV2In:
     """
-    (Future reference)
+    Future reference to FutureJinaV2In
     """
 
     items: List[EmbedTextItem]
@@ -1862,7 +1867,7 @@ class FutureJinaV2In:
 @dataclass
 class FutureJinaV2Out:
     """
-    (Future reference)
+    Future reference to FutureJinaV2Out
     """
 
     embeddings: List[Embedding]
@@ -1875,7 +1880,7 @@ class FutureJinaV2Out:
 @dataclass
 class FutureEmbedImageIn:
     """
-    (Future reference)
+    Future reference to FutureEmbedImageIn
     """
 
     image_uri: str
@@ -1891,7 +1896,7 @@ class FutureEmbedImageIn:
     doc_id: Optional[str] = None
     """
     (Future reference)
-    Vector store document ID. Ignored if `store` is unset.
+    Vector store document ID. Ignored if `collection_name` is unset.
     """
     model: Literal["clip"] = "clip"
     """
@@ -1903,7 +1908,7 @@ class FutureEmbedImageIn:
 @dataclass
 class FutureEmbedImageOut:
     """
-    (Future reference)
+    Future reference to FutureEmbedImageOut
     """
 
     embedding: Embedding
@@ -1916,7 +1921,7 @@ class FutureEmbedImageOut:
 @dataclass
 class EmbedImageItem:
     """
-    (Future reference)
+    Future reference to EmbedImageItem
     """
 
     image_uri: str
@@ -1927,14 +1932,14 @@ class EmbedImageItem:
     doc_id: Optional[str] = None
     """
     (Future reference)
-    Vector store document ID. Ignored if `store` is unset.
+    Vector store document ID. Ignored if `collection_name` is unset.
     """
 
 
 @dataclass
 class EmbedTextOrImageItem:
     """
-    (Future reference)
+    Future reference to EmbedTextOrImageItem
     """
 
     image_uri: Optional[str] = None
@@ -1950,19 +1955,19 @@ class EmbedTextOrImageItem:
     metadata: Optional[Dict[str, Any]] = None
     """
     (Future reference)
-    Metadata that can be used to query the vector store. Ignored if `store` is unset.
+    Metadata that can be used to query the vector store. Ignored if `collection_name` is unset.
     """
     doc_id: Optional[str] = None
     """
     (Future reference)
-    Vector store document ID. Ignored if `store` is unset.
+    Vector store document ID. Ignored if `collection_name` is unset.
     """
 
 
 @dataclass
 class FutureMultiEmbedImageIn:
     """
-    (Future reference)
+    Future reference to FutureMultiEmbedImageIn
     """
 
     items: List[EmbedImageItem]
@@ -1985,7 +1990,7 @@ class FutureMultiEmbedImageIn:
 @dataclass
 class FutureMultiEmbedImageOut:
     """
-    (Future reference)
+    Future reference to FutureMultiEmbedImageOut
     """
 
     embeddings: List[Embedding]
@@ -1998,7 +2003,7 @@ class FutureMultiEmbedImageOut:
 @dataclass
 class FutureCLIPIn:
     """
-    (Future reference)
+    Future reference to FutureCLIPIn
     """
 
     items: List[EmbedTextOrImageItem]
@@ -2021,7 +2026,7 @@ class FutureCLIPIn:
 @dataclass
 class FutureCLIPOut:
     """
-    (Future reference)
+    Future reference to FutureCLIPOut
     """
 
     embeddings: List[Embedding]
@@ -2034,7 +2039,7 @@ class FutureCLIPOut:
 @dataclass
 class FutureCreateVectorStoreIn:
     """
-    (Future reference)
+    Future reference to FutureCreateVectorStoreIn
     """
 
     collection_name: str
@@ -2067,7 +2072,7 @@ class FutureCreateVectorStoreIn:
 @dataclass
 class FutureCreateVectorStoreOut:
     """
-    (Future reference)
+    Future reference to FutureCreateVectorStoreOut
     """
 
     collection_name: str
@@ -2100,7 +2105,7 @@ class FutureCreateVectorStoreOut:
 @dataclass
 class FutureListVectorStoresIn:
     """
-    (Future reference)
+    Future reference to FutureListVectorStoresIn
     """
 
     pass
@@ -2109,7 +2114,7 @@ class FutureListVectorStoresIn:
 @dataclass
 class FutureListVectorStoresOut:
     """
-    (Future reference)
+    Future reference to FutureListVectorStoresOut
     """
 
     items: Optional[List[FutureCreateVectorStoreOut]] = None
@@ -2122,7 +2127,7 @@ class FutureListVectorStoresOut:
 @dataclass
 class FutureDeleteVectorStoreIn:
     """
-    (Future reference)
+    Future reference to FutureDeleteVectorStoreIn
     """
 
     collection_name: str
@@ -2140,7 +2145,7 @@ class FutureDeleteVectorStoreIn:
 @dataclass
 class FutureDeleteVectorStoreOut:
     """
-    (Future reference)
+    Future reference to FutureDeleteVectorStoreOut
     """
 
     collection_name: str
@@ -2158,8 +2163,7 @@ class FutureDeleteVectorStoreOut:
 @dataclass
 class Vector:
     """
-    (Future reference)
-    Canonical representation of document with embedding vector.
+    Future reference to Vector
     """
 
     id: str
@@ -2182,7 +2186,7 @@ class Vector:
 @dataclass
 class FutureFetchVectorsIn:
     """
-    (Future reference)
+    Future reference to FutureFetchVectorsIn
     """
 
     collection_name: str
@@ -2205,7 +2209,7 @@ class FutureFetchVectorsIn:
 @dataclass
 class FutureFetchVectorsOut:
     """
-    (Future reference)
+    Future reference to FutureFetchVectorsOut
     """
 
     vectors: List[Vector]
@@ -2218,7 +2222,7 @@ class FutureFetchVectorsOut:
 @dataclass
 class FutureUpdateVectorsOut:
     """
-    (Future reference)
+    Future reference to FutureUpdateVectorsOut
     """
 
     count: int
@@ -2231,7 +2235,7 @@ class FutureUpdateVectorsOut:
 @dataclass
 class FutureDeleteVectorsOut:
     """
-    (Future reference)
+    Future reference to FutureDeleteVectorsOut
     """
 
     count: int
@@ -2244,7 +2248,7 @@ class FutureDeleteVectorsOut:
 @dataclass
 class UpdateVectorParams:
     """
-    (Future reference)
+    Future reference to UpdateVectorParams
     """
 
     id: str
@@ -2267,7 +2271,7 @@ class UpdateVectorParams:
 @dataclass
 class FutureUpdateVectorsIn:
     """
-    (Future reference)
+    Future reference to FutureUpdateVectorsIn
     """
 
     collection_name: str
@@ -2290,7 +2294,7 @@ class FutureUpdateVectorsIn:
 @dataclass
 class FutureDeleteVectorsIn:
     """
-    (Future reference)
+    Future reference to FutureDeleteVectorsIn
     """
 
     collection_name: str
@@ -2313,7 +2317,7 @@ class FutureDeleteVectorsIn:
 @dataclass
 class FutureQueryVectorStoreIn:
     """
-    (Future reference)
+    Future reference to FutureQueryVectorStoreIn
     """
 
     collection_name: str
@@ -2376,7 +2380,7 @@ class FutureQueryVectorStoreIn:
 @dataclass
 class VectorStoreQueryResult:
     """
-    (Future reference)
+    Future reference to VectorStoreQueryResult
     """
 
     id: str
@@ -2404,7 +2408,7 @@ class VectorStoreQueryResult:
 @dataclass
 class FutureQueryVectorStoreOut:
     """
-    (Future reference)
+    Future reference to FutureQueryVectorStoreOut
     """
 
     results: List[List[VectorStoreQueryResult]]

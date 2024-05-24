@@ -10,7 +10,7 @@ def ok(message):
     print("\033[32m✓\033[0m", message)
 
 
-SDK_VERSION = "1.0.3"
+SDK_VERSION = "2.0.0"
 
 # Update version
 version_path = "substrate/GEN_VERSION"
@@ -35,6 +35,6 @@ with open(toml_path, "r") as f:
 # used in the SDK.
 version_file = "substrate/_version.py"
 with open(version_file, "w") as f:
-    version_file_content = f"__version__ = \"{new_version}\""
+    version_file_content = f'__version__ = "{new_version}"'
     f.write(version_file_content)
     ok(f"Updated {version_file} content to {version_file_content}")

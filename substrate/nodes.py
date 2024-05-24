@@ -1,8 +1,12 @@
 """
-꩜ Substrate
+𐃏 Substrate
 @GENERATED FILE
-20240502.20240502
+20240509.20240524
 """
+from __future__ import annotations
+
+from typing import Any, Dict, List, Optional
+from typing_extensions import Literal
 
 from .core.models import (
     CLIPOut,
@@ -50,51 +54,6 @@ from .core.models import (
     StableDiffusionXLControlNetOut,
 )
 from .core.corenode import CoreNode
-from .typeddict_models import (
-    CLIPIn,
-    JinaV2In,
-    XTTSV2In,
-    RunCodeIn,
-    FillMaskIn,
-    EmbedTextIn,
-    EmbedImageIn,
-    FetchVectorsIn,
-    Firellava13BIn,
-    GenerateJSONIn,
-    GenerateTextIn,
-    UpscaleImageIn,
-    DeleteVectorsIn,
-    GenerateImageIn,
-    UpdateVectorsIn,
-    GenerateSpeechIn,
-    MultiEmbedTextIn,
-    MultiEmbedImageIn,
-    SegmentAnythingIn,
-    TranscribeMediaIn,
-    ListVectorStoresIn,
-    Llama3Instruct8BIn,
-    QueryVectorStoreIn,
-    RemoveBackgroundIn,
-    BatchGenerateJSONIn,
-    BatchGenerateTextIn,
-    CreateVectorStoreIn,
-    DeleteVectorStoreIn,
-    Llama3Instruct70BIn,
-    Mistral7BInstructIn,
-    MultiGenerateJSONIn,
-    MultiGenerateTextIn,
-    SegmentUnderPointIn,
-    StableDiffusionXLIn,
-    GenerateTextVisionIn,
-    MultiGenerateImageIn,
-    GenerativeEditImageIn,
-    Mixtral8x7BInstructIn,
-    MultiGenerativeEditImageIn,
-    StableDiffusionXLInpaintIn,
-    StableDiffusionXLIPAdapterIn,
-    StableDiffusionXLLightningIn,
-    StableDiffusionXLControlNetIn,
-)
 from .future_dataclass_models import (
     FutureCLIPOut,
     FutureJinaV2Out,
@@ -143,21 +102,24 @@ from .future_dataclass_models import (
 
 
 class RunCode(CoreNode[RunCodeOut]):
-    """
-    Evaluate code using a code interpreter.
+    """https://substrate.run/nodes#RunCode"""
 
-    https://substrate.run/library#RunCode
-    """
-
-    def __init__(self, args: RunCodeIn, hide: bool = False):
+    def __init__(
+        self,
+        code: str,
+        args: Optional[List[str]] = None,
+        language: Literal["python", "typescript", "javascript"] = "python",
+        hide: bool = False,
+    ):
         """
-        Input arguments: `code`, `args` (optional), `language` (optional)
+        Args:
+            code: Code to execute.
+            args: List of command line arguments.
+            language: Interpreter to use.
 
-        Output fields: `future.output` (optional), `future.json_output`, `future.error` (optional)
-
-        https://substrate.run/library#RunCode
+        https://substrate.run/nodes#RunCode
         """
-        super().__init__(hide=hide, out_type=RunCodeOut, **args)
+        super().__init__(code=code, args=args, language=language, hide=hide, out_type=RunCodeOut)
         self.node = "RunCode"
 
     @property
@@ -165,29 +127,44 @@ class RunCode(CoreNode[RunCodeOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.output` (optional), `future.json_output`, `future.error` (optional)
-
-        https://substrate.run/library#RunCode
+        https://substrate.run/nodes#RunCode
         """
         return super().future  # type: ignore
 
 
 class GenerateText(CoreNode[GenerateTextOut]):
-    """
-    Generate text using a language model.
+    """https://substrate.run/nodes#GenerateText"""
 
-    https://substrate.run/library#GenerateText
-    """
-
-    def __init__(self, args: GenerateTextIn, hide: bool = False):
+    def __init__(
+        self,
+        prompt: str,
+        temperature: float = 0.4,
+        max_tokens: Optional[int] = None,
+        node: Literal[
+            "Mistral7BInstruct",
+            "Mixtral8x7BInstruct",
+            "Llama3Instruct8B",
+            "Llama3Instruct70B",
+        ] = "Mistral7BInstruct",
+        hide: bool = False,
+    ):
         """
-        Input arguments: `prompt`, `temperature` (optional), `max_tokens` (optional), `node` (optional)
+        Args:
+            prompt: Input prompt.
+            temperature: Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+            max_tokens: Maximum number of tokens to generate.
+            node: Selected node.
 
-        Output fields: `future.text`
-
-        https://substrate.run/library#GenerateText
+        https://substrate.run/nodes#GenerateText
         """
-        super().__init__(hide=hide, out_type=GenerateTextOut, **args)
+        super().__init__(
+            prompt=prompt,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            node=node,
+            hide=hide,
+            out_type=GenerateTextOut,
+        )
         self.node = "GenerateText"
 
     @property
@@ -195,119 +172,42 @@ class GenerateText(CoreNode[GenerateTextOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.text`
-
-        https://substrate.run/library#GenerateText
-        """
-        return super().future  # type: ignore
-
-
-class MultiGenerateText(CoreNode[MultiGenerateTextOut]):
-    """
-    Generate multiple text choices using a language model.
-
-    https://substrate.run/library#MultiGenerateText
-    """
-
-    def __init__(self, args: MultiGenerateTextIn, hide: bool = False):
-        """
-        Input arguments: `prompt`, `num_choices`, `temperature` (optional), `max_tokens` (optional), `node` (optional)
-
-        Output fields: `future.choices`
-
-        https://substrate.run/library#MultiGenerateText
-        """
-        super().__init__(hide=hide, out_type=MultiGenerateTextOut, **args)
-        self.node = "MultiGenerateText"
-
-    @property
-    def future(self) -> FutureMultiGenerateTextOut:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        Output fields: `future.choices`
-
-        https://substrate.run/library#MultiGenerateText
-        """
-        return super().future  # type: ignore
-
-
-class BatchGenerateText(CoreNode[BatchGenerateTextOut]):
-    """
-    Generate text for multiple prompts in batch using a language model.
-
-    https://substrate.run/library#BatchGenerateText
-    """
-
-    def __init__(self, args: BatchGenerateTextIn, hide: bool = False):
-        """
-        Input arguments: `prompts`, `temperature` (optional), `max_tokens` (optional)
-
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#BatchGenerateText
-        """
-        super().__init__(hide=hide, out_type=BatchGenerateTextOut, **args)
-        self.node = "BatchGenerateText"
-
-    @property
-    def future(self) -> FutureBatchGenerateTextOut:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#BatchGenerateText
-        """
-        return super().future  # type: ignore
-
-
-class BatchGenerateJSON(CoreNode[BatchGenerateJSONOut]):
-    """
-    Generate JSON for multiple prompts in batch using a language model.
-
-    https://substrate.run/library#BatchGenerateJSON
-    """
-
-    def __init__(self, args: BatchGenerateJSONIn, hide: bool = False):
-        """
-        Input arguments: `prompts`, `json_schema`, `temperature` (optional), `max_tokens` (optional)
-
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#BatchGenerateJSON
-        """
-        super().__init__(hide=hide, out_type=BatchGenerateJSONOut, **args)
-        self.node = "BatchGenerateJSON"
-
-    @property
-    def future(self) -> FutureBatchGenerateJSONOut:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#BatchGenerateJSON
+        https://substrate.run/nodes#GenerateText
         """
         return super().future  # type: ignore
 
 
 class GenerateJSON(CoreNode[GenerateJSONOut]):
-    """
-    Generate JSON using a language model.
+    """https://substrate.run/nodes#GenerateJSON"""
 
-    https://substrate.run/library#GenerateJSON
-    """
-
-    def __init__(self, args: GenerateJSONIn, hide: bool = False):
+    def __init__(
+        self,
+        prompt: str,
+        json_schema: Dict[str, Any],
+        temperature: float = 0.4,
+        max_tokens: Optional[int] = None,
+        node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct"] = "Mistral7BInstruct",
+        hide: bool = False,
+    ):
         """
-        Input arguments: `prompt`, `json_schema`, `temperature` (optional), `max_tokens` (optional), `node` (optional)
+        Args:
+            prompt: Input prompt.
+            json_schema: JSON schema to guide `json_object` response.
+            temperature: Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+            max_tokens: Maximum number of tokens to generate.
+            node: Selected node.
 
-        Output fields: `future.json_object`
-
-        https://substrate.run/library#GenerateJSON
+        https://substrate.run/nodes#GenerateJSON
         """
-        super().__init__(hide=hide, out_type=GenerateJSONOut, **args)
+        super().__init__(
+            prompt=prompt,
+            json_schema=json_schema,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            node=node,
+            hide=hide,
+            out_type=GenerateJSONOut,
+        )
         self.node = "GenerateJSON"
 
     @property
@@ -315,29 +215,130 @@ class GenerateJSON(CoreNode[GenerateJSONOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.json_object`
+        https://substrate.run/nodes#GenerateJSON
+        """
+        return super().future  # type: ignore
 
-        https://substrate.run/library#GenerateJSON
+
+class MultiGenerateText(CoreNode[MultiGenerateTextOut]):
+    """https://substrate.run/nodes#MultiGenerateText"""
+
+    def __init__(
+        self,
+        prompt: str,
+        num_choices: int,
+        temperature: float = 0.4,
+        max_tokens: Optional[int] = None,
+        node: Literal[
+            "Mistral7BInstruct",
+            "Mixtral8x7BInstruct",
+            "Llama3Instruct8B",
+            "Llama3Instruct70B",
+        ] = "Mistral7BInstruct",
+        hide: bool = False,
+    ):
+        """
+        Args:
+            prompt: Input prompt.
+            num_choices: Number of choices to generate.
+            temperature: Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+            max_tokens: Maximum number of tokens to generate.
+            node: Selected node.
+
+        https://substrate.run/nodes#MultiGenerateText
+        """
+        super().__init__(
+            prompt=prompt,
+            num_choices=num_choices,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            node=node,
+            hide=hide,
+            out_type=MultiGenerateTextOut,
+        )
+        self.node = "MultiGenerateText"
+
+    @property
+    def future(self) -> FutureMultiGenerateTextOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        https://substrate.run/nodes#MultiGenerateText
+        """
+        return super().future  # type: ignore
+
+
+class BatchGenerateText(CoreNode[BatchGenerateTextOut]):
+    """https://substrate.run/nodes#BatchGenerateText"""
+
+    def __init__(
+        self,
+        prompts: List[str],
+        temperature: float = 0.4,
+        max_tokens: Optional[int] = None,
+        hide: bool = False,
+    ):
+        """
+        Args:
+            prompts: Batch input prompts.
+            temperature: Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+            max_tokens: Maximum number of tokens to generate.
+
+        https://substrate.run/nodes#BatchGenerateText
+        """
+        super().__init__(
+            prompts=prompts,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            hide=hide,
+            out_type=BatchGenerateTextOut,
+        )
+        self.node = "BatchGenerateText"
+
+    @property
+    def future(self) -> FutureBatchGenerateTextOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        https://substrate.run/nodes#BatchGenerateText
         """
         return super().future  # type: ignore
 
 
 class MultiGenerateJSON(CoreNode[MultiGenerateJSONOut]):
-    """
-    Generate multiple JSON choices using a language model.
+    """https://substrate.run/nodes#MultiGenerateJSON"""
 
-    https://substrate.run/library#MultiGenerateJSON
-    """
-
-    def __init__(self, args: MultiGenerateJSONIn, hide: bool = False):
+    def __init__(
+        self,
+        prompt: str,
+        json_schema: Dict[str, Any],
+        num_choices: int,
+        temperature: float = 0.4,
+        max_tokens: Optional[int] = None,
+        node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct"] = "Mistral7BInstruct",
+        hide: bool = False,
+    ):
         """
-        Input arguments: `prompt`, `json_schema`, `num_choices`, `temperature` (optional), `max_tokens` (optional), `node` (optional)
+        Args:
+            prompt: Input prompt.
+            json_schema: JSON schema to guide `json_object` response.
+            num_choices: Number of choices to generate.
+            temperature: Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+            max_tokens: Maximum number of tokens to generate.
+            node: Selected node.
 
-        Output fields: `future.choices`
-
-        https://substrate.run/library#MultiGenerateJSON
+        https://substrate.run/nodes#MultiGenerateJSON
         """
-        super().__init__(hide=hide, out_type=MultiGenerateJSONOut, **args)
+        super().__init__(
+            prompt=prompt,
+            json_schema=json_schema,
+            num_choices=num_choices,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            node=node,
+            hide=hide,
+            out_type=MultiGenerateJSONOut,
+        )
         self.node = "MultiGenerateJSON"
 
     @property
@@ -345,59 +346,82 @@ class MultiGenerateJSON(CoreNode[MultiGenerateJSONOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.choices`
-
-        https://substrate.run/library#MultiGenerateJSON
+        https://substrate.run/nodes#MultiGenerateJSON
         """
         return super().future  # type: ignore
 
 
-class GenerateTextVision(CoreNode[GenerateTextVisionOut]):
-    """
-    Generate text with image input.
+class BatchGenerateJSON(CoreNode[BatchGenerateJSONOut]):
+    """https://substrate.run/nodes#BatchGenerateJSON"""
 
-    https://substrate.run/library#GenerateTextVision
-    """
-
-    def __init__(self, args: GenerateTextVisionIn, hide: bool = False):
+    def __init__(
+        self,
+        prompts: List[str],
+        json_schema: Dict[str, Any],
+        temperature: float = 0.4,
+        max_tokens: Optional[int] = None,
+        hide: bool = False,
+    ):
         """
-        Input arguments: `prompt`, `image_uris`, `max_tokens` (optional)
+        Args:
+            prompts: Batch input prompts.
+            json_schema: JSON schema to guide `json_object` response.
+            temperature: Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+            max_tokens: Maximum number of tokens to generate.
 
-        Output fields: `future.text`
-
-        https://substrate.run/library#GenerateTextVision
+        https://substrate.run/nodes#BatchGenerateJSON
         """
-        super().__init__(hide=hide, out_type=GenerateTextVisionOut, **args)
-        self.node = "GenerateTextVision"
+        super().__init__(
+            prompts=prompts,
+            json_schema=json_schema,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            hide=hide,
+            out_type=BatchGenerateJSONOut,
+        )
+        self.node = "BatchGenerateJSON"
 
     @property
-    def future(self) -> FutureGenerateTextVisionOut:  # type: ignore
+    def future(self) -> FutureBatchGenerateJSONOut:  # type: ignore
         """
         Future reference to this node's output.
 
-        Output fields: `future.text`
-
-        https://substrate.run/library#GenerateTextVision
+        https://substrate.run/nodes#BatchGenerateJSON
         """
         return super().future  # type: ignore
 
 
 class Mistral7BInstruct(CoreNode[Mistral7BInstructOut]):
-    """
-    Generate text using [Mistral 7B Instruct](https://mistral.ai/news/announcing-mistral-7b).
+    """https://substrate.run/nodes#Mistral7BInstruct"""
 
-    https://substrate.run/library#Mistral7BInstruct
-    """
-
-    def __init__(self, args: Mistral7BInstructIn, hide: bool = False):
+    def __init__(
+        self,
+        prompt: str,
+        num_choices: int = 1,
+        json_schema: Optional[Dict[str, Any]] = None,
+        temperature: Optional[float] = None,
+        max_tokens: Optional[int] = None,
+        hide: bool = False,
+    ):
         """
-        Input arguments: `prompt`, `num_choices` (optional), `json_schema` (optional), `temperature` (optional), `max_tokens` (optional)
+        Args:
+            prompt: Input prompt.
+            num_choices: Number of choices to generate.
+            json_schema: JSON schema to guide response.
+            temperature: Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+            max_tokens: Maximum number of tokens to generate.
 
-        Output fields: `future.choices`
-
-        https://substrate.run/library#Mistral7BInstruct
+        https://substrate.run/nodes#Mistral7BInstruct
         """
-        super().__init__(hide=hide, out_type=Mistral7BInstructOut, **args)
+        super().__init__(
+            prompt=prompt,
+            num_choices=num_choices,
+            json_schema=json_schema,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            hide=hide,
+            out_type=Mistral7BInstructOut,
+        )
         self.node = "Mistral7BInstruct"
 
     @property
@@ -405,29 +429,42 @@ class Mistral7BInstruct(CoreNode[Mistral7BInstructOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.choices`
-
-        https://substrate.run/library#Mistral7BInstruct
+        https://substrate.run/nodes#Mistral7BInstruct
         """
         return super().future  # type: ignore
 
 
 class Mixtral8x7BInstruct(CoreNode[Mixtral8x7BInstructOut]):
-    """
-    Generate text using instruct-tuned [Mixtral 8x7B](https://mistral.ai/news/mixtral-of-experts/).
+    """https://substrate.run/nodes#Mixtral8x7BInstruct"""
 
-    https://substrate.run/library#Mixtral8x7BInstruct
-    """
-
-    def __init__(self, args: Mixtral8x7BInstructIn, hide: bool = False):
+    def __init__(
+        self,
+        prompt: str,
+        num_choices: int = 1,
+        json_schema: Optional[Dict[str, Any]] = None,
+        temperature: Optional[float] = None,
+        max_tokens: Optional[int] = None,
+        hide: bool = False,
+    ):
         """
-        Input arguments: `prompt`, `num_choices` (optional), `json_schema` (optional), `temperature` (optional), `max_tokens` (optional)
+        Args:
+            prompt: Input prompt.
+            num_choices: Number of choices to generate.
+            json_schema: JSON schema to guide response.
+            temperature: Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+            max_tokens: Maximum number of tokens to generate.
 
-        Output fields: `future.choices`
-
-        https://substrate.run/library#Mixtral8x7BInstruct
+        https://substrate.run/nodes#Mixtral8x7BInstruct
         """
-        super().__init__(hide=hide, out_type=Mixtral8x7BInstructOut, **args)
+        super().__init__(
+            prompt=prompt,
+            num_choices=num_choices,
+            json_schema=json_schema,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            hide=hide,
+            out_type=Mixtral8x7BInstructOut,
+        )
         self.node = "Mixtral8x7BInstruct"
 
     @property
@@ -435,29 +472,39 @@ class Mixtral8x7BInstruct(CoreNode[Mixtral8x7BInstructOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.choices`
-
-        https://substrate.run/library#Mixtral8x7BInstruct
+        https://substrate.run/nodes#Mixtral8x7BInstruct
         """
         return super().future  # type: ignore
 
 
 class Llama3Instruct8B(CoreNode[Llama3Instruct8BOut]):
-    """
-    Generate text using instruct-tuned [Llama 3 8B](https://llama.meta.com/llama3/).
+    """https://substrate.run/nodes#Llama3Instruct8B"""
 
-    https://substrate.run/library#Llama3Instruct8B
-    """
-
-    def __init__(self, args: Llama3Instruct8BIn, hide: bool = False):
+    def __init__(
+        self,
+        prompt: str,
+        num_choices: int = 1,
+        temperature: Optional[float] = None,
+        max_tokens: Optional[int] = None,
+        hide: bool = False,
+    ):
         """
-        Input arguments: `prompt`, `num_choices` (optional), `temperature` (optional), `max_tokens` (optional)
+        Args:
+            prompt: Input prompt.
+            num_choices: Number of choices to generate.
+            temperature: Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+            max_tokens: Maximum number of tokens to generate.
 
-        Output fields: `future.choices`
-
-        https://substrate.run/library#Llama3Instruct8B
+        https://substrate.run/nodes#Llama3Instruct8B
         """
-        super().__init__(hide=hide, out_type=Llama3Instruct8BOut, **args)
+        super().__init__(
+            prompt=prompt,
+            num_choices=num_choices,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            hide=hide,
+            out_type=Llama3Instruct8BOut,
+        )
         self.node = "Llama3Instruct8B"
 
     @property
@@ -465,29 +512,39 @@ class Llama3Instruct8B(CoreNode[Llama3Instruct8BOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.choices`
-
-        https://substrate.run/library#Llama3Instruct8B
+        https://substrate.run/nodes#Llama3Instruct8B
         """
         return super().future  # type: ignore
 
 
 class Llama3Instruct70B(CoreNode[Llama3Instruct70BOut]):
-    """
-    Generate text using instruct-tuned [Llama 3 70B](https://llama.meta.com/llama3/).
+    """https://substrate.run/nodes#Llama3Instruct70B"""
 
-    https://substrate.run/library#Llama3Instruct70B
-    """
-
-    def __init__(self, args: Llama3Instruct70BIn, hide: bool = False):
+    def __init__(
+        self,
+        prompt: str,
+        num_choices: int = 1,
+        temperature: Optional[float] = None,
+        max_tokens: Optional[int] = None,
+        hide: bool = False,
+    ):
         """
-        Input arguments: `prompt`, `num_choices` (optional), `temperature` (optional), `max_tokens` (optional)
+        Args:
+            prompt: Input prompt.
+            num_choices: Number of choices to generate.
+            temperature: Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+            max_tokens: Maximum number of tokens to generate.
 
-        Output fields: `future.choices`
-
-        https://substrate.run/library#Llama3Instruct70B
+        https://substrate.run/nodes#Llama3Instruct70B
         """
-        super().__init__(hide=hide, out_type=Llama3Instruct70BOut, **args)
+        super().__init__(
+            prompt=prompt,
+            num_choices=num_choices,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            hide=hide,
+            out_type=Llama3Instruct70BOut,
+        )
         self.node = "Llama3Instruct70B"
 
     @property
@@ -495,29 +552,73 @@ class Llama3Instruct70B(CoreNode[Llama3Instruct70BOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.choices`
+        https://substrate.run/nodes#Llama3Instruct70B
+        """
+        return super().future  # type: ignore
 
-        https://substrate.run/library#Llama3Instruct70B
+
+class GenerateTextVision(CoreNode[GenerateTextVisionOut]):
+    """https://substrate.run/nodes#GenerateTextVision"""
+
+    def __init__(
+        self,
+        prompt: str,
+        image_uris: List[str],
+        max_tokens: int = 800,
+        hide: bool = False,
+    ):
+        """
+        Args:
+            prompt: Text prompt.
+            image_uris: Image prompts.
+            max_tokens: Maximum number of tokens to generate.
+
+        https://substrate.run/nodes#GenerateTextVision
+        """
+        super().__init__(
+            prompt=prompt,
+            image_uris=image_uris,
+            max_tokens=max_tokens,
+            hide=hide,
+            out_type=GenerateTextVisionOut,
+        )
+        self.node = "GenerateTextVision"
+
+    @property
+    def future(self) -> FutureGenerateTextVisionOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        https://substrate.run/nodes#GenerateTextVision
         """
         return super().future  # type: ignore
 
 
 class Firellava13B(CoreNode[Firellava13BOut]):
-    """
-    Generate text with image input using [FireLLaVA 13B](https://fireworks.ai/blog/firellava-the-first-commercially-permissive-oss-llava-model).
+    """https://substrate.run/nodes#Firellava13B"""
 
-    https://substrate.run/library#Firellava13B
-    """
-
-    def __init__(self, args: Firellava13BIn, hide: bool = False):
+    def __init__(
+        self,
+        prompt: str,
+        image_uris: List[str],
+        max_tokens: int = 800,
+        hide: bool = False,
+    ):
         """
-        Input arguments: `prompt`, `image_uris`, `max_tokens` (optional)
+        Args:
+            prompt: Text prompt.
+            image_uris: Image prompts.
+            max_tokens: Maximum number of tokens to generate.
 
-        Output fields: `future.text`
-
-        https://substrate.run/library#Firellava13B
+        https://substrate.run/nodes#Firellava13B
         """
-        super().__init__(hide=hide, out_type=Firellava13BOut, **args)
+        super().__init__(
+            prompt=prompt,
+            image_uris=image_uris,
+            max_tokens=max_tokens,
+            hide=hide,
+            out_type=Firellava13BOut,
+        )
         self.node = "Firellava13B"
 
     @property
@@ -525,29 +626,23 @@ class Firellava13B(CoreNode[Firellava13BOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.text`
-
-        https://substrate.run/library#Firellava13B
+        https://substrate.run/nodes#Firellava13B
         """
         return super().future  # type: ignore
 
 
 class GenerateImage(CoreNode[GenerateImageOut]):
-    """
-    Generate an image.
+    """https://substrate.run/nodes#GenerateImage"""
 
-    https://substrate.run/library#GenerateImage
-    """
-
-    def __init__(self, args: GenerateImageIn, hide: bool = False):
+    def __init__(self, prompt: str, store: Optional[str] = None, hide: bool = False):
         """
-        Input arguments: `prompt`, `store` (optional)
+        Args:
+            prompt: Text prompt.
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
 
-        Output fields: `future.image_uri`
-
-        https://substrate.run/library#GenerateImage
+        https://substrate.run/nodes#GenerateImage
         """
-        super().__init__(hide=hide, out_type=GenerateImageOut, **args)
+        super().__init__(prompt=prompt, store=store, hide=hide, out_type=GenerateImageOut)
         self.node = "GenerateImage"
 
     @property
@@ -555,29 +650,36 @@ class GenerateImage(CoreNode[GenerateImageOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.image_uri`
-
-        https://substrate.run/library#GenerateImage
+        https://substrate.run/nodes#GenerateImage
         """
         return super().future  # type: ignore
 
 
 class MultiGenerateImage(CoreNode[MultiGenerateImageOut]):
-    """
-    Generate multiple images.
+    """https://substrate.run/nodes#MultiGenerateImage"""
 
-    https://substrate.run/library#MultiGenerateImage
-    """
-
-    def __init__(self, args: MultiGenerateImageIn, hide: bool = False):
+    def __init__(
+        self,
+        prompt: str,
+        num_images: int,
+        store: Optional[str] = None,
+        hide: bool = False,
+    ):
         """
-        Input arguments: `prompt`, `num_images`, `store` (optional)
+        Args:
+            prompt: Text prompt.
+            num_images: Number of images to generate.
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
 
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#MultiGenerateImage
+        https://substrate.run/nodes#MultiGenerateImage
         """
-        super().__init__(hide=hide, out_type=MultiGenerateImageOut, **args)
+        super().__init__(
+            prompt=prompt,
+            num_images=num_images,
+            store=store,
+            hide=hide,
+            out_type=MultiGenerateImageOut,
+        )
         self.node = "MultiGenerateImage"
 
     @property
@@ -585,89 +687,54 @@ class MultiGenerateImage(CoreNode[MultiGenerateImageOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#MultiGenerateImage
-        """
-        return super().future  # type: ignore
-
-
-class GenerativeEditImage(CoreNode[GenerativeEditImageOut]):
-    """
-    Edit an image using image generation.
-
-    https://substrate.run/library#GenerativeEditImage
-    """
-
-    def __init__(self, args: GenerativeEditImageIn, hide: bool = False):
-        """
-        Input arguments: `image_uri`, `prompt`, `mask_image_uri` (optional), `store` (optional)
-
-        Output fields: `future.image_uri`
-
-        https://substrate.run/library#GenerativeEditImage
-        """
-        super().__init__(hide=hide, out_type=GenerativeEditImageOut, **args)
-        self.node = "GenerativeEditImage"
-
-    @property
-    def future(self) -> FutureGenerativeEditImageOut:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        Output fields: `future.image_uri`
-
-        https://substrate.run/library#GenerativeEditImage
-        """
-        return super().future  # type: ignore
-
-
-class MultiGenerativeEditImage(CoreNode[MultiGenerativeEditImageOut]):
-    """
-    Edit multiple images using image generation.
-
-    https://substrate.run/library#MultiGenerativeEditImage
-    """
-
-    def __init__(self, args: MultiGenerativeEditImageIn, hide: bool = False):
-        """
-        Input arguments: `image_uri`, `prompt`, `mask_image_uri` (optional), `num_images`, `store` (optional)
-
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#MultiGenerativeEditImage
-        """
-        super().__init__(hide=hide, out_type=MultiGenerativeEditImageOut, **args)
-        self.node = "MultiGenerativeEditImage"
-
-    @property
-    def future(self) -> FutureMultiGenerativeEditImageOut:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#MultiGenerativeEditImage
+        https://substrate.run/nodes#MultiGenerateImage
         """
         return super().future  # type: ignore
 
 
 class StableDiffusionXL(CoreNode[StableDiffusionXLOut]):
-    """
-    Generate an image using [Stable Diffusion XL](https://arxiv.org/abs/2307.01952).
+    """https://substrate.run/nodes#StableDiffusionXL"""
 
-    https://substrate.run/library#StableDiffusionXL
-    """
-
-    def __init__(self, args: StableDiffusionXLIn, hide: bool = False):
+    def __init__(
+        self,
+        prompt: str,
+        num_images: int,
+        negative_prompt: Optional[str] = None,
+        steps: int = 30,
+        store: Optional[str] = None,
+        height: int = 1024,
+        width: int = 1024,
+        seeds: Optional[List[int]] = None,
+        guidance_scale: float = 7,
+        hide: bool = False,
+    ):
         """
-        Input arguments: `prompt`, `negative_prompt` (optional), `steps` (optional), `num_images`, `store` (optional), `height` (optional), `width` (optional), `seeds` (optional), `guidance_scale` (optional)
+        Args:
+            prompt: Text prompt.
+            num_images: Number of images to generate.
+            negative_prompt: Negative input prompt.
+            steps: Number of diffusion steps.
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+            height: Height of output image, in pixels.
+            width: Width of output image, in pixels.
+            seeds: Seeds for deterministic generation. Default is a random seed.
+            guidance_scale: Higher values adhere to the text prompt more strongly, typically at the expense of image quality.
 
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#StableDiffusionXL
+        https://substrate.run/nodes#StableDiffusionXL
         """
-        super().__init__(hide=hide, out_type=StableDiffusionXLOut, **args)
+        super().__init__(
+            prompt=prompt,
+            num_images=num_images,
+            negative_prompt=negative_prompt,
+            steps=steps,
+            store=store,
+            height=height,
+            width=width,
+            seeds=seeds,
+            guidance_scale=guidance_scale,
+            hide=hide,
+            out_type=StableDiffusionXLOut,
+        )
         self.node = "StableDiffusionXL"
 
     @property
@@ -675,29 +742,48 @@ class StableDiffusionXL(CoreNode[StableDiffusionXLOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#StableDiffusionXL
+        https://substrate.run/nodes#StableDiffusionXL
         """
         return super().future  # type: ignore
 
 
 class StableDiffusionXLLightning(CoreNode[StableDiffusionXLLightningOut]):
-    """
-    Generate an image using [Stable Diffusion XL Lightning](https://arxiv.org/abs/2402.13929).
+    """https://substrate.run/nodes#StableDiffusionXLLightning"""
 
-    https://substrate.run/library#StableDiffusionXLLightning
-    """
-
-    def __init__(self, args: StableDiffusionXLLightningIn, hide: bool = False):
+    def __init__(
+        self,
+        prompt: str,
+        negative_prompt: Optional[str] = None,
+        num_images: int = 1,
+        store: Optional[str] = None,
+        height: int = 1024,
+        width: int = 1024,
+        seeds: Optional[List[int]] = None,
+        hide: bool = False,
+    ):
         """
-        Input arguments: `prompt`, `negative_prompt` (optional), `num_images` (optional), `store` (optional), `height` (optional), `width` (optional), `seeds` (optional)
+        Args:
+            prompt: Text prompt.
+            negative_prompt: Negative input prompt.
+            num_images: Number of images to generate.
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+            height: Height of output image, in pixels.
+            width: Width of output image, in pixels.
+            seeds: Seeds for deterministic generation. Default is a random seed.
 
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#StableDiffusionXLLightning
+        https://substrate.run/nodes#StableDiffusionXLLightning
         """
-        super().__init__(hide=hide, out_type=StableDiffusionXLLightningOut, **args)
+        super().__init__(
+            prompt=prompt,
+            negative_prompt=negative_prompt,
+            num_images=num_images,
+            store=store,
+            height=height,
+            width=width,
+            seeds=seeds,
+            hide=hide,
+            out_type=StableDiffusionXLLightningOut,
+        )
         self.node = "StableDiffusionXLLightning"
 
     @property
@@ -705,89 +791,54 @@ class StableDiffusionXLLightning(CoreNode[StableDiffusionXLLightningOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#StableDiffusionXLLightning
-        """
-        return super().future  # type: ignore
-
-
-class StableDiffusionXLInpaint(CoreNode[StableDiffusionXLInpaintOut]):
-    """
-    Edit an image using [Stable Diffusion XL](https://arxiv.org/abs/2307.01952). Supports inpainting (edit part of the image with a mask) and image-to-image (edit the full image).
-
-    https://substrate.run/library#StableDiffusionXLInpaint
-    """
-
-    def __init__(self, args: StableDiffusionXLInpaintIn, hide: bool = False):
-        """
-        Input arguments: `image_uri`, `prompt`, `mask_image_uri` (optional), `num_images`, `output_resolution` (optional), `negative_prompt` (optional), `store` (optional), `strength` (optional), `seeds` (optional)
-
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#StableDiffusionXLInpaint
-        """
-        super().__init__(hide=hide, out_type=StableDiffusionXLInpaintOut, **args)
-        self.node = "StableDiffusionXLInpaint"
-
-    @property
-    def future(self) -> FutureStableDiffusionXLInpaintOut:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#StableDiffusionXLInpaint
-        """
-        return super().future  # type: ignore
-
-
-class StableDiffusionXLControlNet(CoreNode[StableDiffusionXLControlNetOut]):
-    """
-    Generate an image with generation structured by an input image, using Stable Diffusion XL with [ControlNet](https://arxiv.org/abs/2302.05543).
-
-    https://substrate.run/library#StableDiffusionXLControlNet
-    """
-
-    def __init__(self, args: StableDiffusionXLControlNetIn, hide: bool = False):
-        """
-        Input arguments: `image_uri`, `control_method`, `prompt`, `num_images`, `output_resolution` (optional), `negative_prompt` (optional), `store` (optional), `conditioning_scale` (optional), `seeds` (optional)
-
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#StableDiffusionXLControlNet
-        """
-        super().__init__(hide=hide, out_type=StableDiffusionXLControlNetOut, **args)
-        self.node = "StableDiffusionXLControlNet"
-
-    @property
-    def future(self) -> FutureStableDiffusionXLControlNetOut:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#StableDiffusionXLControlNet
+        https://substrate.run/nodes#StableDiffusionXLLightning
         """
         return super().future  # type: ignore
 
 
 class StableDiffusionXLIPAdapter(CoreNode[StableDiffusionXLIPAdapterOut]):
-    """
-    Generate an image with an image prompt, using Stable Diffusion XL with [IP-Adapter](https://arxiv.org/abs/2308.06721).
+    """https://substrate.run/nodes#StableDiffusionXLIPAdapter"""
 
-    https://substrate.run/library#StableDiffusionXLIPAdapter
-    """
-
-    def __init__(self, args: StableDiffusionXLIPAdapterIn, hide: bool = False):
+    def __init__(
+        self,
+        prompt: str,
+        image_prompt_uri: str,
+        num_images: int,
+        ip_adapter_scale: float = 0.5,
+        negative_prompt: Optional[str] = None,
+        store: Optional[str] = None,
+        width: int = 1024,
+        height: int = 1024,
+        seeds: Optional[List[int]] = None,
+        hide: bool = False,
+    ):
         """
-        Input arguments: `prompt`, `image_prompt_uri` (optional), `num_images`, `ip_adapter_scale` (optional), `negative_prompt` (optional), `store` (optional), `width` (optional), `height` (optional), `seeds` (optional)
+        Args:
+            prompt: Text prompt.
+            image_prompt_uri: Image prompt.
+            num_images: Number of images to generate.
+            ip_adapter_scale: Controls the influence of the image prompt on the generated output.
+            negative_prompt: Negative input prompt.
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+            width: Width of output image, in pixels.
+            height: Height of output image, in pixels.
+            seeds: Random noise seeds. Default is random seeds for each generation.
 
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#StableDiffusionXLIPAdapter
+        https://substrate.run/nodes#StableDiffusionXLIPAdapter
         """
-        super().__init__(hide=hide, out_type=StableDiffusionXLIPAdapterOut, **args)
+        super().__init__(
+            prompt=prompt,
+            image_prompt_uri=image_prompt_uri,
+            num_images=num_images,
+            ip_adapter_scale=ip_adapter_scale,
+            negative_prompt=negative_prompt,
+            store=store,
+            width=width,
+            height=height,
+            seeds=seeds,
+            hide=hide,
+            out_type=StableDiffusionXLIPAdapterOut,
+        )
         self.node = "StableDiffusionXLIPAdapter"
 
     @property
@@ -795,149 +846,229 @@ class StableDiffusionXLIPAdapter(CoreNode[StableDiffusionXLIPAdapterOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.outputs`
-
-        https://substrate.run/library#StableDiffusionXLIPAdapter
+        https://substrate.run/nodes#StableDiffusionXLIPAdapter
         """
         return super().future  # type: ignore
 
 
-class TranscribeMedia(CoreNode[TranscribeMediaOut]):
-    """
-    Transcribe speech in an audio or video file.
+class StableDiffusionXLControlNet(CoreNode[StableDiffusionXLControlNetOut]):
+    """https://substrate.run/nodes#StableDiffusionXLControlNet"""
 
-    https://substrate.run/library#TranscribeMedia
-    """
-
-    def __init__(self, args: TranscribeMediaIn, hide: bool = False):
+    def __init__(
+        self,
+        image_uri: str,
+        control_method: Literal["edge", "depth", "illusion"],
+        prompt: str,
+        num_images: int,
+        output_resolution: int = 1024,
+        negative_prompt: Optional[str] = None,
+        store: Optional[str] = None,
+        conditioning_scale: float = 0.5,
+        seeds: Optional[List[int]] = None,
+        hide: bool = False,
+    ):
         """
-        Input arguments: `audio_uri`, `prompt` (optional), `language` (optional), `segment` (optional), `align` (optional), `diarize` (optional), `suggest_chapters` (optional)
+        Args:
+            image_uri: Input image.
+            control_method: Strategy to control generation using the input image.
+            prompt: Text prompt.
+            num_images: Number of images to generate.
+            output_resolution: Resolution of the output image, in pixels.
+            negative_prompt: Negative input prompt.
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+            conditioning_scale: Controls the influence of the input image on the generated output.
+            seeds: Random noise seeds. Default is random seeds for each generation.
 
-        Output fields: `future.text`, `future.segments` (optional), `future.chapters` (optional)
-
-        https://substrate.run/library#TranscribeMedia
+        https://substrate.run/nodes#StableDiffusionXLControlNet
         """
-        super().__init__(hide=hide, out_type=TranscribeMediaOut, **args)
-        self.node = "TranscribeMedia"
+        super().__init__(
+            image_uri=image_uri,
+            control_method=control_method,
+            prompt=prompt,
+            num_images=num_images,
+            output_resolution=output_resolution,
+            negative_prompt=negative_prompt,
+            store=store,
+            conditioning_scale=conditioning_scale,
+            seeds=seeds,
+            hide=hide,
+            out_type=StableDiffusionXLControlNetOut,
+        )
+        self.node = "StableDiffusionXLControlNet"
 
     @property
-    def future(self) -> FutureTranscribeMediaOut:  # type: ignore
+    def future(self) -> FutureStableDiffusionXLControlNetOut:  # type: ignore
         """
         Future reference to this node's output.
 
-        Output fields: `future.text`, `future.segments` (optional), `future.chapters` (optional)
-
-        https://substrate.run/library#TranscribeMedia
+        https://substrate.run/nodes#StableDiffusionXLControlNet
         """
         return super().future  # type: ignore
 
 
-class GenerateSpeech(CoreNode[GenerateSpeechOut]):
-    """
-    Generate speech from text.
+class GenerativeEditImage(CoreNode[GenerativeEditImageOut]):
+    """https://substrate.run/nodes#GenerativeEditImage"""
 
-    https://substrate.run/library#GenerateSpeech
-    """
-
-    def __init__(self, args: GenerateSpeechIn, hide: bool = False):
+    def __init__(
+        self,
+        image_uri: str,
+        prompt: str,
+        mask_image_uri: Optional[str] = None,
+        store: Optional[str] = None,
+        hide: bool = False,
+    ):
         """
-        Input arguments: `text`, `store` (optional)
+        Args:
+            image_uri: Original image.
+            prompt: Text prompt.
+            mask_image_uri: Mask image that controls which pixels are inpainted. If unset, the entire image is edited (image-to-image).
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
 
-        Output fields: `future.audio_uri`
-
-        https://substrate.run/library#GenerateSpeech
+        https://substrate.run/nodes#GenerativeEditImage
         """
-        super().__init__(hide=hide, out_type=GenerateSpeechOut, **args)
-        self.node = "GenerateSpeech"
+        super().__init__(
+            image_uri=image_uri,
+            prompt=prompt,
+            mask_image_uri=mask_image_uri,
+            store=store,
+            hide=hide,
+            out_type=GenerativeEditImageOut,
+        )
+        self.node = "GenerativeEditImage"
 
     @property
-    def future(self) -> FutureGenerateSpeechOut:  # type: ignore
+    def future(self) -> FutureGenerativeEditImageOut:  # type: ignore
         """
         Future reference to this node's output.
 
-        Output fields: `future.audio_uri`
-
-        https://substrate.run/library#GenerateSpeech
+        https://substrate.run/nodes#GenerativeEditImage
         """
         return super().future  # type: ignore
 
 
-class XTTSV2(CoreNode[XTTSV2Out]):
-    """
-    Generate speech from text using [XTTS v2](https://docs.coqui.ai/en/latest/models/xtts.html).
+class MultiGenerativeEditImage(CoreNode[MultiGenerativeEditImageOut]):
+    """https://substrate.run/nodes#MultiGenerativeEditImage"""
 
-    https://substrate.run/library#XTTSV2
-    """
-
-    def __init__(self, args: XTTSV2In, hide: bool = False):
+    def __init__(
+        self,
+        image_uri: str,
+        prompt: str,
+        num_images: int,
+        mask_image_uri: Optional[str] = None,
+        store: Optional[str] = None,
+        hide: bool = False,
+    ):
         """
-        Input arguments: `text`, `audio_uri` (optional), `language` (optional), `store` (optional)
+        Args:
+            image_uri: Original image.
+            prompt: Text prompt.
+            num_images: Number of images to generate.
+            mask_image_uri: Mask image that controls which pixels are edited (inpainting). If unset, the entire image is edited (image-to-image).
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
 
-        Output fields: `future.audio_uri`
-
-        https://substrate.run/library#XTTSV2
+        https://substrate.run/nodes#MultiGenerativeEditImage
         """
-        super().__init__(hide=hide, out_type=XTTSV2Out, **args)
-        self.node = "XTTSV2"
+        super().__init__(
+            image_uri=image_uri,
+            prompt=prompt,
+            num_images=num_images,
+            mask_image_uri=mask_image_uri,
+            store=store,
+            hide=hide,
+            out_type=MultiGenerativeEditImageOut,
+        )
+        self.node = "MultiGenerativeEditImage"
 
     @property
-    def future(self) -> FutureXTTSV2Out:  # type: ignore
+    def future(self) -> FutureMultiGenerativeEditImageOut:  # type: ignore
         """
         Future reference to this node's output.
 
-        Output fields: `future.audio_uri`
-
-        https://substrate.run/library#XTTSV2
+        https://substrate.run/nodes#MultiGenerativeEditImage
         """
         return super().future  # type: ignore
 
 
-class RemoveBackground(CoreNode[RemoveBackgroundOut]):
-    """
-    Remove the background from an image, with the option to return the foreground as a mask.
+class StableDiffusionXLInpaint(CoreNode[StableDiffusionXLInpaintOut]):
+    """https://substrate.run/nodes#StableDiffusionXLInpaint"""
 
-    https://substrate.run/library#RemoveBackground
-    """
-
-    def __init__(self, args: RemoveBackgroundIn, hide: bool = False):
+    def __init__(
+        self,
+        image_uri: str,
+        prompt: str,
+        num_images: int,
+        mask_image_uri: Optional[str] = None,
+        output_resolution: int = 1024,
+        negative_prompt: Optional[str] = None,
+        store: Optional[str] = None,
+        strength: float = 0.8,
+        seeds: Optional[List[int]] = None,
+        hide: bool = False,
+    ):
         """
-        Input arguments: `image_uri`, `return_mask` (optional), `background_color` (optional), `store` (optional)
+        Args:
+            image_uri: Original image.
+            prompt: Text prompt.
+            num_images: Number of images to generate.
+            mask_image_uri: Mask image that controls which pixels are edited (inpainting). If unset, the entire image is edited (image-to-image).
+            output_resolution: Resolution of the output image, in pixels.
+            negative_prompt: Negative input prompt.
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+            strength: Controls the strength of the generation process.
+            seeds: Random noise seeds. Default is random seeds for each generation.
 
-        Output fields: `future.image_uri`
-
-        https://substrate.run/library#RemoveBackground
+        https://substrate.run/nodes#StableDiffusionXLInpaint
         """
-        super().__init__(hide=hide, out_type=RemoveBackgroundOut, **args)
-        self.node = "RemoveBackground"
+        super().__init__(
+            image_uri=image_uri,
+            prompt=prompt,
+            num_images=num_images,
+            mask_image_uri=mask_image_uri,
+            output_resolution=output_resolution,
+            negative_prompt=negative_prompt,
+            store=store,
+            strength=strength,
+            seeds=seeds,
+            hide=hide,
+            out_type=StableDiffusionXLInpaintOut,
+        )
+        self.node = "StableDiffusionXLInpaint"
 
     @property
-    def future(self) -> FutureRemoveBackgroundOut:  # type: ignore
+    def future(self) -> FutureStableDiffusionXLInpaintOut:  # type: ignore
         """
         Future reference to this node's output.
 
-        Output fields: `future.image_uri`
-
-        https://substrate.run/library#RemoveBackground
+        https://substrate.run/nodes#StableDiffusionXLInpaint
         """
         return super().future  # type: ignore
 
 
 class FillMask(CoreNode[FillMaskOut]):
-    """
-    Fill (inpaint) part of an image, e.g. to 'remove' an object.
+    """https://substrate.run/nodes#FillMask"""
 
-    https://substrate.run/library#FillMask
-    """
-
-    def __init__(self, args: FillMaskIn, hide: bool = False):
+    def __init__(
+        self,
+        image_uri: str,
+        mask_image_uri: str,
+        store: Optional[str] = None,
+        hide: bool = False,
+    ):
         """
-        Input arguments: `image_uri`, `mask_image_uri`, `store` (optional)
+        Args:
+            image_uri: Input image.
+            mask_image_uri: Mask image that controls which pixels are inpainted.
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
 
-        Output fields: `future.image_uri`
-
-        https://substrate.run/library#FillMask
+        https://substrate.run/nodes#FillMask
         """
-        super().__init__(hide=hide, out_type=FillMaskOut, **args)
+        super().__init__(
+            image_uri=image_uri,
+            mask_image_uri=mask_image_uri,
+            store=store,
+            hide=hide,
+            out_type=FillMaskOut,
+        )
         self.node = "FillMask"
 
     @property
@@ -945,29 +1076,63 @@ class FillMask(CoreNode[FillMaskOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.image_uri`
+        https://substrate.run/nodes#FillMask
+        """
+        return super().future  # type: ignore
 
-        https://substrate.run/library#FillMask
+
+class RemoveBackground(CoreNode[RemoveBackgroundOut]):
+    """https://substrate.run/nodes#RemoveBackground"""
+
+    def __init__(
+        self,
+        image_uri: str,
+        return_mask: bool = False,
+        background_color: Optional[str] = None,
+        store: Optional[str] = None,
+        hide: bool = False,
+    ):
+        """
+        Args:
+            image_uri: Input image.
+            return_mask: Return a mask image instead of the original content.
+            background_color: Hex value background color. Transparent if unset.
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+
+        https://substrate.run/nodes#RemoveBackground
+        """
+        super().__init__(
+            image_uri=image_uri,
+            return_mask=return_mask,
+            background_color=background_color,
+            store=store,
+            hide=hide,
+            out_type=RemoveBackgroundOut,
+        )
+        self.node = "RemoveBackground"
+
+    @property
+    def future(self) -> FutureRemoveBackgroundOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        https://substrate.run/nodes#RemoveBackground
         """
         return super().future  # type: ignore
 
 
 class UpscaleImage(CoreNode[UpscaleImageOut]):
-    """
-    Upscale an image.
+    """https://substrate.run/nodes#UpscaleImage"""
 
-    https://substrate.run/library#UpscaleImage
-    """
-
-    def __init__(self, args: UpscaleImageIn, hide: bool = False):
+    def __init__(self, image_uri: str, store: Optional[str] = None, hide: bool = False):
         """
-        Input arguments: `image_uri`, `store` (optional)
+        Args:
+            image_uri: Input image.
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
 
-        Output fields: `future.image_uri`
-
-        https://substrate.run/library#UpscaleImage
+        https://substrate.run/nodes#UpscaleImage
         """
-        super().__init__(hide=hide, out_type=UpscaleImageOut, **args)
+        super().__init__(image_uri=image_uri, store=store, hide=hide, out_type=UpscaleImageOut)
         self.node = "UpscaleImage"
 
     @property
@@ -975,29 +1140,36 @@ class UpscaleImage(CoreNode[UpscaleImageOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.image_uri`
-
-        https://substrate.run/library#UpscaleImage
+        https://substrate.run/nodes#UpscaleImage
         """
         return super().future  # type: ignore
 
 
 class SegmentUnderPoint(CoreNode[SegmentUnderPointOut]):
-    """
-    Segment an image under a point and return the segment.
+    """https://substrate.run/nodes#SegmentUnderPoint"""
 
-    https://substrate.run/library#SegmentUnderPoint
-    """
-
-    def __init__(self, args: SegmentUnderPointIn, hide: bool = False):
+    def __init__(
+        self,
+        image_uri: str,
+        point: Point,
+        store: Optional[str] = None,
+        hide: bool = False,
+    ):
         """
-        Input arguments: `image_uri`, `point`, `store` (optional)
+        Args:
+            image_uri: Input image.
+            point: Point prompt.
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
 
-        Output fields: `future.mask_image_uri`
-
-        https://substrate.run/library#SegmentUnderPoint
+        https://substrate.run/nodes#SegmentUnderPoint
         """
-        super().__init__(hide=hide, out_type=SegmentUnderPointOut, **args)
+        super().__init__(
+            image_uri=image_uri,
+            point=point,
+            store=store,
+            hide=hide,
+            out_type=SegmentUnderPointOut,
+        )
         self.node = "SegmentUnderPoint"
 
     @property
@@ -1005,29 +1177,39 @@ class SegmentUnderPoint(CoreNode[SegmentUnderPointOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.mask_image_uri`
-
-        https://substrate.run/library#SegmentUnderPoint
+        https://substrate.run/nodes#SegmentUnderPoint
         """
         return super().future  # type: ignore
 
 
 class SegmentAnything(CoreNode[SegmentAnythingOut]):
-    """
-    Segment an image using [SegmentAnything](https://github.com/facebookresearch/segment-anything).
+    """https://substrate.run/nodes#SegmentAnything"""
 
-    https://substrate.run/library#SegmentAnything
-    """
-
-    def __init__(self, args: SegmentAnythingIn, hide: bool = False):
+    def __init__(
+        self,
+        image_uri: str,
+        point_prompts: Optional[List[Point]] = None,
+        box_prompts: Optional[List[BoundingBox]] = None,
+        store: Optional[str] = None,
+        hide: bool = False,
+    ):
         """
-        Input arguments: `image_uri`, `point_prompts` (optional), `box_prompts` (optional), `store` (optional)
+        Args:
+            image_uri: Input image.
+            point_prompts: Point prompts, to detect a segment under the point. One of `point_prompts` or `box_prompts` must be set.
+            box_prompts: Box prompts, to detect a segment within the bounding box. One of `point_prompts` or `box_prompts` must be set.
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
 
-        Output fields: `future.mask_image_uri`
-
-        https://substrate.run/library#SegmentAnything
+        https://substrate.run/nodes#SegmentAnything
         """
-        super().__init__(hide=hide, out_type=SegmentAnythingOut, **args)
+        super().__init__(
+            image_uri=image_uri,
+            point_prompts=point_prompts,
+            box_prompts=box_prompts,
+            store=store,
+            hide=hide,
+            out_type=SegmentAnythingOut,
+        )
         self.node = "SegmentAnything"
 
     @property
@@ -1035,29 +1217,158 @@ class SegmentAnything(CoreNode[SegmentAnythingOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.mask_image_uri`
+        https://substrate.run/nodes#SegmentAnything
+        """
+        return super().future  # type: ignore
 
-        https://substrate.run/library#SegmentAnything
+
+class TranscribeMedia(CoreNode[TranscribeMediaOut]):
+    """https://substrate.run/nodes#TranscribeMedia"""
+
+    def __init__(
+        self,
+        audio_uri: str,
+        prompt: Optional[str] = None,
+        language: str = "en",
+        segment: bool = False,
+        align: bool = False,
+        diarize: bool = False,
+        suggest_chapters: bool = False,
+        hide: bool = False,
+    ):
+        """
+        Args:
+            audio_uri: Input audio.
+            prompt: Prompt to guide model on the content and context of input audio.
+            language: Language of input audio in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) format.
+            segment: Segment the text into sentences with approximate timestamps.
+            align: Align transcription to produce more accurate sentence-level timestamps and word-level timestamps. An array of word segments will be included in each sentence segment.
+            diarize: Identify speakers for each segment. Speaker IDs will be included in each segment.
+            suggest_chapters: Suggest automatic chapter markers.
+
+        https://substrate.run/nodes#TranscribeMedia
+        """
+        super().__init__(
+            audio_uri=audio_uri,
+            prompt=prompt,
+            language=language,
+            segment=segment,
+            align=align,
+            diarize=diarize,
+            suggest_chapters=suggest_chapters,
+            hide=hide,
+            out_type=TranscribeMediaOut,
+        )
+        self.node = "TranscribeMedia"
+
+    @property
+    def future(self) -> FutureTranscribeMediaOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        https://substrate.run/nodes#TranscribeMedia
+        """
+        return super().future  # type: ignore
+
+
+class GenerateSpeech(CoreNode[GenerateSpeechOut]):
+    """https://substrate.run/nodes#GenerateSpeech"""
+
+    def __init__(self, text: str, store: Optional[str] = None, hide: bool = False):
+        """
+        Args:
+            text: Input text.
+            store: Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the audio data will be returned as a base64-encoded string.
+
+        https://substrate.run/nodes#GenerateSpeech
+        """
+        super().__init__(text=text, store=store, hide=hide, out_type=GenerateSpeechOut)
+        self.node = "GenerateSpeech"
+
+    @property
+    def future(self) -> FutureGenerateSpeechOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        https://substrate.run/nodes#GenerateSpeech
+        """
+        return super().future  # type: ignore
+
+
+class XTTSV2(CoreNode[XTTSV2Out]):
+    """https://substrate.run/nodes#XTTSV2"""
+
+    def __init__(
+        self,
+        text: str,
+        audio_uri: Optional[str] = None,
+        language: str = "en",
+        store: Optional[str] = None,
+        hide: bool = False,
+    ):
+        """
+        Args:
+            text: Input text.
+            audio_uri: Reference audio used to synthesize the speaker. If unset, a default speaker voice will be used.
+            language: Language of input text. Supported languages: `en, de, fr, es, it, pt, pl, zh, ar, cs, ru, nl, tr, hu, ko`.
+            store: Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the audio data will be returned as a base64-encoded string.
+
+        https://substrate.run/nodes#XTTSV2
+        """
+        super().__init__(
+            text=text,
+            audio_uri=audio_uri,
+            language=language,
+            store=store,
+            hide=hide,
+            out_type=XTTSV2Out,
+        )
+        self.node = "XTTSV2"
+
+    @property
+    def future(self) -> FutureXTTSV2Out:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        https://substrate.run/nodes#XTTSV2
         """
         return super().future  # type: ignore
 
 
 class EmbedText(CoreNode[EmbedTextOut]):
-    """
-    Generate embedding for a text document.
+    """https://substrate.run/nodes#EmbedText"""
 
-    https://substrate.run/library#EmbedText
-    """
-
-    def __init__(self, args: EmbedTextIn, hide: bool = False):
+    def __init__(
+        self,
+        text: str,
+        collection_name: Optional[str] = None,
+        metadata: Optional[Dict[str, Any]] = None,
+        embedded_metadata_keys: Optional[List[str]] = None,
+        doc_id: Optional[str] = None,
+        model: Literal["jina-v2", "clip"] = "jina-v2",
+        hide: bool = False,
+    ):
         """
-        Input arguments: `text`, `collection_name` (optional), `metadata` (optional), `embedded_metadata_keys` (optional), `doc_id` (optional), `model` (optional)
+        Args:
+            text: Text to embed.
+            collection_name: Vector store name.
+            metadata: Metadata that can be used to query the vector store. Ignored if `collection_name` is unset.
+            embedded_metadata_keys: Choose keys from `metadata` to embed with text.
+            doc_id: Vector store document ID. Ignored if `store` is unset.
+            model: Selected embedding model.
 
-        Output fields: `future.embedding`
-
-        https://substrate.run/library#EmbedText
+        https://substrate.run/nodes#EmbedText
         """
-        super().__init__(hide=hide, out_type=EmbedTextOut, **args)
+        super().__init__(
+            text=text,
+            collection_name=collection_name,
+            metadata=metadata,
+            embedded_metadata_keys=embedded_metadata_keys,
+            doc_id=doc_id,
+            model=model,
+            hide=hide,
+            out_type=EmbedTextOut,
+        )
         self.node = "EmbedText"
 
     @property
@@ -1065,29 +1376,39 @@ class EmbedText(CoreNode[EmbedTextOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.embedding`
-
-        https://substrate.run/library#EmbedText
+        https://substrate.run/nodes#EmbedText
         """
         return super().future  # type: ignore
 
 
 class MultiEmbedText(CoreNode[MultiEmbedTextOut]):
-    """
-    Generate embeddings for multiple text documents.
+    """https://substrate.run/nodes#MultiEmbedText"""
 
-    https://substrate.run/library#MultiEmbedText
-    """
-
-    def __init__(self, args: MultiEmbedTextIn, hide: bool = False):
+    def __init__(
+        self,
+        items: List[EmbedTextItem],
+        collection_name: Optional[str] = None,
+        embedded_metadata_keys: Optional[List[str]] = None,
+        model: Literal["jina-v2", "clip"] = "jina-v2",
+        hide: bool = False,
+    ):
         """
-        Input arguments: `items`, `collection_name` (optional), `embedded_metadata_keys` (optional), `model` (optional)
+        Args:
+            items: Items to embed.
+            collection_name: Vector store name.
+            embedded_metadata_keys: Choose keys from `metadata` to embed with text.
+            model: Selected embedding model.
 
-        Output fields: `future.embeddings`
-
-        https://substrate.run/library#MultiEmbedText
+        https://substrate.run/nodes#MultiEmbedText
         """
-        super().__init__(hide=hide, out_type=MultiEmbedTextOut, **args)
+        super().__init__(
+            items=items,
+            collection_name=collection_name,
+            embedded_metadata_keys=embedded_metadata_keys,
+            model=model,
+            hide=hide,
+            out_type=MultiEmbedTextOut,
+        )
         self.node = "MultiEmbedText"
 
     @property
@@ -1095,89 +1416,36 @@ class MultiEmbedText(CoreNode[MultiEmbedTextOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.embeddings`
-
-        https://substrate.run/library#MultiEmbedText
-        """
-        return super().future  # type: ignore
-
-
-class EmbedImage(CoreNode[EmbedImageOut]):
-    """
-    Generate embedding for an image.
-
-    https://substrate.run/library#EmbedImage
-    """
-
-    def __init__(self, args: EmbedImageIn, hide: bool = False):
-        """
-        Input arguments: `image_uri`, `collection_name` (optional), `doc_id` (optional), `model` (optional)
-
-        Output fields: `future.embedding`
-
-        https://substrate.run/library#EmbedImage
-        """
-        super().__init__(hide=hide, out_type=EmbedImageOut, **args)
-        self.node = "EmbedImage"
-
-    @property
-    def future(self) -> FutureEmbedImageOut:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        Output fields: `future.embedding`
-
-        https://substrate.run/library#EmbedImage
-        """
-        return super().future  # type: ignore
-
-
-class MultiEmbedImage(CoreNode[MultiEmbedImageOut]):
-    """
-    Generate embeddings for multiple images.
-
-    https://substrate.run/library#MultiEmbedImage
-    """
-
-    def __init__(self, args: MultiEmbedImageIn, hide: bool = False):
-        """
-        Input arguments: `items`, `collection_name` (optional), `model` (optional)
-
-        Output fields: `future.embeddings`
-
-        https://substrate.run/library#MultiEmbedImage
-        """
-        super().__init__(hide=hide, out_type=MultiEmbedImageOut, **args)
-        self.node = "MultiEmbedImage"
-
-    @property
-    def future(self) -> FutureMultiEmbedImageOut:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        Output fields: `future.embeddings`
-
-        https://substrate.run/library#MultiEmbedImage
+        https://substrate.run/nodes#MultiEmbedText
         """
         return super().future  # type: ignore
 
 
 class JinaV2(CoreNode[JinaV2Out]):
-    """
-    Generate embeddings for multiple text documents using [Jina Embeddings 2](https://arxiv.org/abs/2310.19923).
+    """https://substrate.run/nodes#JinaV2"""
 
-    https://substrate.run/library#JinaV2
-    """
-
-    def __init__(self, args: JinaV2In, hide: bool = False):
+    def __init__(
+        self,
+        items: List[EmbedTextItem],
+        collection_name: Optional[str] = None,
+        embedded_metadata_keys: Optional[List[str]] = None,
+        hide: bool = False,
+    ):
         """
-        Input arguments: `items`, `collection_name` (optional), `embedded_metadata_keys` (optional)
+        Args:
+            items: Items to embed.
+            collection_name: Vector store name.
+            embedded_metadata_keys: Choose keys from `metadata` to embed with text.
 
-        Output fields: `future.embeddings`
-
-        https://substrate.run/library#JinaV2
+        https://substrate.run/nodes#JinaV2
         """
-        super().__init__(hide=hide, out_type=JinaV2Out, **args)
+        super().__init__(
+            items=items,
+            collection_name=collection_name,
+            embedded_metadata_keys=embedded_metadata_keys,
+            hide=hide,
+            out_type=JinaV2Out,
+        )
         self.node = "JinaV2"
 
     @property
@@ -1185,29 +1453,113 @@ class JinaV2(CoreNode[JinaV2Out]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.embeddings`
+        https://substrate.run/nodes#JinaV2
+        """
+        return super().future  # type: ignore
 
-        https://substrate.run/library#JinaV2
+
+class EmbedImage(CoreNode[EmbedImageOut]):
+    """https://substrate.run/nodes#EmbedImage"""
+
+    def __init__(
+        self,
+        image_uri: str,
+        collection_name: Optional[str] = None,
+        doc_id: Optional[str] = None,
+        model: Literal["clip"] = "clip",
+        hide: bool = False,
+    ):
+        """
+        Args:
+            image_uri: Image to embed.
+            collection_name: Vector store name.
+            doc_id: Vector store document ID. Ignored if `collection_name` is unset.
+            model: Selected embedding model.
+
+        https://substrate.run/nodes#EmbedImage
+        """
+        super().__init__(
+            image_uri=image_uri,
+            collection_name=collection_name,
+            doc_id=doc_id,
+            model=model,
+            hide=hide,
+            out_type=EmbedImageOut,
+        )
+        self.node = "EmbedImage"
+
+    @property
+    def future(self) -> FutureEmbedImageOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        https://substrate.run/nodes#EmbedImage
+        """
+        return super().future  # type: ignore
+
+
+class MultiEmbedImage(CoreNode[MultiEmbedImageOut]):
+    """https://substrate.run/nodes#MultiEmbedImage"""
+
+    def __init__(
+        self,
+        items: List[EmbedImageItem],
+        collection_name: Optional[str] = None,
+        model: Literal["clip"] = "clip",
+        hide: bool = False,
+    ):
+        """
+        Args:
+            items: Items to embed.
+            collection_name: Vector store name.
+            model: Selected embedding model.
+
+        https://substrate.run/nodes#MultiEmbedImage
+        """
+        super().__init__(
+            items=items,
+            collection_name=collection_name,
+            model=model,
+            hide=hide,
+            out_type=MultiEmbedImageOut,
+        )
+        self.node = "MultiEmbedImage"
+
+    @property
+    def future(self) -> FutureMultiEmbedImageOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        https://substrate.run/nodes#MultiEmbedImage
         """
         return super().future  # type: ignore
 
 
 class CLIP(CoreNode[CLIPOut]):
-    """
-    Generate embeddings for text or images using [CLIP](https://openai.com/research/clip).
+    """https://substrate.run/nodes#CLIP"""
 
-    https://substrate.run/library#CLIP
-    """
-
-    def __init__(self, args: CLIPIn, hide: bool = False):
+    def __init__(
+        self,
+        items: List[EmbedTextOrImageItem],
+        collection_name: Optional[str] = None,
+        embedded_metadata_keys: Optional[List[str]] = None,
+        hide: bool = False,
+    ):
         """
-        Input arguments: `items`, `collection_name` (optional), `embedded_metadata_keys` (optional)
+        Args:
+            items: Items to embed.
+            collection_name: Vector store name.
+            embedded_metadata_keys: Choose keys from `metadata` to embed with text. Only applies to text items.
 
-        Output fields: `future.embeddings`
-
-        https://substrate.run/library#CLIP
+        https://substrate.run/nodes#CLIP
         """
-        super().__init__(hide=hide, out_type=CLIPOut, **args)
+        super().__init__(
+            items=items,
+            collection_name=collection_name,
+            embedded_metadata_keys=embedded_metadata_keys,
+            hide=hide,
+            out_type=CLIPOut,
+        )
         self.node = "CLIP"
 
     @property
@@ -1215,29 +1567,42 @@ class CLIP(CoreNode[CLIPOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.embeddings`
-
-        https://substrate.run/library#CLIP
+        https://substrate.run/nodes#CLIP
         """
         return super().future  # type: ignore
 
 
 class CreateVectorStore(CoreNode[CreateVectorStoreOut]):
-    """
-    Create a vector store for storing and querying embeddings.
+    """https://substrate.run/nodes#CreateVectorStore"""
 
-    https://substrate.run/library#CreateVectorStore
-    """
-
-    def __init__(self, args: CreateVectorStoreIn, hide: bool = False):
+    def __init__(
+        self,
+        collection_name: str,
+        model: Literal["jina-v2", "clip"],
+        m: int = 16,
+        ef_construction: int = 64,
+        metric: Literal["cosine", "l2", "inner"] = "inner",
+        hide: bool = False,
+    ):
         """
-        Input arguments: `collection_name`, `model`, `m` (optional), `ef_construction` (optional), `metric` (optional)
+        Args:
+            collection_name: Vector store name.
+            model: Selected embedding model.
+            m: The max number of connections per layer for the index.
+            ef_construction: The size of the dynamic candidate list for constructing the index graph.
+            metric: The distance metric to construct the index with.
 
-        Output fields: `future.collection_name`, `future.model`, `future.m`, `future.ef_construction`, `future.metric`
-
-        https://substrate.run/library#CreateVectorStore
+        https://substrate.run/nodes#CreateVectorStore
         """
-        super().__init__(hide=hide, out_type=CreateVectorStoreOut, **args)
+        super().__init__(
+            collection_name=collection_name,
+            model=model,
+            m=m,
+            ef_construction=ef_construction,
+            metric=metric,
+            hide=hide,
+            out_type=CreateVectorStoreOut,
+        )
         self.node = "CreateVectorStore"
 
     @property
@@ -1245,29 +1610,21 @@ class CreateVectorStore(CoreNode[CreateVectorStoreOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.collection_name`, `future.model`, `future.m`, `future.ef_construction`, `future.metric`
-
-        https://substrate.run/library#CreateVectorStore
+        https://substrate.run/nodes#CreateVectorStore
         """
         return super().future  # type: ignore
 
 
 class ListVectorStores(CoreNode[ListVectorStoresOut]):
-    """
-    List all vector stores.
+    """https://substrate.run/nodes#ListVectorStores"""
 
-    https://substrate.run/library#ListVectorStores
-    """
-
-    def __init__(self, args: ListVectorStoresIn, hide: bool = False):
+    def __init__(self, hide: bool = False):
         """
-        Input arguments:
+        Args:
 
-        Output fields: `future.items` (optional)
-
-        https://substrate.run/library#ListVectorStores
+        https://substrate.run/nodes#ListVectorStores
         """
-        super().__init__(hide=hide, out_type=ListVectorStoresOut, **args)
+        super().__init__(hide=hide, out_type=ListVectorStoresOut)
         self.node = "ListVectorStores"
 
     @property
@@ -1275,29 +1632,33 @@ class ListVectorStores(CoreNode[ListVectorStoresOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.items` (optional)
-
-        https://substrate.run/library#ListVectorStores
+        https://substrate.run/nodes#ListVectorStores
         """
         return super().future  # type: ignore
 
 
 class DeleteVectorStore(CoreNode[DeleteVectorStoreOut]):
-    """
-    Delete a vector store.
+    """https://substrate.run/nodes#DeleteVectorStore"""
 
-    https://substrate.run/library#DeleteVectorStore
-    """
-
-    def __init__(self, args: DeleteVectorStoreIn, hide: bool = False):
+    def __init__(
+        self,
+        collection_name: str,
+        model: Literal["jina-v2", "clip"],
+        hide: bool = False,
+    ):
         """
-        Input arguments: `collection_name`, `model`
+        Args:
+            collection_name: Vector store name.
+            model: Selected embedding model.
 
-        Output fields: `future.collection_name`, `future.model`
-
-        https://substrate.run/library#DeleteVectorStore
+        https://substrate.run/nodes#DeleteVectorStore
         """
-        super().__init__(hide=hide, out_type=DeleteVectorStoreOut, **args)
+        super().__init__(
+            collection_name=collection_name,
+            model=model,
+            hide=hide,
+            out_type=DeleteVectorStoreOut,
+        )
         self.node = "DeleteVectorStore"
 
     @property
@@ -1305,59 +1666,36 @@ class DeleteVectorStore(CoreNode[DeleteVectorStoreOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.collection_name`, `future.model`
-
-        https://substrate.run/library#DeleteVectorStore
-        """
-        return super().future  # type: ignore
-
-
-class QueryVectorStore(CoreNode[QueryVectorStoreOut]):
-    """
-    Query a vector store for similar vectors.
-
-    https://substrate.run/library#QueryVectorStore
-    """
-
-    def __init__(self, args: QueryVectorStoreIn, hide: bool = False):
-        """
-        Input arguments: `collection_name`, `model`, `query_strings` (optional), `query_image_uris` (optional), `query_vectors` (optional), `query_ids` (optional), `top_k` (optional), `ef_search` (optional), `include_values` (optional), `include_metadata` (optional), `filters` (optional)
-
-        Output fields: `future.results`, `future.collection_name` (optional), `future.model` (optional), `future.metric` (optional)
-
-        https://substrate.run/library#QueryVectorStore
-        """
-        super().__init__(hide=hide, out_type=QueryVectorStoreOut, **args)
-        self.node = "QueryVectorStore"
-
-    @property
-    def future(self) -> FutureQueryVectorStoreOut:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        Output fields: `future.results`, `future.collection_name` (optional), `future.model` (optional), `future.metric` (optional)
-
-        https://substrate.run/library#QueryVectorStore
+        https://substrate.run/nodes#DeleteVectorStore
         """
         return super().future  # type: ignore
 
 
 class FetchVectors(CoreNode[FetchVectorsOut]):
-    """
-    Fetch vectors from a vector store.
+    """https://substrate.run/nodes#FetchVectors"""
 
-    https://substrate.run/library#FetchVectors
-    """
-
-    def __init__(self, args: FetchVectorsIn, hide: bool = False):
+    def __init__(
+        self,
+        collection_name: str,
+        model: Literal["jina-v2", "clip"],
+        ids: List[str],
+        hide: bool = False,
+    ):
         """
-        Input arguments: `collection_name`, `model`, `ids`
+        Args:
+            collection_name: Vector store name.
+            model: Selected embedding model.
+            ids: Document IDs to retrieve.
 
-        Output fields: `future.vectors`
-
-        https://substrate.run/library#FetchVectors
+        https://substrate.run/nodes#FetchVectors
         """
-        super().__init__(hide=hide, out_type=FetchVectorsOut, **args)
+        super().__init__(
+            collection_name=collection_name,
+            model=model,
+            ids=ids,
+            hide=hide,
+            out_type=FetchVectorsOut,
+        )
         self.node = "FetchVectors"
 
     @property
@@ -1365,29 +1703,36 @@ class FetchVectors(CoreNode[FetchVectorsOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.vectors`
-
-        https://substrate.run/library#FetchVectors
+        https://substrate.run/nodes#FetchVectors
         """
         return super().future  # type: ignore
 
 
 class UpdateVectors(CoreNode[UpdateVectorsOut]):
-    """
-    Update vectors in a vector store.
+    """https://substrate.run/nodes#UpdateVectors"""
 
-    https://substrate.run/library#UpdateVectors
-    """
-
-    def __init__(self, args: UpdateVectorsIn, hide: bool = False):
+    def __init__(
+        self,
+        collection_name: str,
+        model: Literal["jina-v2", "clip"],
+        vectors: List[UpdateVectorParams],
+        hide: bool = False,
+    ):
         """
-        Input arguments: `collection_name`, `model`, `vectors`
+        Args:
+            collection_name: Vector store name.
+            model: Selected embedding model.
+            vectors: Vectors to upsert.
 
-        Output fields: `future.count`
-
-        https://substrate.run/library#UpdateVectors
+        https://substrate.run/nodes#UpdateVectors
         """
-        super().__init__(hide=hide, out_type=UpdateVectorsOut, **args)
+        super().__init__(
+            collection_name=collection_name,
+            model=model,
+            vectors=vectors,
+            hide=hide,
+            out_type=UpdateVectorsOut,
+        )
         self.node = "UpdateVectors"
 
     @property
@@ -1395,29 +1740,36 @@ class UpdateVectors(CoreNode[UpdateVectorsOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.count`
-
-        https://substrate.run/library#UpdateVectors
+        https://substrate.run/nodes#UpdateVectors
         """
         return super().future  # type: ignore
 
 
 class DeleteVectors(CoreNode[DeleteVectorsOut]):
-    """
-    Delete vectors in a vector store.
+    """https://substrate.run/nodes#DeleteVectors"""
 
-    https://substrate.run/library#DeleteVectors
-    """
-
-    def __init__(self, args: DeleteVectorsIn, hide: bool = False):
+    def __init__(
+        self,
+        collection_name: str,
+        model: Literal["jina-v2", "clip"],
+        ids: List[str],
+        hide: bool = False,
+    ):
         """
-        Input arguments: `collection_name`, `model`, `ids`
+        Args:
+            collection_name: Vector store name.
+            model: Selected embedding model.
+            ids: Document IDs to delete.
 
-        Output fields: `future.count`
-
-        https://substrate.run/library#DeleteVectors
+        https://substrate.run/nodes#DeleteVectors
         """
-        super().__init__(hide=hide, out_type=DeleteVectorsOut, **args)
+        super().__init__(
+            collection_name=collection_name,
+            model=model,
+            ids=ids,
+            hide=hide,
+            out_type=DeleteVectorsOut,
+        )
         self.node = "DeleteVectors"
 
     @property
@@ -1425,8 +1777,67 @@ class DeleteVectors(CoreNode[DeleteVectorsOut]):
         """
         Future reference to this node's output.
 
-        Output fields: `future.count`
+        https://substrate.run/nodes#DeleteVectors
+        """
+        return super().future  # type: ignore
 
-        https://substrate.run/library#DeleteVectors
+
+class QueryVectorStore(CoreNode[QueryVectorStoreOut]):
+    """https://substrate.run/nodes#QueryVectorStore"""
+
+    def __init__(
+        self,
+        collection_name: str,
+        model: Literal["jina-v2", "clip"],
+        query_strings: Optional[List[str]] = None,
+        query_image_uris: Optional[List[str]] = None,
+        query_vectors: Optional[List[List[float]]] = None,
+        query_ids: Optional[List[str]] = None,
+        top_k: int = 10,
+        ef_search: int = 40,
+        include_values: bool = False,
+        include_metadata: bool = False,
+        filters: Optional[Dict[str, Any]] = None,
+        hide: bool = False,
+    ):
+        """
+        Args:
+            collection_name: Vector store to query against.
+            model: Selected embedding model.
+            query_strings: Texts to embed and use for the query.
+            query_image_uris: Image URIs to embed and use for the query.
+            query_vectors: Vectors to use for the query.
+            query_ids: Document IDs to use for the query.
+            top_k: Number of results to return.
+            ef_search: The size of the dynamic candidate list for searching the index graph.
+            include_values: Include the values of the vectors in the response.
+            include_metadata: Include the metadata of the vectors in the response.
+            filters: Filter metadata by key-value pairs.
+
+        https://substrate.run/nodes#QueryVectorStore
+        """
+        super().__init__(
+            collection_name=collection_name,
+            model=model,
+            query_strings=query_strings,
+            query_image_uris=query_image_uris,
+            query_vectors=query_vectors,
+            query_ids=query_ids,
+            top_k=top_k,
+            ef_search=ef_search,
+            include_values=include_values,
+            include_metadata=include_metadata,
+            filters=filters,
+            hide=hide,
+            out_type=QueryVectorStoreOut,
+        )
+        self.node = "QueryVectorStore"
+
+    @property
+    def future(self) -> FutureQueryVectorStoreOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        https://substrate.run/nodes#QueryVectorStore
         """
         return super().future  # type: ignore

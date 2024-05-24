@@ -7,6 +7,7 @@
 ```sh
 make sync           # sync codegen
 make sync-version   # after updating version in scripts/sync_version
+poetry run examples/basic.py # use the local package in this script
 ```
 
 (make sure CI passes, do some spot checking e.g. in examples/basic.py)
@@ -23,7 +24,9 @@ make publish        # publish
 cd examples/notebooks
 make ensure     # if you're here for the first time
 make update     # upgrade to the latest substrate version
-make basic      # run the basic notebook
+# You should see:
+# Updating substrate (120240502.0.3 -> 220240509.0.0)
+poetry run marimo edit basic.py      # run the basic notebook
 ```
 
 ## Setting up local development

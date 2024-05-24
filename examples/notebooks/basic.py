@@ -34,14 +34,16 @@ def __(api_key):
 
 @app.cell(hide_code=True)
 def __(mo):
-    mo.md("Generate a story using the [`GenerateText`](https://www.substrate.run/nodes#GenerateText) node.")
+    mo.md(
+        "Generate a story using the [`GenerateText`](https://www.substrate.run/nodes#GenerateText) node."
+    )
     return
 
 
 @app.cell
 def __(GenerateText):
-    story = GenerateText({"prompt": "tell me a story"})
-    return (story,)
+    story = GenerateText(prompt="tell me a story")
+    return story,
 
 
 @app.cell(hide_code=True)
@@ -54,8 +56,12 @@ def __(mo):
 
 @app.cell
 def __(GenerateText, sb, story):
-    summary = GenerateText({"prompt": sb.concat("summarize this story in one sentence: ", story.future.text)})
-    return (summary,)
+    summary = GenerateText(
+        prompt=sb.concat(
+            "summarize this story in one sentence: ", story.future.text
+        )
+    )
+    return summary,
 
 
 @app.cell(hide_code=True)
@@ -69,7 +75,7 @@ def __(mo):
 @app.cell
 def __(story, substrate, summary):
     response = substrate.run(story, summary)
-    return (response,)
+    return response,
 
 
 @app.cell(hide_code=True)
@@ -82,14 +88,14 @@ def __(mo):
 def __(mo, response, summary):
     summary_out = response.get(summary)
     mo.md(summary_out.text)
-    return (summary_out,)
+    return summary_out,
 
 
 @app.cell
 def __(mo, story, substrate, summary):
     viz_url = substrate.visualize(story, summary)
     mo.md(f"[Visualize the graph]({viz_url})")
-    return (viz_url,)
+    return viz_url,
 
 
 if __name__ == "__main__":

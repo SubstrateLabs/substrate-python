@@ -29,30 +29,24 @@ def __(mo):
         full_width=True,
     ).form()
     prompt
-    return prompt,
+    return (prompt,)
 
 
 @app.cell
 def __(prompt, sb):
     image = sb.GenerateImage(
-        {
-            "prompt": prompt.value,
-        }
+        prompt=prompt.value,
     )
     rmbg = sb.RemoveBackground({"image_uri": image.future.image_uri})
     rmbg_mask = sb.RemoveBackground(
-        {
-            "image_uri": image.future.image_uri,
-            "return_mask": True,
-        }
+        image_uri=image.future.image_uri,
+        return_mask=True,
     )
     bg = sb.FillMask(
-        {
-            "image_uri": image.future.image_uri,
-            "mask_image_uri": rmbg_mask.future.image_uri,
-        }
+        image_uri=image.future.image_uri,
+        mask_image_uri=rmbg_mask.future.image_uri,
     )
-    upscale = sb.UpscaleImage({"image_uri": bg.future.image_uri})
+    upscale = sb.UpscaleImage(image_uri=bg.future.image_uri)
     return bg, image, rmbg, rmbg_mask, upscale
 
 
@@ -72,33 +66,25 @@ def __(bg, image, mo, res, rmbg, rmbg_mask):
             mo.vstack(
                 [
                     mo.image(src=res.get(image).image_uri),
-                    mo.download(
-                        data=res.get(image).image_uri, filename="image.jpeg"
-                    ),
+                    mo.download(data=res.get(image).image_uri, filename="image.jpeg"),
                 ]
             ),
             mo.vstack(
                 [
                     mo.image(src=res.get(rmbg).image_uri),
-                    mo.download(
-                        data=res.get(rmbg).image_uri, filename="no-bg.jpeg"
-                    ),
+                    mo.download(data=res.get(rmbg).image_uri, filename="no-bg.jpeg"),
                 ]
             ),
             mo.vstack(
                 [
                     mo.image(src=res.get(rmbg_mask).image_uri),
-                    mo.download(
-                        data=res.get(rmbg_mask).image_uri, filename="mask.jpeg"
-                    ),
+                    mo.download(data=res.get(rmbg_mask).image_uri, filename="mask.jpeg"),
                 ]
             ),
             mo.vstack(
                 [
                     mo.image(src=res.get(bg).image_uri),
-                    mo.download(
-                        data=res.get(bg).image_uri, filename="just-bg.jpeg"
-                    ),
+                    mo.download(data=res.get(bg).image_uri, filename="just-bg.jpeg"),
                 ]
             ),
         ]
