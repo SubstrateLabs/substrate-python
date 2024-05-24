@@ -35,7 +35,7 @@ def __(Substrate, api_key):
         api_key=api_key,
         backend="v1",
     )
-    return (substrate,)
+    return substrate,
 
 
 @app.cell
@@ -46,7 +46,7 @@ def __(mo):
         full_width=True,
     ).form()
     question
-    return (question,)
+    return question,
 
 
 @app.cell
@@ -67,17 +67,23 @@ def __(GenerateText, RunCode, question, sb):
 
 
 @app.cell
-def __(gen_code, run_code, substrate):
+def __(gen_code, mo, run_code, substrate):
     res = substrate.run(gen_code, run_code)
-    # viz = substrate.visualize(text, run_code)
-    # mo.md(f"[visualize]({viz})")
-    return (res,)
+    viz = substrate.visualize(gen_code, run_code)
+    mo.md(f"[visualize]({viz})")
+    return res, viz
 
 
 @app.cell
 def __(json, res):
     print(json.dumps(res.json, indent=2))
     # mo.tree(res.json)
+    return
+
+
+@app.cell
+def __(mo, viz):
+    mo.md(f"[visualize]({viz})")
     return
 
 

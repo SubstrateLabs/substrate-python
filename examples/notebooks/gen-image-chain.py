@@ -16,7 +16,6 @@ def __():
     api_key = api_key or "YOUR_API_KEY"
     substrate = sb.Substrate(
         api_key=api_key,
-        backend="v1",
     )
     return api_key, base64, json, mo, os, sb, substrate
 
@@ -29,7 +28,7 @@ def __(mo):
         full_width=True,
     ).form()
     prompt
-    return (prompt,)
+    return prompt,
 
 
 @app.cell
@@ -37,7 +36,7 @@ def __(prompt, sb):
     image = sb.GenerateImage(
         prompt=prompt.value,
     )
-    rmbg = sb.RemoveBackground({"image_uri": image.future.image_uri})
+    rmbg = sb.RemoveBackground(image_uri=image.future.image_uri)
     rmbg_mask = sb.RemoveBackground(
         image_uri=image.future.image_uri,
         return_mask=True,
@@ -54,9 +53,14 @@ def __(prompt, sb):
 def __(bg, image, mo, rmbg, rmbg_mask, substrate):
     res = substrate.run(image, rmbg, rmbg_mask, bg)
     viz = substrate.visualize(image, rmbg, rmbg_mask, bg)
-    # mo.md(f"[visualize]({viz})")
     mo.tree(res.json)
     return res, viz
+
+
+@app.cell
+def __(mo, viz):
+    mo.md(f"[visualize]({viz})")
+    return
 
 
 @app.cell
