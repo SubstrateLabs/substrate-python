@@ -17,7 +17,7 @@ class Test:
 
         substrate = Substrate(api_key=api_key)
 
-        story = GenerateText({"prompt": "tell me a story", "max_tokens": 8})
+        story = GenerateText(prompt="tell me a story", max_tokens=8)
         response = substrate.run(story)
         import json
 
