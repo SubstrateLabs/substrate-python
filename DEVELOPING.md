@@ -7,6 +7,7 @@
 ```sh
 make sync           # sync codegen
 make sync-version   # after updating version in scripts/sync_version
+poetry run examples/basic.py # use the local package in this script
 ```
 
 (make sure CI passes, do some spot checking e.g. in examples/basic.py)

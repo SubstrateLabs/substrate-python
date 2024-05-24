@@ -21,6 +21,8 @@ excluded_files = [
     "deprecated_models.py",
     "__pycache__",
     "*.md",
+    "**/*.json",
+    "**/log*",
 ]
 exclude_args = " ".join(f"--exclude='{pattern}'" for pattern in excluded_files)
 cmd = f"rsync -av {exclude_args} {src_dir}/ {dest_dir}/"

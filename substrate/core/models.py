@@ -1,5 +1,5 @@
 """
-꩜ Substrate
+𐃏 Substrate
 @generated file
 (using datamodel-codegen)
 """
@@ -113,9 +113,13 @@ class GenerateJSONIn(BaseModel):
 
 
 class GenerateJSONOut(BaseModel):
-    json_object: Dict[str, Any]
+    json_object: Optional[Dict[str, Any]] = None
     """
     JSON response.
+    """
+    text: Optional[str] = None
+    """
+    If the model output could not be parsed to JSON, this is the raw text output.
     """
 
 
@@ -568,7 +572,7 @@ class StableDiffusionXLIPAdapterIn(BaseModel):
     """
     Text prompt.
     """
-    image_prompt_uri: Optional[str] = None
+    image_prompt_uri: str
     """
     Image prompt.
     """
@@ -1128,7 +1132,7 @@ class EmbedTextIn(BaseModel):
     """
     metadata: Optional[Dict[str, Any]] = None
     """
-    Metadata that can be used to query the vector store. Ignored if `store` is unset.
+    Metadata that can be used to query the vector store. Ignored if `collection_name` is unset.
     """
     embedded_metadata_keys: Optional[List[str]] = None
     """
@@ -1158,11 +1162,11 @@ class EmbedTextItem(BaseModel):
     """
     metadata: Optional[Dict[str, Any]] = None
     """
-    Metadata that can be used to query the vector store. Ignored if `store` is unset.
+    Metadata that can be used to query the vector store. Ignored if `collection_name` is unset.
     """
     doc_id: Optional[str] = None
     """
-    Vector store document ID. Ignored if `store` is unset.
+    Vector store document ID. Ignored if `collection_name` is unset.
     """
 
 
@@ -1225,7 +1229,7 @@ class EmbedImageIn(BaseModel):
     """
     doc_id: Optional[str] = None
     """
-    Vector store document ID. Ignored if `store` is unset.
+    Vector store document ID. Ignored if `collection_name` is unset.
     """
     model: Literal["clip"] = "clip"
     """
@@ -1247,7 +1251,7 @@ class EmbedImageItem(BaseModel):
     """
     doc_id: Optional[str] = None
     """
-    Vector store document ID. Ignored if `store` is unset.
+    Vector store document ID. Ignored if `collection_name` is unset.
     """
 
 
@@ -1262,11 +1266,11 @@ class EmbedTextOrImageItem(BaseModel):
     """
     metadata: Optional[Dict[str, Any]] = None
     """
-    Metadata that can be used to query the vector store. Ignored if `store` is unset.
+    Metadata that can be used to query the vector store. Ignored if `collection_name` is unset.
     """
     doc_id: Optional[str] = None
     """
-    Vector store document ID. Ignored if `store` is unset.
+    Vector store document ID. Ignored if `collection_name` is unset.
     """
 
 
