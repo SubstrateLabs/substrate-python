@@ -41,9 +41,7 @@ def __(datetime, mo, sb, substrate):
     start_of_day_ts = int(start_of_day.timestamp())
     collection_name = f"image_test_{start_of_day_ts}"
     mo.md(f"collection name: {collection_name}")
-    create_vstore = sb.CreateVectorStore(
-        {"model": "clip", "collection_name": collection_name}
-    )
+    create_vstore = sb.CreateVectorStore(model="clip", collection_name=collection_name)
     create_res = substrate.run(create_vstore)
     mo.accordion({"response": mo.tree(create_res.json)})
     return (
@@ -66,22 +64,18 @@ def __(mo):
         full_width=True,
     ).form()
     prompt
-    return prompt,
+    return (prompt,)
 
 
 @app.cell
 def __(collection_name, mo, prompt, sb, substrate):
     # generate an image and embed it
     image = sb.GenerateImage(
-        {
-            "prompt": prompt.value,
-        }
+        prompt=prompt.value,
     )
     embed = sb.EmbedImage(
-        {
-            "image_uri": image.future.image_uri,
-            "collection_name": collection_name,
-        }
+        image_uri=image.future.image_uri,
+        collection_name=collection_name,
     )
     res = substrate.run(image, embed)
     mo.accordion({"response": mo.tree(res.json)})
@@ -109,39 +103,29 @@ def __(mo):
         - Guess prompt 2 {guess2}
         """
         )
-        .batch(
-            guess1=mo.ui.text(full_width=True), guess2=mo.ui.text(full_width=True)
-        )
+        .batch(guess1=mo.ui.text(full_width=True), guess2=mo.ui.text(full_width=True))
         .form()
     )
     guesses
-    return guesses,
+    return (guesses,)
 
 
 @app.cell
 def __(collection_name, guesses, sb):
     # Generate and embed the images
     guess1image = sb.GenerateImage(
-        {
-            "prompt": guesses.value["guess1"],
-        }
+        prompt=guesses.value["guess1"],
     )
     guess2image = sb.GenerateImage(
-        {
-            "prompt": guesses.value["guess2"],
-        }
+        prompt=guesses.value["guess2"],
     )
     embed1 = sb.EmbedImage(
-        {
-            "image_uri": guess1image.future.image_uri,
-            "collection_name": collection_name,
-        }
+        image_uri=guess1image.future.image_uri,
+        collection_name=collection_name,
     )
     embed2 = sb.EmbedImage(
-        {
-            "image_uri": guess2image.future.image_uri,
-            "collection_name": collection_name,
-        }
+        image_uri=guess2image.future.image_uri,
+        collection_name=collection_name,
     )
     return embed1, embed2, guess1image, guess2image
 
@@ -150,16 +134,14 @@ def __(collection_name, guesses, sb):
 def __(embed1, embed2, guess1image, guess2image, mo, substrate):
     guess_res = substrate.run(guess1image, guess2image, embed1, embed2)
     mo.accordion({"response": mo.tree(guess_res.json)})
-    return guess_res,
+    return (guess_res,)
 
 
 @app.cell
 def __(embed1, embed2, guess_res, mo):
     image1_embed_id = guess_res.get(embed1).embedding.doc_id
     image2_embed_id = guess_res.get(embed2).embedding.doc_id
-    mo.accordion(
-        {"ids": mo.tree({"image1": image1_embed_id, "image2": image2_embed_id})}
-    )
+    mo.accordion({"ids": mo.tree({"image1": image1_embed_id, "image2": image2_embed_id})})
     return image1_embed_id, image2_embed_id
 
 
@@ -178,7 +160,7 @@ def __(collection_name, guess1image, guess2image, guess_res, sb):
             "ef_search": 64,
         }
     )
-    return query,
+    return (query,)
 
 
 @app.cell

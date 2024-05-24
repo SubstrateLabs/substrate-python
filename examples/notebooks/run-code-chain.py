@@ -35,7 +35,7 @@ def __(Substrate, api_key):
         api_key=api_key,
         backend="v1",
     )
-    return substrate,
+    return (substrate,)
 
 
 @app.cell
@@ -46,7 +46,7 @@ def __(mo):
         full_width=True,
     ).form()
     question
-    return question,
+    return (question,)
 
 
 @app.cell
@@ -57,19 +57,11 @@ def __(GenerateText, RunCode, question, sb):
     Think step by step and return Python code to solve the problem. The Python runtime does not have network or filesystem access, but does include the entire standard library. Read input from stdin and write output to stdout. Your code should end by printing the answer as json along with an explanation using json.dumps. Wrap the code in your response inside a <code></code> tag. Don't forget to import json.
     """
     gen_code = GenerateText(
-        {
-            "prompt": prompt,
-            "node": "Llama3Instruct70B",
-        }
+        prompt=prompt,
+        node="Llama3Instruct70B",
     )
     run_code = RunCode(
-        {
-            "code": sb.jq(
-                gen_code.future.text,
-                'ascii_downcase | split("<code>") | .[1] | split("</code>") | .[0]',
-                # 'capture("<code>(?<content>.*?)</code>") | .content',
-            )
-        }
+        code=sb.jq(gen_code.future.text, 'ascii_downcase | split("<code>") | .[1] | split("</code>") | .[0]')
     )
     return gen_code, prompt, run_code
 
@@ -79,7 +71,7 @@ def __(gen_code, run_code, substrate):
     res = substrate.run(gen_code, run_code)
     # viz = substrate.visualize(text, run_code)
     # mo.md(f"[visualize]({viz})")
-    return res,
+    return (res,)
 
 
 @app.cell

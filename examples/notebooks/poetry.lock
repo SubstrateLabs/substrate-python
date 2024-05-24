@@ -620,13 +620,13 @@ full = ["httpx (>=0.22.0)", "itsdangerous", "jinja2", "python-multipart (>=0.0.7
 
 [[package]]
 name = "substrate"
-version = "120240430.0.0"
+version = "220240509.0.0"
 description = "Substrate Python SDK"
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "substrate-120240430.0.0-py3-none-any.whl", hash = "sha256:0addf8bdfab8beaf450a32b31170ffe35c58a0d3d763a5691f4754a9dd6f1a32"},
-    {file = "substrate-120240430.0.0.tar.gz", hash = "sha256:b43c5bcef674f7a1ea227e6d0a7deacff09e8b5d8a7bcb784d580b1f80c3ecd8"},
+    {file = "substrate-220240509.0.0-py3-none-any.whl", hash = "sha256:28ad9a8e32ea8a6758ea6ac1cb05bdfbb1f4609394c575f47553951fab405d89"},
+    {file = "substrate-220240509.0.0.tar.gz", hash = "sha256:45d7fece9631c174a2a0dc98e921e5fe62c7c8b8c3e8d263aa128125d4e362e8"},
 ]
 
 [package.dependencies]
