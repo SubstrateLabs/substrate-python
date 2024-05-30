@@ -26,33 +26,55 @@ class ErrorOut(TypedDict):
     """
 
 
-class RunCodeIn(TypedDict):
+class ExperimentalIn(TypedDict):
+    name: NotRequired[str]
+    """
+    Identifier.
+    """
+    args: NotRequired[Dict[str, Any]]
+    """
+    Arguments.
+    """
+    timeout: NotRequired[int]
+    """
+    Timeout in seconds.
+    """
+
+
+class ExperimentalOut(TypedDict):
+    output: NotRequired[Dict[str, Any]]
+    """
+    Response.
+    """
+
+
+class RunPythonIn(TypedDict):
     code: NotRequired[str]
     """
-    Code to execute.
+    Python code to execute. In your code, access the `input` parameter using the `SB_IN` dictionary variable. Update the `SB_OUT` dictionary variable with results you want returned as a JSON object. `SB_IN` and `SB_OUT` are already defined for you.
+    """
+    input: NotRequired[Dict[str, Any]]
+    """
+    Input to your code, accessible using the preloaded `SB_IN` variable.
     """
     args: NotRequired[List[str]]
     """
-    List of command line arguments.
-    """
-    language: NotRequired[Literal["python", "typescript", "javascript"]]
-    """
-    Interpreter to use.
+    Python packages to install. You must import them in your code.
     """
 
 
-class RunCodeOut(TypedDict):
-    output: NotRequired[str]
+class RunPythonOut(TypedDict):
+    stdout: NotRequired[str]
     """
-    Contents of `stdout` after executing the code.
+    Everything printed to stdout while running your code.
     """
-    json_output: NotRequired[Dict[str, Any]]
+    output: NotRequired[Dict[str, Any]]
     """
-    `output` as parsed JSON. Print serialized json to `stdout` to receive JSON.
+    Contents of the `SB_OUT` variable after running your code.
     """
-    error: NotRequired[str]
+    stderr: NotRequired[str]
     """
-    Contents of `stderr` after executing the code.
+    Contents of stderr if your code did not run successfully.
     """
 
 

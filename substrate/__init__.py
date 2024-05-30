@@ -1,17 +1,18 @@
 """
 𐃏 Substrate Python SDK
 
-20240509.20240524
+20240530.20240530
 """
 
 from .nodes import (
     CLIP,
     XTTSV2,
     JinaV2,
-    RunCode,
     FillMask,
     EmbedText,
+    RunPython,
     EmbedImage,
+    Experimental,
     FetchVectors,
     Firellava13B,
     GenerateJSON,
@@ -58,7 +59,8 @@ __all__ = [
     "SubstrateResponse",
     "sb",
     "Substrate",
-    "RunCode",
+    "Experimental",
+    "RunPython",
     "GenerateText",
     "MultiGenerateText",
     "BatchGenerateText",

@@ -36,48 +36,84 @@ class ErrorOut:
 
 
 @dataclass
-class FutureRunCodeIn:
+class FutureExperimentalIn:
     """
-    Future reference to FutureRunCodeIn
+    Future reference to FutureExperimentalIn
+    """
+
+    name: str
+    """
+    (Future reference)
+    Identifier.
+    """
+    args: Dict[str, Any]
+    """
+    (Future reference)
+    Arguments.
+    """
+    timeout: int = 60
+    """
+    (Future reference)
+    Timeout in seconds.
+    """
+
+
+@dataclass
+class FutureExperimentalOut:
+    """
+    Future reference to FutureExperimentalOut
+    """
+
+    output: Dict[str, Any]
+    """
+    (Future reference)
+    Response.
+    """
+
+
+@dataclass
+class FutureRunPythonIn:
+    """
+    Future reference to FutureRunPythonIn
     """
 
     code: str
     """
     (Future reference)
-    Code to execute.
+    Python code to execute. In your code, access the `input` parameter using the `SB_IN` dictionary variable. Update the `SB_OUT` dictionary variable with results you want returned as a JSON object. `SB_IN` and `SB_OUT` are already defined for you.
+    """
+    input: Optional[Dict[str, Any]] = None
+    """
+    (Future reference)
+    Input to your code, accessible using the preloaded `SB_IN` variable.
     """
     args: Optional[List[str]] = None
     """
     (Future reference)
-    List of command line arguments.
-    """
-    language: Literal["python", "typescript", "javascript"] = "python"
-    """
-    (Future reference)
-    Interpreter to use.
+    Python packages to install. You must import them in your code.
     """
 
 
 @dataclass
-class FutureRunCodeOut:
+class FutureRunPythonOut:
     """
-    Future reference to FutureRunCodeOut
+    Future reference to FutureRunPythonOut
     """
 
-    json_output: Dict[str, Any]
+    stdout: Optional[str] = None
     """
     (Future reference)
-    `output` as parsed JSON. Print serialized json to `stdout` to receive JSON.
+    Everything printed to stdout while running your code.
     """
-    output: Optional[str] = None
-    """
-    (Future reference)
-    Contents of `stdout` after executing the code.
-    """
-    error: Optional[str] = None
+    output: Optional[Dict[str, Any]] = None
     """
     (Future reference)
-    Contents of `stderr` after executing the code.
+    Contents of the `SB_OUT` variable after running your code.
+    """
+    stderr: Optional[str] = None
+    """
+    (Future reference)
+    Contents of stderr if your code did not run successfully.
     """
 
 

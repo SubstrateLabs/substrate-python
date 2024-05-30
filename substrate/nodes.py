@@ -1,7 +1,6 @@
 """
 𐃏 Substrate
 @GENERATED FILE
-20240509.20240524
 """
 from __future__ import annotations
 
@@ -12,10 +11,11 @@ from .core.models import (
     CLIPOut,
     JinaV2Out,
     XTTSV2Out,
-    RunCodeOut,
     FillMaskOut,
     EmbedTextOut,
+    RunPythonOut,
     EmbedImageOut,
+    ExperimentalOut,
     FetchVectorsOut,
     Firellava13BOut,
     GenerateJSONOut,
@@ -58,10 +58,11 @@ from .future_dataclass_models import (
     FutureCLIPOut,
     FutureJinaV2Out,
     FutureXTTSV2Out,
-    FutureRunCodeOut,
     FutureFillMaskOut,
     FutureEmbedTextOut,
+    FutureRunPythonOut,
     FutureEmbedImageOut,
+    FutureExperimentalOut,
     FutureFetchVectorsOut,
     FutureFirellava13BOut,
     FutureGenerateJSONOut,
@@ -101,33 +102,58 @@ from .future_dataclass_models import (
 )
 
 
-class RunCode(CoreNode[RunCodeOut]):
-    """https://substrate.run/nodes#RunCode"""
+class Experimental(CoreNode[ExperimentalOut]):
+    """https://substrate.run/nodes#Experimental"""
+
+    def __init__(self, name: str, args: Dict[str, Any], timeout: int = 60, hide: bool = False):
+        """
+        Args:
+            name: Identifier.
+            args: Arguments.
+            timeout: Timeout in seconds.
+
+        https://substrate.run/nodes#Experimental
+        """
+        super().__init__(name=name, args=args, timeout=timeout, hide=hide, out_type=ExperimentalOut)
+        self.node = "Experimental"
+
+    @property
+    def future(self) -> FutureExperimentalOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        https://substrate.run/nodes#Experimental
+        """
+        return super().future  # type: ignore
+
+
+class RunPython(CoreNode[RunPythonOut]):
+    """https://substrate.run/nodes#RunPython"""
 
     def __init__(
         self,
         code: str,
+        input: Optional[Dict[str, Any]] = None,
         args: Optional[List[str]] = None,
-        language: Literal["python", "typescript", "javascript"] = "python",
         hide: bool = False,
     ):
         """
         Args:
-            code: Code to execute.
-            args: List of command line arguments.
-            language: Interpreter to use.
+            code: Python code to execute. In your code, access the `input` parameter using the `SB_IN` dictionary variable. Update the `SB_OUT` dictionary variable with results you want returned as a JSON object. `SB_IN` and `SB_OUT` are already defined for you.
+            input: Input to your code, accessible using the preloaded `SB_IN` variable.
+            args: Python packages to install. You must import them in your code.
 
-        https://substrate.run/nodes#RunCode
+        https://substrate.run/nodes#RunPython
         """
-        super().__init__(code=code, args=args, language=language, hide=hide, out_type=RunCodeOut)
-        self.node = "RunCode"
+        super().__init__(code=code, input=input, args=args, hide=hide, out_type=RunPythonOut)
+        self.node = "RunPython"
 
     @property
-    def future(self) -> FutureRunCodeOut:  # type: ignore
+    def future(self) -> FutureRunPythonOut:  # type: ignore
         """
         Future reference to this node's output.
 
-        https://substrate.run/nodes#RunCode
+        https://substrate.run/nodes#RunPython
         """
         return super().future  # type: ignore
 
