@@ -34,13 +34,13 @@ substrate = Substrate(api_key=SUBSTRATE_API_KEY)
 Generate a story using the [`GenerateText`](https://www.substrate.run/nodes#GenerateText) node.
 
 ```python
-story = GenerateText({"prompt": "tell me a story"})
+story = GenerateText(prompt="tell me a story")
 ```
 
 Summarize the output of the `story` node using another `GenerateText` node. Because `story` has not yet been run, we use `sb.concat` to work with its future output.
 
 ```python
-summary = GenerateText({"prompt": sb.concat("summarize this story in one sentence: ", story.future.text)})
+summary = GenerateText(prompt=sb.concat("summarize this story in one sentence: ", story.future.text))
 ```
 
 Run the graph chaining `story` → `summary`. This is a simple example, but you can easily build arbitrarily complex branching workflows.
