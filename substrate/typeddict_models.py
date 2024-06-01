@@ -20,39 +20,57 @@ class ErrorOut(TypedDict):
     """
     A message providing more details about the error.
     """
-    request_id: NotRequired[str]
+
+
+class ExperimentalIn(TypedDict):
+    name: NotRequired[str]
     """
-    A unique identifier for the request.
+    Identifier.
+    """
+    args: NotRequired[Dict[str, Any]]
+    """
+    Arguments.
+    """
+    timeout: NotRequired[int]
+    """
+    Timeout in seconds.
     """
 
 
-class RunCodeIn(TypedDict):
+class ExperimentalOut(TypedDict):
+    output: NotRequired[Dict[str, Any]]
+    """
+    Response.
+    """
+
+
+class RunPythonIn(TypedDict):
     code: NotRequired[str]
     """
-    Code to execute.
+    Python code to execute. In your code, access values from the `input` parameter using the `SB_IN` variable. Update the `SB_OUT` variable with results you want returned in `output`.
     """
-    args: NotRequired[List[str]]
+    input: NotRequired[Dict[str, Any]]
     """
-    List of command line arguments.
+    Input to your code, accessible using the preloaded `SB_IN` variable.
     """
-    language: NotRequired[Literal["python", "typescript", "javascript"]]
+    pip_install: NotRequired[List[str]]
     """
-    Interpreter to use.
+    Python packages to install. You must import them in your code.
     """
 
 
-class RunCodeOut(TypedDict):
-    output: NotRequired[str]
+class RunPythonOut(TypedDict):
+    stdout: NotRequired[str]
     """
-    Contents of `stdout` after executing the code.
+    Everything printed to stdout while running your code.
     """
-    json_output: NotRequired[Dict[str, Any]]
+    output: NotRequired[Dict[str, Any]]
     """
-    `output` as parsed JSON. Print serialized json to `stdout` to receive JSON.
+    Contents of the `SB_OUT` variable after running your code.
     """
-    error: NotRequired[str]
+    stderr: NotRequired[str]
     """
-    Contents of `stderr` after executing the code.
+    Contents of stderr if your code did not run successfully.
     """
 
 
@@ -106,7 +124,7 @@ class GenerateJSONIn(TypedDict):
     """
     Maximum number of tokens to generate.
     """
-    node: NotRequired[Literal["Mistral7BInstruct", "Mixtral8x7BInstruct"]]
+    node: NotRequired[Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"]]
     """
     Selected node.
     """
@@ -203,7 +221,7 @@ class MultiGenerateJSONIn(TypedDict):
     """
     Maximum number of tokens to generate.
     """
-    node: NotRequired[Literal["Mistral7BInstruct", "Mixtral8x7BInstruct"]]
+    node: NotRequired[Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"]]
     """
     Selected node.
     """
@@ -217,6 +235,10 @@ class MultiGenerateJSONOut(TypedDict):
 
 
 class BatchGenerateJSONIn(TypedDict):
+    node: NotRequired[Literal["Mistral7BInstruct", "Llama3Instruct8B"]]
+    """
+    Selected node.
+    """
     prompts: NotRequired[List[str]]
     """
     Batch input prompts.
@@ -341,12 +363,20 @@ class Llama3Instruct8BIn(TypedDict):
     """
     Maximum number of tokens to generate.
     """
+    json_schema: NotRequired[Dict[str, Any]]
+    """
+    JSON schema to guide response.
+    """
 
 
 class Llama3Instruct8BChoice(TypedDict):
     text: NotRequired[str]
     """
     Text response.
+    """
+    json_object: NotRequired[Dict[str, Any]]
+    """
+    JSON response, if `json_schema` was provided.
     """
 
 

@@ -1,7 +1,6 @@
 """
 𐃏 Substrate
 @GENERATED FILE
-20240509.20240524
 """
 from __future__ import annotations
 
@@ -12,10 +11,11 @@ from .core.models import (
     CLIPOut,
     JinaV2Out,
     XTTSV2Out,
-    RunCodeOut,
     FillMaskOut,
     EmbedTextOut,
+    RunPythonOut,
     EmbedImageOut,
+    ExperimentalOut,
     FetchVectorsOut,
     Firellava13BOut,
     GenerateJSONOut,
@@ -58,10 +58,11 @@ from .future_dataclass_models import (
     FutureCLIPOut,
     FutureJinaV2Out,
     FutureXTTSV2Out,
-    FutureRunCodeOut,
     FutureFillMaskOut,
     FutureEmbedTextOut,
+    FutureRunPythonOut,
     FutureEmbedImageOut,
+    FutureExperimentalOut,
     FutureFetchVectorsOut,
     FutureFirellava13BOut,
     FutureGenerateJSONOut,
@@ -101,33 +102,64 @@ from .future_dataclass_models import (
 )
 
 
-class RunCode(CoreNode[RunCodeOut]):
-    """https://substrate.run/nodes#RunCode"""
+class Experimental(CoreNode[ExperimentalOut]):
+    """https://substrate.run/nodes#Experimental"""
+
+    def __init__(self, name: str, args: Dict[str, Any], timeout: int = 60, hide: bool = False):
+        """
+        Args:
+            name: Identifier.
+            args: Arguments.
+            timeout: Timeout in seconds.
+
+        https://substrate.run/nodes#Experimental
+        """
+        super().__init__(name=name, args=args, timeout=timeout, hide=hide, out_type=ExperimentalOut)
+        self.node = "Experimental"
+
+    @property
+    def future(self) -> FutureExperimentalOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        https://substrate.run/nodes#Experimental
+        """
+        return super().future  # type: ignore
+
+
+class RunPython(CoreNode[RunPythonOut]):
+    """https://substrate.run/nodes#RunPython"""
 
     def __init__(
         self,
         code: str,
-        args: Optional[List[str]] = None,
-        language: Literal["python", "typescript", "javascript"] = "python",
+        input: Optional[Dict[str, Any]] = None,
+        pip_install: Optional[List[str]] = None,
         hide: bool = False,
     ):
         """
         Args:
-            code: Code to execute.
-            args: List of command line arguments.
-            language: Interpreter to use.
+            code: Python code to execute. In your code, access values from the `input` parameter using the `SB_IN` variable. Update the `SB_OUT` variable with results you want returned in `output`.
+            input: Input to your code, accessible using the preloaded `SB_IN` variable.
+            pip_install: Python packages to install. You must import them in your code.
 
-        https://substrate.run/nodes#RunCode
+        https://substrate.run/nodes#RunPython
         """
-        super().__init__(code=code, args=args, language=language, hide=hide, out_type=RunCodeOut)
-        self.node = "RunCode"
+        super().__init__(
+            code=code,
+            input=input,
+            pip_install=pip_install,
+            hide=hide,
+            out_type=RunPythonOut,
+        )
+        self.node = "RunPython"
 
     @property
-    def future(self) -> FutureRunCodeOut:  # type: ignore
+    def future(self) -> FutureRunPythonOut:  # type: ignore
         """
         Future reference to this node's output.
 
-        https://substrate.run/nodes#RunCode
+        https://substrate.run/nodes#RunPython
         """
         return super().future  # type: ignore
 
@@ -186,7 +218,7 @@ class GenerateJSON(CoreNode[GenerateJSONOut]):
         json_schema: Dict[str, Any],
         temperature: float = 0.4,
         max_tokens: Optional[int] = None,
-        node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct"] = "Mistral7BInstruct",
+        node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct",
         hide: bool = False,
     ):
         """
@@ -315,7 +347,7 @@ class MultiGenerateJSON(CoreNode[MultiGenerateJSONOut]):
         num_choices: int,
         temperature: float = 0.4,
         max_tokens: Optional[int] = None,
-        node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct"] = "Mistral7BInstruct",
+        node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct",
         hide: bool = False,
     ):
         """
@@ -358,6 +390,7 @@ class BatchGenerateJSON(CoreNode[BatchGenerateJSONOut]):
         self,
         prompts: List[str],
         json_schema: Dict[str, Any],
+        node: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct",
         temperature: float = 0.4,
         max_tokens: Optional[int] = None,
         hide: bool = False,
@@ -366,6 +399,7 @@ class BatchGenerateJSON(CoreNode[BatchGenerateJSONOut]):
         Args:
             prompts: Batch input prompts.
             json_schema: JSON schema to guide `json_object` response.
+            node: Selected node.
             temperature: Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
             max_tokens: Maximum number of tokens to generate.
 
@@ -374,6 +408,7 @@ class BatchGenerateJSON(CoreNode[BatchGenerateJSONOut]):
         super().__init__(
             prompts=prompts,
             json_schema=json_schema,
+            node=node,
             temperature=temperature,
             max_tokens=max_tokens,
             hide=hide,
@@ -486,6 +521,7 @@ class Llama3Instruct8B(CoreNode[Llama3Instruct8BOut]):
         num_choices: int = 1,
         temperature: Optional[float] = None,
         max_tokens: Optional[int] = None,
+        json_schema: Optional[Dict[str, Any]] = None,
         hide: bool = False,
     ):
         """
@@ -494,6 +530,7 @@ class Llama3Instruct8B(CoreNode[Llama3Instruct8BOut]):
             num_choices: Number of choices to generate.
             temperature: Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
             max_tokens: Maximum number of tokens to generate.
+            json_schema: JSON schema to guide response.
 
         https://substrate.run/nodes#Llama3Instruct8B
         """
@@ -502,6 +539,7 @@ class Llama3Instruct8B(CoreNode[Llama3Instruct8BOut]):
             num_choices=num_choices,
             temperature=temperature,
             max_tokens=max_tokens,
+            json_schema=json_schema,
             hide=hide,
             out_type=Llama3Instruct8BOut,
         )
