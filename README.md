@@ -1,4 +1,4 @@
-# ꩜ Substrate Python SDK
+# Substrate Python SDK
 
 [![PyPI version](https://img.shields.io/pypi/v/substrate.svg)](https://pypi.org/project/substrate/)
 
