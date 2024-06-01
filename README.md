@@ -60,7 +60,7 @@ Get the output of the summary node by passing it to `response.get`.
 ```python
 summary_out = response.get(summary)
 print(summary_out.text)
-// Princess Lily, a kind-hearted young princess, discovers a book of spells and uses it to grant her family and kingdom happiness.
+# Princess Lily, a kind-hearted young princess, discovers a book of spells and uses it to grant her family and kingdom happiness.
 ```
 
 ## Examples
