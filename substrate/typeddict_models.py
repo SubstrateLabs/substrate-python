@@ -20,10 +20,6 @@ class ErrorOut(TypedDict):
     """
     A message providing more details about the error.
     """
-    request_id: NotRequired[str]
-    """
-    A unique identifier for the request.
-    """
 
 
 class ExperimentalIn(TypedDict):
@@ -51,13 +47,13 @@ class ExperimentalOut(TypedDict):
 class RunPythonIn(TypedDict):
     code: NotRequired[str]
     """
-    Python code to execute. In your code, access the `input` parameter using the `SB_IN` dictionary variable. Update the `SB_OUT` dictionary variable with results you want returned as a JSON object. `SB_IN` and `SB_OUT` are already defined for you.
+    Python code to execute. In your code, access values from the `input` parameter using the `SB_IN` variable. Update the `SB_OUT` variable with results you want returned in `output`.
     """
     input: NotRequired[Dict[str, Any]]
     """
     Input to your code, accessible using the preloaded `SB_IN` variable.
     """
-    args: NotRequired[List[str]]
+    pip_install: NotRequired[List[str]]
     """
     Python packages to install. You must import them in your code.
     """
@@ -128,7 +124,7 @@ class GenerateJSONIn(TypedDict):
     """
     Maximum number of tokens to generate.
     """
-    node: NotRequired[Literal["Mistral7BInstruct", "Mixtral8x7BInstruct"]]
+    node: NotRequired[Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"]]
     """
     Selected node.
     """
@@ -225,7 +221,7 @@ class MultiGenerateJSONIn(TypedDict):
     """
     Maximum number of tokens to generate.
     """
-    node: NotRequired[Literal["Mistral7BInstruct", "Mixtral8x7BInstruct"]]
+    node: NotRequired[Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"]]
     """
     Selected node.
     """
@@ -239,6 +235,10 @@ class MultiGenerateJSONOut(TypedDict):
 
 
 class BatchGenerateJSONIn(TypedDict):
+    node: NotRequired[Literal["Mistral7BInstruct", "Llama3Instruct8B"]]
+    """
+    Selected node.
+    """
     prompts: NotRequired[List[str]]
     """
     Batch input prompts.
@@ -363,12 +363,20 @@ class Llama3Instruct8BIn(TypedDict):
     """
     Maximum number of tokens to generate.
     """
+    json_schema: NotRequired[Dict[str, Any]]
+    """
+    JSON schema to guide response.
+    """
 
 
 class Llama3Instruct8BChoice(TypedDict):
     text: NotRequired[str]
     """
     Text response.
+    """
+    json_object: NotRequired[Dict[str, Any]]
+    """
+    JSON response, if `json_schema` was provided.
     """
 
 

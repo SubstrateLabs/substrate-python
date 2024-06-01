@@ -28,11 +28,6 @@ class ErrorOut:
     (Future reference)
     A message providing more details about the error.
     """
-    request_id: Optional[str] = None
-    """
-    (Future reference)
-    A unique identifier for the request.
-    """
 
 
 @dataclass
@@ -80,14 +75,14 @@ class FutureRunPythonIn:
     code: str
     """
     (Future reference)
-    Python code to execute. In your code, access the `input` parameter using the `SB_IN` dictionary variable. Update the `SB_OUT` dictionary variable with results you want returned as a JSON object. `SB_IN` and `SB_OUT` are already defined for you.
+    Python code to execute. In your code, access values from the `input` parameter using the `SB_IN` variable. Update the `SB_OUT` variable with results you want returned in `output`.
     """
     input: Optional[Dict[str, Any]] = None
     """
     (Future reference)
     Input to your code, accessible using the preloaded `SB_IN` variable.
     """
-    args: Optional[List[str]] = None
+    pip_install: Optional[List[str]] = None
     """
     (Future reference)
     Python packages to install. You must import them in your code.
@@ -100,17 +95,17 @@ class FutureRunPythonOut:
     Future reference to FutureRunPythonOut
     """
 
-    stdout: Optional[str] = None
+    stdout: str
     """
     (Future reference)
     Everything printed to stdout while running your code.
     """
-    output: Optional[Dict[str, Any]] = None
+    output: Dict[str, Any]
     """
     (Future reference)
     Contents of the `SB_OUT` variable after running your code.
     """
-    stderr: Optional[str] = None
+    stderr: str
     """
     (Future reference)
     Contents of stderr if your code did not run successfully.
@@ -189,7 +184,7 @@ class FutureGenerateJSONIn:
     (Future reference)
     Maximum number of tokens to generate.
     """
-    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct"] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct"
     """
     (Future reference)
     Selected node.
@@ -332,7 +327,7 @@ class FutureMultiGenerateJSONIn:
     (Future reference)
     Maximum number of tokens to generate.
     """
-    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct"] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct"
     """
     (Future reference)
     Selected node.
@@ -367,6 +362,11 @@ class FutureBatchGenerateJSONIn:
     """
     (Future reference)
     JSON schema to guide `json_object` response.
+    """
+    node: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct"
+    """
+    (Future reference)
+    Selected node.
     """
     temperature: float = 0.4
     """
@@ -547,6 +547,11 @@ class FutureLlama3Instruct8BIn:
     (Future reference)
     Maximum number of tokens to generate.
     """
+    json_schema: Optional[Dict[str, Any]] = None
+    """
+    (Future reference)
+    JSON schema to guide response.
+    """
 
 
 @dataclass
@@ -559,6 +564,11 @@ class Llama3Instruct8BChoice:
     """
     (Future reference)
     Text response.
+    """
+    json_object: Optional[Dict[str, Any]] = None
+    """
+    (Future reference)
+    JSON response, if `json_schema` was provided.
     """
 
 

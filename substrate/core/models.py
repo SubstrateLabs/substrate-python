@@ -56,28 +56,28 @@ class ExperimentalOut(BaseModel):
 class RunPythonIn(BaseModel):
     code: str
     """
-    Python code to execute. In your code, access the `input` parameter using the `SB_IN` dictionary variable. Update the `SB_OUT` dictionary variable with results you want returned as a JSON object. `SB_IN` and `SB_OUT` are already defined for you.
+    Python code to execute. In your code, access values from the `input` parameter using the `SB_IN` variable. Update the `SB_OUT` variable with results you want returned in `output`.
     """
     input: Optional[Dict[str, Any]] = None
     """
     Input to your code, accessible using the preloaded `SB_IN` variable.
     """
-    args: Optional[List[str]] = None
+    pip_install: Optional[List[str]] = None
     """
     Python packages to install. You must import them in your code.
     """
 
 
 class RunPythonOut(BaseModel):
-    stdout: Optional[str] = None
+    stdout: str
     """
     Everything printed to stdout while running your code.
     """
-    output: Optional[Dict[str, Any]] = None
+    output: Dict[str, Any]
     """
     Contents of the `SB_OUT` variable after running your code.
     """
-    stderr: Optional[str] = None
+    stderr: str
     """
     Contents of stderr if your code did not run successfully.
     """
@@ -226,7 +226,7 @@ class MultiGenerateJSONIn(BaseModel):
     """
     Maximum number of tokens to generate.
     """
-    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct"] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct"
     """
     Selected node.
     """
@@ -240,6 +240,10 @@ class MultiGenerateJSONOut(BaseModel):
 
 
 class BatchGenerateJSONIn(BaseModel):
+    node: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct"
+    """
+    Selected node.
+    """
     prompts: List[str]
     """
     Batch input prompts.
