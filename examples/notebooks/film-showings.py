@@ -1,10 +1,10 @@
 import marimo
 
 __generated_with = "0.3.12"
-app = marimo.App(width="medium")
+app = marimo.App(width="full")
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __(__file__):
     import os
     import sys
@@ -47,101 +47,140 @@ def __(__file__):
 
 @app.cell
 def __():
-    # scrape a list of film urls matching a pattern
-    import requests
-    from bs4 import BeautifulSoup
-    import re
+    from datetime import datetime, timedelta
 
-    response = requests.get("https://metrograph.com")
+    today = datetime.today()
+    tomorrow = today + timedelta(days=1)
+    today_str = today.strftime("%Y-%m-%d")
+    tomorrow_str = tomorrow.strftime("%Y-%m-%d")
+    return datetime, timedelta, today, today_str, tomorrow, tomorrow_str
+
+
+@app.cell
+def __(today_str, tomorrow_str):
+    import requests, re
+    from bs4 import BeautifulSoup
+
+    response = requests.get(f"https://metrograph.com/calendar")
     soup = BeautifulSoup(response.text, "html.parser")
-    pattern = r"^https://metrograph.com/film/\?vista_film_id="
-    pattern_regex = re.compile(pattern)
-    film_urls = []
-    for anchor in soup.find_all("a", href=True):
-        href = anchor["href"]
-        if pattern_regex.match(href):
-            film_urls.append(href)
+    pattern = r"^/film/\?vista_film_id="
+    pattern_re = re.compile(pattern)
+    urls = []
+    today_el = soup.find(id=f"calendar-list-day-{today_str}")
+    tomorrow_el = soup.find(id=f"calendar-list-day-{tomorrow_str}")
+    for anchor in today_el.find_all("a", href=True):
+        if pattern_re.match(anchor["href"]):
+            urls.append(f"https://metrograph.com{anchor['href']}")
+    for anchor in tomorrow_el.find_all("a", href=True):
+        if pattern_re.match(anchor["href"]):
+            urls.append(f"https://metrograph.com{anchor['href']}")
+    urls = list(set(urls))
     return (
         BeautifulSoup,
         anchor,
-        film_urls,
-        href,
         pattern,
-        pattern_regex,
+        pattern_re,
         re,
         requests,
         response,
         soup,
+        today_el,
+        tomorrow_el,
+        urls,
     )
 
 
 @app.cell
-def __(GenerateJSON, GenerateText, RunPython, film_urls, sb, substrate):
+def __(mo, urls):
+    mo.tree(urls)
+    return
+
+
+@app.cell
+def __():
+    from pydantic import BaseModel, Field
+    return BaseModel, Field
+
+
+@app.cell
+def __(
+    BaseModel,
+    Field,
+    GenerateJSON,
+    GenerateText,
+    RunPython,
+    sb,
+    substrate,
+    urls,
+):
     summaries = []
     mds = []
-    for url in film_urls:
+
+
+    class Film(BaseModel):
+        title: str = Field(..., description="The film's title")
+        url: str = Field(..., description="The film's url from the top of the text")
+        description: str = Field(..., description="A short summary of the film including genre, director, and year.")
+        showtimes: list[str] = Field(..., description="List of showtimes for the film.")
+
+
+    for url in urls[:5]:
         md = RunPython(
             input={
                 "url": url,
             },
-            code="""import requests
-    res = requests.get(f"https://r.jina.ai/{SB_IN['url']}")
-    print(res.content)
+            code="""import httpx
+    from bs4 import BeautifulSoup
+    client = httpx.AsyncClient()
+    url = SB_IN['url']
+    print(url)
+    res = await client.get(url)
+    await client.aclose()
+    soup = BeautifulSoup(res.text, 'html.parser')
+    text = ' '.join([l.strip() for l in soup.text.splitlines() if len(l.strip()) > 0])
+    print(text)
     """,
-            pip_install=["requests"],
+            pip_install=["httpx", "beautifulsoup4"],
         )
+
         mds.append(md)
+
         json = GenerateJSON(
             prompt=sb.concat(
                 "Summarize the following markdown about a film playing at Metrograph Theater. Do not include Now Playing in the title.\n ",
                 md.future.stdout,
             ),
-            json_schema={
-                "type": "object",
-                "properties": {
-                    "url": {
-                        "type": "string",
-                        "description": "The film's url from the top of the text",
-                    },
-                    "title": {
-                        "type": "string",
-                        "description": "The film's title.",
-                    },
-                    "description": {
-                        "type": "string",
-                        "description": "A short summary of the film including genre, director, and year.",
-                    },
-                },
-                "required": [
-                    "title",
-                    "url",
-                    "description",
-                ],
-            },
+            json_schema=Film.model_json_schema(),
             node="Llama3Instruct8B",
         )
         summaries.append(json)
 
     markdown = GenerateText(
         prompt=sb.concat(
-            "Generate markdown summarizing the following movies with the title of the movie linking to its url. Do not include preamble before the markdown. Categorize the movies by genre and make sure any similar categories are combined. ",
+            "Generate markdown summarizing the following movies. Include title in brackets followed by the url of the film in parentheses, e.g. [title](url). Do not mix up urls. Include a very concise one sentence description. Do not include the theater where the film is playing. Include showtimes. Today is the earliest date that appears, replace the appropriate dates with TODAY and TOMORROW. Do not include preamble before the markdown. Categorize the movies into a few genres.\n",
             *[sb.jq(s.future.json_object, "@json") for s in summaries],
         ),
         node="Llama3Instruct70B",
     )
     res = substrate.run(*summaries, *mds, markdown)
-    return json, markdown, md, mds, res, summaries, url
+    return Film, json, markdown, md, mds, res, summaries, url
 
 
 @app.cell
-def __():
-    # mo.tree(res.json)
+def __(mo, res):
+    mo.tree(res.json)
     return
 
 
 @app.cell
 def __(markdown, mo, res):
     mo.md(res.get(markdown).text)
+    return
+
+
+@app.cell
+def __(markdown, res):
+    print(res.get(markdown).text)
     return
 
 

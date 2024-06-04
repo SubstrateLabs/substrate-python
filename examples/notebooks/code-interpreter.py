@@ -10,7 +10,7 @@ def __():
     import json
     import base64
     import marimo as mo
-    from substrate import Substrate, GenerateJSON, GenerateText, RunCode, sb
+    from substrate import Substrate, GenerateJSON, GenerateText, RunPython, sb
 
     api_key = os.environ.get("SUBSTRATE_API_KEY")
     api_key = api_key or "YOUR_API_KEY"
@@ -18,7 +18,7 @@ def __():
     return (
         GenerateJSON,
         GenerateText,
-        RunCode,
+        RunPython,
         Substrate,
         api_key,
         base64,
@@ -35,7 +35,7 @@ def __(Substrate, api_key):
         api_key=api_key,
         backend="v1",
     )
-    return substrate,
+    return (substrate,)
 
 
 @app.cell
@@ -46,11 +46,11 @@ def __(mo):
         full_width=True,
     ).form()
     question
-    return question,
+    return (question,)
 
 
 @app.cell
-def __(GenerateText, RunCode, question, sb):
+def __(GenerateText, RunPython, question, sb):
     prompt = f"""
     {question.value}
 
@@ -60,7 +60,7 @@ def __(GenerateText, RunCode, question, sb):
         prompt=prompt,
         node="Llama3Instruct70B",
     )
-    run_code = RunCode(
+    run_code = RunPython(
         code=sb.jq(gen_code.future.text, 'ascii_downcase | split("<code>") | .[1] | split("</code>") | .[0]')
     )
     return gen_code, prompt, run_code
