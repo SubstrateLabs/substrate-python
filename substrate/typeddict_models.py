@@ -650,7 +650,7 @@ class StableDiffusionXLControlNetIn(TypedDict):
     """
     Input image.
     """
-    control_method: NotRequired[Literal["edge", "depth", "illusion"]]
+    control_method: NotRequired[Literal["edge", "depth", "illusion", "tile"]]
     """
     Strategy to control generation using the input image.
     """
@@ -677,6 +677,10 @@ class StableDiffusionXLControlNetIn(TypedDict):
     conditioning_scale: NotRequired[float]
     """
     Controls the influence of the input image on the generated output.
+    """
+    strength: NotRequired[float]
+    """
+    Controls how much to transform the input image.
     """
     seeds: NotRequired[List[int]]
     """

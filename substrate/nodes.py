@@ -42,14 +42,12 @@ from .core.models import (
     MultiGenerateJSONOut,
     MultiGenerateTextOut,
     SegmentUnderPointOut,
-    StableDiffusionXLOut,
     GenerateTextVisionOut,
     MultiGenerateImageOut,
     GenerativeEditImageOut,
     Mixtral8x7BInstructOut,
     MultiGenerativeEditImageOut,
     StableDiffusionXLInpaintOut,
-    StableDiffusionXLIPAdapterOut,
     StableDiffusionXLLightningOut,
     StableDiffusionXLControlNetOut,
 )
@@ -89,14 +87,12 @@ from .future_dataclass_models import (
     FutureMultiGenerateJSONOut,
     FutureMultiGenerateTextOut,
     FutureSegmentUnderPointOut,
-    FutureStableDiffusionXLOut,
     FutureGenerateTextVisionOut,
     FutureMultiGenerateImageOut,
     FutureGenerativeEditImageOut,
     FutureMixtral8x7BInstructOut,
     FutureMultiGenerativeEditImageOut,
     FutureStableDiffusionXLInpaintOut,
-    FutureStableDiffusionXLIPAdapterOut,
     FutureStableDiffusionXLLightningOut,
     FutureStableDiffusionXLControlNetOut,
 )
@@ -177,7 +173,7 @@ class GenerateText(CoreNode[GenerateTextOut]):
             "Mixtral8x7BInstruct",
             "Llama3Instruct8B",
             "Llama3Instruct70B",
-        ] = "Mistral7BInstruct",
+        ] = "Llama3Instruct8B",
         hide: bool = False,
     ):
         """
@@ -218,7 +214,7 @@ class GenerateJSON(CoreNode[GenerateJSONOut]):
         json_schema: Dict[str, Any],
         temperature: float = 0.4,
         max_tokens: Optional[int] = None,
-        node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct",
+        node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B",
         hide: bool = False,
     ):
         """
@@ -266,7 +262,7 @@ class MultiGenerateText(CoreNode[MultiGenerateTextOut]):
             "Mixtral8x7BInstruct",
             "Llama3Instruct8B",
             "Llama3Instruct70B",
-        ] = "Mistral7BInstruct",
+        ] = "Llama3Instruct8B",
         hide: bool = False,
     ):
         """
@@ -347,7 +343,7 @@ class MultiGenerateJSON(CoreNode[MultiGenerateJSONOut]):
         num_choices: int,
         temperature: float = 0.4,
         max_tokens: Optional[int] = None,
-        node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct",
+        node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B",
         hide: bool = False,
     ):
         """
@@ -390,7 +386,7 @@ class BatchGenerateJSON(CoreNode[BatchGenerateJSONOut]):
         self,
         prompts: List[str],
         json_schema: Dict[str, Any],
-        node: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct",
+        node: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B",
         temperature: float = 0.4,
         max_tokens: Optional[int] = None,
         hide: bool = False,
@@ -834,74 +830,20 @@ class StableDiffusionXLLightning(CoreNode[StableDiffusionXLLightningOut]):
         return super().future  # type: ignore
 
 
-class StableDiffusionXLIPAdapter(CoreNode[StableDiffusionXLIPAdapterOut]):
-    """https://substrate.run/nodes#StableDiffusionXLIPAdapter"""
-
-    def __init__(
-        self,
-        prompt: str,
-        image_prompt_uri: str,
-        num_images: int,
-        ip_adapter_scale: float = 0.5,
-        negative_prompt: Optional[str] = None,
-        store: Optional[str] = None,
-        width: int = 1024,
-        height: int = 1024,
-        seeds: Optional[List[int]] = None,
-        hide: bool = False,
-    ):
-        """
-        Args:
-            prompt: Text prompt.
-            image_prompt_uri: Image prompt.
-            num_images: Number of images to generate.
-            ip_adapter_scale: Controls the influence of the image prompt on the generated output.
-            negative_prompt: Negative input prompt.
-            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
-            width: Width of output image, in pixels.
-            height: Height of output image, in pixels.
-            seeds: Random noise seeds. Default is random seeds for each generation.
-
-        https://substrate.run/nodes#StableDiffusionXLIPAdapter
-        """
-        super().__init__(
-            prompt=prompt,
-            image_prompt_uri=image_prompt_uri,
-            num_images=num_images,
-            ip_adapter_scale=ip_adapter_scale,
-            negative_prompt=negative_prompt,
-            store=store,
-            width=width,
-            height=height,
-            seeds=seeds,
-            hide=hide,
-            out_type=StableDiffusionXLIPAdapterOut,
-        )
-        self.node = "StableDiffusionXLIPAdapter"
-
-    @property
-    def future(self) -> FutureStableDiffusionXLIPAdapterOut:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        https://substrate.run/nodes#StableDiffusionXLIPAdapter
-        """
-        return super().future  # type: ignore
-
-
 class StableDiffusionXLControlNet(CoreNode[StableDiffusionXLControlNetOut]):
     """https://substrate.run/nodes#StableDiffusionXLControlNet"""
 
     def __init__(
         self,
         image_uri: str,
-        control_method: Literal["edge", "depth", "illusion"],
+        control_method: Literal["edge", "depth", "illusion", "tile"],
         prompt: str,
         num_images: int,
         output_resolution: int = 1024,
         negative_prompt: Optional[str] = None,
         store: Optional[str] = None,
         conditioning_scale: float = 0.5,
+        strength: float = 0.5,
         seeds: Optional[List[int]] = None,
         hide: bool = False,
     ):
@@ -915,6 +857,7 @@ class StableDiffusionXLControlNet(CoreNode[StableDiffusionXLControlNetOut]):
             negative_prompt: Negative input prompt.
             store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
             conditioning_scale: Controls the influence of the input image on the generated output.
+            strength: Controls how much to transform the input image.
             seeds: Random noise seeds. Default is random seeds for each generation.
 
         https://substrate.run/nodes#StableDiffusionXLControlNet
@@ -928,6 +871,7 @@ class StableDiffusionXLControlNet(CoreNode[StableDiffusionXLControlNetOut]):
             negative_prompt=negative_prompt,
             store=store,
             conditioning_scale=conditioning_scale,
+            strength=strength,
             seeds=seeds,
             hide=hide,
             out_type=StableDiffusionXLControlNetOut,

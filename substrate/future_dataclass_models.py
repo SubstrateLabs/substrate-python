@@ -138,7 +138,7 @@ class FutureGenerateTextIn:
         "Mixtral8x7BInstruct",
         "Llama3Instruct8B",
         "Llama3Instruct70B",
-    ] = "Mistral7BInstruct"
+    ] = "Llama3Instruct8B"
     """
     (Future reference)
     Selected node.
@@ -184,7 +184,7 @@ class FutureGenerateJSONIn:
     (Future reference)
     Maximum number of tokens to generate.
     """
-    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
     """
     (Future reference)
     Selected node.
@@ -240,7 +240,7 @@ class FutureMultiGenerateTextIn:
         "Mixtral8x7BInstruct",
         "Llama3Instruct8B",
         "Llama3Instruct70B",
-    ] = "Mistral7BInstruct"
+    ] = "Llama3Instruct8B"
     """
     (Future reference)
     Selected node.
@@ -327,7 +327,7 @@ class FutureMultiGenerateJSONIn:
     (Future reference)
     Maximum number of tokens to generate.
     """
-    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
     """
     (Future reference)
     Selected node.
@@ -363,7 +363,7 @@ class FutureBatchGenerateJSONIn:
     (Future reference)
     JSON schema to guide `json_object` response.
     """
-    node: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
     """
     (Future reference)
     Selected node.
@@ -995,7 +995,7 @@ class FutureStableDiffusionXLControlNetIn:
     (Future reference)
     Input image.
     """
-    control_method: Literal["edge", "depth", "illusion"]
+    control_method: Literal["edge", "depth", "illusion", "tile"]
     """
     (Future reference)
     Strategy to control generation using the input image.
@@ -1029,6 +1029,11 @@ class FutureStableDiffusionXLControlNetIn:
     """
     (Future reference)
     Controls the influence of the input image on the generated output.
+    """
+    strength: float = 0.5
+    """
+    (Future reference)
+    Controls how much to transform the input image.
     """
     seeds: Optional[List[int]] = None
     """

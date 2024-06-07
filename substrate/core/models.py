@@ -7,17 +7,10 @@
 
 from __future__ import annotations
 
-import os
 from typing import Any, Dict, List, Optional
-
-use_pydantic_v1 = os.getenv("USE_PYDANTIC_V1", "0").lower() == "1"
-
-if use_pydantic_v1:
-    from pydantic.v1 import Field, BaseModel
-else:
-    from pydantic import Field, BaseModel
-
 from typing_extensions import Literal, Annotated
+
+from pydantic import Field, BaseModel
 
 
 class ErrorOut(BaseModel):
@@ -101,7 +94,7 @@ class GenerateTextIn(BaseModel):
         "Mixtral8x7BInstruct",
         "Llama3Instruct8B",
         "Llama3Instruct70B",
-    ] = "Mistral7BInstruct"
+    ] = "Llama3Instruct8B"
     """
     Selected node.
     """
@@ -131,7 +124,7 @@ class GenerateJSONIn(BaseModel):
     """
     Maximum number of tokens to generate.
     """
-    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
     """
     Selected node.
     """
@@ -170,7 +163,7 @@ class MultiGenerateTextIn(BaseModel):
         "Mixtral8x7BInstruct",
         "Llama3Instruct8B",
         "Llama3Instruct70B",
-    ] = "Mistral7BInstruct"
+    ] = "Llama3Instruct8B"
     """
     Selected node.
     """
@@ -226,7 +219,7 @@ class MultiGenerateJSONIn(BaseModel):
     """
     Maximum number of tokens to generate.
     """
-    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
     """
     Selected node.
     """
@@ -240,7 +233,7 @@ class MultiGenerateJSONOut(BaseModel):
 
 
 class BatchGenerateJSONIn(BaseModel):
-    node: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
     """
     Selected node.
     """
@@ -655,7 +648,7 @@ class StableDiffusionXLControlNetIn(BaseModel):
     """
     Input image.
     """
-    control_method: Literal["edge", "depth", "illusion"]
+    control_method: Literal["edge", "depth", "illusion", "tile"]
     """
     Strategy to control generation using the input image.
     """
@@ -682,6 +675,10 @@ class StableDiffusionXLControlNetIn(BaseModel):
     conditioning_scale: Annotated[float, Field(ge=0.0, le=1.0)] = 0.5
     """
     Controls the influence of the input image on the generated output.
+    """
+    strength: Annotated[float, Field(ge=0.0, le=1.0)] = 0.5
+    """
+    Controls how much to transform the input image.
     """
     seeds: Optional[List[int]] = None
     """
