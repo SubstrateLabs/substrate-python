@@ -26,9 +26,9 @@ def __(__file__):
 def __(api_key):
     from substrate import (
         Substrate,
-        RemoveBackground,
         StableDiffusionXLControlNet,
-        UpscaleImage,
+        StableDiffusionXLInpaint,
+        GenerativeEditImage,
         GenerateTextVision,
         GenerateText,
         sb,
@@ -38,10 +38,10 @@ def __(api_key):
     return (
         GenerateText,
         GenerateTextVision,
-        RemoveBackground,
+        GenerativeEditImage,
         StableDiffusionXLControlNet,
+        StableDiffusionXLInpaint,
         Substrate,
-        UpscaleImage,
         sb,
         substrate,
     )
@@ -51,26 +51,25 @@ def __(api_key):
 def __(
     GenerateText,
     GenerateTextVision,
-    StableDiffusionXLControlNet,
+    StableDiffusionXLInpaint,
     sb,
     substrate,
 ):
-    num_frames = 8
-    original_image = "https://media.substrate.run/office.jpg"
-    times = ["5am in tokyo", "10am in paris", "6pm in london", "10pm in berlin"]
+    styles = ["sunlit onsen style tokyo office", "80s disco style berlin office at night"]
     images = [
-        StableDiffusionXLControlNet(
-            image_uri=original_image,
-            control_method="depth",
-            # conditioning_scale=1,
-            prompt=sb.concat("cozy office at ", t),
-            num_images=num_frames,
+        StableDiffusionXLInpaint(
+            image_uri="https://media.substrate.run/office.jpg",
+            # control_method="depth",
+            strength=0.75,
+            prompt=s,
+            num_images=1,
         )
-        for t in times
+        for s in styles
     ]
-    captions = [
+    descriptions = [
         GenerateTextVision(
             prompt="Describe the interesting interior decor touches in this image",
+            # image_uris=[i.future.image_uri],
             image_uris=[i.future.outputs[0].image_uri],
         )
         for i in images
@@ -79,21 +78,19 @@ def __(
         GenerateText(
             prompt=sb.concat(
                 "Summarize the 2 most interesting details in one sentence, be concise: ",
-                c.future.text,
+                d.future.text,
             ),
         )
-        for c in captions
+        for d in descriptions
     ]
-    res = substrate.run(*images, *captions, *summaries)
-    return (
-        captions,
-        images,
-        num_frames,
-        original_image,
-        res,
-        summaries,
-        times,
-    )
+    res = substrate.run(*images, *descriptions, *summaries)
+    return descriptions, images, res, styles, summaries
+
+
+@app.cell
+def __(mo, res):
+    mo.tree(res.json)
+    return
 
 
 @app.cell
@@ -104,7 +101,28 @@ def __(mo, original_image):
 
 @app.cell
 def __(images, mo, res, summaries):
-    mo.hstack(
+    mo.vstack(
+        [
+            mo.vstack(
+                [
+                    mo.image(res.get(images[0]).image_uri),
+                    mo.md(res.get(summaries[0]).text),
+                ]
+            ),
+            mo.vstack(
+                [
+                    mo.image(res.get(images[1]).image_uri),
+                    mo.md(res.get(summaries[1]).text),
+                ]
+            ),
+        ]
+    )
+    return
+
+
+@app.cell
+def __(images, mo, res, summaries):
+    mo.vstack(
         [
             mo.vstack(
                 [
@@ -124,21 +142,11 @@ def __(images, mo, res, summaries):
 
 
 @app.cell
-def __(images, mo, res, summaries):
+def __(images, mo, res):
     mo.hstack(
         [
-            mo.vstack(
-                [
-                    mo.image(res.get(images[2]).outputs[0].image_uri),
-                    mo.md(res.get(summaries[2]).text),
-                ]
-            ),
-            mo.vstack(
-                [
-                    mo.image(res.get(images[3]).outputs[0].image_uri),
-                    mo.md(res.get(summaries[3]).text),
-                ]
-            ),
+            mo.download(res.get(images[0]).image_uri),
+            mo.download(res.get(images[1]).image_uri),
         ]
     )
     return
@@ -150,8 +158,6 @@ def __(images, mo, res):
         [
             mo.download(res.get(images[0]).outputs[0].image_uri),
             mo.download(res.get(images[1]).outputs[0].image_uri),
-            mo.download(res.get(images[2]).outputs[0].image_uri),
-            mo.download(res.get(images[3]).outputs[0].image_uri),
         ]
     )
     return

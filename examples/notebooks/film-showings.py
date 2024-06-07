@@ -4,7 +4,7 @@ __generated_with = "0.3.12"
 app = marimo.App(width="full")
 
 
-@app.cell(hide_code=True)
+@app.cell
 def __(__file__):
     import os
     import sys
@@ -47,19 +47,19 @@ def __(__file__):
 
 @app.cell
 def __():
+    return
+
+
+@app.cell
+def __():
+    import requests, re
+    from bs4 import BeautifulSoup
     from datetime import datetime, timedelta
 
     today = datetime.today()
     tomorrow = today + timedelta(days=1)
     today_str = today.strftime("%Y-%m-%d")
     tomorrow_str = tomorrow.strftime("%Y-%m-%d")
-    return datetime, timedelta, today, today_str, tomorrow, tomorrow_str
-
-
-@app.cell
-def __(today_str, tomorrow_str):
-    import requests, re
-    from bs4 import BeautifulSoup
 
     response = requests.get(f"https://metrograph.com/calendar")
     soup = BeautifulSoup(response.text, "html.parser")
@@ -78,14 +78,20 @@ def __(today_str, tomorrow_str):
     return (
         BeautifulSoup,
         anchor,
+        datetime,
         pattern,
         pattern_re,
         re,
         requests,
         response,
         soup,
+        timedelta,
+        today,
         today_el,
+        today_str,
+        tomorrow,
         tomorrow_el,
+        tomorrow_str,
         urls,
     )
 
@@ -115,6 +121,7 @@ def __(
 ):
     summaries = []
     mds = []
+    import json
 
 
     class Film(BaseModel):
@@ -124,36 +131,34 @@ def __(
         showtimes: list[str] = Field(..., description="List of showtimes for the film.")
 
 
-    for url in urls[:5]:
+    for url in urls[:1]:
         md = RunPython(
             input={
                 "url": url,
             },
-            code="""import httpx
+            code="""import requests
     from bs4 import BeautifulSoup
-    client = httpx.AsyncClient()
+    from markdownify import markdownify
     url = SB_IN['url']
     print(url)
-    res = await client.get(url)
-    await client.aclose()
-    soup = BeautifulSoup(res.text, 'html.parser')
-    text = ' '.join([l.strip() for l in soup.text.splitlines() if len(l.strip()) > 0])
-    print(text)
+    res = requests.get(url)
+    soup = BeautifulSoup(res.content, 'html.parser')
+    SB_OUT['markdown'] = markdownify(str(soup))
     """,
-            pip_install=["httpx", "beautifulsoup4"],
+            pip_install=["requests", "beautifulsoup4", "markdownify"],
         )
 
         mds.append(md)
 
-        json = GenerateJSON(
+        summary = GenerateJSON(
             prompt=sb.concat(
-                "Summarize the following markdown about a film playing at Metrograph Theater. Do not include Now Playing in the title.\n ",
-                md.future.stdout,
+                "Summarize the following markdown about a film playing at local theater, generating JSON following the schema below\n ",
+                md.future.output["markdown"],
             ),
             json_schema=Film.model_json_schema(),
             node="Llama3Instruct8B",
         )
-        summaries.append(json)
+        summaries.append(summary)
 
     markdown = GenerateText(
         prompt=sb.concat(
@@ -163,7 +168,7 @@ def __(
         node="Llama3Instruct70B",
     )
     res = substrate.run(*summaries, *mds, markdown)
-    return Film, json, markdown, md, mds, res, summaries, url
+    return Film, json, markdown, md, mds, res, summaries, summary, url
 
 
 @app.cell

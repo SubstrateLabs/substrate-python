@@ -64,7 +64,7 @@ def __(mo):
         full_width=True,
     ).form()
     prompt
-    return (prompt,)
+    return prompt,
 
 
 @app.cell
@@ -107,7 +107,7 @@ def __(mo):
         .form()
     )
     guesses
-    return (guesses,)
+    return guesses,
 
 
 @app.cell
@@ -134,7 +134,7 @@ def __(collection_name, guesses, sb):
 def __(embed1, embed2, guess1image, guess2image, mo, substrate):
     guess_res = substrate.run(guess1image, guess2image, embed1, embed2)
     mo.accordion({"response": mo.tree(guess_res.json)})
-    return (guess_res,)
+    return guess_res,
 
 
 @app.cell
@@ -149,18 +149,16 @@ def __(embed1, embed2, guess_res, mo):
 def __(collection_name, guess1image, guess2image, guess_res, sb):
     # query with the embeddings of the two image guesses
     query = sb.QueryVectorStore(
-        {
-            "model": "clip",
-            "collection_name": collection_name,
-            "query_image_uris": [
-                guess_res.get(guess1image).image_uri,
-                guess_res.get(guess2image).image_uri,
-            ],
-            "top_k": 100,
-            "ef_search": 64,
-        }
+        model="clip",
+        collection_name=collection_name,
+        query_image_uris=[
+            guess_res.get(guess1image).image_uri,
+            guess_res.get(guess2image).image_uri,
+        ],
+        top_k=100,
+        ef_search=64,
     )
-    return (query,)
+    return query,
 
 
 @app.cell

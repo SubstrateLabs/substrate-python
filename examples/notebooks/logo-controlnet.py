@@ -31,43 +31,40 @@ def __(api_key):
         UpscaleImage,
     )
 
-    substrate = Substrate(api_key=api_key)
+    s = Substrate(api_key=api_key)
     return (
         RemoveBackground,
         StableDiffusionXLControlNet,
         Substrate,
         UpscaleImage,
-        substrate,
+        s,
     )
 
 
 @app.cell
-def __(StableDiffusionXLControlNet, substrate):
-    num_images = 4
+def __(RemoveBackground, StableDiffusionXLControlNet, s):
+    num_images = 2
+    mask = RemoveBackground(image_uri="https://media.substrate.run/logo-sq.png", return_mask=True)
     controlnet = StableDiffusionXLControlNet(
-        image_uri="https://media.substrate.run/logo-mask.png",
+        image_uri=mask.future.image_uri,
         control_method="illusion",
-        conditioning_scale=1,
-        prompt="birds-eye view of the ocean, turbulent choppy waves",
+        conditioning_scale=1.0,
+        prompt="street view futuristic solarpunk city of atlantis",
         num_images=num_images,
     )
-    res = substrate.run(controlnet)
-    return controlnet, num_images, res
+    res = s.run(mask, controlnet)
+    return controlnet, mask, num_images, res
 
 
 @app.cell
 def __(controlnet, mo, num_images, res):
-    mo.hstack([
-        mo.image(res.get(controlnet).outputs[i].image_uri) for i in list(range(num_images))
-    ])
+    mo.hstack([mo.image(res.get(controlnet).outputs[i].image_uri) for i in list(range(num_images))])
     return
 
 
 @app.cell
 def __(controlnet, mo, num_images, res):
-    mo.hstack([
-        mo.download(res.get(controlnet).outputs[i].image_uri) for i in list(range(num_images))
-    ])
+    mo.hstack([mo.download(res.get(controlnet).outputs[i].image_uri) for i in list(range(num_images))])
     return
 
 
