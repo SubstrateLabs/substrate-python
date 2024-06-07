@@ -920,6 +920,10 @@ class UpscaleImageIn(TypedDict):
     """
     Input image.
     """
+    output_resolution: NotRequired[int]
+    """
+    Resolution of the output image, in pixels.
+    """
     store: NotRequired[str]
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
@@ -927,24 +931,6 @@ class UpscaleImageIn(TypedDict):
 
 
 class UpscaleImageOut(TypedDict):
-    image_uri: NotRequired[str]
-    """
-    Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
-    """
-
-
-class RealESRGANIn(TypedDict):
-    image_uri: NotRequired[str]
-    """
-    Input image.
-    """
-    store: NotRequired[str]
-    """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
-    """
-
-
-class RealESRGANOut(TypedDict):
     image_uri: NotRequired[str]
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
@@ -1354,7 +1340,7 @@ class CLIPOut(TypedDict):
     """
 
 
-class CreateVectorStoreIn(TypedDict):
+class FindOrCreateVectorStoreIn(TypedDict):
     collection_name: NotRequired[str]
     """
     Vector store name.
@@ -1363,21 +1349,9 @@ class CreateVectorStoreIn(TypedDict):
     """
     Selected embedding model.
     """
-    m: NotRequired[int]
-    """
-    The max number of connections per layer for the index.
-    """
-    ef_construction: NotRequired[int]
-    """
-    The size of the dynamic candidate list for constructing the index graph.
-    """
-    metric: NotRequired[Literal["cosine", "l2", "inner"]]
-    """
-    The distance metric to construct the index with.
-    """
 
 
-class CreateVectorStoreOut(TypedDict):
+class FindOrCreateVectorStoreOut(TypedDict):
     collection_name: NotRequired[str]
     """
     Vector store name.
@@ -1385,18 +1359,6 @@ class CreateVectorStoreOut(TypedDict):
     model: NotRequired[Literal["jina-v2", "clip"]]
     """
     Selected embedding model.
-    """
-    m: NotRequired[int]
-    """
-    The max number of connections per layer for the index.
-    """
-    ef_construction: NotRequired[int]
-    """
-    The size of the dynamic candidate list for constructing the index graph.
-    """
-    metric: NotRequired[Literal["cosine", "l2", "inner"]]
-    """
-    The distance metric to construct the index with.
     """
 
 
@@ -1405,7 +1367,7 @@ class ListVectorStoresIn(TypedDict):
 
 
 class ListVectorStoresOut(TypedDict):
-    items: NotRequired[List[CreateVectorStoreOut]]
+    items: NotRequired[List[FindOrCreateVectorStoreOut]]
     """
     List of vector stores.
     """

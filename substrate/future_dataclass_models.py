@@ -1409,6 +1409,11 @@ class FutureUpscaleImageIn:
     (Future reference)
     Input image.
     """
+    output_resolution: int = 1024
+    """
+    (Future reference)
+    Resolution of the output image, in pixels.
+    """
     store: Optional[str] = None
     """
     (Future reference)
@@ -1420,37 +1425,6 @@ class FutureUpscaleImageIn:
 class FutureUpscaleImageOut:
     """
     Future reference to FutureUpscaleImageOut
-    """
-
-    image_uri: str
-    """
-    (Future reference)
-    Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
-    """
-
-
-@dataclass
-class FutureRealESRGANIn:
-    """
-    Future reference to FutureRealESRGANIn
-    """
-
-    image_uri: str
-    """
-    (Future reference)
-    Input image.
-    """
-    store: Optional[str] = None
-    """
-    (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
-    """
-
-
-@dataclass
-class FutureRealESRGANOut:
-    """
-    Future reference to FutureRealESRGANOut
     """
 
     image_uri: str
@@ -2088,9 +2062,9 @@ class FutureCLIPOut:
 
 
 @dataclass
-class FutureCreateVectorStoreIn:
+class FutureFindOrCreateVectorStoreIn:
     """
-    Future reference to FutureCreateVectorStoreIn
+    Future reference to FutureFindOrCreateVectorStoreIn
     """
 
     collection_name: str
@@ -2102,28 +2076,13 @@ class FutureCreateVectorStoreIn:
     """
     (Future reference)
     Selected embedding model.
-    """
-    m: int = 16
-    """
-    (Future reference)
-    The max number of connections per layer for the index.
-    """
-    ef_construction: int = 64
-    """
-    (Future reference)
-    The size of the dynamic candidate list for constructing the index graph.
-    """
-    metric: Literal["cosine", "l2", "inner"] = "inner"
-    """
-    (Future reference)
-    The distance metric to construct the index with.
     """
 
 
 @dataclass
-class FutureCreateVectorStoreOut:
+class FutureFindOrCreateVectorStoreOut:
     """
-    Future reference to FutureCreateVectorStoreOut
+    Future reference to FutureFindOrCreateVectorStoreOut
     """
 
     collection_name: str
@@ -2135,21 +2094,6 @@ class FutureCreateVectorStoreOut:
     """
     (Future reference)
     Selected embedding model.
-    """
-    m: int
-    """
-    (Future reference)
-    The max number of connections per layer for the index.
-    """
-    ef_construction: int
-    """
-    (Future reference)
-    The size of the dynamic candidate list for constructing the index graph.
-    """
-    metric: Literal["cosine", "l2", "inner"]
-    """
-    (Future reference)
-    The distance metric to construct the index with.
     """
 
 
@@ -2168,7 +2112,7 @@ class FutureListVectorStoresOut:
     Future reference to FutureListVectorStoresOut
     """
 
-    items: Optional[List[FutureCreateVectorStoreOut]] = None
+    items: Optional[List[FutureFindOrCreateVectorStoreOut]] = None
     """
     (Future reference)
     List of vector stores.

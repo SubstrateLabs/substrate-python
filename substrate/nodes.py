@@ -35,7 +35,6 @@ from .core.models import (
     RemoveBackgroundOut,
     BatchGenerateJSONOut,
     BatchGenerateTextOut,
-    CreateVectorStoreOut,
     DeleteVectorStoreOut,
     Llama3Instruct70BOut,
     Mistral7BInstructOut,
@@ -46,6 +45,7 @@ from .core.models import (
     MultiGenerateImageOut,
     GenerativeEditImageOut,
     Mixtral8x7BInstructOut,
+    FindOrCreateVectorStoreOut,
     MultiGenerativeEditImageOut,
     StableDiffusionXLInpaintOut,
     StableDiffusionXLLightningOut,
@@ -80,7 +80,6 @@ from .future_dataclass_models import (
     FutureRemoveBackgroundOut,
     FutureBatchGenerateJSONOut,
     FutureBatchGenerateTextOut,
-    FutureCreateVectorStoreOut,
     FutureDeleteVectorStoreOut,
     FutureLlama3Instruct70BOut,
     FutureMistral7BInstructOut,
@@ -91,6 +90,7 @@ from .future_dataclass_models import (
     FutureMultiGenerateImageOut,
     FutureGenerativeEditImageOut,
     FutureMixtral8x7BInstructOut,
+    FutureFindOrCreateVectorStoreOut,
     FutureMultiGenerativeEditImageOut,
     FutureStableDiffusionXLInpaintOut,
     FutureStableDiffusionXLLightningOut,
@@ -726,61 +726,6 @@ class MultiGenerateImage(CoreNode[MultiGenerateImageOut]):
         return super().future  # type: ignore
 
 
-class StableDiffusionXL(CoreNode[StableDiffusionXLOut]):
-    """https://substrate.run/nodes#StableDiffusionXL"""
-
-    def __init__(
-        self,
-        prompt: str,
-        num_images: int,
-        negative_prompt: Optional[str] = None,
-        steps: int = 30,
-        store: Optional[str] = None,
-        height: int = 1024,
-        width: int = 1024,
-        seeds: Optional[List[int]] = None,
-        guidance_scale: float = 7,
-        hide: bool = False,
-    ):
-        """
-        Args:
-            prompt: Text prompt.
-            num_images: Number of images to generate.
-            negative_prompt: Negative input prompt.
-            steps: Number of diffusion steps.
-            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
-            height: Height of output image, in pixels.
-            width: Width of output image, in pixels.
-            seeds: Seeds for deterministic generation. Default is a random seed.
-            guidance_scale: Higher values adhere to the text prompt more strongly, typically at the expense of image quality.
-
-        https://substrate.run/nodes#StableDiffusionXL
-        """
-        super().__init__(
-            prompt=prompt,
-            num_images=num_images,
-            negative_prompt=negative_prompt,
-            steps=steps,
-            store=store,
-            height=height,
-            width=width,
-            seeds=seeds,
-            guidance_scale=guidance_scale,
-            hide=hide,
-            out_type=StableDiffusionXLOut,
-        )
-        self.node = "StableDiffusionXL"
-
-    @property
-    def future(self) -> FutureStableDiffusionXLOut:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        https://substrate.run/nodes#StableDiffusionXL
-        """
-        return super().future  # type: ignore
-
-
 class StableDiffusionXLLightning(CoreNode[StableDiffusionXLLightningOut]):
     """https://substrate.run/nodes#StableDiffusionXLLightning"""
 
@@ -1106,15 +1051,28 @@ class RemoveBackground(CoreNode[RemoveBackgroundOut]):
 class UpscaleImage(CoreNode[UpscaleImageOut]):
     """https://substrate.run/nodes#UpscaleImage"""
 
-    def __init__(self, image_uri: str, store: Optional[str] = None, hide: bool = False):
+    def __init__(
+        self,
+        image_uri: str,
+        output_resolution: int = 1024,
+        store: Optional[str] = None,
+        hide: bool = False,
+    ):
         """
         Args:
             image_uri: Input image.
+            output_resolution: Resolution of the output image, in pixels.
             store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
 
         https://substrate.run/nodes#UpscaleImage
         """
-        super().__init__(image_uri=image_uri, store=store, hide=hide, out_type=UpscaleImageOut)
+        super().__init__(
+            image_uri=image_uri,
+            output_resolution=output_resolution,
+            store=store,
+            hide=hide,
+            out_type=UpscaleImageOut,
+        )
         self.node = "UpscaleImage"
 
     @property
@@ -1554,45 +1512,36 @@ class CLIP(CoreNode[CLIPOut]):
         return super().future  # type: ignore
 
 
-class CreateVectorStore(CoreNode[CreateVectorStoreOut]):
-    """https://substrate.run/nodes#CreateVectorStore"""
+class FindOrCreateVectorStore(CoreNode[FindOrCreateVectorStoreOut]):
+    """https://substrate.run/nodes#FindOrCreateVectorStore"""
 
     def __init__(
         self,
         collection_name: str,
         model: Literal["jina-v2", "clip"],
-        m: int = 16,
-        ef_construction: int = 64,
-        metric: Literal["cosine", "l2", "inner"] = "inner",
         hide: bool = False,
     ):
         """
         Args:
             collection_name: Vector store name.
             model: Selected embedding model.
-            m: The max number of connections per layer for the index.
-            ef_construction: The size of the dynamic candidate list for constructing the index graph.
-            metric: The distance metric to construct the index with.
 
-        https://substrate.run/nodes#CreateVectorStore
+        https://substrate.run/nodes#FindOrCreateVectorStore
         """
         super().__init__(
             collection_name=collection_name,
             model=model,
-            m=m,
-            ef_construction=ef_construction,
-            metric=metric,
             hide=hide,
-            out_type=CreateVectorStoreOut,
+            out_type=FindOrCreateVectorStoreOut,
         )
-        self.node = "CreateVectorStore"
+        self.node = "FindOrCreateVectorStore"
 
     @property
-    def future(self) -> FutureCreateVectorStoreOut:  # type: ignore
+    def future(self) -> FutureFindOrCreateVectorStoreOut:  # type: ignore
         """
         Future reference to this node's output.
 
-        https://substrate.run/nodes#CreateVectorStore
+        https://substrate.run/nodes#FindOrCreateVectorStore
         """
         return super().future  # type: ignore
 

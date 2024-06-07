@@ -660,7 +660,7 @@ class StableDiffusionXLControlNetIn(BaseModel):
     """
     Number of images to generate.
     """
-    output_resolution: int = 1024
+    output_resolution: Annotated[int, Field(ge=512, le=2048)] = 1024
     """
     Resolution of the output image, in pixels.
     """
@@ -766,7 +766,7 @@ class StableDiffusionXLInpaintIn(BaseModel):
     """
     Number of images to generate.
     """
-    output_resolution: int = 1024
+    output_resolution: Annotated[int, Field(ge=512, le=2048)] = 1024
     """
     Resolution of the output image, in pixels.
     """
@@ -918,6 +918,10 @@ class UpscaleImageIn(BaseModel):
     """
     Input image.
     """
+    output_resolution: Annotated[int, Field(ge=512, le=2048)] = 1024
+    """
+    Resolution of the output image, in pixels.
+    """
     store: Optional[str] = None
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
@@ -925,24 +929,6 @@ class UpscaleImageIn(BaseModel):
 
 
 class UpscaleImageOut(BaseModel):
-    image_uri: str
-    """
-    Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
-    """
-
-
-class RealESRGANIn(BaseModel):
-    image_uri: str
-    """
-    Input image.
-    """
-    store: Optional[str] = None
-    """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
-    """
-
-
-class RealESRGANOut(BaseModel):
     image_uri: str
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
@@ -1352,7 +1338,7 @@ class CLIPOut(BaseModel):
     """
 
 
-class CreateVectorStoreIn(BaseModel):
+class FindOrCreateVectorStoreIn(BaseModel):
     collection_name: Annotated[str, Field(max_length=63, min_length=1)]
     """
     Vector store name.
@@ -1361,21 +1347,9 @@ class CreateVectorStoreIn(BaseModel):
     """
     Selected embedding model.
     """
-    m: Annotated[int, Field(ge=1, le=64)] = 16
-    """
-    The max number of connections per layer for the index.
-    """
-    ef_construction: Annotated[int, Field(ge=1, le=128)] = 64
-    """
-    The size of the dynamic candidate list for constructing the index graph.
-    """
-    metric: Literal["cosine", "l2", "inner"] = "inner"
-    """
-    The distance metric to construct the index with.
-    """
 
 
-class CreateVectorStoreOut(BaseModel):
+class FindOrCreateVectorStoreOut(BaseModel):
     collection_name: Annotated[str, Field(max_length=63, min_length=1)]
     """
     Vector store name.
@@ -1383,18 +1357,6 @@ class CreateVectorStoreOut(BaseModel):
     model: Literal["jina-v2", "clip"]
     """
     Selected embedding model.
-    """
-    m: Annotated[int, Field(ge=1, le=64)]
-    """
-    The max number of connections per layer for the index.
-    """
-    ef_construction: Annotated[int, Field(ge=1, le=128)]
-    """
-    The size of the dynamic candidate list for constructing the index graph.
-    """
-    metric: Literal["cosine", "l2", "inner"]
-    """
-    The distance metric to construct the index with.
     """
 
 
@@ -1403,7 +1365,7 @@ class ListVectorStoresIn(BaseModel):
 
 
 class ListVectorStoresOut(BaseModel):
-    items: Optional[List[CreateVectorStoreOut]] = None
+    items: Optional[List[FindOrCreateVectorStoreOut]] = None
     """
     List of vector stores.
     """
