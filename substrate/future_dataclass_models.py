@@ -72,15 +72,15 @@ class FutureRunPythonIn:
     Future reference to FutureRunPythonIn
     """
 
-    function: str
+    kwargs: Dict[str, Any]
+    """
+    (Future reference)
+    Keyword arguments to your function.
+    """
+    pkl_function: Optional[str] = None
     """
     (Future reference)
     Pickled function.
-    """
-    arguments: str
-    """
-    (Future reference)
-    Pickled arguments.
     """
     python_version: Optional[str] = None
     """
@@ -114,6 +114,11 @@ class FutureRunPythonOut:
     """
     (Future reference)
     Return value of your function.
+    """
+    pkl_output: Optional[str] = None
+    """
+    (Future reference)
+    Pickled return value.
     """
 
 

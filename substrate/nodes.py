@@ -13,7 +13,6 @@ from .core.models import (
     XTTSV2Out,
     FillMaskOut,
     EmbedTextOut,
-    RunPythonOut,
     EmbedImageOut,
     ExperimentalOut,
     FetchVectorsOut,
@@ -58,7 +57,6 @@ from .future_dataclass_models import (
     FutureXTTSV2Out,
     FutureFillMaskOut,
     FutureEmbedTextOut,
-    FutureRunPythonOut,
     FutureEmbedImageOut,
     FutureExperimentalOut,
     FutureFetchVectorsOut,
@@ -119,46 +117,6 @@ class Experimental(CoreNode[ExperimentalOut]):
         Future reference to this node's output.
 
         https://substrate.run/nodes#Experimental
-        """
-        return super().future  # type: ignore
-
-
-class RunPython(CoreNode[RunPythonOut]):
-    """https://substrate.run/nodes#RunPython"""
-
-    def __init__(
-        self,
-        function: str,
-        arguments: str,
-        python_version: Optional[str] = None,
-        pip_install: Optional[List[str]] = None,
-        hide: bool = False,
-    ):
-        """
-        Args:
-            function: Pickled function.
-            arguments: Pickled arguments.
-            python_version: Python version.
-            pip_install: Python packages to install. You must import them in your code.
-
-        https://substrate.run/nodes#RunPython
-        """
-        super().__init__(
-            function=function,
-            arguments=arguments,
-            python_version=python_version,
-            pip_install=pip_install,
-            hide=hide,
-            out_type=RunPythonOut,
-        )
-        self.node = "RunPython"
-
-    @property
-    def future(self) -> FutureRunPythonOut:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        https://substrate.run/nodes#RunPython
         """
         return super().future  # type: ignore
 

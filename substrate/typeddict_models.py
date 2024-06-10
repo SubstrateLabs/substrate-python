@@ -45,13 +45,13 @@ class ExperimentalOut(TypedDict):
 
 
 class RunPythonIn(TypedDict):
-    function: NotRequired[str]
+    pkl_function: NotRequired[str]
     """
     Pickled function.
     """
-    arguments: NotRequired[str]
+    kwargs: NotRequired[Dict[str, Any]]
     """
-    Pickled arguments.
+    Keyword arguments to your function.
     """
     python_version: NotRequired[str]
     """
@@ -64,13 +64,17 @@ class RunPythonIn(TypedDict):
 
 
 class RunPythonOut(TypedDict):
-    stdout: NotRequired[str]
-    """
-    Everything printed to stdout while running your code.
-    """
     output: NotRequired[Dict[str, Any]]
     """
     Return value of your function.
+    """
+    pkl_output: NotRequired[str]
+    """
+    Pickled return value.
+    """
+    stdout: NotRequired[str]
+    """
+    Everything printed to stdout while running your code.
     """
     stderr: NotRequired[str]
     """

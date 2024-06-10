@@ -47,13 +47,13 @@ class ExperimentalOut(BaseModel):
 
 
 class RunPythonIn(BaseModel):
-    function: str
+    pkl_function: Optional[str] = None
     """
     Pickled function.
     """
-    arguments: str
+    kwargs: Dict[str, Any]
     """
-    Pickled arguments.
+    Keyword arguments to your function.
     """
     python_version: Optional[str] = None
     """
@@ -66,13 +66,17 @@ class RunPythonIn(BaseModel):
 
 
 class RunPythonOut(BaseModel):
-    stdout: str
-    """
-    Everything printed to stdout while running your code.
-    """
     output: Optional[Dict[str, Any]] = None
     """
     Return value of your function.
+    """
+    pkl_output: Optional[str] = None
+    """
+    Pickled return value.
+    """
+    stdout: str
+    """
+    Everything printed to stdout while running your code.
     """
     stderr: str
     """
