@@ -11,14 +11,14 @@ class RunPython(CoreNode[RunPythonOut]):
     def __init__(
         self,
         function: Callable,
-        kwargs: Dict[str, Any],
+        kwargs: Dict[str, Any] = {},
         pip_install: Optional[List[str]] = None,
         hide: bool = False,
     ):
         """
         Args:
-            function: Function to run
-            kwargs: Keyword arguments to pass to your function
+            function: The function to run remotely.
+            kwargs: Keyword arguments to your function. This can include future references to the output of previous nodes.
             pip_install: List of pip dependencies to install in your function's sandbox
 
         https://guides.substrate.run/reference/run-python

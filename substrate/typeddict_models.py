@@ -64,7 +64,7 @@ class RunPythonIn(TypedDict):
 
 
 class RunPythonOut(TypedDict):
-    output: NotRequired[Dict[str, Any]]
+    output: NotRequired[Any]
     """
     Return value of your function.
     """

@@ -110,7 +110,7 @@ class FutureRunPythonOut:
     (Future reference)
     Contents of stderr if your code did not run successfully.
     """
-    output: Optional[Dict[str, Any]] = None
+    output: Optional[Any] = None
     """
     (Future reference)
     Return value of your function.

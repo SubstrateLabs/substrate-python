@@ -66,7 +66,7 @@ class RunPythonIn(BaseModel):
 
 
 class RunPythonOut(BaseModel):
-    output: Optional[Dict[str, Any]] = None
+    output: Optional[Any] = None
     """
     Return value of your function.
     """
