@@ -72,15 +72,20 @@ class FutureRunPythonIn:
     Future reference to FutureRunPythonIn
     """
 
-    code: str
+    function: str
     """
     (Future reference)
-    Python code to execute. In your code, access values from the `input` parameter using the `SB_IN` variable. Update the `SB_OUT` variable with results you want returned in `output`.
+    Pickled function.
     """
-    input: Optional[Dict[str, Any]] = None
+    arguments: str
     """
     (Future reference)
-    Input to your code, accessible using the preloaded `SB_IN` variable.
+    Pickled arguments.
+    """
+    python_version: Optional[str] = None
+    """
+    (Future reference)
+    Python version.
     """
     pip_install: Optional[List[str]] = None
     """
@@ -100,15 +105,15 @@ class FutureRunPythonOut:
     (Future reference)
     Everything printed to stdout while running your code.
     """
-    output: Dict[str, Any]
-    """
-    (Future reference)
-    Contents of the `SB_OUT` variable after running your code.
-    """
     stderr: str
     """
     (Future reference)
     Contents of stderr if your code did not run successfully.
+    """
+    output: Optional[Dict[str, Any]] = None
+    """
+    (Future reference)
+    Return value of your function.
     """
 
 
@@ -138,7 +143,7 @@ class FutureGenerateTextIn:
         "Mixtral8x7BInstruct",
         "Llama3Instruct8B",
         "Llama3Instruct70B",
-    ] = "Mistral7BInstruct"
+    ] = "Llama3Instruct8B"
     """
     (Future reference)
     Selected node.
@@ -184,7 +189,7 @@ class FutureGenerateJSONIn:
     (Future reference)
     Maximum number of tokens to generate.
     """
-    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
     """
     (Future reference)
     Selected node.
@@ -240,7 +245,7 @@ class FutureMultiGenerateTextIn:
         "Mixtral8x7BInstruct",
         "Llama3Instruct8B",
         "Llama3Instruct70B",
-    ] = "Mistral7BInstruct"
+    ] = "Llama3Instruct8B"
     """
     (Future reference)
     Selected node.
@@ -327,7 +332,7 @@ class FutureMultiGenerateJSONIn:
     (Future reference)
     Maximum number of tokens to generate.
     """
-    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
     """
     (Future reference)
     Selected node.
@@ -363,7 +368,7 @@ class FutureBatchGenerateJSONIn:
     (Future reference)
     JSON schema to guide `json_object` response.
     """
-    node: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
     """
     (Future reference)
     Selected node.
@@ -2083,9 +2088,9 @@ class FutureCLIPOut:
 
 
 @dataclass
-class FutureCreateVectorStoreIn:
+class FutureFindOrCreateVectorStoreIn:
     """
-    Future reference to FutureCreateVectorStoreIn
+    Future reference to FutureFindOrCreateVectorStoreIn
     """
 
     collection_name: str
@@ -2097,28 +2102,13 @@ class FutureCreateVectorStoreIn:
     """
     (Future reference)
     Selected embedding model.
-    """
-    m: int = 16
-    """
-    (Future reference)
-    The max number of connections per layer for the index.
-    """
-    ef_construction: int = 64
-    """
-    (Future reference)
-    The size of the dynamic candidate list for constructing the index graph.
-    """
-    metric: Literal["cosine", "l2", "inner"] = "inner"
-    """
-    (Future reference)
-    The distance metric to construct the index with.
     """
 
 
 @dataclass
-class FutureCreateVectorStoreOut:
+class FutureFindOrCreateVectorStoreOut:
     """
-    Future reference to FutureCreateVectorStoreOut
+    Future reference to FutureFindOrCreateVectorStoreOut
     """
 
     collection_name: str
@@ -2130,21 +2120,6 @@ class FutureCreateVectorStoreOut:
     """
     (Future reference)
     Selected embedding model.
-    """
-    m: int
-    """
-    (Future reference)
-    The max number of connections per layer for the index.
-    """
-    ef_construction: int
-    """
-    (Future reference)
-    The size of the dynamic candidate list for constructing the index graph.
-    """
-    metric: Literal["cosine", "l2", "inner"]
-    """
-    (Future reference)
-    The distance metric to construct the index with.
     """
 
 
@@ -2163,7 +2138,7 @@ class FutureListVectorStoresOut:
     Future reference to FutureListVectorStoresOut
     """
 
-    items: Optional[List[FutureCreateVectorStoreOut]] = None
+    items: Optional[List[FutureFindOrCreateVectorStoreOut]] = None
     """
     (Future reference)
     List of vector stores.
