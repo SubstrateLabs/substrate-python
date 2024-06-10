@@ -687,61 +687,6 @@ class MultiGenerateImage(CoreNode[MultiGenerateImageOut]):
         return super().future  # type: ignore
 
 
-class StableDiffusionXL(CoreNode[StableDiffusionXLOut]):
-    """https://substrate.run/nodes#StableDiffusionXL"""
-
-    def __init__(
-        self,
-        prompt: str,
-        num_images: int,
-        negative_prompt: Optional[str] = None,
-        steps: int = 30,
-        store: Optional[str] = None,
-        height: int = 1024,
-        width: int = 1024,
-        seeds: Optional[List[int]] = None,
-        guidance_scale: float = 7,
-        hide: bool = False,
-    ):
-        """
-        Args:
-            prompt: Text prompt.
-            num_images: Number of images to generate.
-            negative_prompt: Negative input prompt.
-            steps: Number of diffusion steps.
-            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
-            height: Height of output image, in pixels.
-            width: Width of output image, in pixels.
-            seeds: Seeds for deterministic generation. Default is a random seed.
-            guidance_scale: Higher values adhere to the text prompt more strongly, typically at the expense of image quality.
-
-        https://substrate.run/nodes#StableDiffusionXL
-        """
-        super().__init__(
-            prompt=prompt,
-            num_images=num_images,
-            negative_prompt=negative_prompt,
-            steps=steps,
-            store=store,
-            height=height,
-            width=width,
-            seeds=seeds,
-            guidance_scale=guidance_scale,
-            hide=hide,
-            out_type=StableDiffusionXLOut,
-        )
-        self.node = "StableDiffusionXL"
-
-    @property
-    def future(self) -> FutureStableDiffusionXLOut:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        https://substrate.run/nodes#StableDiffusionXL
-        """
-        return super().future  # type: ignore
-
-
 class StableDiffusionXLLightning(CoreNode[StableDiffusionXLLightningOut]):
     """https://substrate.run/nodes#StableDiffusionXLLightning"""
 

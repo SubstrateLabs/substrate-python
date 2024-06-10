@@ -10,7 +10,6 @@ from .nodes import (
     JinaV2,
     FillMask,
     EmbedText,
-    RunPython,
     EmbedImage,
     Experimental,
     FetchVectors,
@@ -51,6 +50,7 @@ from .nodes import (
 from .core.sb import sb
 from ._version import __version__
 from .substrate import Substrate, SubstrateResponse
+from .run_python import RunPython
 
 __all__ = [
     "__version__",
