@@ -47,13 +47,17 @@ class ExperimentalOut(BaseModel):
 
 
 class RunPythonIn(BaseModel):
-    code: str
+    pkl_function: Optional[str] = None
     """
-    Python code to execute. In your code, access values from the `input` parameter using the `SB_IN` variable. Update the `SB_OUT` variable with results you want returned in `output`.
+    Pickled function.
     """
-    input: Optional[Dict[str, Any]] = None
+    kwargs: Dict[str, Any]
     """
-    Input to your code, accessible using the preloaded `SB_IN` variable.
+    Keyword arguments to your function.
+    """
+    python_version: Optional[str] = None
+    """
+    Python version.
     """
     pip_install: Optional[List[str]] = None
     """
@@ -62,13 +66,17 @@ class RunPythonIn(BaseModel):
 
 
 class RunPythonOut(BaseModel):
+    output: Optional[Any] = None
+    """
+    Return value of your function.
+    """
+    pkl_output: Optional[str] = None
+    """
+    Pickled return value.
+    """
     stdout: str
     """
     Everything printed to stdout while running your code.
-    """
-    output: Dict[str, Any]
-    """
-    Contents of the `SB_OUT` variable after running your code.
     """
     stderr: str
     """
@@ -914,6 +922,10 @@ class DISISNetOut(BaseModel):
 
 
 class UpscaleImageIn(BaseModel):
+    prompt: Optional[str] = None
+    """
+    Prompt to guide model on the content of image to upscale.
+    """
     image_uri: str
     """
     Input image.

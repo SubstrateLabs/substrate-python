@@ -72,15 +72,20 @@ class FutureRunPythonIn:
     Future reference to FutureRunPythonIn
     """
 
-    code: str
+    kwargs: Dict[str, Any]
     """
     (Future reference)
-    Python code to execute. In your code, access values from the `input` parameter using the `SB_IN` variable. Update the `SB_OUT` variable with results you want returned in `output`.
+    Keyword arguments to your function.
     """
-    input: Optional[Dict[str, Any]] = None
+    pkl_function: Optional[str] = None
     """
     (Future reference)
-    Input to your code, accessible using the preloaded `SB_IN` variable.
+    Pickled function.
+    """
+    python_version: Optional[str] = None
+    """
+    (Future reference)
+    Python version.
     """
     pip_install: Optional[List[str]] = None
     """
@@ -100,15 +105,20 @@ class FutureRunPythonOut:
     (Future reference)
     Everything printed to stdout while running your code.
     """
-    output: Dict[str, Any]
-    """
-    (Future reference)
-    Contents of the `SB_OUT` variable after running your code.
-    """
     stderr: str
     """
     (Future reference)
     Contents of stderr if your code did not run successfully.
+    """
+    output: Optional[Any] = None
+    """
+    (Future reference)
+    Return value of your function.
+    """
+    pkl_output: Optional[str] = None
+    """
+    (Future reference)
+    Pickled return value.
     """
 
 
@@ -1408,6 +1418,11 @@ class FutureUpscaleImageIn:
     """
     (Future reference)
     Input image.
+    """
+    prompt: Optional[str] = None
+    """
+    (Future reference)
+    Prompt to guide model on the content of image to upscale.
     """
     output_resolution: int = 1024
     """

@@ -45,13 +45,17 @@ class ExperimentalOut(TypedDict):
 
 
 class RunPythonIn(TypedDict):
-    code: NotRequired[str]
+    pkl_function: NotRequired[str]
     """
-    Python code to execute. In your code, access values from the `input` parameter using the `SB_IN` variable. Update the `SB_OUT` variable with results you want returned in `output`.
+    Pickled function.
     """
-    input: NotRequired[Dict[str, Any]]
+    kwargs: NotRequired[Dict[str, Any]]
     """
-    Input to your code, accessible using the preloaded `SB_IN` variable.
+    Keyword arguments to your function.
+    """
+    python_version: NotRequired[str]
+    """
+    Python version.
     """
     pip_install: NotRequired[List[str]]
     """
@@ -60,13 +64,17 @@ class RunPythonIn(TypedDict):
 
 
 class RunPythonOut(TypedDict):
+    output: NotRequired[Any]
+    """
+    Return value of your function.
+    """
+    pkl_output: NotRequired[str]
+    """
+    Pickled return value.
+    """
     stdout: NotRequired[str]
     """
     Everything printed to stdout while running your code.
-    """
-    output: NotRequired[Dict[str, Any]]
-    """
-    Contents of the `SB_OUT` variable after running your code.
     """
     stderr: NotRequired[str]
     """
@@ -916,6 +924,10 @@ class DISISNetOut(TypedDict):
 
 
 class UpscaleImageIn(TypedDict):
+    prompt: NotRequired[str]
+    """
+    Prompt to guide model on the content of image to upscale.
+    """
     image_uri: NotRequired[str]
     """
     Input image.

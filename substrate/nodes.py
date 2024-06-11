@@ -13,7 +13,6 @@ from .core.models import (
     XTTSV2Out,
     FillMaskOut,
     EmbedTextOut,
-    RunPythonOut,
     EmbedImageOut,
     ExperimentalOut,
     FetchVectorsOut,
@@ -58,7 +57,6 @@ from .future_dataclass_models import (
     FutureXTTSV2Out,
     FutureFillMaskOut,
     FutureEmbedTextOut,
-    FutureRunPythonOut,
     FutureEmbedImageOut,
     FutureExperimentalOut,
     FutureFetchVectorsOut,
@@ -119,43 +117,6 @@ class Experimental(CoreNode[ExperimentalOut]):
         Future reference to this node's output.
 
         https://substrate.run/nodes#Experimental
-        """
-        return super().future  # type: ignore
-
-
-class RunPython(CoreNode[RunPythonOut]):
-    """https://substrate.run/nodes#RunPython"""
-
-    def __init__(
-        self,
-        code: str,
-        input: Optional[Dict[str, Any]] = None,
-        pip_install: Optional[List[str]] = None,
-        hide: bool = False,
-    ):
-        """
-        Args:
-            code: Python code to execute. In your code, access values from the `input` parameter using the `SB_IN` variable. Update the `SB_OUT` variable with results you want returned in `output`.
-            input: Input to your code, accessible using the preloaded `SB_IN` variable.
-            pip_install: Python packages to install. You must import them in your code.
-
-        https://substrate.run/nodes#RunPython
-        """
-        super().__init__(
-            code=code,
-            input=input,
-            pip_install=pip_install,
-            hide=hide,
-            out_type=RunPythonOut,
-        )
-        self.node = "RunPython"
-
-    @property
-    def future(self) -> FutureRunPythonOut:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        https://substrate.run/nodes#RunPython
         """
         return super().future  # type: ignore
 
@@ -1054,6 +1015,7 @@ class UpscaleImage(CoreNode[UpscaleImageOut]):
     def __init__(
         self,
         image_uri: str,
+        prompt: Optional[str] = None,
         output_resolution: int = 1024,
         store: Optional[str] = None,
         hide: bool = False,
@@ -1061,6 +1023,7 @@ class UpscaleImage(CoreNode[UpscaleImageOut]):
         """
         Args:
             image_uri: Input image.
+            prompt: Prompt to guide model on the content of image to upscale.
             output_resolution: Resolution of the output image, in pixels.
             store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
 
@@ -1068,6 +1031,7 @@ class UpscaleImage(CoreNode[UpscaleImageOut]):
         """
         super().__init__(
             image_uri=image_uri,
+            prompt=prompt,
             output_resolution=output_resolution,
             store=store,
             hide=hide,
