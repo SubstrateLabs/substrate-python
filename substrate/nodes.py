@@ -742,13 +742,14 @@ class StableDiffusionXLControlNet(CoreNode[StableDiffusionXLControlNetOut]):
     def __init__(
         self,
         image_uri: str,
-        control_method: Literal["edge", "depth", "illusion"],
+        control_method: Literal["edge", "depth", "illusion", "tile"],
         prompt: str,
         num_images: int,
         output_resolution: int = 1024,
         negative_prompt: Optional[str] = None,
         store: Optional[str] = None,
         conditioning_scale: float = 0.5,
+        strength: float = 0.5,
         seeds: Optional[List[int]] = None,
         hide: bool = False,
     ):
@@ -762,6 +763,7 @@ class StableDiffusionXLControlNet(CoreNode[StableDiffusionXLControlNetOut]):
             negative_prompt: Negative input prompt.
             store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
             conditioning_scale: Controls the influence of the input image on the generated output.
+            strength: Controls how much to transform the input image.
             seeds: Random noise seeds. Default is random seeds for each generation.
 
         https://substrate.run/nodes#StableDiffusionXLControlNet
@@ -775,6 +777,7 @@ class StableDiffusionXLControlNet(CoreNode[StableDiffusionXLControlNetOut]):
             negative_prompt=negative_prompt,
             store=store,
             conditioning_scale=conditioning_scale,
+            strength=strength,
             seeds=seeds,
             hide=hide,
             out_type=StableDiffusionXLControlNetOut,
@@ -1009,15 +1012,31 @@ class RemoveBackground(CoreNode[RemoveBackgroundOut]):
 class UpscaleImage(CoreNode[UpscaleImageOut]):
     """https://substrate.run/nodes#UpscaleImage"""
 
-    def __init__(self, image_uri: str, store: Optional[str] = None, hide: bool = False):
+    def __init__(
+        self,
+        image_uri: str,
+        prompt: Optional[str] = None,
+        output_resolution: int = 1024,
+        store: Optional[str] = None,
+        hide: bool = False,
+    ):
         """
         Args:
             image_uri: Input image.
+            prompt: Prompt to guide model on the content of image to upscale.
+            output_resolution: Resolution of the output image, in pixels.
             store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
 
         https://substrate.run/nodes#UpscaleImage
         """
-        super().__init__(image_uri=image_uri, store=store, hide=hide, out_type=UpscaleImageOut)
+        super().__init__(
+            image_uri=image_uri,
+            prompt=prompt,
+            output_resolution=output_resolution,
+            store=store,
+            hide=hide,
+            out_type=UpscaleImageOut,
+        )
         self.node = "UpscaleImage"
 
     @property

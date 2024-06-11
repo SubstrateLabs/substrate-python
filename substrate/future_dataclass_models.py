@@ -1005,7 +1005,7 @@ class FutureStableDiffusionXLControlNetIn:
     (Future reference)
     Input image.
     """
-    control_method: Literal["edge", "depth", "illusion"]
+    control_method: Literal["edge", "depth", "illusion", "tile"]
     """
     (Future reference)
     Strategy to control generation using the input image.
@@ -1039,6 +1039,11 @@ class FutureStableDiffusionXLControlNetIn:
     """
     (Future reference)
     Controls the influence of the input image on the generated output.
+    """
+    strength: float = 0.5
+    """
+    (Future reference)
+    Controls how much to transform the input image.
     """
     seeds: Optional[List[int]] = None
     """
@@ -1414,6 +1419,16 @@ class FutureUpscaleImageIn:
     (Future reference)
     Input image.
     """
+    prompt: Optional[str] = None
+    """
+    (Future reference)
+    Prompt to guide model on the content of image to upscale.
+    """
+    output_resolution: int = 1024
+    """
+    (Future reference)
+    Resolution of the output image, in pixels.
+    """
     store: Optional[str] = None
     """
     (Future reference)
@@ -1425,37 +1440,6 @@ class FutureUpscaleImageIn:
 class FutureUpscaleImageOut:
     """
     Future reference to FutureUpscaleImageOut
-    """
-
-    image_uri: str
-    """
-    (Future reference)
-    Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
-    """
-
-
-@dataclass
-class FutureRealESRGANIn:
-    """
-    Future reference to FutureRealESRGANIn
-    """
-
-    image_uri: str
-    """
-    (Future reference)
-    Input image.
-    """
-    store: Optional[str] = None
-    """
-    (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
-    """
-
-
-@dataclass
-class FutureRealESRGANOut:
-    """
-    Future reference to FutureRealESRGANOut
     """
 
     image_uri: str

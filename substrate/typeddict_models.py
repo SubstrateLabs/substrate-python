@@ -658,7 +658,7 @@ class StableDiffusionXLControlNetIn(TypedDict):
     """
     Input image.
     """
-    control_method: NotRequired[Literal["edge", "depth", "illusion"]]
+    control_method: NotRequired[Literal["edge", "depth", "illusion", "tile"]]
     """
     Strategy to control generation using the input image.
     """
@@ -685,6 +685,10 @@ class StableDiffusionXLControlNetIn(TypedDict):
     conditioning_scale: NotRequired[float]
     """
     Controls the influence of the input image on the generated output.
+    """
+    strength: NotRequired[float]
+    """
+    Controls how much to transform the input image.
     """
     seeds: NotRequired[List[int]]
     """
@@ -920,9 +924,17 @@ class DISISNetOut(TypedDict):
 
 
 class UpscaleImageIn(TypedDict):
+    prompt: NotRequired[str]
+    """
+    Prompt to guide model on the content of image to upscale.
+    """
     image_uri: NotRequired[str]
     """
     Input image.
+    """
+    output_resolution: NotRequired[int]
+    """
+    Resolution of the output image, in pixels.
     """
     store: NotRequired[str]
     """
@@ -931,24 +943,6 @@ class UpscaleImageIn(TypedDict):
 
 
 class UpscaleImageOut(TypedDict):
-    image_uri: NotRequired[str]
-    """
-    Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
-    """
-
-
-class RealESRGANIn(TypedDict):
-    image_uri: NotRequired[str]
-    """
-    Input image.
-    """
-    store: NotRequired[str]
-    """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
-    """
-
-
-class RealESRGANOut(TypedDict):
     image_uri: NotRequired[str]
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.

@@ -656,7 +656,7 @@ class StableDiffusionXLControlNetIn(BaseModel):
     """
     Input image.
     """
-    control_method: Literal["edge", "depth", "illusion"]
+    control_method: Literal["edge", "depth", "illusion", "tile"]
     """
     Strategy to control generation using the input image.
     """
@@ -668,7 +668,7 @@ class StableDiffusionXLControlNetIn(BaseModel):
     """
     Number of images to generate.
     """
-    output_resolution: int = 1024
+    output_resolution: Annotated[int, Field(ge=512, le=2048)] = 1024
     """
     Resolution of the output image, in pixels.
     """
@@ -683,6 +683,10 @@ class StableDiffusionXLControlNetIn(BaseModel):
     conditioning_scale: Annotated[float, Field(ge=0.0, le=1.0)] = 0.5
     """
     Controls the influence of the input image on the generated output.
+    """
+    strength: Annotated[float, Field(ge=0.0, le=1.0)] = 0.5
+    """
+    Controls how much to transform the input image.
     """
     seeds: Optional[List[int]] = None
     """
@@ -770,7 +774,7 @@ class StableDiffusionXLInpaintIn(BaseModel):
     """
     Number of images to generate.
     """
-    output_resolution: int = 1024
+    output_resolution: Annotated[int, Field(ge=512, le=2048)] = 1024
     """
     Resolution of the output image, in pixels.
     """
@@ -918,9 +922,17 @@ class DISISNetOut(BaseModel):
 
 
 class UpscaleImageIn(BaseModel):
+    prompt: Optional[str] = None
+    """
+    Prompt to guide model on the content of image to upscale.
+    """
     image_uri: str
     """
     Input image.
+    """
+    output_resolution: Annotated[int, Field(ge=512, le=2048)] = 1024
+    """
+    Resolution of the output image, in pixels.
     """
     store: Optional[str] = None
     """
@@ -929,24 +941,6 @@ class UpscaleImageIn(BaseModel):
 
 
 class UpscaleImageOut(BaseModel):
-    image_uri: str
-    """
-    Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
-    """
-
-
-class RealESRGANIn(BaseModel):
-    image_uri: str
-    """
-    Input image.
-    """
-    store: Optional[str] = None
-    """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
-    """
-
-
-class RealESRGANOut(BaseModel):
     image_uri: str
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
