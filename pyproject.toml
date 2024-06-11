@@ -44,6 +44,7 @@ exclude = [ "examples/notebooks",]
 
 [tool.poetry.dependencies]
 python = ">=3.9"
+cloudpickle = "3.0.0"
 networkx = ">=3.2.1"
 httpx = ">=0.26.0"
 distro = ">=1.8.0"
