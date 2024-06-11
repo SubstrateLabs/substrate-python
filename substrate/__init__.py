@@ -1,7 +1,7 @@
 """
 𐃏 Substrate Python SDK
 
-20240530.20240531
+20240604.20240610
 """
 
 from .nodes import (
@@ -10,7 +10,6 @@ from .nodes import (
     JinaV2,
     FillMask,
     EmbedText,
-    RunPython,
     EmbedImage,
     Experimental,
     FetchVectors,
@@ -32,27 +31,26 @@ from .nodes import (
     RemoveBackground,
     BatchGenerateJSON,
     BatchGenerateText,
-    CreateVectorStore,
     DeleteVectorStore,
     Llama3Instruct70B,
     Mistral7BInstruct,
     MultiGenerateJSON,
     MultiGenerateText,
     SegmentUnderPoint,
-    StableDiffusionXL,
     GenerateTextVision,
     MultiGenerateImage,
     GenerativeEditImage,
     Mixtral8x7BInstruct,
+    FindOrCreateVectorStore,
     MultiGenerativeEditImage,
     StableDiffusionXLInpaint,
-    StableDiffusionXLIPAdapter,
     StableDiffusionXLLightning,
     StableDiffusionXLControlNet,
 )
 from .core.sb import sb
 from ._version import __version__
 from .substrate import Substrate, SubstrateResponse
+from .run_python import RunPython
 
 __all__ = [
     "__version__",
@@ -77,11 +75,9 @@ __all__ = [
     "MultiGenerateImage",
     "GenerativeEditImage",
     "MultiGenerativeEditImage",
-    "StableDiffusionXL",
     "StableDiffusionXLLightning",
     "StableDiffusionXLInpaint",
     "StableDiffusionXLControlNet",
-    "StableDiffusionXLIPAdapter",
     "TranscribeMedia",
     "GenerateSpeech",
     "XTTSV2",
@@ -96,7 +92,7 @@ __all__ = [
     "MultiEmbedImage",
     "JinaV2",
     "CLIP",
-    "CreateVectorStore",
+    "FindOrCreateVectorStore",
     "ListVectorStores",
     "DeleteVectorStore",
     "QueryVectorStore",

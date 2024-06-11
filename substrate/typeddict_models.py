@@ -45,13 +45,17 @@ class ExperimentalOut(TypedDict):
 
 
 class RunPythonIn(TypedDict):
-    code: NotRequired[str]
+    pkl_function: NotRequired[str]
     """
-    Python code to execute. In your code, access values from the `input` parameter using the `SB_IN` variable. Update the `SB_OUT` variable with results you want returned in `output`.
+    Pickled function.
     """
-    input: NotRequired[Dict[str, Any]]
+    kwargs: NotRequired[Dict[str, Any]]
     """
-    Input to your code, accessible using the preloaded `SB_IN` variable.
+    Keyword arguments to your function.
+    """
+    python_version: NotRequired[str]
+    """
+    Python version.
     """
     pip_install: NotRequired[List[str]]
     """
@@ -60,13 +64,17 @@ class RunPythonIn(TypedDict):
 
 
 class RunPythonOut(TypedDict):
+    output: NotRequired[Any]
+    """
+    Return value of your function.
+    """
+    pkl_output: NotRequired[str]
+    """
+    Pickled return value.
+    """
     stdout: NotRequired[str]
     """
     Everything printed to stdout while running your code.
-    """
-    output: NotRequired[Dict[str, Any]]
-    """
-    Contents of the `SB_OUT` variable after running your code.
     """
     stderr: NotRequired[str]
     """
@@ -1350,7 +1358,7 @@ class CLIPOut(TypedDict):
     """
 
 
-class CreateVectorStoreIn(TypedDict):
+class FindOrCreateVectorStoreIn(TypedDict):
     collection_name: NotRequired[str]
     """
     Vector store name.
@@ -1359,21 +1367,9 @@ class CreateVectorStoreIn(TypedDict):
     """
     Selected embedding model.
     """
-    m: NotRequired[int]
-    """
-    The max number of connections per layer for the index.
-    """
-    ef_construction: NotRequired[int]
-    """
-    The size of the dynamic candidate list for constructing the index graph.
-    """
-    metric: NotRequired[Literal["cosine", "l2", "inner"]]
-    """
-    The distance metric to construct the index with.
-    """
 
 
-class CreateVectorStoreOut(TypedDict):
+class FindOrCreateVectorStoreOut(TypedDict):
     collection_name: NotRequired[str]
     """
     Vector store name.
@@ -1381,18 +1377,6 @@ class CreateVectorStoreOut(TypedDict):
     model: NotRequired[Literal["jina-v2", "clip"]]
     """
     Selected embedding model.
-    """
-    m: NotRequired[int]
-    """
-    The max number of connections per layer for the index.
-    """
-    ef_construction: NotRequired[int]
-    """
-    The size of the dynamic candidate list for constructing the index graph.
-    """
-    metric: NotRequired[Literal["cosine", "l2", "inner"]]
-    """
-    The distance metric to construct the index with.
     """
 
 
@@ -1401,7 +1385,7 @@ class ListVectorStoresIn(TypedDict):
 
 
 class ListVectorStoresOut(TypedDict):
-    items: NotRequired[List[CreateVectorStoreOut]]
+    items: NotRequired[List[FindOrCreateVectorStoreOut]]
     """
     List of vector stores.
     """

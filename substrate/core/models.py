@@ -7,17 +7,10 @@
 
 from __future__ import annotations
 
-import os
 from typing import Any, Dict, List, Optional
-
-use_pydantic_v1 = os.getenv("USE_PYDANTIC_V1", "0").lower() == "1"
-
-if use_pydantic_v1:
-    from pydantic.v1 import Field, BaseModel
-else:
-    from pydantic import Field, BaseModel
-
 from typing_extensions import Literal, Annotated
+
+from pydantic import Field, BaseModel
 
 
 class ErrorOut(BaseModel):
@@ -54,13 +47,17 @@ class ExperimentalOut(BaseModel):
 
 
 class RunPythonIn(BaseModel):
-    code: str
+    pkl_function: Optional[str] = None
     """
-    Python code to execute. In your code, access values from the `input` parameter using the `SB_IN` variable. Update the `SB_OUT` variable with results you want returned in `output`.
+    Pickled function.
     """
-    input: Optional[Dict[str, Any]] = None
+    kwargs: Dict[str, Any]
     """
-    Input to your code, accessible using the preloaded `SB_IN` variable.
+    Keyword arguments to your function.
+    """
+    python_version: Optional[str] = None
+    """
+    Python version.
     """
     pip_install: Optional[List[str]] = None
     """
@@ -69,13 +66,17 @@ class RunPythonIn(BaseModel):
 
 
 class RunPythonOut(BaseModel):
+    output: Optional[Any] = None
+    """
+    Return value of your function.
+    """
+    pkl_output: Optional[str] = None
+    """
+    Pickled return value.
+    """
     stdout: str
     """
     Everything printed to stdout while running your code.
-    """
-    output: Dict[str, Any]
-    """
-    Contents of the `SB_OUT` variable after running your code.
     """
     stderr: str
     """
@@ -101,7 +102,7 @@ class GenerateTextIn(BaseModel):
         "Mixtral8x7BInstruct",
         "Llama3Instruct8B",
         "Llama3Instruct70B",
-    ] = "Mistral7BInstruct"
+    ] = "Llama3Instruct8B"
     """
     Selected node.
     """
@@ -131,7 +132,7 @@ class GenerateJSONIn(BaseModel):
     """
     Maximum number of tokens to generate.
     """
-    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
     """
     Selected node.
     """
@@ -170,7 +171,7 @@ class MultiGenerateTextIn(BaseModel):
         "Mixtral8x7BInstruct",
         "Llama3Instruct8B",
         "Llama3Instruct70B",
-    ] = "Mistral7BInstruct"
+    ] = "Llama3Instruct8B"
     """
     Selected node.
     """
@@ -226,7 +227,7 @@ class MultiGenerateJSONIn(BaseModel):
     """
     Maximum number of tokens to generate.
     """
-    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
     """
     Selected node.
     """
@@ -240,7 +241,7 @@ class MultiGenerateJSONOut(BaseModel):
 
 
 class BatchGenerateJSONIn(BaseModel):
-    node: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct"
+    node: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
     """
     Selected node.
     """
@@ -1355,7 +1356,7 @@ class CLIPOut(BaseModel):
     """
 
 
-class CreateVectorStoreIn(BaseModel):
+class FindOrCreateVectorStoreIn(BaseModel):
     collection_name: Annotated[str, Field(max_length=63, min_length=1)]
     """
     Vector store name.
@@ -1364,21 +1365,9 @@ class CreateVectorStoreIn(BaseModel):
     """
     Selected embedding model.
     """
-    m: Annotated[int, Field(ge=1, le=64)] = 16
-    """
-    The max number of connections per layer for the index.
-    """
-    ef_construction: Annotated[int, Field(ge=1, le=128)] = 64
-    """
-    The size of the dynamic candidate list for constructing the index graph.
-    """
-    metric: Literal["cosine", "l2", "inner"] = "inner"
-    """
-    The distance metric to construct the index with.
-    """
 
 
-class CreateVectorStoreOut(BaseModel):
+class FindOrCreateVectorStoreOut(BaseModel):
     collection_name: Annotated[str, Field(max_length=63, min_length=1)]
     """
     Vector store name.
@@ -1386,18 +1375,6 @@ class CreateVectorStoreOut(BaseModel):
     model: Literal["jina-v2", "clip"]
     """
     Selected embedding model.
-    """
-    m: Annotated[int, Field(ge=1, le=64)]
-    """
-    The max number of connections per layer for the index.
-    """
-    ef_construction: Annotated[int, Field(ge=1, le=128)]
-    """
-    The size of the dynamic candidate list for constructing the index graph.
-    """
-    metric: Literal["cosine", "l2", "inner"]
-    """
-    The distance metric to construct the index with.
     """
 
 
@@ -1406,7 +1383,7 @@ class ListVectorStoresIn(BaseModel):
 
 
 class ListVectorStoresOut(BaseModel):
-    items: Optional[List[CreateVectorStoreOut]] = None
+    items: Optional[List[FindOrCreateVectorStoreOut]] = None
     """
     List of vector stores.
     """

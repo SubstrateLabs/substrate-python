@@ -13,7 +13,6 @@ from .core.models import (
     XTTSV2Out,
     FillMaskOut,
     EmbedTextOut,
-    RunPythonOut,
     EmbedImageOut,
     ExperimentalOut,
     FetchVectorsOut,
@@ -35,21 +34,19 @@ from .core.models import (
     RemoveBackgroundOut,
     BatchGenerateJSONOut,
     BatchGenerateTextOut,
-    CreateVectorStoreOut,
     DeleteVectorStoreOut,
     Llama3Instruct70BOut,
     Mistral7BInstructOut,
     MultiGenerateJSONOut,
     MultiGenerateTextOut,
     SegmentUnderPointOut,
-    StableDiffusionXLOut,
     GenerateTextVisionOut,
     MultiGenerateImageOut,
     GenerativeEditImageOut,
     Mixtral8x7BInstructOut,
+    FindOrCreateVectorStoreOut,
     MultiGenerativeEditImageOut,
     StableDiffusionXLInpaintOut,
-    StableDiffusionXLIPAdapterOut,
     StableDiffusionXLLightningOut,
     StableDiffusionXLControlNetOut,
 )
@@ -60,7 +57,6 @@ from .future_dataclass_models import (
     FutureXTTSV2Out,
     FutureFillMaskOut,
     FutureEmbedTextOut,
-    FutureRunPythonOut,
     FutureEmbedImageOut,
     FutureExperimentalOut,
     FutureFetchVectorsOut,
@@ -82,21 +78,19 @@ from .future_dataclass_models import (
     FutureRemoveBackgroundOut,
     FutureBatchGenerateJSONOut,
     FutureBatchGenerateTextOut,
-    FutureCreateVectorStoreOut,
     FutureDeleteVectorStoreOut,
     FutureLlama3Instruct70BOut,
     FutureMistral7BInstructOut,
     FutureMultiGenerateJSONOut,
     FutureMultiGenerateTextOut,
     FutureSegmentUnderPointOut,
-    FutureStableDiffusionXLOut,
     FutureGenerateTextVisionOut,
     FutureMultiGenerateImageOut,
     FutureGenerativeEditImageOut,
     FutureMixtral8x7BInstructOut,
+    FutureFindOrCreateVectorStoreOut,
     FutureMultiGenerativeEditImageOut,
     FutureStableDiffusionXLInpaintOut,
-    FutureStableDiffusionXLIPAdapterOut,
     FutureStableDiffusionXLLightningOut,
     FutureStableDiffusionXLControlNetOut,
 )
@@ -127,43 +121,6 @@ class Experimental(CoreNode[ExperimentalOut]):
         return super().future  # type: ignore
 
 
-class RunPython(CoreNode[RunPythonOut]):
-    """https://substrate.run/nodes#RunPython"""
-
-    def __init__(
-        self,
-        code: str,
-        input: Optional[Dict[str, Any]] = None,
-        pip_install: Optional[List[str]] = None,
-        hide: bool = False,
-    ):
-        """
-        Args:
-            code: Python code to execute. In your code, access values from the `input` parameter using the `SB_IN` variable. Update the `SB_OUT` variable with results you want returned in `output`.
-            input: Input to your code, accessible using the preloaded `SB_IN` variable.
-            pip_install: Python packages to install. You must import them in your code.
-
-        https://substrate.run/nodes#RunPython
-        """
-        super().__init__(
-            code=code,
-            input=input,
-            pip_install=pip_install,
-            hide=hide,
-            out_type=RunPythonOut,
-        )
-        self.node = "RunPython"
-
-    @property
-    def future(self) -> FutureRunPythonOut:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        https://substrate.run/nodes#RunPython
-        """
-        return super().future  # type: ignore
-
-
 class GenerateText(CoreNode[GenerateTextOut]):
     """https://substrate.run/nodes#GenerateText"""
 
@@ -177,7 +134,7 @@ class GenerateText(CoreNode[GenerateTextOut]):
             "Mixtral8x7BInstruct",
             "Llama3Instruct8B",
             "Llama3Instruct70B",
-        ] = "Mistral7BInstruct",
+        ] = "Llama3Instruct8B",
         hide: bool = False,
     ):
         """
@@ -218,7 +175,7 @@ class GenerateJSON(CoreNode[GenerateJSONOut]):
         json_schema: Dict[str, Any],
         temperature: float = 0.4,
         max_tokens: Optional[int] = None,
-        node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct",
+        node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B",
         hide: bool = False,
     ):
         """
@@ -266,7 +223,7 @@ class MultiGenerateText(CoreNode[MultiGenerateTextOut]):
             "Mixtral8x7BInstruct",
             "Llama3Instruct8B",
             "Llama3Instruct70B",
-        ] = "Mistral7BInstruct",
+        ] = "Llama3Instruct8B",
         hide: bool = False,
     ):
         """
@@ -347,7 +304,7 @@ class MultiGenerateJSON(CoreNode[MultiGenerateJSONOut]):
         num_choices: int,
         temperature: float = 0.4,
         max_tokens: Optional[int] = None,
-        node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct",
+        node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B",
         hide: bool = False,
     ):
         """
@@ -390,7 +347,7 @@ class BatchGenerateJSON(CoreNode[BatchGenerateJSONOut]):
         self,
         prompts: List[str],
         json_schema: Dict[str, Any],
-        node: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Mistral7BInstruct",
+        node: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B",
         temperature: float = 0.4,
         max_tokens: Optional[int] = None,
         hide: bool = False,
@@ -730,61 +687,6 @@ class MultiGenerateImage(CoreNode[MultiGenerateImageOut]):
         return super().future  # type: ignore
 
 
-class StableDiffusionXL(CoreNode[StableDiffusionXLOut]):
-    """https://substrate.run/nodes#StableDiffusionXL"""
-
-    def __init__(
-        self,
-        prompt: str,
-        num_images: int,
-        negative_prompt: Optional[str] = None,
-        steps: int = 30,
-        store: Optional[str] = None,
-        height: int = 1024,
-        width: int = 1024,
-        seeds: Optional[List[int]] = None,
-        guidance_scale: float = 7,
-        hide: bool = False,
-    ):
-        """
-        Args:
-            prompt: Text prompt.
-            num_images: Number of images to generate.
-            negative_prompt: Negative input prompt.
-            steps: Number of diffusion steps.
-            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
-            height: Height of output image, in pixels.
-            width: Width of output image, in pixels.
-            seeds: Seeds for deterministic generation. Default is a random seed.
-            guidance_scale: Higher values adhere to the text prompt more strongly, typically at the expense of image quality.
-
-        https://substrate.run/nodes#StableDiffusionXL
-        """
-        super().__init__(
-            prompt=prompt,
-            num_images=num_images,
-            negative_prompt=negative_prompt,
-            steps=steps,
-            store=store,
-            height=height,
-            width=width,
-            seeds=seeds,
-            guidance_scale=guidance_scale,
-            hide=hide,
-            out_type=StableDiffusionXLOut,
-        )
-        self.node = "StableDiffusionXL"
-
-    @property
-    def future(self) -> FutureStableDiffusionXLOut:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        https://substrate.run/nodes#StableDiffusionXL
-        """
-        return super().future  # type: ignore
-
-
 class StableDiffusionXLLightning(CoreNode[StableDiffusionXLLightningOut]):
     """https://substrate.run/nodes#StableDiffusionXLLightning"""
 
@@ -830,61 +732,6 @@ class StableDiffusionXLLightning(CoreNode[StableDiffusionXLLightningOut]):
         Future reference to this node's output.
 
         https://substrate.run/nodes#StableDiffusionXLLightning
-        """
-        return super().future  # type: ignore
-
-
-class StableDiffusionXLIPAdapter(CoreNode[StableDiffusionXLIPAdapterOut]):
-    """https://substrate.run/nodes#StableDiffusionXLIPAdapter"""
-
-    def __init__(
-        self,
-        prompt: str,
-        image_prompt_uri: str,
-        num_images: int,
-        ip_adapter_scale: float = 0.5,
-        negative_prompt: Optional[str] = None,
-        store: Optional[str] = None,
-        width: int = 1024,
-        height: int = 1024,
-        seeds: Optional[List[int]] = None,
-        hide: bool = False,
-    ):
-        """
-        Args:
-            prompt: Text prompt.
-            image_prompt_uri: Image prompt.
-            num_images: Number of images to generate.
-            ip_adapter_scale: Controls the influence of the image prompt on the generated output.
-            negative_prompt: Negative input prompt.
-            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
-            width: Width of output image, in pixels.
-            height: Height of output image, in pixels.
-            seeds: Random noise seeds. Default is random seeds for each generation.
-
-        https://substrate.run/nodes#StableDiffusionXLIPAdapter
-        """
-        super().__init__(
-            prompt=prompt,
-            image_prompt_uri=image_prompt_uri,
-            num_images=num_images,
-            ip_adapter_scale=ip_adapter_scale,
-            negative_prompt=negative_prompt,
-            store=store,
-            width=width,
-            height=height,
-            seeds=seeds,
-            hide=hide,
-            out_type=StableDiffusionXLIPAdapterOut,
-        )
-        self.node = "StableDiffusionXLIPAdapter"
-
-    @property
-    def future(self) -> FutureStableDiffusionXLIPAdapterOut:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        https://substrate.run/nodes#StableDiffusionXLIPAdapter
         """
         return super().future  # type: ignore
 
@@ -1610,45 +1457,36 @@ class CLIP(CoreNode[CLIPOut]):
         return super().future  # type: ignore
 
 
-class CreateVectorStore(CoreNode[CreateVectorStoreOut]):
-    """https://substrate.run/nodes#CreateVectorStore"""
+class FindOrCreateVectorStore(CoreNode[FindOrCreateVectorStoreOut]):
+    """https://substrate.run/nodes#FindOrCreateVectorStore"""
 
     def __init__(
         self,
         collection_name: str,
         model: Literal["jina-v2", "clip"],
-        m: int = 16,
-        ef_construction: int = 64,
-        metric: Literal["cosine", "l2", "inner"] = "inner",
         hide: bool = False,
     ):
         """
         Args:
             collection_name: Vector store name.
             model: Selected embedding model.
-            m: The max number of connections per layer for the index.
-            ef_construction: The size of the dynamic candidate list for constructing the index graph.
-            metric: The distance metric to construct the index with.
 
-        https://substrate.run/nodes#CreateVectorStore
+        https://substrate.run/nodes#FindOrCreateVectorStore
         """
         super().__init__(
             collection_name=collection_name,
             model=model,
-            m=m,
-            ef_construction=ef_construction,
-            metric=metric,
             hide=hide,
-            out_type=CreateVectorStoreOut,
+            out_type=FindOrCreateVectorStoreOut,
         )
-        self.node = "CreateVectorStore"
+        self.node = "FindOrCreateVectorStore"
 
     @property
-    def future(self) -> FutureCreateVectorStoreOut:  # type: ignore
+    def future(self) -> FutureFindOrCreateVectorStoreOut:  # type: ignore
         """
         Future reference to this node's output.
 
-        https://substrate.run/nodes#CreateVectorStore
+        https://substrate.run/nodes#FindOrCreateVectorStore
         """
         return super().future  # type: ignore
 
