@@ -166,6 +166,7 @@ class APIClient:
             "Content-Type": "application/json",
             "User-Agent": self.user_agent,
             "X-Substrate-Request-Id": IDGenerator.random_string(32),
+            "X-Substrate-Backend": "v1",
             **self.platform_headers,
             **self.auth_headers,
             **self._additional_headers,
