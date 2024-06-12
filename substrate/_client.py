@@ -2,12 +2,12 @@ import logging
 import platform
 from typing import Any, Dict, Union, Optional
 from typing_extensions import Literal
-from .core.id_generator import IDGenerator
 
 import httpx
 import distro
 
 from ._version import __version__
+from .core.id_generator import IDGenerator
 
 log: logging.Logger = logging.getLogger(__name__)
 
@@ -121,20 +121,17 @@ class APIClient:
     _client: httpx.Client
     _async_client: httpx.AsyncClient
     _version: str
-    _backend: str
     _additional_headers: Dict[str, Any]
 
     def __init__(
         self,
         api_key: str,
         base_url: str,
-        backend: str,
         timeout: float,
         additional_headers: Dict[str, Any] = {},
     ) -> None:
         self._api_key = api_key
         self._base_url = base_url
-        self._backend = backend
         self._additional_headers = additional_headers
         self._client = httpx.Client(timeout=timeout, follow_redirects=True)
         self._async_client = httpx.AsyncClient(timeout=timeout, follow_redirects=True)
@@ -169,7 +166,6 @@ class APIClient:
             "Accept": "application/json",
             "Content-Type": "application/json",
             "User-Agent": self.user_agent,
-            "X-Substrate-Backend": self._backend,
             "X-Substrate-Request-Id": IDGenerator.random_string(32),
             **self.platform_headers,
             **self.auth_headers,

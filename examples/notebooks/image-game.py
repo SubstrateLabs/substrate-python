@@ -26,10 +26,7 @@ def __(api_key):
     import marimo as mo
     import substrate as sb
 
-    substrate = sb.Substrate(
-        api_key=api_key,
-        backend="v1",
-    )
+    substrate = sb.Substrate(api_key=api_key)
     return base64, datetime, json, mo, random, sb, string, substrate, time
 
 
@@ -64,7 +61,7 @@ def __(mo):
         full_width=True,
     ).form()
     prompt
-    return prompt,
+    return (prompt,)
 
 
 @app.cell
@@ -107,7 +104,7 @@ def __(mo):
         .form()
     )
     guesses
-    return guesses,
+    return (guesses,)
 
 
 @app.cell
@@ -134,7 +131,7 @@ def __(collection_name, guesses, sb):
 def __(embed1, embed2, guess1image, guess2image, mo, substrate):
     guess_res = substrate.run(guess1image, guess2image, embed1, embed2)
     mo.accordion({"response": mo.tree(guess_res.json)})
-    return guess_res,
+    return (guess_res,)
 
 
 @app.cell
@@ -158,7 +155,7 @@ def __(collection_name, guess1image, guess2image, guess_res, sb):
         top_k=100,
         ef_search=64,
     )
-    return query,
+    return (query,)
 
 
 @app.cell

@@ -31,10 +31,7 @@ def __():
 
 @app.cell
 def __(Substrate, api_key):
-    substrate = Substrate(
-        api_key=api_key,
-        backend="v1",
-    )
+    substrate = Substrate(api_key=api_key)
     return (substrate,)
 
 
