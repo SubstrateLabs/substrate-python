@@ -133,8 +133,7 @@ class APIClient:
         self._api_key = api_key
         self._base_url = base_url
         self._additional_headers = additional_headers
-        self._client = httpx.Client(timeout=timeout, follow_redirects=True)
-        self._async_client = httpx.AsyncClient(timeout=timeout, follow_redirects=True)
+        self._timeout = timeout
         self._version = __version__
 
     @property
@@ -175,7 +174,8 @@ class APIClient:
     def post_compose(self, dag: Dict[str, Any]) -> APIResponse:
         url = f"{self._base_url}/compose"
         body = {"dag": dag}
-        http_response = self._client.post(url, headers=self.default_headers, json=body)
+        with httpx.Client(timeout=self._timeout, follow_redirects=True) as client:
+            http_response = client.post(url, headers=self.default_headers, json=body)
         _json = None
         try:
             _json = http_response.json()
@@ -192,7 +192,8 @@ class APIClient:
     async def async_post_compose(self, dag: Dict[str, Any]) -> APIResponse:
         url = f"{self._base_url}/compose"
         body = {"dag": dag}
-        http_response = await self._async_client.post(url, headers=self.default_headers, json=body)
+        async with httpx.AsyncClient(timeout=self._timeout, follow_redirects=True) as client:
+            http_response = await client.post(url, headers=self.default_headers, json=body)
         _json = None
         try:
             _json = http_response.json()
