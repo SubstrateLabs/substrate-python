@@ -18,11 +18,10 @@ story = GenerateText(prompt="tell me a story")
 summary = GenerateText(prompt=sb.concat("Summarize this story: ", story.future.text))
 
 response = substrate.run(story, summary)
-print(response.api_response.json)
-print(response.api_response.status_code)
+print(response)
 
-# summary_out = response.get(summary)
-# print(summary_out.text)
+summary_out = response.get(summary)
+print(summary_out.text)
 
 # viz = Substrate.visualize(ry)
 # print(viz)
