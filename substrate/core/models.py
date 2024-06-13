@@ -1974,7 +1974,3 @@ class QueryVectorStoreOut(BaseModel):
     """
     Selected embedding model.
     """
-    metric: Optional[Literal["cosine", "l2", "inner"]] = None
-    """
-    The distance metric used for the query.
-    """

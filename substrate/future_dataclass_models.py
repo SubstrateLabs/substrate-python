@@ -2510,8 +2510,3 @@ class FutureQueryVectorStoreOut:
     (Future reference)
     Selected embedding model.
     """
-    metric: Optional[Literal["cosine", "l2", "inner"]] = None
-    """
-    (Future reference)
-    The distance metric used for the query.
-    """

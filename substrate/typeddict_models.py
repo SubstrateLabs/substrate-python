@@ -1652,7 +1652,3 @@ class QueryVectorStoreOut(TypedDict):
     """
     Selected embedding model.
     """
-    metric: NotRequired[Literal["cosine", "l2", "inner"]]
-    """
-    The distance metric used for the query.
-    """
