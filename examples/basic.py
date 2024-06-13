@@ -19,11 +19,10 @@ story = GenerateText(prompt="tell me a story")
 
 # response = substrate.run(story, summary)
 response = substrate.run(story)
-print(response.api_response.json)
-print(response.api_response.status_code)
+print(response)
 
-# summary_out = response.get(summary)
-# print(summary_out.text)
+summary_out = response.get(summary)
+print(summary_out.text)
 
 # viz = Substrate.visualize(ry)
 # print(viz)
