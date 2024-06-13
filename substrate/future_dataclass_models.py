@@ -133,6 +133,11 @@ class FutureGenerateTextIn:
     (Future reference)
     Input prompt.
     """
+    image_uris: Optional[List[str]] = None
+    """
+    (Future reference)
+    Image prompts.
+    """
     temperature: float = 0.4
     """
     (Future reference)
@@ -143,15 +148,16 @@ class FutureGenerateTextIn:
     (Future reference)
     Maximum number of tokens to generate.
     """
-    node: Literal[
+    model: Literal[
         "Mistral7BInstruct",
         "Mixtral8x7BInstruct",
         "Llama3Instruct8B",
         "Llama3Instruct70B",
+        "Firellava13B",
     ] = "Llama3Instruct8B"
     """
     (Future reference)
-    Selected node.
+    Selected model. `Firellava13B` is automatically selected when `image_uris` is provided.
     """
 
 
@@ -194,10 +200,10 @@ class FutureGenerateJSONIn:
     (Future reference)
     Maximum number of tokens to generate.
     """
-    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
+    model: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
     """
     (Future reference)
-    Selected node.
+    Selected model.
     """
 
 
@@ -245,7 +251,7 @@ class FutureMultiGenerateTextIn:
     (Future reference)
     Maximum number of tokens to generate.
     """
-    node: Literal[
+    model: Literal[
         "Mistral7BInstruct",
         "Mixtral8x7BInstruct",
         "Llama3Instruct8B",
@@ -253,7 +259,7 @@ class FutureMultiGenerateTextIn:
     ] = "Llama3Instruct8B"
     """
     (Future reference)
-    Selected node.
+    Selected model.
     """
 
 
@@ -337,10 +343,10 @@ class FutureMultiGenerateJSONIn:
     (Future reference)
     Maximum number of tokens to generate.
     """
-    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
+    model: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
     """
     (Future reference)
-    Selected node.
+    Selected model.
     """
 
 
@@ -373,10 +379,10 @@ class FutureBatchGenerateJSONIn:
     (Future reference)
     JSON schema to guide `json_object` response.
     """
-    node: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
+    model: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
     """
     (Future reference)
-    Selected node.
+    Selected model.
     """
     temperature: float = 0.4
     """
@@ -414,6 +420,11 @@ class FutureMistral7BInstructIn:
     (Future reference)
     Input prompt.
     """
+    system_prompt: Optional[str] = None
+    """
+    (Future reference)
+    System prompt.
+    """
     num_choices: int = 1
     """
     (Future reference)
@@ -427,7 +438,27 @@ class FutureMistral7BInstructIn:
     temperature: Optional[float] = None
     """
     (Future reference)
-    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    Higher values make the output more random, lower values make the output more deterministic.
+    """
+    frequency_penalty: float = 0.0
+    """
+    (Future reference)
+    Higher values decrease the likelihood of repeating previous tokens.
+    """
+    repetition_penalty: float = 1.0
+    """
+    (Future reference)
+    Higher values decrease the likelihood of repeated sequences.
+    """
+    presence_penalty: float = 1.1
+    """
+    (Future reference)
+    Higher values increase the likelihood of new topics appearing.
+    """
+    top_p: float = 0.95
+    """
+    (Future reference)
+    Probability below which less likely tokens are filtered out.
     """
     max_tokens: Optional[int] = None
     """
@@ -478,6 +509,11 @@ class FutureMixtral8x7BInstructIn:
     (Future reference)
     Input prompt.
     """
+    system_prompt: Optional[str] = None
+    """
+    (Future reference)
+    System prompt.
+    """
     num_choices: int = 1
     """
     (Future reference)
@@ -491,7 +527,27 @@ class FutureMixtral8x7BInstructIn:
     temperature: Optional[float] = None
     """
     (Future reference)
-    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    Higher values make the output more random, lower values make the output more deterministic.
+    """
+    frequency_penalty: float = 0.0
+    """
+    (Future reference)
+    Higher values decrease the likelihood of repeating previous tokens.
+    """
+    repetition_penalty: float = 1.0
+    """
+    (Future reference)
+    Higher values decrease the likelihood of repeated sequences.
+    """
+    presence_penalty: float = 1.1
+    """
+    (Future reference)
+    Higher values increase the likelihood of new topics appearing.
+    """
+    top_p: float = 0.95
+    """
+    (Future reference)
+    Probability below which less likely tokens are filtered out.
     """
     max_tokens: Optional[int] = None
     """
@@ -542,6 +598,11 @@ class FutureLlama3Instruct8BIn:
     (Future reference)
     Input prompt.
     """
+    system_prompt: Optional[str] = None
+    """
+    (Future reference)
+    System prompt.
+    """
     num_choices: int = 1
     """
     (Future reference)
@@ -550,7 +611,27 @@ class FutureLlama3Instruct8BIn:
     temperature: Optional[float] = None
     """
     (Future reference)
-    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    Higher values make the output more random, lower values make the output more deterministic.
+    """
+    frequency_penalty: float = 0.0
+    """
+    (Future reference)
+    Higher values decrease the likelihood of repeating previous tokens.
+    """
+    repetition_penalty: float = 1.0
+    """
+    (Future reference)
+    Higher values decrease the likelihood of repeated sequences.
+    """
+    presence_penalty: float = 1.1
+    """
+    (Future reference)
+    Higher values increase the likelihood of new topics appearing.
+    """
+    top_p: float = 0.95
+    """
+    (Future reference)
+    Probability below which less likely tokens are filtered out.
     """
     max_tokens: Optional[int] = None
     """
@@ -606,6 +687,11 @@ class FutureLlama3Instruct70BIn:
     (Future reference)
     Input prompt.
     """
+    system_prompt: Optional[str] = None
+    """
+    (Future reference)
+    System prompt.
+    """
     num_choices: int = 1
     """
     (Future reference)
@@ -614,7 +700,27 @@ class FutureLlama3Instruct70BIn:
     temperature: Optional[float] = None
     """
     (Future reference)
-    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    Higher values make the output more random, lower values make the output more deterministic.
+    """
+    frequency_penalty: float = 0.0
+    """
+    (Future reference)
+    Higher values decrease the likelihood of repeating previous tokens.
+    """
+    repetition_penalty: float = 1.0
+    """
+    (Future reference)
+    Higher values decrease the likelihood of repeated sequences.
+    """
+    presence_penalty: float = 1.1
+    """
+    (Future reference)
+    Higher values increase the likelihood of new topics appearing.
+    """
+    top_p: float = 0.95
+    """
+    (Future reference)
+    Probability below which less likely tokens are filtered out.
     """
     max_tokens: Optional[int] = None
     """
@@ -650,42 +756,6 @@ class FutureLlama3Instruct70BOut:
 
 
 @dataclass
-class FutureGenerateTextVisionIn:
-    """
-    Future reference to FutureGenerateTextVisionIn
-    """
-
-    prompt: str
-    """
-    (Future reference)
-    Text prompt.
-    """
-    image_uris: List[str]
-    """
-    (Future reference)
-    Image prompts.
-    """
-    max_tokens: int = 800
-    """
-    (Future reference)
-    Maximum number of tokens to generate.
-    """
-
-
-@dataclass
-class FutureGenerateTextVisionOut:
-    """
-    Future reference to FutureGenerateTextVisionOut
-    """
-
-    text: str
-    """
-    (Future reference)
-    Text response.
-    """
-
-
-@dataclass
 class FutureFirellava13BIn:
     """
     Future reference to FutureFirellava13BIn
@@ -701,7 +771,7 @@ class FutureFirellava13BIn:
     (Future reference)
     Image prompts.
     """
-    max_tokens: int = 800
+    max_tokens: Optional[int] = None
     """
     (Future reference)
     Maximum number of tokens to generate.
@@ -1066,9 +1136,9 @@ class FutureStableDiffusionXLControlNetOut:
 
 
 @dataclass
-class FutureGenerativeEditImageIn:
+class FutureInpaintImageIn:
     """
-    Future reference to FutureGenerativeEditImageIn
+    Future reference to FutureInpaintImageIn
     """
 
     image_uri: str
@@ -1094,9 +1164,9 @@ class FutureGenerativeEditImageIn:
 
 
 @dataclass
-class FutureGenerativeEditImageOut:
+class FutureInpaintImageOut:
     """
-    Future reference to FutureGenerativeEditImageOut
+    Future reference to FutureInpaintImageOut
     """
 
     image_uri: str
@@ -1107,9 +1177,9 @@ class FutureGenerativeEditImageOut:
 
 
 @dataclass
-class FutureMultiGenerativeEditImageIn:
+class FutureMultiInpaintImageIn:
     """
-    Future reference to FutureMultiGenerativeEditImageIn
+    Future reference to FutureMultiInpaintImageIn
     """
 
     image_uri: str
@@ -1140,12 +1210,12 @@ class FutureMultiGenerativeEditImageIn:
 
 
 @dataclass
-class FutureMultiGenerativeEditImageOut:
+class FutureMultiInpaintImageOut:
     """
-    Future reference to FutureMultiGenerativeEditImageOut
+    Future reference to FutureMultiInpaintImageOut
     """
 
-    outputs: List[FutureGenerativeEditImageOut]
+    outputs: List[FutureInpaintImageOut]
     """
     (Future reference)
     Generated images.
@@ -1265,9 +1335,9 @@ class Point:
 
 
 @dataclass
-class FutureFillMaskIn:
+class FutureEraseImageIn:
     """
-    Future reference to FutureFillMaskIn
+    Future reference to FutureEraseImageIn
     """
 
     image_uri: str
@@ -1288,9 +1358,9 @@ class FutureFillMaskIn:
 
 
 @dataclass
-class FutureFillMaskOut:
+class FutureEraseImageOut:
     """
-    Future reference to FutureFillMaskOut
+    Future reference to FutureEraseImageOut
     """
 
     image_uri: str
@@ -1527,9 +1597,9 @@ class FutureSegmentAnythingOut:
 
 
 @dataclass
-class FutureTranscribeMediaIn:
+class FutureTranscribeSpeechIn:
     """
-    Future reference to FutureTranscribeMediaIn
+    Future reference to FutureTranscribeSpeechIn
     """
 
     audio_uri: str
@@ -1649,9 +1719,9 @@ class ChapterMarker:
 
 
 @dataclass
-class FutureTranscribeMediaOut:
+class FutureTranscribeSpeechOut:
     """
-    Future reference to FutureTranscribeMediaOut
+    Future reference to FutureTranscribeSpeechOut
     """
 
     text: str

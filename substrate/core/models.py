@@ -89,6 +89,10 @@ class GenerateTextIn(BaseModel):
     """
     Input prompt.
     """
+    image_uris: Optional[List[str]] = None
+    """
+    Image prompts.
+    """
     temperature: Annotated[float, Field(ge=0.0, le=1.0)] = 0.4
     """
     Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
@@ -97,14 +101,15 @@ class GenerateTextIn(BaseModel):
     """
     Maximum number of tokens to generate.
     """
-    node: Literal[
+    model: Literal[
         "Mistral7BInstruct",
         "Mixtral8x7BInstruct",
         "Llama3Instruct8B",
         "Llama3Instruct70B",
+        "Firellava13B",
     ] = "Llama3Instruct8B"
     """
-    Selected node.
+    Selected model. `Firellava13B` is automatically selected when `image_uris` is provided.
     """
 
 
@@ -132,9 +137,9 @@ class GenerateJSONIn(BaseModel):
     """
     Maximum number of tokens to generate.
     """
-    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
+    model: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
     """
-    Selected node.
+    Selected model.
     """
 
 
@@ -166,14 +171,14 @@ class MultiGenerateTextIn(BaseModel):
     """
     Maximum number of tokens to generate.
     """
-    node: Literal[
+    model: Literal[
         "Mistral7BInstruct",
         "Mixtral8x7BInstruct",
         "Llama3Instruct8B",
         "Llama3Instruct70B",
     ] = "Llama3Instruct8B"
     """
-    Selected node.
+    Selected model.
     """
 
 
@@ -227,9 +232,9 @@ class MultiGenerateJSONIn(BaseModel):
     """
     Maximum number of tokens to generate.
     """
-    node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
+    model: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
     """
-    Selected node.
+    Selected model.
     """
 
 
@@ -241,9 +246,9 @@ class MultiGenerateJSONOut(BaseModel):
 
 
 class BatchGenerateJSONIn(BaseModel):
-    node: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
+    model: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
     """
-    Selected node.
+    Selected model.
     """
     prompts: List[str]
     """
@@ -275,6 +280,10 @@ class Mistral7BInstructIn(BaseModel):
     """
     Input prompt.
     """
+    system_prompt: Optional[str] = None
+    """
+    System prompt.
+    """
     num_choices: Annotated[int, Field(ge=1, le=8)] = 1
     """
     Number of choices to generate.
@@ -285,7 +294,23 @@ class Mistral7BInstructIn(BaseModel):
     """
     temperature: Annotated[Optional[float], Field(ge=0.0, le=1.0)] = None
     """
-    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    Higher values make the output more random, lower values make the output more deterministic.
+    """
+    frequency_penalty: Annotated[float, Field(ge=-2.0, le=2.0)] = 0.0
+    """
+    Higher values decrease the likelihood of repeating previous tokens.
+    """
+    repetition_penalty: Annotated[float, Field(ge=-2.0, le=2.0)] = 1.0
+    """
+    Higher values decrease the likelihood of repeated sequences.
+    """
+    presence_penalty: Annotated[float, Field(ge=-2.0, le=2.0)] = 1.1
+    """
+    Higher values increase the likelihood of new topics appearing.
+    """
+    top_p: Annotated[float, Field(ge=0.0, le=1.0)] = 0.95
+    """
+    Probability below which less likely tokens are filtered out.
     """
     max_tokens: Optional[int] = None
     """
@@ -316,6 +341,10 @@ class Mixtral8x7BInstructIn(BaseModel):
     """
     Input prompt.
     """
+    system_prompt: Optional[str] = None
+    """
+    System prompt.
+    """
     num_choices: Annotated[int, Field(ge=1, le=8)] = 1
     """
     Number of choices to generate.
@@ -326,7 +355,23 @@ class Mixtral8x7BInstructIn(BaseModel):
     """
     temperature: Annotated[Optional[float], Field(ge=0.0, le=1.0)] = None
     """
-    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    Higher values make the output more random, lower values make the output more deterministic.
+    """
+    frequency_penalty: Annotated[float, Field(ge=-2.0, le=2.0)] = 0.0
+    """
+    Higher values decrease the likelihood of repeating previous tokens.
+    """
+    repetition_penalty: Annotated[float, Field(ge=-2.0, le=2.0)] = 1.0
+    """
+    Higher values decrease the likelihood of repeated sequences.
+    """
+    presence_penalty: Annotated[float, Field(ge=-2.0, le=2.0)] = 1.1
+    """
+    Higher values increase the likelihood of new topics appearing.
+    """
+    top_p: Annotated[float, Field(ge=0.0, le=1.0)] = 0.95
+    """
+    Probability below which less likely tokens are filtered out.
     """
     max_tokens: Optional[int] = None
     """
@@ -357,13 +402,33 @@ class Llama3Instruct8BIn(BaseModel):
     """
     Input prompt.
     """
+    system_prompt: Optional[str] = None
+    """
+    System prompt.
+    """
     num_choices: Annotated[int, Field(ge=1, le=8)] = 1
     """
     Number of choices to generate.
     """
     temperature: Annotated[Optional[float], Field(ge=0.0, le=1.0)] = None
     """
-    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    Higher values make the output more random, lower values make the output more deterministic.
+    """
+    frequency_penalty: Annotated[float, Field(ge=-2.0, le=2.0)] = 0.0
+    """
+    Higher values decrease the likelihood of repeating previous tokens.
+    """
+    repetition_penalty: Annotated[float, Field(ge=-2.0, le=2.0)] = 1.0
+    """
+    Higher values decrease the likelihood of repeated sequences.
+    """
+    presence_penalty: Annotated[float, Field(ge=-2.0, le=2.0)] = 1.1
+    """
+    Higher values increase the likelihood of new topics appearing.
+    """
+    top_p: Annotated[float, Field(ge=0.0, le=1.0)] = 0.95
+    """
+    Probability below which less likely tokens are filtered out.
     """
     max_tokens: Optional[int] = None
     """
@@ -398,13 +463,33 @@ class Llama3Instruct70BIn(BaseModel):
     """
     Input prompt.
     """
+    system_prompt: Optional[str] = None
+    """
+    System prompt.
+    """
     num_choices: Annotated[int, Field(ge=1, le=8)] = 1
     """
     Number of choices to generate.
     """
     temperature: Annotated[Optional[float], Field(ge=0.0, le=1.0)] = None
     """
-    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    Higher values make the output more random, lower values make the output more deterministic.
+    """
+    frequency_penalty: Annotated[float, Field(ge=-2.0, le=2.0)] = 0.0
+    """
+    Higher values decrease the likelihood of repeating previous tokens.
+    """
+    repetition_penalty: Annotated[float, Field(ge=-2.0, le=2.0)] = 1.0
+    """
+    Higher values decrease the likelihood of repeated sequences.
+    """
+    presence_penalty: Annotated[float, Field(ge=-2.0, le=2.0)] = 1.1
+    """
+    Higher values increase the likelihood of new topics appearing.
+    """
+    top_p: Annotated[float, Field(ge=0.0, le=1.0)] = 0.95
+    """
+    Probability below which less likely tokens are filtered out.
     """
     max_tokens: Optional[int] = None
     """
@@ -426,28 +511,6 @@ class Llama3Instruct70BOut(BaseModel):
     """
 
 
-class GenerateTextVisionIn(BaseModel):
-    prompt: str
-    """
-    Text prompt.
-    """
-    image_uris: List[str]
-    """
-    Image prompts.
-    """
-    max_tokens: int = 800
-    """
-    Maximum number of tokens to generate.
-    """
-
-
-class GenerateTextVisionOut(BaseModel):
-    text: str
-    """
-    Text response.
-    """
-
-
 class Firellava13BIn(BaseModel):
     prompt: str
     """
@@ -457,7 +520,7 @@ class Firellava13BIn(BaseModel):
     """
     Image prompts.
     """
-    max_tokens: int = 800
+    max_tokens: Optional[int] = None
     """
     Maximum number of tokens to generate.
     """
@@ -701,7 +764,7 @@ class StableDiffusionXLControlNetOut(BaseModel):
     """
 
 
-class GenerativeEditImageIn(BaseModel):
+class InpaintImageIn(BaseModel):
     image_uri: str
     """
     Original image.
@@ -720,14 +783,14 @@ class GenerativeEditImageIn(BaseModel):
     """
 
 
-class GenerativeEditImageOut(BaseModel):
+class InpaintImageOut(BaseModel):
     image_uri: str
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
     """
 
 
-class MultiGenerativeEditImageIn(BaseModel):
+class MultiInpaintImageIn(BaseModel):
     image_uri: str
     """
     Original image.
@@ -750,8 +813,8 @@ class MultiGenerativeEditImageIn(BaseModel):
     """
 
 
-class MultiGenerativeEditImageOut(BaseModel):
-    outputs: List[GenerativeEditImageOut]
+class MultiInpaintImageOut(BaseModel):
+    outputs: List[InpaintImageOut]
     """
     Generated images.
     """
@@ -833,7 +896,7 @@ class Point(BaseModel):
     """
 
 
-class FillMaskIn(BaseModel):
+class EraseImageIn(BaseModel):
     image_uri: str
     """
     Input image.
@@ -848,7 +911,7 @@ class FillMaskIn(BaseModel):
     """
 
 
-class FillMaskOut(BaseModel):
+class EraseImageOut(BaseModel):
     image_uri: str
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
@@ -995,7 +1058,7 @@ class SegmentAnythingOut(BaseModel):
     """
 
 
-class TranscribeMediaIn(BaseModel):
+class TranscribeSpeechIn(BaseModel):
     audio_uri: str
     """
     Input audio.
@@ -1079,7 +1142,7 @@ class ChapterMarker(BaseModel):
     """
 
 
-class TranscribeMediaOut(BaseModel):
+class TranscribeSpeechOut(BaseModel):
     text: str
     """
     Transcribed text.
