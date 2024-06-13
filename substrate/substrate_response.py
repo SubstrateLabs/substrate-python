@@ -14,6 +14,18 @@ class SubstrateResponse:
     def __init__(self, api_response: APIResponse):
         self._api_response = api_response
 
+    def __str__(self):
+        return f"SubstrateResponse(request_id={self.request_id}, api_response={self._api_response.status_code})"
+
+    @property
+    def request_id(self) -> Optional[str]:
+        """
+        The request id.
+        """
+        if self.json:
+            return self.json.get("substrate_request_id")
+        return None
+
     def get(self, node: CoreNode[OT]) -> OT:
         """
         Get the output of a specific node.
