@@ -296,6 +296,11 @@ class FutureBatchGenerateTextIn:
     (Future reference)
     Maximum number of tokens to generate.
     """
+    model: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
+    """
+    (Future reference)
+    Selected model.
+    """
 
 
 @dataclass
@@ -378,11 +383,6 @@ class FutureBatchGenerateJSONIn:
     (Future reference)
     JSON schema to guide `json_object` response.
     """
-    model: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
-    """
-    (Future reference)
-    Selected model.
-    """
     temperature: float = 0.4
     """
     (Future reference)
@@ -392,6 +392,11 @@ class FutureBatchGenerateJSONIn:
     """
     (Future reference)
     Maximum number of tokens to generate.
+    """
+    model: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
+    """
+    (Future reference)
+    Selected model.
     """
 
 

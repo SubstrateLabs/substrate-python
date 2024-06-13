@@ -237,6 +237,10 @@ class BatchGenerateTextIn(BaseModel):
     """
     Maximum number of tokens to generate.
     """
+    model: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
+    """
+    Selected model.
+    """
 
 
 class BatchGenerateTextOut(BaseModel):
@@ -293,10 +297,6 @@ class BatchGenerateJSONIn(BaseModel):
     class Config:
         extra = Extra.allow
 
-    model: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
-    """
-    Selected model.
-    """
     prompts: List[str]
     """
     Batch input prompts.
@@ -312,6 +312,10 @@ class BatchGenerateJSONIn(BaseModel):
     max_tokens: Optional[int] = None
     """
     Maximum number of tokens to generate.
+    """
+    model: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
+    """
+    Selected model.
     """
 
 

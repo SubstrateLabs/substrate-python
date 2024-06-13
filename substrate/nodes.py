@@ -291,6 +291,7 @@ class BatchGenerateText(CoreNode[BatchGenerateTextOut]):
         prompts: List[str],
         temperature: float = 0.4,
         max_tokens: Optional[int] = None,
+        model: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B",
         hide: bool = False,
         **kwargs,
     ):
@@ -299,6 +300,7 @@ class BatchGenerateText(CoreNode[BatchGenerateTextOut]):
             prompts: Batch input prompts.
             temperature: Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
             max_tokens: Maximum number of tokens to generate.
+            model: Selected model.
 
         https://substrate.run/nodes#BatchGenerateText
         """
@@ -306,6 +308,7 @@ class BatchGenerateText(CoreNode[BatchGenerateTextOut]):
             prompts=prompts,
             temperature=temperature,
             max_tokens=max_tokens,
+            model=model,
             hide=hide,
             out_type=BatchGenerateTextOut,
             **kwargs,
@@ -377,9 +380,9 @@ class BatchGenerateJSON(CoreNode[BatchGenerateJSONOut]):
         self,
         prompts: List[str],
         json_schema: Dict[str, Any],
-        model: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B",
         temperature: float = 0.4,
         max_tokens: Optional[int] = None,
+        model: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B",
         hide: bool = False,
         **kwargs,
     ):
@@ -387,18 +390,18 @@ class BatchGenerateJSON(CoreNode[BatchGenerateJSONOut]):
         Args:
             prompts: Batch input prompts.
             json_schema: JSON schema to guide `json_object` response.
-            model: Selected model.
             temperature: Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
             max_tokens: Maximum number of tokens to generate.
+            model: Selected model.
 
         https://substrate.run/nodes#BatchGenerateJSON
         """
         super().__init__(
             prompts=prompts,
             json_schema=json_schema,
-            model=model,
             temperature=temperature,
             max_tokens=max_tokens,
+            model=model,
             hide=hide,
             out_type=BatchGenerateJSONOut,
             **kwargs,

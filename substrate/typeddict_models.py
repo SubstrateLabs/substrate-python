@@ -203,6 +203,10 @@ class BatchGenerateTextIn(TypedDict):
     """
     Maximum number of tokens to generate.
     """
+    model: NotRequired[Literal["Mistral7BInstruct", "Llama3Instruct8B"]]
+    """
+    Selected model.
+    """
 
 
 class BatchGenerateTextOut(TypedDict):
@@ -247,10 +251,6 @@ class MultiGenerateJSONOut(TypedDict):
 
 
 class BatchGenerateJSONIn(TypedDict):
-    model: NotRequired[Literal["Mistral7BInstruct", "Llama3Instruct8B"]]
-    """
-    Selected model.
-    """
     prompts: NotRequired[List[str]]
     """
     Batch input prompts.
@@ -266,6 +266,10 @@ class BatchGenerateJSONIn(TypedDict):
     max_tokens: NotRequired[int]
     """
     Maximum number of tokens to generate.
+    """
+    model: NotRequired[Literal["Mistral7BInstruct", "Llama3Instruct8B"]]
+    """
+    Selected model.
     """
 
 
