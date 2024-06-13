@@ -5,8 +5,8 @@
 from __future__ import annotations
 
 import warnings
-from typing import Any, Dict, List, Optional
-from typing_extensions import Literal
+
+from .core.corenode import CoreNode
 
 # filter pydantic v2 deprecation warnings
 with warnings.catch_warnings():
@@ -52,7 +52,9 @@ with warnings.catch_warnings():
         StableDiffusionXLLightningOut,
         StableDiffusionXLControlNetOut,
     )
-from .core.corenode import CoreNode
+from typing import Any, Dict, List, Optional
+from typing_extensions import Literal
+
 from .future_dataclass_models import (
     FutureCLIPOut,
     FutureJinaV2Out,
