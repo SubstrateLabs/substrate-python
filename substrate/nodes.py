@@ -95,7 +95,14 @@ from .future_dataclass_models import (
 class Experimental(CoreNode[ExperimentalOut]):
     """https://substrate.run/nodes#Experimental"""
 
-    def __init__(self, name: str, args: Dict[str, Any], timeout: int = 60, hide: bool = False):
+    def __init__(
+        self,
+        name: str,
+        args: Dict[str, Any],
+        timeout: int = 60,
+        hide: bool = False,
+        **kwargs,
+    ):
         """
         Args:
             name: Identifier.
@@ -104,7 +111,14 @@ class Experimental(CoreNode[ExperimentalOut]):
 
         https://substrate.run/nodes#Experimental
         """
-        super().__init__(name=name, args=args, timeout=timeout, hide=hide, out_type=ExperimentalOut)
+        super().__init__(
+            name=name,
+            args=args,
+            timeout=timeout,
+            hide=hide,
+            out_type=ExperimentalOut,
+            **kwargs,
+        )
         self.node = "Experimental"
 
     @property
@@ -134,6 +148,7 @@ class GenerateText(CoreNode[GenerateTextOut]):
             "Firellava13B",
         ] = "Llama3Instruct8B",
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -153,6 +168,7 @@ class GenerateText(CoreNode[GenerateTextOut]):
             model=model,
             hide=hide,
             out_type=GenerateTextOut,
+            **kwargs,
         )
         self.node = "GenerateText"
 
@@ -177,6 +193,7 @@ class GenerateJSON(CoreNode[GenerateJSONOut]):
         max_tokens: Optional[int] = None,
         model: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B",
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -196,6 +213,7 @@ class GenerateJSON(CoreNode[GenerateJSONOut]):
             model=model,
             hide=hide,
             out_type=GenerateJSONOut,
+            **kwargs,
         )
         self.node = "GenerateJSON"
 
@@ -225,6 +243,7 @@ class MultiGenerateText(CoreNode[MultiGenerateTextOut]):
             "Llama3Instruct70B",
         ] = "Llama3Instruct8B",
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -244,6 +263,7 @@ class MultiGenerateText(CoreNode[MultiGenerateTextOut]):
             model=model,
             hide=hide,
             out_type=MultiGenerateTextOut,
+            **kwargs,
         )
         self.node = "MultiGenerateText"
 
@@ -266,6 +286,7 @@ class BatchGenerateText(CoreNode[BatchGenerateTextOut]):
         temperature: float = 0.4,
         max_tokens: Optional[int] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -281,6 +302,7 @@ class BatchGenerateText(CoreNode[BatchGenerateTextOut]):
             max_tokens=max_tokens,
             hide=hide,
             out_type=BatchGenerateTextOut,
+            **kwargs,
         )
         self.node = "BatchGenerateText"
 
@@ -306,6 +328,7 @@ class MultiGenerateJSON(CoreNode[MultiGenerateJSONOut]):
         max_tokens: Optional[int] = None,
         model: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B",
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -327,6 +350,7 @@ class MultiGenerateJSON(CoreNode[MultiGenerateJSONOut]):
             model=model,
             hide=hide,
             out_type=MultiGenerateJSONOut,
+            **kwargs,
         )
         self.node = "MultiGenerateJSON"
 
@@ -351,6 +375,7 @@ class BatchGenerateJSON(CoreNode[BatchGenerateJSONOut]):
         temperature: float = 0.4,
         max_tokens: Optional[int] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -370,6 +395,7 @@ class BatchGenerateJSON(CoreNode[BatchGenerateJSONOut]):
             max_tokens=max_tokens,
             hide=hide,
             out_type=BatchGenerateJSONOut,
+            **kwargs,
         )
         self.node = "BatchGenerateJSON"
 
@@ -399,6 +425,7 @@ class Mistral7BInstruct(CoreNode[Mistral7BInstructOut]):
         top_p: float = 0.95,
         max_tokens: Optional[int] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -428,6 +455,7 @@ class Mistral7BInstruct(CoreNode[Mistral7BInstructOut]):
             max_tokens=max_tokens,
             hide=hide,
             out_type=Mistral7BInstructOut,
+            **kwargs,
         )
         self.node = "Mistral7BInstruct"
 
@@ -457,6 +485,7 @@ class Mixtral8x7BInstruct(CoreNode[Mixtral8x7BInstructOut]):
         top_p: float = 0.95,
         max_tokens: Optional[int] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -486,6 +515,7 @@ class Mixtral8x7BInstruct(CoreNode[Mixtral8x7BInstructOut]):
             max_tokens=max_tokens,
             hide=hide,
             out_type=Mixtral8x7BInstructOut,
+            **kwargs,
         )
         self.node = "Mixtral8x7BInstruct"
 
@@ -515,6 +545,7 @@ class Llama3Instruct8B(CoreNode[Llama3Instruct8BOut]):
         max_tokens: Optional[int] = None,
         json_schema: Optional[Dict[str, Any]] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -544,6 +575,7 @@ class Llama3Instruct8B(CoreNode[Llama3Instruct8BOut]):
             json_schema=json_schema,
             hide=hide,
             out_type=Llama3Instruct8BOut,
+            **kwargs,
         )
         self.node = "Llama3Instruct8B"
 
@@ -572,6 +604,7 @@ class Llama3Instruct70B(CoreNode[Llama3Instruct70BOut]):
         top_p: float = 0.95,
         max_tokens: Optional[int] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -599,6 +632,7 @@ class Llama3Instruct70B(CoreNode[Llama3Instruct70BOut]):
             max_tokens=max_tokens,
             hide=hide,
             out_type=Llama3Instruct70BOut,
+            **kwargs,
         )
         self.node = "Llama3Instruct70B"
 
@@ -621,6 +655,7 @@ class Firellava13B(CoreNode[Firellava13BOut]):
         image_uris: List[str],
         max_tokens: Optional[int] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -636,6 +671,7 @@ class Firellava13B(CoreNode[Firellava13BOut]):
             max_tokens=max_tokens,
             hide=hide,
             out_type=Firellava13BOut,
+            **kwargs,
         )
         self.node = "Firellava13B"
 
@@ -652,7 +688,7 @@ class Firellava13B(CoreNode[Firellava13BOut]):
 class GenerateImage(CoreNode[GenerateImageOut]):
     """https://substrate.run/nodes#GenerateImage"""
 
-    def __init__(self, prompt: str, store: Optional[str] = None, hide: bool = False):
+    def __init__(self, prompt: str, store: Optional[str] = None, hide: bool = False, **kwargs):
         """
         Args:
             prompt: Text prompt.
@@ -660,7 +696,7 @@ class GenerateImage(CoreNode[GenerateImageOut]):
 
         https://substrate.run/nodes#GenerateImage
         """
-        super().__init__(prompt=prompt, store=store, hide=hide, out_type=GenerateImageOut)
+        super().__init__(prompt=prompt, store=store, hide=hide, out_type=GenerateImageOut, **kwargs)
         self.node = "GenerateImage"
 
     @property
@@ -682,6 +718,7 @@ class MultiGenerateImage(CoreNode[MultiGenerateImageOut]):
         num_images: int,
         store: Optional[str] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -697,6 +734,7 @@ class MultiGenerateImage(CoreNode[MultiGenerateImageOut]):
             store=store,
             hide=hide,
             out_type=MultiGenerateImageOut,
+            **kwargs,
         )
         self.node = "MultiGenerateImage"
 
@@ -723,6 +761,7 @@ class StableDiffusionXLLightning(CoreNode[StableDiffusionXLLightningOut]):
         width: int = 1024,
         seeds: Optional[List[int]] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -746,6 +785,7 @@ class StableDiffusionXLLightning(CoreNode[StableDiffusionXLLightningOut]):
             seeds=seeds,
             hide=hide,
             out_type=StableDiffusionXLLightningOut,
+            **kwargs,
         )
         self.node = "StableDiffusionXLLightning"
 
@@ -775,6 +815,7 @@ class StableDiffusionXLControlNet(CoreNode[StableDiffusionXLControlNetOut]):
         strength: float = 0.5,
         seeds: Optional[List[int]] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -804,6 +845,7 @@ class StableDiffusionXLControlNet(CoreNode[StableDiffusionXLControlNetOut]):
             seeds=seeds,
             hide=hide,
             out_type=StableDiffusionXLControlNetOut,
+            **kwargs,
         )
         self.node = "StableDiffusionXLControlNet"
 
@@ -827,6 +869,7 @@ class InpaintImage(CoreNode[InpaintImageOut]):
         mask_image_uri: Optional[str] = None,
         store: Optional[str] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -844,6 +887,7 @@ class InpaintImage(CoreNode[InpaintImageOut]):
             store=store,
             hide=hide,
             out_type=InpaintImageOut,
+            **kwargs,
         )
         self.node = "InpaintImage"
 
@@ -868,6 +912,7 @@ class MultiInpaintImage(CoreNode[MultiInpaintImageOut]):
         mask_image_uri: Optional[str] = None,
         store: Optional[str] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -887,6 +932,7 @@ class MultiInpaintImage(CoreNode[MultiInpaintImageOut]):
             store=store,
             hide=hide,
             out_type=MultiInpaintImageOut,
+            **kwargs,
         )
         self.node = "MultiInpaintImage"
 
@@ -915,6 +961,7 @@ class StableDiffusionXLInpaint(CoreNode[StableDiffusionXLInpaintOut]):
         strength: float = 0.8,
         seeds: Optional[List[int]] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -942,6 +989,7 @@ class StableDiffusionXLInpaint(CoreNode[StableDiffusionXLInpaintOut]):
             seeds=seeds,
             hide=hide,
             out_type=StableDiffusionXLInpaintOut,
+            **kwargs,
         )
         self.node = "StableDiffusionXLInpaint"
 
@@ -964,6 +1012,7 @@ class EraseImage(CoreNode[EraseImageOut]):
         mask_image_uri: str,
         store: Optional[str] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -979,6 +1028,7 @@ class EraseImage(CoreNode[EraseImageOut]):
             store=store,
             hide=hide,
             out_type=EraseImageOut,
+            **kwargs,
         )
         self.node = "EraseImage"
 
@@ -1002,6 +1052,7 @@ class RemoveBackground(CoreNode[RemoveBackgroundOut]):
         background_color: Optional[str] = None,
         store: Optional[str] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1019,6 +1070,7 @@ class RemoveBackground(CoreNode[RemoveBackgroundOut]):
             store=store,
             hide=hide,
             out_type=RemoveBackgroundOut,
+            **kwargs,
         )
         self.node = "RemoveBackground"
 
@@ -1042,6 +1094,7 @@ class UpscaleImage(CoreNode[UpscaleImageOut]):
         output_resolution: int = 1024,
         store: Optional[str] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1059,6 +1112,7 @@ class UpscaleImage(CoreNode[UpscaleImageOut]):
             store=store,
             hide=hide,
             out_type=UpscaleImageOut,
+            **kwargs,
         )
         self.node = "UpscaleImage"
 
@@ -1081,6 +1135,7 @@ class SegmentUnderPoint(CoreNode[SegmentUnderPointOut]):
         point: Point,
         store: Optional[str] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1096,6 +1151,7 @@ class SegmentUnderPoint(CoreNode[SegmentUnderPointOut]):
             store=store,
             hide=hide,
             out_type=SegmentUnderPointOut,
+            **kwargs,
         )
         self.node = "SegmentUnderPoint"
 
@@ -1119,6 +1175,7 @@ class SegmentAnything(CoreNode[SegmentAnythingOut]):
         box_prompts: Optional[List[BoundingBox]] = None,
         store: Optional[str] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1136,6 +1193,7 @@ class SegmentAnything(CoreNode[SegmentAnythingOut]):
             store=store,
             hide=hide,
             out_type=SegmentAnythingOut,
+            **kwargs,
         )
         self.node = "SegmentAnything"
 
@@ -1162,6 +1220,7 @@ class TranscribeSpeech(CoreNode[TranscribeSpeechOut]):
         diarize: bool = False,
         suggest_chapters: bool = False,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1185,6 +1244,7 @@ class TranscribeSpeech(CoreNode[TranscribeSpeechOut]):
             suggest_chapters=suggest_chapters,
             hide=hide,
             out_type=TranscribeSpeechOut,
+            **kwargs,
         )
         self.node = "TranscribeSpeech"
 
@@ -1201,7 +1261,7 @@ class TranscribeSpeech(CoreNode[TranscribeSpeechOut]):
 class GenerateSpeech(CoreNode[GenerateSpeechOut]):
     """https://substrate.run/nodes#GenerateSpeech"""
 
-    def __init__(self, text: str, store: Optional[str] = None, hide: bool = False):
+    def __init__(self, text: str, store: Optional[str] = None, hide: bool = False, **kwargs):
         """
         Args:
             text: Input text.
@@ -1209,7 +1269,7 @@ class GenerateSpeech(CoreNode[GenerateSpeechOut]):
 
         https://substrate.run/nodes#GenerateSpeech
         """
-        super().__init__(text=text, store=store, hide=hide, out_type=GenerateSpeechOut)
+        super().__init__(text=text, store=store, hide=hide, out_type=GenerateSpeechOut, **kwargs)
         self.node = "GenerateSpeech"
 
     @property
@@ -1234,6 +1294,7 @@ class EmbedText(CoreNode[EmbedTextOut]):
         doc_id: Optional[str] = None,
         model: Literal["jina-v2", "clip"] = "jina-v2",
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1255,6 +1316,7 @@ class EmbedText(CoreNode[EmbedTextOut]):
             model=model,
             hide=hide,
             out_type=EmbedTextOut,
+            **kwargs,
         )
         self.node = "EmbedText"
 
@@ -1278,6 +1340,7 @@ class MultiEmbedText(CoreNode[MultiEmbedTextOut]):
         embedded_metadata_keys: Optional[List[str]] = None,
         model: Literal["jina-v2", "clip"] = "jina-v2",
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1295,6 +1358,7 @@ class MultiEmbedText(CoreNode[MultiEmbedTextOut]):
             model=model,
             hide=hide,
             out_type=MultiEmbedTextOut,
+            **kwargs,
         )
         self.node = "MultiEmbedText"
 
@@ -1317,6 +1381,7 @@ class JinaV2(CoreNode[JinaV2Out]):
         collection_name: Optional[str] = None,
         embedded_metadata_keys: Optional[List[str]] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1332,6 +1397,7 @@ class JinaV2(CoreNode[JinaV2Out]):
             embedded_metadata_keys=embedded_metadata_keys,
             hide=hide,
             out_type=JinaV2Out,
+            **kwargs,
         )
         self.node = "JinaV2"
 
@@ -1355,6 +1421,7 @@ class EmbedImage(CoreNode[EmbedImageOut]):
         doc_id: Optional[str] = None,
         model: Literal["clip"] = "clip",
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1372,6 +1439,7 @@ class EmbedImage(CoreNode[EmbedImageOut]):
             model=model,
             hide=hide,
             out_type=EmbedImageOut,
+            **kwargs,
         )
         self.node = "EmbedImage"
 
@@ -1394,6 +1462,7 @@ class MultiEmbedImage(CoreNode[MultiEmbedImageOut]):
         collection_name: Optional[str] = None,
         model: Literal["clip"] = "clip",
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1409,6 +1478,7 @@ class MultiEmbedImage(CoreNode[MultiEmbedImageOut]):
             model=model,
             hide=hide,
             out_type=MultiEmbedImageOut,
+            **kwargs,
         )
         self.node = "MultiEmbedImage"
 
@@ -1431,6 +1501,7 @@ class CLIP(CoreNode[CLIPOut]):
         collection_name: Optional[str] = None,
         embedded_metadata_keys: Optional[List[str]] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1446,6 +1517,7 @@ class CLIP(CoreNode[CLIPOut]):
             embedded_metadata_keys=embedded_metadata_keys,
             hide=hide,
             out_type=CLIPOut,
+            **kwargs,
         )
         self.node = "CLIP"
 
@@ -1467,6 +1539,7 @@ class FindOrCreateVectorStore(CoreNode[FindOrCreateVectorStoreOut]):
         collection_name: str,
         model: Literal["jina-v2", "clip"],
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1480,6 +1553,7 @@ class FindOrCreateVectorStore(CoreNode[FindOrCreateVectorStoreOut]):
             model=model,
             hide=hide,
             out_type=FindOrCreateVectorStoreOut,
+            **kwargs,
         )
         self.node = "FindOrCreateVectorStore"
 
@@ -1496,13 +1570,13 @@ class FindOrCreateVectorStore(CoreNode[FindOrCreateVectorStoreOut]):
 class ListVectorStores(CoreNode[ListVectorStoresOut]):
     """https://substrate.run/nodes#ListVectorStores"""
 
-    def __init__(self, hide: bool = False):
+    def __init__(self, hide: bool = False, **kwargs):
         """
         Args:
 
         https://substrate.run/nodes#ListVectorStores
         """
-        super().__init__(hide=hide, out_type=ListVectorStoresOut)
+        super().__init__(hide=hide, out_type=ListVectorStoresOut, **kwargs)
         self.node = "ListVectorStores"
 
     @property
@@ -1523,6 +1597,7 @@ class DeleteVectorStore(CoreNode[DeleteVectorStoreOut]):
         collection_name: str,
         model: Literal["jina-v2", "clip"],
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1536,6 +1611,7 @@ class DeleteVectorStore(CoreNode[DeleteVectorStoreOut]):
             model=model,
             hide=hide,
             out_type=DeleteVectorStoreOut,
+            **kwargs,
         )
         self.node = "DeleteVectorStore"
 
@@ -1558,6 +1634,7 @@ class FetchVectors(CoreNode[FetchVectorsOut]):
         model: Literal["jina-v2", "clip"],
         ids: List[str],
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1573,6 +1650,7 @@ class FetchVectors(CoreNode[FetchVectorsOut]):
             ids=ids,
             hide=hide,
             out_type=FetchVectorsOut,
+            **kwargs,
         )
         self.node = "FetchVectors"
 
@@ -1595,6 +1673,7 @@ class UpdateVectors(CoreNode[UpdateVectorsOut]):
         model: Literal["jina-v2", "clip"],
         vectors: List[UpdateVectorParams],
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1610,6 +1689,7 @@ class UpdateVectors(CoreNode[UpdateVectorsOut]):
             vectors=vectors,
             hide=hide,
             out_type=UpdateVectorsOut,
+            **kwargs,
         )
         self.node = "UpdateVectors"
 
@@ -1632,6 +1712,7 @@ class DeleteVectors(CoreNode[DeleteVectorsOut]):
         model: Literal["jina-v2", "clip"],
         ids: List[str],
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1647,6 +1728,7 @@ class DeleteVectors(CoreNode[DeleteVectorsOut]):
             ids=ids,
             hide=hide,
             out_type=DeleteVectorsOut,
+            **kwargs,
         )
         self.node = "DeleteVectors"
 
@@ -1677,6 +1759,7 @@ class QueryVectorStore(CoreNode[QueryVectorStoreOut]):
         include_metadata: bool = False,
         filters: Optional[Dict[str, Any]] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1708,6 +1791,7 @@ class QueryVectorStore(CoreNode[QueryVectorStoreOut]):
             filters=filters,
             hide=hide,
             out_type=QueryVectorStoreOut,
+            **kwargs,
         )
         self.node = "QueryVectorStore"
 

@@ -1,7 +1,6 @@
 """
-𐃏 Substrate
-@generated file
-(using datamodel-codegen)
+֍ Substrate
+generated file
 """
 
 
