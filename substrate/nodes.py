@@ -4,65 +4,69 @@
 """
 from __future__ import annotations
 
+import warnings
+
+from .core.corenode import CoreNode
+
+# filter pydantic v2 deprecation warnings
+with warnings.catch_warnings():
+    warnings.filterwarnings("ignore", category=DeprecationWarning)
+    from .core.models import (
+        CLIPOut,
+        JinaV2Out,
+        EmbedTextOut,
+        EmbedImageOut,
+        EraseImageOut,
+        ExperimentalOut,
+        FetchVectorsOut,
+        Firellava13BOut,
+        GenerateJSONOut,
+        GenerateTextOut,
+        InpaintImageOut,
+        UpscaleImageOut,
+        DeleteVectorsOut,
+        GenerateImageOut,
+        UpdateVectorsOut,
+        GenerateSpeechOut,
+        MultiEmbedTextOut,
+        MultiEmbedImageOut,
+        SegmentAnythingOut,
+        ListVectorStoresOut,
+        Llama3Instruct8BOut,
+        QueryVectorStoreOut,
+        RemoveBackgroundOut,
+        TranscribeSpeechOut,
+        BatchGenerateJSONOut,
+        BatchGenerateTextOut,
+        DeleteVectorStoreOut,
+        Llama3Instruct70BOut,
+        Mistral7BInstructOut,
+        MultiGenerateJSONOut,
+        MultiGenerateTextOut,
+        MultiInpaintImageOut,
+        SegmentUnderPointOut,
+        MultiGenerateImageOut,
+        Mixtral8x7BInstructOut,
+        FindOrCreateVectorStoreOut,
+        StableDiffusionXLInpaintOut,
+        StableDiffusionXLLightningOut,
+        StableDiffusionXLControlNetOut,
+    )
 from typing import Any, Dict, List, Optional
 from typing_extensions import Literal
 
-from .core.models import (
-    CLIPOut,
-    JinaV2Out,
-    XTTSV2Out,
-    FillMaskOut,
-    EmbedTextOut,
-    EmbedImageOut,
-    ExperimentalOut,
-    FetchVectorsOut,
-    Firellava13BOut,
-    GenerateJSONOut,
-    GenerateTextOut,
-    UpscaleImageOut,
-    DeleteVectorsOut,
-    GenerateImageOut,
-    UpdateVectorsOut,
-    GenerateSpeechOut,
-    MultiEmbedTextOut,
-    MultiEmbedImageOut,
-    SegmentAnythingOut,
-    TranscribeMediaOut,
-    ListVectorStoresOut,
-    Llama3Instruct8BOut,
-    QueryVectorStoreOut,
-    RemoveBackgroundOut,
-    BatchGenerateJSONOut,
-    BatchGenerateTextOut,
-    DeleteVectorStoreOut,
-    Llama3Instruct70BOut,
-    Mistral7BInstructOut,
-    MultiGenerateJSONOut,
-    MultiGenerateTextOut,
-    SegmentUnderPointOut,
-    GenerateTextVisionOut,
-    MultiGenerateImageOut,
-    GenerativeEditImageOut,
-    Mixtral8x7BInstructOut,
-    FindOrCreateVectorStoreOut,
-    MultiGenerativeEditImageOut,
-    StableDiffusionXLInpaintOut,
-    StableDiffusionXLLightningOut,
-    StableDiffusionXLControlNetOut,
-)
-from .core.corenode import CoreNode
 from .future_dataclass_models import (
     FutureCLIPOut,
     FutureJinaV2Out,
-    FutureXTTSV2Out,
-    FutureFillMaskOut,
     FutureEmbedTextOut,
     FutureEmbedImageOut,
+    FutureEraseImageOut,
     FutureExperimentalOut,
     FutureFetchVectorsOut,
     FutureFirellava13BOut,
     FutureGenerateJSONOut,
     FutureGenerateTextOut,
+    FutureInpaintImageOut,
     FutureUpscaleImageOut,
     FutureDeleteVectorsOut,
     FutureGenerateImageOut,
@@ -71,11 +75,11 @@ from .future_dataclass_models import (
     FutureMultiEmbedTextOut,
     FutureMultiEmbedImageOut,
     FutureSegmentAnythingOut,
-    FutureTranscribeMediaOut,
     FutureListVectorStoresOut,
     FutureLlama3Instruct8BOut,
     FutureQueryVectorStoreOut,
     FutureRemoveBackgroundOut,
+    FutureTranscribeSpeechOut,
     FutureBatchGenerateJSONOut,
     FutureBatchGenerateTextOut,
     FutureDeleteVectorStoreOut,
@@ -83,13 +87,11 @@ from .future_dataclass_models import (
     FutureMistral7BInstructOut,
     FutureMultiGenerateJSONOut,
     FutureMultiGenerateTextOut,
+    FutureMultiInpaintImageOut,
     FutureSegmentUnderPointOut,
-    FutureGenerateTextVisionOut,
     FutureMultiGenerateImageOut,
-    FutureGenerativeEditImageOut,
     FutureMixtral8x7BInstructOut,
     FutureFindOrCreateVectorStoreOut,
-    FutureMultiGenerativeEditImageOut,
     FutureStableDiffusionXLInpaintOut,
     FutureStableDiffusionXLLightningOut,
     FutureStableDiffusionXLControlNetOut,
@@ -99,7 +101,14 @@ from .future_dataclass_models import (
 class Experimental(CoreNode[ExperimentalOut]):
     """https://substrate.run/nodes#Experimental"""
 
-    def __init__(self, name: str, args: Dict[str, Any], timeout: int = 60, hide: bool = False):
+    def __init__(
+        self,
+        name: str,
+        args: Dict[str, Any],
+        timeout: int = 60,
+        hide: bool = False,
+        **kwargs,
+    ):
         """
         Args:
             name: Identifier.
@@ -108,7 +117,14 @@ class Experimental(CoreNode[ExperimentalOut]):
 
         https://substrate.run/nodes#Experimental
         """
-        super().__init__(name=name, args=args, timeout=timeout, hide=hide, out_type=ExperimentalOut)
+        super().__init__(
+            name=name,
+            args=args,
+            timeout=timeout,
+            hide=hide,
+            out_type=ExperimentalOut,
+            **kwargs,
+        )
         self.node = "Experimental"
 
     @property
@@ -127,32 +143,38 @@ class GenerateText(CoreNode[GenerateTextOut]):
     def __init__(
         self,
         prompt: str,
+        image_uris: Optional[List[str]] = None,
         temperature: float = 0.4,
         max_tokens: Optional[int] = None,
-        node: Literal[
+        model: Literal[
             "Mistral7BInstruct",
             "Mixtral8x7BInstruct",
             "Llama3Instruct8B",
             "Llama3Instruct70B",
+            "Firellava13B",
         ] = "Llama3Instruct8B",
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
             prompt: Input prompt.
+            image_uris: Image prompts.
             temperature: Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
             max_tokens: Maximum number of tokens to generate.
-            node: Selected node.
+            model: Selected model. `Firellava13B` is automatically selected when `image_uris` is provided.
 
         https://substrate.run/nodes#GenerateText
         """
         super().__init__(
             prompt=prompt,
+            image_uris=image_uris,
             temperature=temperature,
             max_tokens=max_tokens,
-            node=node,
+            model=model,
             hide=hide,
             out_type=GenerateTextOut,
+            **kwargs,
         )
         self.node = "GenerateText"
 
@@ -175,8 +197,9 @@ class GenerateJSON(CoreNode[GenerateJSONOut]):
         json_schema: Dict[str, Any],
         temperature: float = 0.4,
         max_tokens: Optional[int] = None,
-        node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B",
+        model: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B",
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -184,7 +207,7 @@ class GenerateJSON(CoreNode[GenerateJSONOut]):
             json_schema: JSON schema to guide `json_object` response.
             temperature: Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
             max_tokens: Maximum number of tokens to generate.
-            node: Selected node.
+            model: Selected model.
 
         https://substrate.run/nodes#GenerateJSON
         """
@@ -193,9 +216,10 @@ class GenerateJSON(CoreNode[GenerateJSONOut]):
             json_schema=json_schema,
             temperature=temperature,
             max_tokens=max_tokens,
-            node=node,
+            model=model,
             hide=hide,
             out_type=GenerateJSONOut,
+            **kwargs,
         )
         self.node = "GenerateJSON"
 
@@ -218,13 +242,14 @@ class MultiGenerateText(CoreNode[MultiGenerateTextOut]):
         num_choices: int,
         temperature: float = 0.4,
         max_tokens: Optional[int] = None,
-        node: Literal[
+        model: Literal[
             "Mistral7BInstruct",
             "Mixtral8x7BInstruct",
             "Llama3Instruct8B",
             "Llama3Instruct70B",
         ] = "Llama3Instruct8B",
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -232,7 +257,7 @@ class MultiGenerateText(CoreNode[MultiGenerateTextOut]):
             num_choices: Number of choices to generate.
             temperature: Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
             max_tokens: Maximum number of tokens to generate.
-            node: Selected node.
+            model: Selected model.
 
         https://substrate.run/nodes#MultiGenerateText
         """
@@ -241,9 +266,10 @@ class MultiGenerateText(CoreNode[MultiGenerateTextOut]):
             num_choices=num_choices,
             temperature=temperature,
             max_tokens=max_tokens,
-            node=node,
+            model=model,
             hide=hide,
             out_type=MultiGenerateTextOut,
+            **kwargs,
         )
         self.node = "MultiGenerateText"
 
@@ -265,13 +291,16 @@ class BatchGenerateText(CoreNode[BatchGenerateTextOut]):
         prompts: List[str],
         temperature: float = 0.4,
         max_tokens: Optional[int] = None,
+        model: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B",
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
             prompts: Batch input prompts.
             temperature: Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
             max_tokens: Maximum number of tokens to generate.
+            model: Selected model.
 
         https://substrate.run/nodes#BatchGenerateText
         """
@@ -279,8 +308,10 @@ class BatchGenerateText(CoreNode[BatchGenerateTextOut]):
             prompts=prompts,
             temperature=temperature,
             max_tokens=max_tokens,
+            model=model,
             hide=hide,
             out_type=BatchGenerateTextOut,
+            **kwargs,
         )
         self.node = "BatchGenerateText"
 
@@ -304,8 +335,9 @@ class MultiGenerateJSON(CoreNode[MultiGenerateJSONOut]):
         num_choices: int,
         temperature: float = 0.4,
         max_tokens: Optional[int] = None,
-        node: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B",
+        model: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B",
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -314,7 +346,7 @@ class MultiGenerateJSON(CoreNode[MultiGenerateJSONOut]):
             num_choices: Number of choices to generate.
             temperature: Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
             max_tokens: Maximum number of tokens to generate.
-            node: Selected node.
+            model: Selected model.
 
         https://substrate.run/nodes#MultiGenerateJSON
         """
@@ -324,9 +356,10 @@ class MultiGenerateJSON(CoreNode[MultiGenerateJSONOut]):
             num_choices=num_choices,
             temperature=temperature,
             max_tokens=max_tokens,
-            node=node,
+            model=model,
             hide=hide,
             out_type=MultiGenerateJSONOut,
+            **kwargs,
         )
         self.node = "MultiGenerateJSON"
 
@@ -347,29 +380,31 @@ class BatchGenerateJSON(CoreNode[BatchGenerateJSONOut]):
         self,
         prompts: List[str],
         json_schema: Dict[str, Any],
-        node: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B",
         temperature: float = 0.4,
         max_tokens: Optional[int] = None,
+        model: Literal["Mistral7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B",
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
             prompts: Batch input prompts.
             json_schema: JSON schema to guide `json_object` response.
-            node: Selected node.
             temperature: Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
             max_tokens: Maximum number of tokens to generate.
+            model: Selected model.
 
         https://substrate.run/nodes#BatchGenerateJSON
         """
         super().__init__(
             prompts=prompts,
             json_schema=json_schema,
-            node=node,
             temperature=temperature,
             max_tokens=max_tokens,
+            model=model,
             hide=hide,
             out_type=BatchGenerateJSONOut,
+            **kwargs,
         )
         self.node = "BatchGenerateJSON"
 
@@ -389,30 +424,47 @@ class Mistral7BInstruct(CoreNode[Mistral7BInstructOut]):
     def __init__(
         self,
         prompt: str,
+        system_prompt: Optional[str] = None,
         num_choices: int = 1,
         json_schema: Optional[Dict[str, Any]] = None,
         temperature: Optional[float] = None,
+        frequency_penalty: float = 0.0,
+        repetition_penalty: float = 1.0,
+        presence_penalty: float = 1.1,
+        top_p: float = 0.95,
         max_tokens: Optional[int] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
             prompt: Input prompt.
+            system_prompt: System prompt.
             num_choices: Number of choices to generate.
             json_schema: JSON schema to guide response.
-            temperature: Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+            temperature: Higher values make the output more random, lower values make the output more deterministic.
+            frequency_penalty: Higher values decrease the likelihood of repeating previous tokens.
+            repetition_penalty: Higher values decrease the likelihood of repeated sequences.
+            presence_penalty: Higher values increase the likelihood of new topics appearing.
+            top_p: Probability below which less likely tokens are filtered out.
             max_tokens: Maximum number of tokens to generate.
 
         https://substrate.run/nodes#Mistral7BInstruct
         """
         super().__init__(
             prompt=prompt,
+            system_prompt=system_prompt,
             num_choices=num_choices,
             json_schema=json_schema,
             temperature=temperature,
+            frequency_penalty=frequency_penalty,
+            repetition_penalty=repetition_penalty,
+            presence_penalty=presence_penalty,
+            top_p=top_p,
             max_tokens=max_tokens,
             hide=hide,
             out_type=Mistral7BInstructOut,
+            **kwargs,
         )
         self.node = "Mistral7BInstruct"
 
@@ -432,30 +484,47 @@ class Mixtral8x7BInstruct(CoreNode[Mixtral8x7BInstructOut]):
     def __init__(
         self,
         prompt: str,
+        system_prompt: Optional[str] = None,
         num_choices: int = 1,
         json_schema: Optional[Dict[str, Any]] = None,
         temperature: Optional[float] = None,
+        frequency_penalty: float = 0.0,
+        repetition_penalty: float = 1.0,
+        presence_penalty: float = 1.1,
+        top_p: float = 0.95,
         max_tokens: Optional[int] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
             prompt: Input prompt.
+            system_prompt: System prompt.
             num_choices: Number of choices to generate.
             json_schema: JSON schema to guide response.
-            temperature: Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+            temperature: Higher values make the output more random, lower values make the output more deterministic.
+            frequency_penalty: Higher values decrease the likelihood of repeating previous tokens.
+            repetition_penalty: Higher values decrease the likelihood of repeated sequences.
+            presence_penalty: Higher values increase the likelihood of new topics appearing.
+            top_p: Probability below which less likely tokens are filtered out.
             max_tokens: Maximum number of tokens to generate.
 
         https://substrate.run/nodes#Mixtral8x7BInstruct
         """
         super().__init__(
             prompt=prompt,
+            system_prompt=system_prompt,
             num_choices=num_choices,
             json_schema=json_schema,
             temperature=temperature,
+            frequency_penalty=frequency_penalty,
+            repetition_penalty=repetition_penalty,
+            presence_penalty=presence_penalty,
+            top_p=top_p,
             max_tokens=max_tokens,
             hide=hide,
             out_type=Mixtral8x7BInstructOut,
+            **kwargs,
         )
         self.node = "Mixtral8x7BInstruct"
 
@@ -475,17 +544,28 @@ class Llama3Instruct8B(CoreNode[Llama3Instruct8BOut]):
     def __init__(
         self,
         prompt: str,
+        system_prompt: Optional[str] = None,
         num_choices: int = 1,
         temperature: Optional[float] = None,
+        frequency_penalty: float = 0.0,
+        repetition_penalty: float = 1.0,
+        presence_penalty: float = 1.1,
+        top_p: float = 0.95,
         max_tokens: Optional[int] = None,
         json_schema: Optional[Dict[str, Any]] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
             prompt: Input prompt.
+            system_prompt: System prompt.
             num_choices: Number of choices to generate.
-            temperature: Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+            temperature: Higher values make the output more random, lower values make the output more deterministic.
+            frequency_penalty: Higher values decrease the likelihood of repeating previous tokens.
+            repetition_penalty: Higher values decrease the likelihood of repeated sequences.
+            presence_penalty: Higher values increase the likelihood of new topics appearing.
+            top_p: Probability below which less likely tokens are filtered out.
             max_tokens: Maximum number of tokens to generate.
             json_schema: JSON schema to guide response.
 
@@ -493,12 +573,18 @@ class Llama3Instruct8B(CoreNode[Llama3Instruct8BOut]):
         """
         super().__init__(
             prompt=prompt,
+            system_prompt=system_prompt,
             num_choices=num_choices,
             temperature=temperature,
+            frequency_penalty=frequency_penalty,
+            repetition_penalty=repetition_penalty,
+            presence_penalty=presence_penalty,
+            top_p=top_p,
             max_tokens=max_tokens,
             json_schema=json_schema,
             hide=hide,
             out_type=Llama3Instruct8BOut,
+            **kwargs,
         )
         self.node = "Llama3Instruct8B"
 
@@ -518,27 +604,44 @@ class Llama3Instruct70B(CoreNode[Llama3Instruct70BOut]):
     def __init__(
         self,
         prompt: str,
+        system_prompt: Optional[str] = None,
         num_choices: int = 1,
         temperature: Optional[float] = None,
+        frequency_penalty: float = 0.0,
+        repetition_penalty: float = 1.0,
+        presence_penalty: float = 1.1,
+        top_p: float = 0.95,
         max_tokens: Optional[int] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
             prompt: Input prompt.
+            system_prompt: System prompt.
             num_choices: Number of choices to generate.
-            temperature: Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+            temperature: Higher values make the output more random, lower values make the output more deterministic.
+            frequency_penalty: Higher values decrease the likelihood of repeating previous tokens.
+            repetition_penalty: Higher values decrease the likelihood of repeated sequences.
+            presence_penalty: Higher values increase the likelihood of new topics appearing.
+            top_p: Probability below which less likely tokens are filtered out.
             max_tokens: Maximum number of tokens to generate.
 
         https://substrate.run/nodes#Llama3Instruct70B
         """
         super().__init__(
             prompt=prompt,
+            system_prompt=system_prompt,
             num_choices=num_choices,
             temperature=temperature,
+            frequency_penalty=frequency_penalty,
+            repetition_penalty=repetition_penalty,
+            presence_penalty=presence_penalty,
+            top_p=top_p,
             max_tokens=max_tokens,
             hide=hide,
             out_type=Llama3Instruct70BOut,
+            **kwargs,
         )
         self.node = "Llama3Instruct70B"
 
@@ -552,43 +655,6 @@ class Llama3Instruct70B(CoreNode[Llama3Instruct70BOut]):
         return super().future  # type: ignore
 
 
-class GenerateTextVision(CoreNode[GenerateTextVisionOut]):
-    """https://substrate.run/nodes#GenerateTextVision"""
-
-    def __init__(
-        self,
-        prompt: str,
-        image_uris: List[str],
-        max_tokens: int = 800,
-        hide: bool = False,
-    ):
-        """
-        Args:
-            prompt: Text prompt.
-            image_uris: Image prompts.
-            max_tokens: Maximum number of tokens to generate.
-
-        https://substrate.run/nodes#GenerateTextVision
-        """
-        super().__init__(
-            prompt=prompt,
-            image_uris=image_uris,
-            max_tokens=max_tokens,
-            hide=hide,
-            out_type=GenerateTextVisionOut,
-        )
-        self.node = "GenerateTextVision"
-
-    @property
-    def future(self) -> FutureGenerateTextVisionOut:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        https://substrate.run/nodes#GenerateTextVision
-        """
-        return super().future  # type: ignore
-
-
 class Firellava13B(CoreNode[Firellava13BOut]):
     """https://substrate.run/nodes#Firellava13B"""
 
@@ -596,8 +662,9 @@ class Firellava13B(CoreNode[Firellava13BOut]):
         self,
         prompt: str,
         image_uris: List[str],
-        max_tokens: int = 800,
+        max_tokens: Optional[int] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -613,6 +680,7 @@ class Firellava13B(CoreNode[Firellava13BOut]):
             max_tokens=max_tokens,
             hide=hide,
             out_type=Firellava13BOut,
+            **kwargs,
         )
         self.node = "Firellava13B"
 
@@ -629,7 +697,7 @@ class Firellava13B(CoreNode[Firellava13BOut]):
 class GenerateImage(CoreNode[GenerateImageOut]):
     """https://substrate.run/nodes#GenerateImage"""
 
-    def __init__(self, prompt: str, store: Optional[str] = None, hide: bool = False):
+    def __init__(self, prompt: str, store: Optional[str] = None, hide: bool = False, **kwargs):
         """
         Args:
             prompt: Text prompt.
@@ -637,7 +705,7 @@ class GenerateImage(CoreNode[GenerateImageOut]):
 
         https://substrate.run/nodes#GenerateImage
         """
-        super().__init__(prompt=prompt, store=store, hide=hide, out_type=GenerateImageOut)
+        super().__init__(prompt=prompt, store=store, hide=hide, out_type=GenerateImageOut, **kwargs)
         self.node = "GenerateImage"
 
     @property
@@ -659,6 +727,7 @@ class MultiGenerateImage(CoreNode[MultiGenerateImageOut]):
         num_images: int,
         store: Optional[str] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -674,6 +743,7 @@ class MultiGenerateImage(CoreNode[MultiGenerateImageOut]):
             store=store,
             hide=hide,
             out_type=MultiGenerateImageOut,
+            **kwargs,
         )
         self.node = "MultiGenerateImage"
 
@@ -700,6 +770,7 @@ class StableDiffusionXLLightning(CoreNode[StableDiffusionXLLightningOut]):
         width: int = 1024,
         seeds: Optional[List[int]] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -723,6 +794,7 @@ class StableDiffusionXLLightning(CoreNode[StableDiffusionXLLightningOut]):
             seeds=seeds,
             hide=hide,
             out_type=StableDiffusionXLLightningOut,
+            **kwargs,
         )
         self.node = "StableDiffusionXLLightning"
 
@@ -752,6 +824,7 @@ class StableDiffusionXLControlNet(CoreNode[StableDiffusionXLControlNetOut]):
         strength: float = 0.5,
         seeds: Optional[List[int]] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -781,6 +854,7 @@ class StableDiffusionXLControlNet(CoreNode[StableDiffusionXLControlNetOut]):
             seeds=seeds,
             hide=hide,
             out_type=StableDiffusionXLControlNetOut,
+            **kwargs,
         )
         self.node = "StableDiffusionXLControlNet"
 
@@ -794,8 +868,8 @@ class StableDiffusionXLControlNet(CoreNode[StableDiffusionXLControlNetOut]):
         return super().future  # type: ignore
 
 
-class GenerativeEditImage(CoreNode[GenerativeEditImageOut]):
-    """https://substrate.run/nodes#GenerativeEditImage"""
+class InpaintImage(CoreNode[InpaintImageOut]):
+    """https://substrate.run/nodes#InpaintImage"""
 
     def __init__(
         self,
@@ -804,6 +878,7 @@ class GenerativeEditImage(CoreNode[GenerativeEditImageOut]):
         mask_image_uri: Optional[str] = None,
         store: Optional[str] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -812,7 +887,7 @@ class GenerativeEditImage(CoreNode[GenerativeEditImageOut]):
             mask_image_uri: Mask image that controls which pixels are inpainted. If unset, the entire image is edited (image-to-image).
             store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
 
-        https://substrate.run/nodes#GenerativeEditImage
+        https://substrate.run/nodes#InpaintImage
         """
         super().__init__(
             image_uri=image_uri,
@@ -820,22 +895,23 @@ class GenerativeEditImage(CoreNode[GenerativeEditImageOut]):
             mask_image_uri=mask_image_uri,
             store=store,
             hide=hide,
-            out_type=GenerativeEditImageOut,
+            out_type=InpaintImageOut,
+            **kwargs,
         )
-        self.node = "GenerativeEditImage"
+        self.node = "InpaintImage"
 
     @property
-    def future(self) -> FutureGenerativeEditImageOut:  # type: ignore
+    def future(self) -> FutureInpaintImageOut:  # type: ignore
         """
         Future reference to this node's output.
 
-        https://substrate.run/nodes#GenerativeEditImage
+        https://substrate.run/nodes#InpaintImage
         """
         return super().future  # type: ignore
 
 
-class MultiGenerativeEditImage(CoreNode[MultiGenerativeEditImageOut]):
-    """https://substrate.run/nodes#MultiGenerativeEditImage"""
+class MultiInpaintImage(CoreNode[MultiInpaintImageOut]):
+    """https://substrate.run/nodes#MultiInpaintImage"""
 
     def __init__(
         self,
@@ -845,6 +921,7 @@ class MultiGenerativeEditImage(CoreNode[MultiGenerativeEditImageOut]):
         mask_image_uri: Optional[str] = None,
         store: Optional[str] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -854,7 +931,7 @@ class MultiGenerativeEditImage(CoreNode[MultiGenerativeEditImageOut]):
             mask_image_uri: Mask image that controls which pixels are edited (inpainting). If unset, the entire image is edited (image-to-image).
             store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
 
-        https://substrate.run/nodes#MultiGenerativeEditImage
+        https://substrate.run/nodes#MultiInpaintImage
         """
         super().__init__(
             image_uri=image_uri,
@@ -863,16 +940,17 @@ class MultiGenerativeEditImage(CoreNode[MultiGenerativeEditImageOut]):
             mask_image_uri=mask_image_uri,
             store=store,
             hide=hide,
-            out_type=MultiGenerativeEditImageOut,
+            out_type=MultiInpaintImageOut,
+            **kwargs,
         )
-        self.node = "MultiGenerativeEditImage"
+        self.node = "MultiInpaintImage"
 
     @property
-    def future(self) -> FutureMultiGenerativeEditImageOut:  # type: ignore
+    def future(self) -> FutureMultiInpaintImageOut:  # type: ignore
         """
         Future reference to this node's output.
 
-        https://substrate.run/nodes#MultiGenerativeEditImage
+        https://substrate.run/nodes#MultiInpaintImage
         """
         return super().future  # type: ignore
 
@@ -892,6 +970,7 @@ class StableDiffusionXLInpaint(CoreNode[StableDiffusionXLInpaintOut]):
         strength: float = 0.8,
         seeds: Optional[List[int]] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -919,6 +998,7 @@ class StableDiffusionXLInpaint(CoreNode[StableDiffusionXLInpaintOut]):
             seeds=seeds,
             hide=hide,
             out_type=StableDiffusionXLInpaintOut,
+            **kwargs,
         )
         self.node = "StableDiffusionXLInpaint"
 
@@ -932,8 +1012,8 @@ class StableDiffusionXLInpaint(CoreNode[StableDiffusionXLInpaintOut]):
         return super().future  # type: ignore
 
 
-class FillMask(CoreNode[FillMaskOut]):
-    """https://substrate.run/nodes#FillMask"""
+class EraseImage(CoreNode[EraseImageOut]):
+    """https://substrate.run/nodes#EraseImage"""
 
     def __init__(
         self,
@@ -941,6 +1021,7 @@ class FillMask(CoreNode[FillMaskOut]):
         mask_image_uri: str,
         store: Optional[str] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -948,23 +1029,24 @@ class FillMask(CoreNode[FillMaskOut]):
             mask_image_uri: Mask image that controls which pixels are inpainted.
             store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
 
-        https://substrate.run/nodes#FillMask
+        https://substrate.run/nodes#EraseImage
         """
         super().__init__(
             image_uri=image_uri,
             mask_image_uri=mask_image_uri,
             store=store,
             hide=hide,
-            out_type=FillMaskOut,
+            out_type=EraseImageOut,
+            **kwargs,
         )
-        self.node = "FillMask"
+        self.node = "EraseImage"
 
     @property
-    def future(self) -> FutureFillMaskOut:  # type: ignore
+    def future(self) -> FutureEraseImageOut:  # type: ignore
         """
         Future reference to this node's output.
 
-        https://substrate.run/nodes#FillMask
+        https://substrate.run/nodes#EraseImage
         """
         return super().future  # type: ignore
 
@@ -979,6 +1061,7 @@ class RemoveBackground(CoreNode[RemoveBackgroundOut]):
         background_color: Optional[str] = None,
         store: Optional[str] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -996,6 +1079,7 @@ class RemoveBackground(CoreNode[RemoveBackgroundOut]):
             store=store,
             hide=hide,
             out_type=RemoveBackgroundOut,
+            **kwargs,
         )
         self.node = "RemoveBackground"
 
@@ -1019,6 +1103,7 @@ class UpscaleImage(CoreNode[UpscaleImageOut]):
         output_resolution: int = 1024,
         store: Optional[str] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1036,6 +1121,7 @@ class UpscaleImage(CoreNode[UpscaleImageOut]):
             store=store,
             hide=hide,
             out_type=UpscaleImageOut,
+            **kwargs,
         )
         self.node = "UpscaleImage"
 
@@ -1058,6 +1144,7 @@ class SegmentUnderPoint(CoreNode[SegmentUnderPointOut]):
         point: Point,
         store: Optional[str] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1073,6 +1160,7 @@ class SegmentUnderPoint(CoreNode[SegmentUnderPointOut]):
             store=store,
             hide=hide,
             out_type=SegmentUnderPointOut,
+            **kwargs,
         )
         self.node = "SegmentUnderPoint"
 
@@ -1096,6 +1184,7 @@ class SegmentAnything(CoreNode[SegmentAnythingOut]):
         box_prompts: Optional[List[BoundingBox]] = None,
         store: Optional[str] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1113,6 +1202,7 @@ class SegmentAnything(CoreNode[SegmentAnythingOut]):
             store=store,
             hide=hide,
             out_type=SegmentAnythingOut,
+            **kwargs,
         )
         self.node = "SegmentAnything"
 
@@ -1126,8 +1216,8 @@ class SegmentAnything(CoreNode[SegmentAnythingOut]):
         return super().future  # type: ignore
 
 
-class TranscribeMedia(CoreNode[TranscribeMediaOut]):
-    """https://substrate.run/nodes#TranscribeMedia"""
+class TranscribeSpeech(CoreNode[TranscribeSpeechOut]):
+    """https://substrate.run/nodes#TranscribeSpeech"""
 
     def __init__(
         self,
@@ -1139,6 +1229,7 @@ class TranscribeMedia(CoreNode[TranscribeMediaOut]):
         diarize: bool = False,
         suggest_chapters: bool = False,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1150,7 +1241,7 @@ class TranscribeMedia(CoreNode[TranscribeMediaOut]):
             diarize: Identify speakers for each segment. Speaker IDs will be included in each segment.
             suggest_chapters: Suggest automatic chapter markers.
 
-        https://substrate.run/nodes#TranscribeMedia
+        https://substrate.run/nodes#TranscribeSpeech
         """
         super().__init__(
             audio_uri=audio_uri,
@@ -1161,16 +1252,17 @@ class TranscribeMedia(CoreNode[TranscribeMediaOut]):
             diarize=diarize,
             suggest_chapters=suggest_chapters,
             hide=hide,
-            out_type=TranscribeMediaOut,
+            out_type=TranscribeSpeechOut,
+            **kwargs,
         )
-        self.node = "TranscribeMedia"
+        self.node = "TranscribeSpeech"
 
     @property
-    def future(self) -> FutureTranscribeMediaOut:  # type: ignore
+    def future(self) -> FutureTranscribeSpeechOut:  # type: ignore
         """
         Future reference to this node's output.
 
-        https://substrate.run/nodes#TranscribeMedia
+        https://substrate.run/nodes#TranscribeSpeech
         """
         return super().future  # type: ignore
 
@@ -1178,7 +1270,7 @@ class TranscribeMedia(CoreNode[TranscribeMediaOut]):
 class GenerateSpeech(CoreNode[GenerateSpeechOut]):
     """https://substrate.run/nodes#GenerateSpeech"""
 
-    def __init__(self, text: str, store: Optional[str] = None, hide: bool = False):
+    def __init__(self, text: str, store: Optional[str] = None, hide: bool = False, **kwargs):
         """
         Args:
             text: Input text.
@@ -1186,7 +1278,7 @@ class GenerateSpeech(CoreNode[GenerateSpeechOut]):
 
         https://substrate.run/nodes#GenerateSpeech
         """
-        super().__init__(text=text, store=store, hide=hide, out_type=GenerateSpeechOut)
+        super().__init__(text=text, store=store, hide=hide, out_type=GenerateSpeechOut, **kwargs)
         self.node = "GenerateSpeech"
 
     @property
@@ -1195,46 +1287,6 @@ class GenerateSpeech(CoreNode[GenerateSpeechOut]):
         Future reference to this node's output.
 
         https://substrate.run/nodes#GenerateSpeech
-        """
-        return super().future  # type: ignore
-
-
-class XTTSV2(CoreNode[XTTSV2Out]):
-    """https://substrate.run/nodes#XTTSV2"""
-
-    def __init__(
-        self,
-        text: str,
-        audio_uri: Optional[str] = None,
-        language: str = "en",
-        store: Optional[str] = None,
-        hide: bool = False,
-    ):
-        """
-        Args:
-            text: Input text.
-            audio_uri: Reference audio used to synthesize the speaker. If unset, a default speaker voice will be used.
-            language: Language of input text. Supported languages: `en, de, fr, es, it, pt, pl, zh, ar, cs, ru, nl, tr, hu, ko`.
-            store: Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the audio data will be returned as a base64-encoded string.
-
-        https://substrate.run/nodes#XTTSV2
-        """
-        super().__init__(
-            text=text,
-            audio_uri=audio_uri,
-            language=language,
-            store=store,
-            hide=hide,
-            out_type=XTTSV2Out,
-        )
-        self.node = "XTTSV2"
-
-    @property
-    def future(self) -> FutureXTTSV2Out:  # type: ignore
-        """
-        Future reference to this node's output.
-
-        https://substrate.run/nodes#XTTSV2
         """
         return super().future  # type: ignore
 
@@ -1251,6 +1303,7 @@ class EmbedText(CoreNode[EmbedTextOut]):
         doc_id: Optional[str] = None,
         model: Literal["jina-v2", "clip"] = "jina-v2",
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1272,6 +1325,7 @@ class EmbedText(CoreNode[EmbedTextOut]):
             model=model,
             hide=hide,
             out_type=EmbedTextOut,
+            **kwargs,
         )
         self.node = "EmbedText"
 
@@ -1295,6 +1349,7 @@ class MultiEmbedText(CoreNode[MultiEmbedTextOut]):
         embedded_metadata_keys: Optional[List[str]] = None,
         model: Literal["jina-v2", "clip"] = "jina-v2",
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1312,6 +1367,7 @@ class MultiEmbedText(CoreNode[MultiEmbedTextOut]):
             model=model,
             hide=hide,
             out_type=MultiEmbedTextOut,
+            **kwargs,
         )
         self.node = "MultiEmbedText"
 
@@ -1334,6 +1390,7 @@ class JinaV2(CoreNode[JinaV2Out]):
         collection_name: Optional[str] = None,
         embedded_metadata_keys: Optional[List[str]] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1349,6 +1406,7 @@ class JinaV2(CoreNode[JinaV2Out]):
             embedded_metadata_keys=embedded_metadata_keys,
             hide=hide,
             out_type=JinaV2Out,
+            **kwargs,
         )
         self.node = "JinaV2"
 
@@ -1372,6 +1430,7 @@ class EmbedImage(CoreNode[EmbedImageOut]):
         doc_id: Optional[str] = None,
         model: Literal["clip"] = "clip",
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1389,6 +1448,7 @@ class EmbedImage(CoreNode[EmbedImageOut]):
             model=model,
             hide=hide,
             out_type=EmbedImageOut,
+            **kwargs,
         )
         self.node = "EmbedImage"
 
@@ -1411,6 +1471,7 @@ class MultiEmbedImage(CoreNode[MultiEmbedImageOut]):
         collection_name: Optional[str] = None,
         model: Literal["clip"] = "clip",
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1426,6 +1487,7 @@ class MultiEmbedImage(CoreNode[MultiEmbedImageOut]):
             model=model,
             hide=hide,
             out_type=MultiEmbedImageOut,
+            **kwargs,
         )
         self.node = "MultiEmbedImage"
 
@@ -1448,6 +1510,7 @@ class CLIP(CoreNode[CLIPOut]):
         collection_name: Optional[str] = None,
         embedded_metadata_keys: Optional[List[str]] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1463,6 +1526,7 @@ class CLIP(CoreNode[CLIPOut]):
             embedded_metadata_keys=embedded_metadata_keys,
             hide=hide,
             out_type=CLIPOut,
+            **kwargs,
         )
         self.node = "CLIP"
 
@@ -1484,6 +1548,7 @@ class FindOrCreateVectorStore(CoreNode[FindOrCreateVectorStoreOut]):
         collection_name: str,
         model: Literal["jina-v2", "clip"],
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1497,6 +1562,7 @@ class FindOrCreateVectorStore(CoreNode[FindOrCreateVectorStoreOut]):
             model=model,
             hide=hide,
             out_type=FindOrCreateVectorStoreOut,
+            **kwargs,
         )
         self.node = "FindOrCreateVectorStore"
 
@@ -1513,13 +1579,13 @@ class FindOrCreateVectorStore(CoreNode[FindOrCreateVectorStoreOut]):
 class ListVectorStores(CoreNode[ListVectorStoresOut]):
     """https://substrate.run/nodes#ListVectorStores"""
 
-    def __init__(self, hide: bool = False):
+    def __init__(self, hide: bool = False, **kwargs):
         """
         Args:
 
         https://substrate.run/nodes#ListVectorStores
         """
-        super().__init__(hide=hide, out_type=ListVectorStoresOut)
+        super().__init__(hide=hide, out_type=ListVectorStoresOut, **kwargs)
         self.node = "ListVectorStores"
 
     @property
@@ -1540,6 +1606,7 @@ class DeleteVectorStore(CoreNode[DeleteVectorStoreOut]):
         collection_name: str,
         model: Literal["jina-v2", "clip"],
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1553,6 +1620,7 @@ class DeleteVectorStore(CoreNode[DeleteVectorStoreOut]):
             model=model,
             hide=hide,
             out_type=DeleteVectorStoreOut,
+            **kwargs,
         )
         self.node = "DeleteVectorStore"
 
@@ -1575,6 +1643,7 @@ class FetchVectors(CoreNode[FetchVectorsOut]):
         model: Literal["jina-v2", "clip"],
         ids: List[str],
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1590,6 +1659,7 @@ class FetchVectors(CoreNode[FetchVectorsOut]):
             ids=ids,
             hide=hide,
             out_type=FetchVectorsOut,
+            **kwargs,
         )
         self.node = "FetchVectors"
 
@@ -1612,6 +1682,7 @@ class UpdateVectors(CoreNode[UpdateVectorsOut]):
         model: Literal["jina-v2", "clip"],
         vectors: List[UpdateVectorParams],
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1627,6 +1698,7 @@ class UpdateVectors(CoreNode[UpdateVectorsOut]):
             vectors=vectors,
             hide=hide,
             out_type=UpdateVectorsOut,
+            **kwargs,
         )
         self.node = "UpdateVectors"
 
@@ -1649,6 +1721,7 @@ class DeleteVectors(CoreNode[DeleteVectorsOut]):
         model: Literal["jina-v2", "clip"],
         ids: List[str],
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1664,6 +1737,7 @@ class DeleteVectors(CoreNode[DeleteVectorsOut]):
             ids=ids,
             hide=hide,
             out_type=DeleteVectorsOut,
+            **kwargs,
         )
         self.node = "DeleteVectors"
 
@@ -1694,6 +1768,7 @@ class QueryVectorStore(CoreNode[QueryVectorStoreOut]):
         include_metadata: bool = False,
         filters: Optional[Dict[str, Any]] = None,
         hide: bool = False,
+        **kwargs,
     ):
         """
         Args:
@@ -1725,6 +1800,7 @@ class QueryVectorStore(CoreNode[QueryVectorStoreOut]):
             filters=filters,
             hide=hide,
             out_type=QueryVectorStoreOut,
+            **kwargs,
         )
         self.node = "QueryVectorStore"
 

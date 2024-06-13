@@ -1,7 +1,6 @@
 """
-𐃏 Substrate
-@generated file
-(using datamodel-codegen)
+֍ Substrate
+generated file
 """
 
 
@@ -87,6 +86,10 @@ class GenerateTextIn(TypedDict):
     """
     Input prompt.
     """
+    image_uris: NotRequired[List[str]]
+    """
+    Image prompts.
+    """
     temperature: NotRequired[float]
     """
     Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
@@ -95,16 +98,17 @@ class GenerateTextIn(TypedDict):
     """
     Maximum number of tokens to generate.
     """
-    node: NotRequired[
+    model: NotRequired[
         Literal[
             "Mistral7BInstruct",
             "Mixtral8x7BInstruct",
             "Llama3Instruct8B",
             "Llama3Instruct70B",
+            "Firellava13B",
         ]
     ]
     """
-    Selected node.
+    Selected model. `Firellava13B` is automatically selected when `image_uris` is provided.
     """
 
 
@@ -132,9 +136,9 @@ class GenerateJSONIn(TypedDict):
     """
     Maximum number of tokens to generate.
     """
-    node: NotRequired[Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"]]
+    model: NotRequired[Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"]]
     """
-    Selected node.
+    Selected model.
     """
 
 
@@ -166,7 +170,7 @@ class MultiGenerateTextIn(TypedDict):
     """
     Maximum number of tokens to generate.
     """
-    node: NotRequired[
+    model: NotRequired[
         Literal[
             "Mistral7BInstruct",
             "Mixtral8x7BInstruct",
@@ -175,7 +179,7 @@ class MultiGenerateTextIn(TypedDict):
         ]
     ]
     """
-    Selected node.
+    Selected model.
     """
 
 
@@ -198,6 +202,10 @@ class BatchGenerateTextIn(TypedDict):
     max_tokens: NotRequired[int]
     """
     Maximum number of tokens to generate.
+    """
+    model: NotRequired[Literal["Mistral7BInstruct", "Llama3Instruct8B"]]
+    """
+    Selected model.
     """
 
 
@@ -229,9 +237,9 @@ class MultiGenerateJSONIn(TypedDict):
     """
     Maximum number of tokens to generate.
     """
-    node: NotRequired[Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"]]
+    model: NotRequired[Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"]]
     """
-    Selected node.
+    Selected model.
     """
 
 
@@ -243,10 +251,6 @@ class MultiGenerateJSONOut(TypedDict):
 
 
 class BatchGenerateJSONIn(TypedDict):
-    node: NotRequired[Literal["Mistral7BInstruct", "Llama3Instruct8B"]]
-    """
-    Selected node.
-    """
     prompts: NotRequired[List[str]]
     """
     Batch input prompts.
@@ -263,6 +267,10 @@ class BatchGenerateJSONIn(TypedDict):
     """
     Maximum number of tokens to generate.
     """
+    model: NotRequired[Literal["Mistral7BInstruct", "Llama3Instruct8B"]]
+    """
+    Selected model.
+    """
 
 
 class BatchGenerateJSONOut(TypedDict):
@@ -277,6 +285,10 @@ class Mistral7BInstructIn(TypedDict):
     """
     Input prompt.
     """
+    system_prompt: NotRequired[str]
+    """
+    System prompt.
+    """
     num_choices: NotRequired[int]
     """
     Number of choices to generate.
@@ -287,7 +299,23 @@ class Mistral7BInstructIn(TypedDict):
     """
     temperature: NotRequired[float]
     """
-    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    Higher values make the output more random, lower values make the output more deterministic.
+    """
+    frequency_penalty: NotRequired[float]
+    """
+    Higher values decrease the likelihood of repeating previous tokens.
+    """
+    repetition_penalty: NotRequired[float]
+    """
+    Higher values decrease the likelihood of repeated sequences.
+    """
+    presence_penalty: NotRequired[float]
+    """
+    Higher values increase the likelihood of new topics appearing.
+    """
+    top_p: NotRequired[float]
+    """
+    Probability below which less likely tokens are filtered out.
     """
     max_tokens: NotRequired[int]
     """
@@ -318,6 +346,10 @@ class Mixtral8x7BInstructIn(TypedDict):
     """
     Input prompt.
     """
+    system_prompt: NotRequired[str]
+    """
+    System prompt.
+    """
     num_choices: NotRequired[int]
     """
     Number of choices to generate.
@@ -328,7 +360,23 @@ class Mixtral8x7BInstructIn(TypedDict):
     """
     temperature: NotRequired[float]
     """
-    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    Higher values make the output more random, lower values make the output more deterministic.
+    """
+    frequency_penalty: NotRequired[float]
+    """
+    Higher values decrease the likelihood of repeating previous tokens.
+    """
+    repetition_penalty: NotRequired[float]
+    """
+    Higher values decrease the likelihood of repeated sequences.
+    """
+    presence_penalty: NotRequired[float]
+    """
+    Higher values increase the likelihood of new topics appearing.
+    """
+    top_p: NotRequired[float]
+    """
+    Probability below which less likely tokens are filtered out.
     """
     max_tokens: NotRequired[int]
     """
@@ -359,13 +407,33 @@ class Llama3Instruct8BIn(TypedDict):
     """
     Input prompt.
     """
+    system_prompt: NotRequired[str]
+    """
+    System prompt.
+    """
     num_choices: NotRequired[int]
     """
     Number of choices to generate.
     """
     temperature: NotRequired[float]
     """
-    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    Higher values make the output more random, lower values make the output more deterministic.
+    """
+    frequency_penalty: NotRequired[float]
+    """
+    Higher values decrease the likelihood of repeating previous tokens.
+    """
+    repetition_penalty: NotRequired[float]
+    """
+    Higher values decrease the likelihood of repeated sequences.
+    """
+    presence_penalty: NotRequired[float]
+    """
+    Higher values increase the likelihood of new topics appearing.
+    """
+    top_p: NotRequired[float]
+    """
+    Probability below which less likely tokens are filtered out.
     """
     max_tokens: NotRequired[int]
     """
@@ -400,13 +468,33 @@ class Llama3Instruct70BIn(TypedDict):
     """
     Input prompt.
     """
+    system_prompt: NotRequired[str]
+    """
+    System prompt.
+    """
     num_choices: NotRequired[int]
     """
     Number of choices to generate.
     """
     temperature: NotRequired[float]
     """
-    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
+    Higher values make the output more random, lower values make the output more deterministic.
+    """
+    frequency_penalty: NotRequired[float]
+    """
+    Higher values decrease the likelihood of repeating previous tokens.
+    """
+    repetition_penalty: NotRequired[float]
+    """
+    Higher values decrease the likelihood of repeated sequences.
+    """
+    presence_penalty: NotRequired[float]
+    """
+    Higher values increase the likelihood of new topics appearing.
+    """
+    top_p: NotRequired[float]
+    """
+    Probability below which less likely tokens are filtered out.
     """
     max_tokens: NotRequired[int]
     """
@@ -425,28 +513,6 @@ class Llama3Instruct70BOut(TypedDict):
     choices: NotRequired[List[Llama3Instruct70BChoice]]
     """
     Response choices.
-    """
-
-
-class GenerateTextVisionIn(TypedDict):
-    prompt: NotRequired[str]
-    """
-    Text prompt.
-    """
-    image_uris: NotRequired[List[str]]
-    """
-    Image prompts.
-    """
-    max_tokens: NotRequired[int]
-    """
-    Maximum number of tokens to generate.
-    """
-
-
-class GenerateTextVisionOut(TypedDict):
-    text: NotRequired[str]
-    """
-    Text response.
     """
 
 
@@ -703,7 +769,7 @@ class StableDiffusionXLControlNetOut(TypedDict):
     """
 
 
-class GenerativeEditImageIn(TypedDict):
+class InpaintImageIn(TypedDict):
     image_uri: NotRequired[str]
     """
     Original image.
@@ -722,14 +788,14 @@ class GenerativeEditImageIn(TypedDict):
     """
 
 
-class GenerativeEditImageOut(TypedDict):
+class InpaintImageOut(TypedDict):
     image_uri: NotRequired[str]
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
     """
 
 
-class MultiGenerativeEditImageIn(TypedDict):
+class MultiInpaintImageIn(TypedDict):
     image_uri: NotRequired[str]
     """
     Original image.
@@ -752,8 +818,8 @@ class MultiGenerativeEditImageIn(TypedDict):
     """
 
 
-class MultiGenerativeEditImageOut(TypedDict):
-    outputs: NotRequired[List[GenerativeEditImageOut]]
+class MultiInpaintImageOut(TypedDict):
+    outputs: NotRequired[List[InpaintImageOut]]
     """
     Generated images.
     """
@@ -835,7 +901,7 @@ class Point(TypedDict):
     """
 
 
-class FillMaskIn(TypedDict):
+class EraseImageIn(TypedDict):
     image_uri: NotRequired[str]
     """
     Input image.
@@ -850,7 +916,7 @@ class FillMaskIn(TypedDict):
     """
 
 
-class FillMaskOut(TypedDict):
+class EraseImageOut(TypedDict):
     image_uri: NotRequired[str]
     """
     Base 64-encoded JPEG image bytes, or a hosted image url if `store` is provided.
@@ -997,7 +1063,7 @@ class SegmentAnythingOut(TypedDict):
     """
 
 
-class TranscribeMediaIn(TypedDict):
+class TranscribeSpeechIn(TypedDict):
     audio_uri: NotRequired[str]
     """
     Input audio.
@@ -1081,7 +1147,7 @@ class ChapterMarker(TypedDict):
     """
 
 
-class TranscribeMediaOut(TypedDict):
+class TranscribeSpeechOut(TypedDict):
     text: NotRequired[str]
     """
     Transcribed text.

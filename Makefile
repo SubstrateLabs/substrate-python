@@ -26,7 +26,7 @@ poetry.lock: pyproject.toml
 ensure: poetry.lock
 	poetry install
 
-sync: sync-version sync-codegen
+sync: sync-version sync-codegen format
 
 sync-version:
 	poetry run python scripts/sync_version.py
