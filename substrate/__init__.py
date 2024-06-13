@@ -4,13 +4,6 @@
 20240612.20240612
 """
 
-import warnings
-
-import pydantic
-
-if pydantic.VERSION.startswith("2"):
-    warnings.filterwarnings("ignore", category=pydantic.warnings.PydanticDeprecatedSince20)
-
 from .nodes import (
     CLIP,
     JinaV2,
