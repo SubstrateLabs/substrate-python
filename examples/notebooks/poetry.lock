@@ -126,6 +126,17 @@ files = [
 colorama = {version = "*", markers = "platform_system == \"Windows\""}
 
 [[package]]
+name = "cloudpickle"
+version = "3.0.0"
+description = "Pickler class to extend the standard pickle.Pickler functionality"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "cloudpickle-3.0.0-py3-none-any.whl", hash = "sha256:246ee7d0c295602a036e86369c77fecda4ab17b506496730f2f576d9016fd9c7"},
+    {file = "cloudpickle-3.0.0.tar.gz", hash = "sha256:996d9a482c6fb4f33c1a35335cf8afd065d2a56e973270364840712d9131a882"},
+]
+
+[[package]]
 name = "colorama"
 version = "0.4.6"
 description = "Cross-platform colored terminal text."
@@ -738,16 +749,17 @@ full = ["httpx (>=0.22.0)", "itsdangerous", "jinja2", "python-multipart (>=0.0.7
 
 [[package]]
 name = "substrate"
-version = "220240530.0.0"
+version = "220240612.0.0"
 description = "Substrate Python SDK"
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "substrate-220240530.0.0-py3-none-any.whl", hash = "sha256:88323a7935c8f6864bf9bb27c63edf39e3ad91e65ff7b94900f08746240a16c6"},
-    {file = "substrate-220240530.0.0.tar.gz", hash = "sha256:4977b267537f6299d5eb5129571feb446fc807241f223551aef41bf530ff8139"},
+    {file = "substrate-220240612.0.0-py3-none-any.whl", hash = "sha256:e7f96f725e27a0550a2e1eaa7459a792ecb87b3328aa3b60f056ca34b54ef71c"},
+    {file = "substrate-220240612.0.0.tar.gz", hash = "sha256:15b1e9ad36b49ee3bdb2269e8d9d1d0a5e45e3bb28b159755d0be87a2974d99b"},
 ]
 
 [package.dependencies]
+cloudpickle = "3.0.0"
 distro = ">=1.8.0"
 httpx = ">=0.26.0"
 networkx = ">=3.2.1"
