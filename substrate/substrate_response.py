@@ -23,7 +23,7 @@ class SubstrateResponse:
         The request id.
         """
         if self.json:
-            return self.json.get("substrate_request_id")
+            return self.api_response.headers.get("x-substrate-request-id")
         return None
 
     def get(self, node: CoreNode[OT]) -> OT:
