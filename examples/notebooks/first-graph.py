@@ -20,41 +20,25 @@ def __():
 
 @app.cell
 def __(api_key):
-    from substrate import Substrate, GenerateTextVision, StableDiffusionXLControlNet, GenerateText, sb
+    from substrate import Substrate, GenerateImage, GenerateText, sb
 
     substrate = Substrate(api_key=api_key)
-    return (
-        GenerateText,
-        GenerateTextVision,
-        StableDiffusionXLControlNet,
-        Substrate,
-        sb,
-        substrate,
-    )
+    return GenerateImage, GenerateText, Substrate, sb, substrate
 
 
 @app.cell
-def __(GenerateTextVision, StableDiffusionXLControlNet, sb, substrate):
-    caption = GenerateTextVision(
-      prompt="generate a short caption for this image, including color and style details",
-      image_uris=["https://guides.substrate.run/hokusai.jpeg"],
+def __(GenerateImage, GenerateText, sb, substrate):
+    scene = GenerateText(
+        prompt="a short detailed descriptions of a mythical forest creature: ",
     )
-    styles = [
-      "futuristic supercell spiral cloud with glowing core over turbulent ocean",
-      "cityscape skyline background",
-      "cinematic sunset bokeh",
-    ]
+    styles = ["woodblock printed", "art nouveau poster"]
     images = [
-      StableDiffusionXLControlNet(
-        prompt=sb.concat("photo of ", style, " in the style of: ", caption.future.text),
-        image_uri="https://guides.substrate.run/hokusai.jpeg",
-        control_method="edge",
-        store="hosted",
-        num_images=1,
-      ) for style in styles]
+        GenerateImage(prompt=sb.concat("render in a ", style, " style: ", scene.future.text))
+        for style in styles
+    ]
 
-    result = substrate.run(caption, *images)
-    return caption, images, result, styles
+    result = substrate.run(scene, *images)
+    return images, result, scene, styles
 
 
 @app.cell
@@ -64,10 +48,20 @@ def __(mo, result):
 
 
 @app.cell
-def __(caption, images, mo, substrate):
-    viz_url = substrate.visualize(caption, *images)
-    mo.md(f"[Visualize the graph]({viz_url})")
-    return viz_url,
+def __():
+    return
+
+
+@app.cell
+def __(images, mo, result):
+    mo.download(result.get(images[0]).image_uri)
+    return
+
+
+@app.cell
+def __(images, mo, result):
+    mo.download(result.get(images[1]).image_uri)
+    return
 
 
 if __name__ == "__main__":
