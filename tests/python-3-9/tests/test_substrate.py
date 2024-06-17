@@ -1,7 +1,14 @@
+import sys
+from pathlib import Path
+
 import pytest
 from pydantic import BaseModel
 
-from substrate.substrate import Substrate
+# add parent dir to sys.path to make 'substrate' importable
+parent_dir = Path(__file__).resolve().parent.parent.parent.parent
+sys.path.insert(0, str(parent_dir))
+
+from substrate import Substrate
 from substrate.core.corenode import CoreNode
 
 
