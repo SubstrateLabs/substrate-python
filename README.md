@@ -4,6 +4,8 @@
 
 The Substrate Python SDK is the recommended way to interact with the Substrate API from any Python application.
 
+<img src="https://guides.substrate.run/unified-diagram.svg"/>
+
 ## Documentation
 
 If you're just getting started, head to [guides.substrate.run](https://guides.substrate.run/).
@@ -43,7 +45,7 @@ Summarize the output of the `story` node using another `GenerateText` node. Beca
 summary = GenerateText(prompt=sb.concat("summarize this story in one sentence: ", story.future.text))
 ```
 
-Run the graph chaining `story` → `summary`. This is a simple example, but you can easily build arbitrarily complex branching workflows.
+Run the graph chaining `story` → `summary` by passing the terminal node to `substrate.run`.
 
 ```python
 response = substrate.run(story, summary)
