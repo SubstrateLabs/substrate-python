@@ -14,6 +14,9 @@ def exec_sync(command):
 src_dir = "../substrate/sb_models/substratecore"
 dest_dir = "substrate/core"
 excluded_files = [
+    "client/future.py",
+    "corenode.py",
+    "future_directive.py",
     "versions.py",
     "jina_versions.py",
     "mistral_versions.py",
