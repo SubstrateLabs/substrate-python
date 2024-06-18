@@ -1,5 +1,7 @@
 """
 CORE ꩜ SUBSTRATE
+
+NOTE: this file is not copied from the main repo
 """
 from abc import ABC
 from typing import (
