@@ -1,5 +1,7 @@
 """
 CORE ꩜ SUBSTRATE
+
+NOTE: this file is not copied from the main repo
 """
 from typing import Union, TypeVar, Optional
 
@@ -60,7 +62,7 @@ class TracedFuture(Future[TraceDirective]):
             operation = TraceOperation(key=key, accessor=accessor, future_id=None)
         next_f = TracedFuture(
             directive=TraceDirective(
-                origin_node_id=self.directive.origin_node_id,
+                origin_node=self.directive.origin_node,
                 op_stack=self.directive.op_stack + [operation],
             ),
             FG=self.FutureG,

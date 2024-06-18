@@ -1,8 +1,11 @@
 """
 CORE ꩜ SUBSTRATE
+
+NOTE: this file is not copied from the main repo
 """
 from abc import ABC
 from typing import (
+    Any,
     Dict,
     List,
     Union,
@@ -82,5 +85,13 @@ class TraceOperation:
 @dataclass
 class TraceDirective(BaseDirective):
     op_stack: List[TraceOperation]
-    origin_node_id: Optional[str]
+    origin_node: Any # Should be CoreNode, but am running into circular import
     type: Literal["trace"] = "trace"
+
+    def to_dict(self) -> Dict:
+        # noinspection PyDataclass
+        return {
+            "op_stack": [asdict(item) for item in self.op_stack],
+            "origin_node_id": self.origin_node.id,
+            "type": self.type,
+        }

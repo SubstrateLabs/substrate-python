@@ -65,8 +65,18 @@ class Substrate:
         """
         Serializes the given nodes.
         """
-        graph = Graph()
+
+        all_nodes = set()
+        def collect_nodes(node):
+            all_nodes.add(node)
+            for referenced_node in node.referenced_nodes:
+                collect_nodes(referenced_node)
+
         for node in nodes:
+            collect_nodes(node)
+
+        graph = Graph()
+        for node in all_nodes:
             graph.add_node(node)
         graph_serialized = graph.to_dict()
         return graph_serialized

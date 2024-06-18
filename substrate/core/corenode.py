@@ -1,5 +1,7 @@
 """
 CORE ꩜ SUBSTRATE
+
+NOTE: this file is not copied from the main repo
 """
 from typing import Any, List, Type, Generic, TypeVar, Optional
 
@@ -30,6 +32,7 @@ class CoreNode(Generic[OT]):
             self.args = {}
         self.SG.add_node(self, **self.args)
         self.futures_from_args: List[BaseFuture] = find_futures_client(attr)
+        self.referenced_nodes = [future.directive.origin_node for future in self.futures_from_args if isinstance(future, TracedFuture)]
 
     @property
     def out_type(self) -> Type[OT]:
@@ -58,7 +61,7 @@ class CoreNode(Generic[OT]):
         """
         Reference to future output of this node.
         """
-        return TracedFuture(directive=TraceDirective(op_stack=[], origin_node_id=self.id))
+        return TracedFuture(directive=TraceDirective(op_stack=[], origin_node=self))
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.id})"
