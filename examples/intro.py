@@ -11,11 +11,11 @@ api_key = os.environ.get("SUBSTRATE_API_KEY")
 if api_key is None:
     raise EnvironmentError("No SUBSTRATE_API_KEY set")
 
-from substrate import Substrate, GenerateText, GenerateImage, sb
+from substrate import Substrate, ComputeText, GenerateImage, sb
 
 substrate = Substrate(api_key=api_key, timeout=60 * 5)
 
-scene = GenerateText(prompt="description of a mythical forest creature: ")
+scene = ComputeText(prompt="description of a mythical forest creature: ")
 
 styles = ["woodblock printed", "art nouveau poster"]
 images = [GenerateImage(store="hosted", prompt=sb.concat(style, ": ", scene.future.text)) for style in styles]
