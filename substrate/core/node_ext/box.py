@@ -31,7 +31,7 @@ class Box(CoreNode[BoxOut]):
         Args:
             value: Value to return.
 
-        https://substrate.run/nodes#Box
+        https://guides.substrate.run/reference/box
         """
         super().__init__(value=value, hide=hide, out_type=BoxOut, **kwargs)
         self.node = "Box"
