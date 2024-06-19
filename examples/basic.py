@@ -21,7 +21,7 @@ story = GenerateText(prompt="tell me a story")
 response = substrate.run(story)
 print(response)
 
-summary_out = response.get(summary)
+summary_out = response.get(story)
 print(summary_out.text)
 
 # viz = Substrate.visualize(ry)
