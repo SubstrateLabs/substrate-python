@@ -22,10 +22,6 @@ class ErrorOut:
     """
     A message providing more details about the error.
     """
-    request_id: Optional[str] = None
-    """
-    A unique identifier for the request.
-    """
 
 
 @dataclass
@@ -50,7 +46,7 @@ class GenerateTextIn:
 
 @dataclass
 class GenerateTextOut:
-    text: str
+    text: Optional[str] = None
     """
     Text response.
     """
@@ -82,7 +78,7 @@ class GenerateJSONIn:
 
 @dataclass
 class GenerateJSONOut:
-    json_object: Dict[str, Any]
+    json_object: Optional[Dict[str, Any]] = None
     """
     JSON response.
     """
@@ -90,15 +86,11 @@ class GenerateJSONOut:
 
 @dataclass
 class MultiGenerateTextIn:
-    prompt: Optional[str] = None
+    prompt: str
     """
     Input prompt.
     """
-    batch_prompts: Optional[List[str]] = None
-    """
-    Batch input prompts.
-    """
-    num_choices: int = 1
+    num_choices: int
     """
     Number of choices to generate.
     """
@@ -113,40 +105,25 @@ class MultiGenerateTextIn:
     node: Literal["Mistral7BInstruct"] = "Mistral7BInstruct"
     """
     Selected node.
-    """
-
-
-@dataclass
-class MultiGenerateTextOutput:
-    choices: List[GenerateTextOut]
-    """
-    Response choices.
     """
 
 
 @dataclass
 class MultiGenerateTextOut:
-    outputs: List[MultiGenerateTextOutput]
-    """
-    A single output for `prompt`, or multiple outputs for `batch_prompts`.
-    """
+    choices: List[GenerateTextOut]
 
 
 @dataclass
 class MultiGenerateJSONIn:
+    prompt: str
+    """
+    Input prompt.
+    """
     json_schema: Dict[str, Any]
     """
     JSON schema to guide `json_object` response.
     """
-    prompt: Optional[str] = None
-    """
-    Input prompt.
-    """
-    batch_prompts: Optional[List[str]] = None
-    """
-    Batch input prompts.
-    """
-    num_choices: int = 2
+    num_choices: int
     """
     Number of choices to generate.
     """
@@ -165,38 +142,23 @@ class MultiGenerateJSONIn:
 
 
 @dataclass
-class MultiGenerateJSONOutput:
-    choices: List[GenerateJSONOut]
-    """
-    Response choices.
-    """
-
-
-@dataclass
 class MultiGenerateJSONOut:
-    outputs: List[MultiGenerateJSONOutput]
-    """
-    A single output for `prompt`, or multiple outputs for `batch_prompts`.
-    """
+    choices: List[GenerateJSONOut]
 
 
 @dataclass
 class Mistral7BInstructIn:
-    prompt: Optional[str] = None
+    prompt: str
     """
     Input prompt.
     """
-    num_choices: int = 1
+    num_choices: int
     """
     Number of choices to generate.
     """
     json_schema: Optional[Dict[str, Any]] = None
     """
     JSON schema to guide response.
-    """
-    batch_prompts: Optional[List[str]] = None
-    """
-    Batch input prompts.
     """
     temperature: Optional[float] = None
     """
@@ -221,19 +183,8 @@ class Mistral7BInstructChoice:
 
 
 @dataclass
-class Mistral7BInstructOutput:
-    choices: List[Mistral7BInstructChoice]
-    """
-    Response choices.
-    """
-
-
-@dataclass
 class Mistral7BInstructOut:
-    outputs: List[Mistral7BInstructOutput]
-    """
-    A single output for `prompt`, or multiple outputs for `batch_prompts`.
-    """
+    choices: List[Mistral7BInstructChoice]
 
 
 @dataclass
@@ -273,6 +224,10 @@ class Firellava13BIn:
     image_uris: List[str]
     """
     Image prompts.
+    """
+    temperature: Optional[float] = None
+    """
+    Sampling temperature to use. Higher values make the output more random, lower values make the output more deterministic.
     """
     max_tokens: int = 800
     """
@@ -335,9 +290,6 @@ class MultiGenerateImageIn:
 @dataclass
 class MultiGenerateImageOut:
     outputs: List[GenerateImageOut]
-    """
-    Generated images.
-    """
 
 
 @dataclass
@@ -346,27 +298,27 @@ class StableDiffusionXLIn:
     """
     Text prompt.
     """
-    num_images: int
-    """
-    Number of images to generate.
-    """
     negative_prompt: Optional[str] = None
     """
     Negative input prompt.
     """
-    steps: int = 30
+    steps: Optional[int] = None
     """
     Number of diffusion steps.
+    """
+    num_images: int = 1
+    """
+    Number of images to generate.
     """
     store: Optional[str] = None
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    height: int = 1024
+    height: Optional[int] = None
     """
     Height of output image, in pixels.
     """
-    width: int = 1024
+    width: Optional[int] = None
     """
     Width of output image, in pixels.
     """
@@ -374,7 +326,7 @@ class StableDiffusionXLIn:
     """
     Seeds for deterministic generation. Default is a random seed.
     """
-    guidance_scale: float = 7
+    guidance_scale: float = 5
     """
     Higher values adhere to the text prompt more strongly, typically at the expense of image quality.
     """
@@ -395,9 +347,6 @@ class StableDiffusionImage:
 @dataclass
 class StableDiffusionXLOut:
     outputs: List[StableDiffusionImage]
-    """
-    Generated images.
-    """
 
 
 @dataclass
@@ -418,11 +367,11 @@ class StableDiffusionXLLightningIn:
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    height: int = 1024
+    height: Optional[int] = None
     """
     Height of output image, in pixels.
     """
-    width: int = 1024
+    width: Optional[int] = None
     """
     Width of output image, in pixels.
     """
@@ -435,9 +384,6 @@ class StableDiffusionXLLightningIn:
 @dataclass
 class StableDiffusionXLLightningOut:
     outputs: List[StableDiffusionImage]
-    """
-    Generated images.
-    """
 
 
 @dataclass
@@ -454,7 +400,7 @@ class StableDiffusionXLIPAdapterIn:
     """
     Image prompt.
     """
-    ip_adapter_scale: float = 0.5
+    ip_adapter_scale: Optional[float] = None
     """
     Controls the influence of the image prompt on the generated output.
     """
@@ -466,11 +412,11 @@ class StableDiffusionXLIPAdapterIn:
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    width: int = 1024
+    width: Optional[int] = None
     """
     Width of output image, in pixels.
     """
-    height: int = 1024
+    height: Optional[int] = None
     """
     Height of output image, in pixels.
     """
@@ -483,9 +429,6 @@ class StableDiffusionXLIPAdapterIn:
 @dataclass
 class StableDiffusionXLIPAdapterOut:
     outputs: List[StableDiffusionImage]
-    """
-    Generated images.
-    """
 
 
 @dataclass
@@ -518,7 +461,7 @@ class StableDiffusionXLControlNetIn:
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    conditioning_scale: float = 0.5
+    conditioning_scale: Optional[float] = None
     """
     Controls the influence of the input image on the generated output.
     """
@@ -531,9 +474,6 @@ class StableDiffusionXLControlNetIn:
 @dataclass
 class StableDiffusionXLControlNetOut:
     outputs: List[StableDiffusionImage]
-    """
-    Generated images.
-    """
 
 
 @dataclass
@@ -599,9 +539,6 @@ class MultiGenerativeEditImageIn:
 @dataclass
 class MultiGenerativeEditImageOut:
     outputs: List[GenerativeEditImageOut]
-    """
-    Generated images.
-    """
 
 
 @dataclass
@@ -634,7 +571,7 @@ class StableDiffusionXLInpaintIn:
     """
     Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](/docs/file-stores). If unset, the image data will be returned as a base64-encoded string.
     """
-    strength: float = 0.8
+    strength: float = 1.0
     """
     Controls the strength of the generation process.
     """
@@ -647,9 +584,6 @@ class StableDiffusionXLInpaintIn:
 @dataclass
 class StableDiffusionXLInpaintOut:
     outputs: List[StableDiffusionImage]
-    """
-    Generated images.
-    """
 
 
 @dataclass
@@ -1254,6 +1188,10 @@ class CLIPIn:
     """
     Items to embed.
     """
+    embedded_metadata_keys: Optional[List[str]] = None
+    """
+    Choose keys from `metadata` to embed with text, when embedding and storing text documents.
+    """
     store: Optional[str] = None
     """
     [Vector store](/docs/vector-stores) identifier.
@@ -1276,7 +1214,7 @@ class CreateVectorStoreIn:
     """
     model: Literal["jina-v2", "clip"]
     """
-    Selected embedding model.
+    Selected embedding model
     """
     m: int = 16
     """
@@ -1300,7 +1238,7 @@ class CreateVectorStoreOut:
     """
     model: Literal["jina-v2", "clip"]
     """
-    Selected embedding model.
+    Selected embedding model
     """
     m: int
     """
@@ -1337,7 +1275,7 @@ class DeleteVectorStoreIn:
     """
     model: Literal["jina-v2", "clip"]
     """
-    Selected embedding model.
+    Selected embedding model
     """
 
 
@@ -1349,7 +1287,7 @@ class DeleteVectorStoreOut:
     """
     model: Literal["jina-v2", "clip"]
     """
-    Selected embedding model.
+    Selected embedding model
     """
 
 
@@ -1381,7 +1319,7 @@ class FetchVectorsIn:
     """
     model: Literal["jina-v2", "clip"]
     """
-    Selected embedding model.
+    Selected embedding model
     """
     ids: List[str]
     """
@@ -1437,7 +1375,7 @@ class UpdateVectorsIn:
     """
     model: Literal["jina-v2", "clip"]
     """
-    Selected embedding model.
+    Selected embedding model
     """
     vectors: List[UpdateVectorParams]
     """
@@ -1453,7 +1391,7 @@ class DeleteVectorsIn:
     """
     model: Literal["jina-v2", "clip"]
     """
-    Selected embedding model.
+    Selected embedding model
     """
     ids: List[str]
     """
@@ -1469,11 +1407,11 @@ class QueryVectorStoreIn:
     """
     model: Literal["jina-v2", "clip"]
     """
-    Selected embedding model.
+    Selected embedding model
     """
-    query_strings: Optional[List[str]] = None
+    query_ids: Optional[List[str]] = None
     """
-    Texts to embed and use for the query.
+    Document IDs to use for the query.
     """
     query_image_uris: Optional[List[str]] = None
     """
@@ -1481,11 +1419,11 @@ class QueryVectorStoreIn:
     """
     query_vectors: Optional[List[List[float]]] = None
     """
-    Vectors to use for the query.
+    Vector to use for the query.
     """
-    query_ids: Optional[List[str]] = None
+    query_strings: Optional[List[str]] = None
     """
-    Document IDs to use for the query.
+    Texts to embed and use for the query.
     """
     top_k: int = 10
     """
@@ -1545,7 +1483,7 @@ class QueryVectorStoreOut:
     """
     model: Optional[Literal["jina-v2", "clip"]] = None
     """
-    Selected embedding model.
+    Selected embedding model
     """
     metric: Optional[Literal["cosine", "l2", "inner"]] = None
     """

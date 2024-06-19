@@ -67,6 +67,7 @@ class Substrate:
         """
 
         all_nodes = set()
+
         def collect_nodes(node):
             all_nodes.add(node)
             for referenced_node in node.referenced_nodes:

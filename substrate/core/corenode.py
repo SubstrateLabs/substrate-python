@@ -32,7 +32,9 @@ class CoreNode(Generic[OT]):
             self.args = {}
         self.SG.add_node(self, **self.args)
         self.futures_from_args: List[BaseFuture] = find_futures_client(attr)
-        self.referenced_nodes = [future.directive.origin_node for future in self.futures_from_args if isinstance(future, TracedFuture)]
+        self.referenced_nodes = [
+            future.directive.origin_node for future in self.futures_from_args if isinstance(future, TracedFuture)
+        ]
 
     @property
     def out_type(self) -> Type[OT]:

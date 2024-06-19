@@ -1,7 +1,7 @@
 """
 𐃏 Substrate Python SDK
 
-20240612.20240613
+20240617.20240619
 """
 
 from .nodes import (
@@ -10,11 +10,11 @@ from .nodes import (
     EmbedText,
     EmbedImage,
     EraseImage,
+    ComputeJSON,
+    ComputeText,
     Experimental,
     FetchVectors,
     Firellava13B,
-    GenerateJSON,
-    GenerateText,
     InpaintImage,
     UpscaleImage,
     DeleteVectors,
@@ -24,18 +24,18 @@ from .nodes import (
     MultiEmbedText,
     MultiEmbedImage,
     SegmentAnything,
+    BatchComputeJSON,
+    BatchComputeText,
     ListVectorStores,
     Llama3Instruct8B,
+    MultiComputeJSON,
+    MultiComputeText,
     QueryVectorStore,
     RemoveBackground,
     TranscribeSpeech,
-    BatchGenerateJSON,
-    BatchGenerateText,
     DeleteVectorStore,
     Llama3Instruct70B,
     Mistral7BInstruct,
-    MultiGenerateJSON,
-    MultiGenerateText,
     MultiInpaintImage,
     SegmentUnderPoint,
     MultiGenerateImage,
@@ -49,6 +49,8 @@ from .core.sb import sb
 from ._version import __version__
 from .substrate import Substrate, SubstrateResponse
 from .run_python import RunPython
+from .core.node_ext.box import Box
+from .core.node_ext.logic import If
 
 __all__ = [
     "__version__",
@@ -57,12 +59,12 @@ __all__ = [
     "Substrate",
     "Experimental",
     "RunPython",
-    "GenerateText",
-    "MultiGenerateText",
-    "BatchGenerateText",
-    "BatchGenerateJSON",
-    "GenerateJSON",
-    "MultiGenerateJSON",
+    "ComputeText",
+    "MultiComputeText",
+    "BatchComputeText",
+    "BatchComputeJSON",
+    "ComputeJSON",
+    "MultiComputeJSON",
     "Mistral7BInstruct",
     "Mixtral8x7BInstruct",
     "Llama3Instruct8B",
@@ -95,4 +97,6 @@ __all__ = [
     "FetchVectors",
     "UpdateVectors",
     "DeleteVectors",
+    "Box",
+    "If",
 ]
