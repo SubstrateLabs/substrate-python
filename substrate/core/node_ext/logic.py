@@ -27,7 +27,7 @@ class IfOut(BaseModel):
 
 
 class If(CoreNode[IfOut]):
-    """https://substrate.run/nodes#If"""
+    """https://guides.substrate.run/reference/if"""
 
     def __init__(
         self,
