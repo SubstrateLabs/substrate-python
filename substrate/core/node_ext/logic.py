@@ -34,6 +34,7 @@ class If(CoreNode[IfOut]):
         condition: ConditionCompatible,
         value_if_true: Union[Future, Any],
         value_if_false: Optional[Union[Future, Any]] = None,
+        hide: bool = False,
         **kwargs,
     ):
         """
@@ -49,6 +50,7 @@ class If(CoreNode[IfOut]):
             value_if_true=value_if_true,
             value_if_false=value_if_false,
             out_type=IfOut,
+            hide=hide,
             **kwargs,
         )
         self.node = "LogicalIf"
