@@ -43,7 +43,7 @@ class If(CoreNode[IfOut]):
             value_if_true: Value to return if condition is true.
             value_if_false: Value to return if condition is false.
 
-        https://substrate.run/nodes#If
+        https://guides.substrate.run/reference/if
         """
         super().__init__(
             condition=condition,
