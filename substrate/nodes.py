@@ -17,11 +17,11 @@ with warnings.catch_warnings():
         EmbedTextOut,
         EmbedImageOut,
         EraseImageOut,
+        ComputeJSONOut,
+        ComputeTextOut,
         ExperimentalOut,
         FetchVectorsOut,
         Firellava13BOut,
-        GenerateJSONOut,
-        GenerateTextOut,
         InpaintImageOut,
         UpscaleImageOut,
         DeleteVectorsOut,
@@ -31,18 +31,18 @@ with warnings.catch_warnings():
         MultiEmbedTextOut,
         MultiEmbedImageOut,
         SegmentAnythingOut,
+        BatchComputeJSONOut,
+        BatchComputeTextOut,
         ListVectorStoresOut,
         Llama3Instruct8BOut,
+        MultiComputeJSONOut,
+        MultiComputeTextOut,
         QueryVectorStoreOut,
         RemoveBackgroundOut,
         TranscribeSpeechOut,
-        BatchGenerateJSONOut,
-        BatchGenerateTextOut,
         DeleteVectorStoreOut,
         Llama3Instruct70BOut,
         Mistral7BInstructOut,
-        MultiGenerateJSONOut,
-        MultiGenerateTextOut,
         MultiInpaintImageOut,
         SegmentUnderPointOut,
         MultiGenerateImageOut,
@@ -61,11 +61,11 @@ from .future_dataclass_models import (
     FutureEmbedTextOut,
     FutureEmbedImageOut,
     FutureEraseImageOut,
+    FutureComputeJSONOut,
+    FutureComputeTextOut,
     FutureExperimentalOut,
     FutureFetchVectorsOut,
     FutureFirellava13BOut,
-    FutureGenerateJSONOut,
-    FutureGenerateTextOut,
     FutureInpaintImageOut,
     FutureUpscaleImageOut,
     FutureDeleteVectorsOut,
@@ -75,18 +75,18 @@ from .future_dataclass_models import (
     FutureMultiEmbedTextOut,
     FutureMultiEmbedImageOut,
     FutureSegmentAnythingOut,
+    FutureBatchComputeJSONOut,
+    FutureBatchComputeTextOut,
     FutureListVectorStoresOut,
     FutureLlama3Instruct8BOut,
+    FutureMultiComputeJSONOut,
+    FutureMultiComputeTextOut,
     FutureQueryVectorStoreOut,
     FutureRemoveBackgroundOut,
     FutureTranscribeSpeechOut,
-    FutureBatchGenerateJSONOut,
-    FutureBatchGenerateTextOut,
     FutureDeleteVectorStoreOut,
     FutureLlama3Instruct70BOut,
     FutureMistral7BInstructOut,
-    FutureMultiGenerateJSONOut,
-    FutureMultiGenerateTextOut,
     FutureMultiInpaintImageOut,
     FutureSegmentUnderPointOut,
     FutureMultiGenerateImageOut,
@@ -137,8 +137,8 @@ class Experimental(CoreNode[ExperimentalOut]):
         return super().future  # type: ignore
 
 
-class GenerateText(CoreNode[GenerateTextOut]):
-    """https://substrate.run/nodes#GenerateText"""
+class ComputeText(CoreNode[ComputeTextOut]):
+    """https://substrate.run/nodes#ComputeText"""
 
     def __init__(
         self,
@@ -164,7 +164,7 @@ class GenerateText(CoreNode[GenerateTextOut]):
             max_tokens: Maximum number of tokens to generate.
             model: Selected model. `Firellava13B` is automatically selected when `image_uris` is provided.
 
-        https://substrate.run/nodes#GenerateText
+        https://substrate.run/nodes#ComputeText
         """
         super().__init__(
             prompt=prompt,
@@ -173,23 +173,23 @@ class GenerateText(CoreNode[GenerateTextOut]):
             max_tokens=max_tokens,
             model=model,
             hide=hide,
-            out_type=GenerateTextOut,
+            out_type=ComputeTextOut,
             **kwargs,
         )
-        self.node = "GenerateText"
+        self.node = "ComputeText"
 
     @property
-    def future(self) -> FutureGenerateTextOut:  # type: ignore
+    def future(self) -> FutureComputeTextOut:  # type: ignore
         """
         Future reference to this node's output.
 
-        https://substrate.run/nodes#GenerateText
+        https://substrate.run/nodes#ComputeText
         """
         return super().future  # type: ignore
 
 
-class GenerateJSON(CoreNode[GenerateJSONOut]):
-    """https://substrate.run/nodes#GenerateJSON"""
+class ComputeJSON(CoreNode[ComputeJSONOut]):
+    """https://substrate.run/nodes#ComputeJSON"""
 
     def __init__(
         self,
@@ -209,7 +209,7 @@ class GenerateJSON(CoreNode[GenerateJSONOut]):
             max_tokens: Maximum number of tokens to generate.
             model: Selected model.
 
-        https://substrate.run/nodes#GenerateJSON
+        https://substrate.run/nodes#ComputeJSON
         """
         super().__init__(
             prompt=prompt,
@@ -218,23 +218,23 @@ class GenerateJSON(CoreNode[GenerateJSONOut]):
             max_tokens=max_tokens,
             model=model,
             hide=hide,
-            out_type=GenerateJSONOut,
+            out_type=ComputeJSONOut,
             **kwargs,
         )
-        self.node = "GenerateJSON"
+        self.node = "ComputeJSON"
 
     @property
-    def future(self) -> FutureGenerateJSONOut:  # type: ignore
+    def future(self) -> FutureComputeJSONOut:  # type: ignore
         """
         Future reference to this node's output.
 
-        https://substrate.run/nodes#GenerateJSON
+        https://substrate.run/nodes#ComputeJSON
         """
         return super().future  # type: ignore
 
 
-class MultiGenerateText(CoreNode[MultiGenerateTextOut]):
-    """https://substrate.run/nodes#MultiGenerateText"""
+class MultiComputeText(CoreNode[MultiComputeTextOut]):
+    """https://substrate.run/nodes#MultiComputeText"""
 
     def __init__(
         self,
@@ -259,7 +259,7 @@ class MultiGenerateText(CoreNode[MultiGenerateTextOut]):
             max_tokens: Maximum number of tokens to generate.
             model: Selected model.
 
-        https://substrate.run/nodes#MultiGenerateText
+        https://substrate.run/nodes#MultiComputeText
         """
         super().__init__(
             prompt=prompt,
@@ -268,23 +268,23 @@ class MultiGenerateText(CoreNode[MultiGenerateTextOut]):
             max_tokens=max_tokens,
             model=model,
             hide=hide,
-            out_type=MultiGenerateTextOut,
+            out_type=MultiComputeTextOut,
             **kwargs,
         )
-        self.node = "MultiGenerateText"
+        self.node = "MultiComputeText"
 
     @property
-    def future(self) -> FutureMultiGenerateTextOut:  # type: ignore
+    def future(self) -> FutureMultiComputeTextOut:  # type: ignore
         """
         Future reference to this node's output.
 
-        https://substrate.run/nodes#MultiGenerateText
+        https://substrate.run/nodes#MultiComputeText
         """
         return super().future  # type: ignore
 
 
-class BatchGenerateText(CoreNode[BatchGenerateTextOut]):
-    """https://substrate.run/nodes#BatchGenerateText"""
+class BatchComputeText(CoreNode[BatchComputeTextOut]):
+    """https://substrate.run/nodes#BatchComputeText"""
 
     def __init__(
         self,
@@ -302,7 +302,7 @@ class BatchGenerateText(CoreNode[BatchGenerateTextOut]):
             max_tokens: Maximum number of tokens to generate.
             model: Selected model.
 
-        https://substrate.run/nodes#BatchGenerateText
+        https://substrate.run/nodes#BatchComputeText
         """
         super().__init__(
             prompts=prompts,
@@ -310,23 +310,23 @@ class BatchGenerateText(CoreNode[BatchGenerateTextOut]):
             max_tokens=max_tokens,
             model=model,
             hide=hide,
-            out_type=BatchGenerateTextOut,
+            out_type=BatchComputeTextOut,
             **kwargs,
         )
-        self.node = "BatchGenerateText"
+        self.node = "BatchComputeText"
 
     @property
-    def future(self) -> FutureBatchGenerateTextOut:  # type: ignore
+    def future(self) -> FutureBatchComputeTextOut:  # type: ignore
         """
         Future reference to this node's output.
 
-        https://substrate.run/nodes#BatchGenerateText
+        https://substrate.run/nodes#BatchComputeText
         """
         return super().future  # type: ignore
 
 
-class MultiGenerateJSON(CoreNode[MultiGenerateJSONOut]):
-    """https://substrate.run/nodes#MultiGenerateJSON"""
+class MultiComputeJSON(CoreNode[MultiComputeJSONOut]):
+    """https://substrate.run/nodes#MultiComputeJSON"""
 
     def __init__(
         self,
@@ -348,7 +348,7 @@ class MultiGenerateJSON(CoreNode[MultiGenerateJSONOut]):
             max_tokens: Maximum number of tokens to generate.
             model: Selected model.
 
-        https://substrate.run/nodes#MultiGenerateJSON
+        https://substrate.run/nodes#MultiComputeJSON
         """
         super().__init__(
             prompt=prompt,
@@ -358,23 +358,23 @@ class MultiGenerateJSON(CoreNode[MultiGenerateJSONOut]):
             max_tokens=max_tokens,
             model=model,
             hide=hide,
-            out_type=MultiGenerateJSONOut,
+            out_type=MultiComputeJSONOut,
             **kwargs,
         )
-        self.node = "MultiGenerateJSON"
+        self.node = "MultiComputeJSON"
 
     @property
-    def future(self) -> FutureMultiGenerateJSONOut:  # type: ignore
+    def future(self) -> FutureMultiComputeJSONOut:  # type: ignore
         """
         Future reference to this node's output.
 
-        https://substrate.run/nodes#MultiGenerateJSON
+        https://substrate.run/nodes#MultiComputeJSON
         """
         return super().future  # type: ignore
 
 
-class BatchGenerateJSON(CoreNode[BatchGenerateJSONOut]):
-    """https://substrate.run/nodes#BatchGenerateJSON"""
+class BatchComputeJSON(CoreNode[BatchComputeJSONOut]):
+    """https://substrate.run/nodes#BatchComputeJSON"""
 
     def __init__(
         self,
@@ -394,7 +394,7 @@ class BatchGenerateJSON(CoreNode[BatchGenerateJSONOut]):
             max_tokens: Maximum number of tokens to generate.
             model: Selected model.
 
-        https://substrate.run/nodes#BatchGenerateJSON
+        https://substrate.run/nodes#BatchComputeJSON
         """
         super().__init__(
             prompts=prompts,
@@ -403,17 +403,17 @@ class BatchGenerateJSON(CoreNode[BatchGenerateJSONOut]):
             max_tokens=max_tokens,
             model=model,
             hide=hide,
-            out_type=BatchGenerateJSONOut,
+            out_type=BatchComputeJSONOut,
             **kwargs,
         )
-        self.node = "BatchGenerateJSON"
+        self.node = "BatchComputeJSON"
 
     @property
-    def future(self) -> FutureBatchGenerateJSONOut:  # type: ignore
+    def future(self) -> FutureBatchComputeJSONOut:  # type: ignore
         """
         Future reference to this node's output.
 
-        https://substrate.run/nodes#BatchGenerateJSON
+        https://substrate.run/nodes#BatchComputeJSON
         """
         return super().future  # type: ignore
 

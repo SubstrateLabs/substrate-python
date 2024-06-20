@@ -34,3 +34,8 @@ class IDGenerator:
             if class_name not in IDGenerator._generators:
                 IDGenerator._generators[class_name] = IDGenerator(class_name)
             return IDGenerator._generators[class_name]
+
+    @staticmethod
+    def prefixed_id(prefix: str, length: int = 32) -> str:
+        radom_string = IDGenerator.random_string(length)
+        return f"{prefix}_{radom_string}"

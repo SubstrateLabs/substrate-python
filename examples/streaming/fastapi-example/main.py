@@ -20,6 +20,7 @@ from substrate import Substrate, Llama3Instruct8B
 app = FastAPI()
 substrate = Substrate(api_key=api_key, timeout=60 * 5)
 
+
 @app.get("/qotd")
 def quote_of_the_day():
     quote = Llama3Instruct8B(prompt="What's an inspirational quote of the day?")

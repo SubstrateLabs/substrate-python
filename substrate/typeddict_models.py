@@ -11,7 +11,7 @@ from typing_extensions import Literal, TypedDict, NotRequired
 
 
 class ErrorOut(TypedDict):
-    type: NotRequired[Literal["api_error", "invalid_request_error"]]
+    type: NotRequired[Literal["api_error", "invalid_request_error", "dependency_error"]]
     """
     The type of error returned.
     """
@@ -81,7 +81,7 @@ class RunPythonOut(TypedDict):
     """
 
 
-class GenerateTextIn(TypedDict):
+class ComputeTextIn(TypedDict):
     prompt: NotRequired[str]
     """
     Input prompt.
@@ -112,14 +112,14 @@ class GenerateTextIn(TypedDict):
     """
 
 
-class GenerateTextOut(TypedDict):
+class ComputeTextOut(TypedDict):
     text: NotRequired[str]
     """
     Text response.
     """
 
 
-class GenerateJSONIn(TypedDict):
+class ComputeJSONIn(TypedDict):
     prompt: NotRequired[str]
     """
     Input prompt.
@@ -142,7 +142,7 @@ class GenerateJSONIn(TypedDict):
     """
 
 
-class GenerateJSONOut(TypedDict):
+class ComputeJSONOut(TypedDict):
     json_object: NotRequired[Dict[str, Any]]
     """
     JSON response.
@@ -153,7 +153,7 @@ class GenerateJSONOut(TypedDict):
     """
 
 
-class MultiGenerateTextIn(TypedDict):
+class MultiComputeTextIn(TypedDict):
     prompt: NotRequired[str]
     """
     Input prompt.
@@ -183,14 +183,14 @@ class MultiGenerateTextIn(TypedDict):
     """
 
 
-class MultiGenerateTextOut(TypedDict):
-    choices: NotRequired[List[GenerateTextOut]]
+class MultiComputeTextOut(TypedDict):
+    choices: NotRequired[List[ComputeTextOut]]
     """
     Response choices.
     """
 
 
-class BatchGenerateTextIn(TypedDict):
+class BatchComputeTextIn(TypedDict):
     prompts: NotRequired[List[str]]
     """
     Batch input prompts.
@@ -209,14 +209,14 @@ class BatchGenerateTextIn(TypedDict):
     """
 
 
-class BatchGenerateTextOut(TypedDict):
-    outputs: NotRequired[List[GenerateTextOut]]
+class BatchComputeTextOut(TypedDict):
+    outputs: NotRequired[List[ComputeTextOut]]
     """
     Batch outputs.
     """
 
 
-class MultiGenerateJSONIn(TypedDict):
+class MultiComputeJSONIn(TypedDict):
     prompt: NotRequired[str]
     """
     Input prompt.
@@ -243,14 +243,14 @@ class MultiGenerateJSONIn(TypedDict):
     """
 
 
-class MultiGenerateJSONOut(TypedDict):
-    choices: NotRequired[List[GenerateJSONOut]]
+class MultiComputeJSONOut(TypedDict):
+    choices: NotRequired[List[ComputeJSONOut]]
     """
     Response choices.
     """
 
 
-class BatchGenerateJSONIn(TypedDict):
+class BatchComputeJSONIn(TypedDict):
     prompts: NotRequired[List[str]]
     """
     Batch input prompts.
@@ -273,8 +273,8 @@ class BatchGenerateJSONIn(TypedDict):
     """
 
 
-class BatchGenerateJSONOut(TypedDict):
-    outputs: NotRequired[List[GenerateJSONOut]]
+class BatchComputeJSONOut(TypedDict):
+    outputs: NotRequired[List[ComputeJSONOut]]
     """
     Batch outputs.
     """
