@@ -10,12 +10,12 @@ api_key = os.environ.get("SUBSTRATE_API_KEY")
 if api_key is None:
     raise EnvironmentError("No SUBSTRATE_API_KEY set")
 
-from substrate import Substrate, GenerateText, sb
+from substrate import Substrate, ComputeText, sb
 
 substrate = Substrate(api_key=api_key, timeout=60 * 5)
 
-story = GenerateText(prompt="tell me a story")
-summary = GenerateText(prompt=sb.concat("Summarize this story: ", story.future.text))
+story = ComputeText(prompt="tell me a story")
+summary = ComputeText(prompt=sb.concat("Summarize this story: ", story.future.text))
 
 response = substrate.run(story, summary)
 print(response)

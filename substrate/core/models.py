@@ -16,7 +16,7 @@ class ErrorOut(BaseModel):
     class Config:
         extra = Extra.allow
 
-    type: Literal["api_error", "invalid_request_error"]
+    type: Literal["api_error", "invalid_request_error", "dependency_error"]
     """
     The type of error returned.
     """
@@ -98,7 +98,7 @@ class RunPythonOut(BaseModel):
     """
 
 
-class GenerateTextIn(BaseModel):
+class ComputeTextIn(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -130,7 +130,7 @@ class GenerateTextIn(BaseModel):
     """
 
 
-class GenerateTextOut(BaseModel):
+class ComputeTextOut(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -140,7 +140,7 @@ class GenerateTextOut(BaseModel):
     """
 
 
-class GenerateJSONIn(BaseModel):
+class ComputeJSONIn(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -166,7 +166,7 @@ class GenerateJSONIn(BaseModel):
     """
 
 
-class GenerateJSONOut(BaseModel):
+class ComputeJSONOut(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -180,7 +180,7 @@ class GenerateJSONOut(BaseModel):
     """
 
 
-class MultiGenerateTextIn(BaseModel):
+class MultiComputeTextIn(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -211,17 +211,17 @@ class MultiGenerateTextIn(BaseModel):
     """
 
 
-class MultiGenerateTextOut(BaseModel):
+class MultiComputeTextOut(BaseModel):
     class Config:
         extra = Extra.allow
 
-    choices: List[GenerateTextOut]
+    choices: List[ComputeTextOut]
     """
     Response choices.
     """
 
 
-class BatchGenerateTextIn(BaseModel):
+class BatchComputeTextIn(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -243,17 +243,17 @@ class BatchGenerateTextIn(BaseModel):
     """
 
 
-class BatchGenerateTextOut(BaseModel):
+class BatchComputeTextOut(BaseModel):
     class Config:
         extra = Extra.allow
 
-    outputs: List[GenerateTextOut]
+    outputs: List[ComputeTextOut]
     """
     Batch outputs.
     """
 
 
-class MultiGenerateJSONIn(BaseModel):
+class MultiComputeJSONIn(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -283,17 +283,17 @@ class MultiGenerateJSONIn(BaseModel):
     """
 
 
-class MultiGenerateJSONOut(BaseModel):
+class MultiComputeJSONOut(BaseModel):
     class Config:
         extra = Extra.allow
 
-    choices: List[GenerateJSONOut]
+    choices: List[ComputeJSONOut]
     """
     Response choices.
     """
 
 
-class BatchGenerateJSONIn(BaseModel):
+class BatchComputeJSONIn(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -319,11 +319,11 @@ class BatchGenerateJSONIn(BaseModel):
     """
 
 
-class BatchGenerateJSONOut(BaseModel):
+class BatchComputeJSONOut(BaseModel):
     class Config:
         extra = Extra.allow
 
-    outputs: List[GenerateJSONOut]
+    outputs: List[ComputeJSONOut]
     """
     Batch outputs.
     """

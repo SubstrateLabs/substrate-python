@@ -17,7 +17,7 @@ class ErrorOut:
     Future reference to ErrorOut
     """
 
-    type: Literal["api_error", "invalid_request_error"]
+    type: Literal["api_error", "invalid_request_error", "dependency_error"]
     """
     (Future reference)
     The type of error returned.
@@ -122,9 +122,9 @@ class FutureRunPythonOut:
 
 
 @dataclass
-class FutureGenerateTextIn:
+class FutureComputeTextIn:
     """
-    Future reference to FutureGenerateTextIn
+    Future reference to FutureComputeTextIn
     """
 
     prompt: str
@@ -161,9 +161,9 @@ class FutureGenerateTextIn:
 
 
 @dataclass
-class FutureGenerateTextOut:
+class FutureComputeTextOut:
     """
-    Future reference to FutureGenerateTextOut
+    Future reference to FutureComputeTextOut
     """
 
     text: str
@@ -174,9 +174,9 @@ class FutureGenerateTextOut:
 
 
 @dataclass
-class FutureGenerateJSONIn:
+class FutureComputeJSONIn:
     """
-    Future reference to FutureGenerateJSONIn
+    Future reference to FutureComputeJSONIn
     """
 
     prompt: str
@@ -207,9 +207,9 @@ class FutureGenerateJSONIn:
 
 
 @dataclass
-class FutureGenerateJSONOut:
+class FutureComputeJSONOut:
     """
-    Future reference to FutureGenerateJSONOut
+    Future reference to FutureComputeJSONOut
     """
 
     json_object: Optional[Dict[str, Any]] = None
@@ -225,9 +225,9 @@ class FutureGenerateJSONOut:
 
 
 @dataclass
-class FutureMultiGenerateTextIn:
+class FutureMultiComputeTextIn:
     """
-    Future reference to FutureMultiGenerateTextIn
+    Future reference to FutureMultiComputeTextIn
     """
 
     prompt: str
@@ -263,12 +263,12 @@ class FutureMultiGenerateTextIn:
 
 
 @dataclass
-class FutureMultiGenerateTextOut:
+class FutureMultiComputeTextOut:
     """
-    Future reference to FutureMultiGenerateTextOut
+    Future reference to FutureMultiComputeTextOut
     """
 
-    choices: List[FutureGenerateTextOut]
+    choices: List[FutureComputeTextOut]
     """
     (Future reference)
     Response choices.
@@ -276,9 +276,9 @@ class FutureMultiGenerateTextOut:
 
 
 @dataclass
-class FutureBatchGenerateTextIn:
+class FutureBatchComputeTextIn:
     """
-    Future reference to FutureBatchGenerateTextIn
+    Future reference to FutureBatchComputeTextIn
     """
 
     prompts: List[str]
@@ -304,12 +304,12 @@ class FutureBatchGenerateTextIn:
 
 
 @dataclass
-class FutureBatchGenerateTextOut:
+class FutureBatchComputeTextOut:
     """
-    Future reference to FutureBatchGenerateTextOut
+    Future reference to FutureBatchComputeTextOut
     """
 
-    outputs: List[FutureGenerateTextOut]
+    outputs: List[FutureComputeTextOut]
     """
     (Future reference)
     Batch outputs.
@@ -317,9 +317,9 @@ class FutureBatchGenerateTextOut:
 
 
 @dataclass
-class FutureMultiGenerateJSONIn:
+class FutureMultiComputeJSONIn:
     """
-    Future reference to FutureMultiGenerateJSONIn
+    Future reference to FutureMultiComputeJSONIn
     """
 
     prompt: str
@@ -355,12 +355,12 @@ class FutureMultiGenerateJSONIn:
 
 
 @dataclass
-class FutureMultiGenerateJSONOut:
+class FutureMultiComputeJSONOut:
     """
-    Future reference to FutureMultiGenerateJSONOut
+    Future reference to FutureMultiComputeJSONOut
     """
 
-    choices: List[FutureGenerateJSONOut]
+    choices: List[FutureComputeJSONOut]
     """
     (Future reference)
     Response choices.
@@ -368,9 +368,9 @@ class FutureMultiGenerateJSONOut:
 
 
 @dataclass
-class FutureBatchGenerateJSONIn:
+class FutureBatchComputeJSONIn:
     """
-    Future reference to FutureBatchGenerateJSONIn
+    Future reference to FutureBatchComputeJSONIn
     """
 
     prompts: List[str]
@@ -401,12 +401,12 @@ class FutureBatchGenerateJSONIn:
 
 
 @dataclass
-class FutureBatchGenerateJSONOut:
+class FutureBatchComputeJSONOut:
     """
-    Future reference to FutureBatchGenerateJSONOut
+    Future reference to FutureBatchComputeJSONOut
     """
 
-    outputs: List[FutureGenerateJSONOut]
+    outputs: List[FutureComputeJSONOut]
     """
     (Future reference)
     Batch outputs.
