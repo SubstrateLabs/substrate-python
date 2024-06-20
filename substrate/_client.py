@@ -5,6 +5,7 @@ from typing_extensions import Literal
 
 import httpx
 import distro
+import httpx_sse
 
 from ._version import __version__
 from .core.id_generator import IDGenerator
@@ -172,6 +173,13 @@ class APIClient:
             **self._additional_headers,
         }
 
+    @property
+    def streaming_headers(self) -> Dict[str, str]:
+        headers = self.default_headers
+        headers["Accept"] = "text/event-stream"
+        headers["X-Substrate-Streaming"] = "1"
+        return headers
+
     def post_compose(self, dag: Dict[str, Any]) -> APIResponse:
         url = f"{self._base_url}/compose"
         body = {"dag": dag}
@@ -189,6 +197,29 @@ class APIClient:
             request=body,
         )
         return res
+
+    def post_compose_streaming(self, dag: Dict[str, Any]):
+        url = f"{self._base_url}/compose"
+        body = {"dag": dag}
+
+        def iterator():
+            with httpx.Client(timeout=self._timeout, follow_redirects=True) as client:
+                with httpx_sse.connect_sse(client, "POST", url, json=body, headers=self.streaming_headers) as event_source:
+                    for sse in event_source.iter_sse():
+                        yield sse
+        return iterator()
+
+
+    async def async_post_compose_streaming(self, dag: Dict[str, Any]):
+        url = f"{self._base_url}/compose"
+        body = {"dag": dag}
+
+        async def iterator():
+            async with httpx.AsyncClient(timeout=self._timeout, follow_redirects=True) as client:
+                async with httpx_sse.aconnect_sse(client, "POST", url, json=body, headers=self.streaming_headers) as event_source:
+                    async for sse in event_source.aiter_sse():
+                        yield sse
+        return iterator()
 
     async def async_post_compose(self, dag: Dict[str, Any]) -> APIResponse:
         url = f"{self._base_url}/compose"

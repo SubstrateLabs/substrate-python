@@ -3,6 +3,8 @@ import zlib
 import base64
 from typing import Any, Dict
 
+from substrate.streaming import SubstrateStreamingResponse
+
 from ._client import APIClient
 from .core.corenode import CoreNode
 from .core.client.graph import Graph
@@ -47,6 +49,22 @@ class Substrate:
         serialized = Substrate.serialize(*nodes)
         api_response = await self._client.async_post_compose(dag=serialized)
         return SubstrateResponse(api_response=api_response)
+
+    def stream(self, *nodes: CoreNode) -> SubstrateStreamingResponse:
+        """
+        Run the given nodes and receive results as Server-Sent Events.
+        """
+        serialized = Substrate.serialize(*nodes)
+        iterator = self._client.post_compose_streaming(dag=serialized)
+        return SubstrateStreamingResponse(iterator=iterator)
+
+    async def async_stream(self, *nodes: CoreNode) -> SubstrateStreamingResponse:
+        """
+        Run the given nodes and receive results as Server-Sent Events.
+        """
+        serialized = Substrate.serialize(*nodes)
+        iterator = await self._client.async_post_compose_streaming(dag=serialized)
+        return SubstrateStreamingResponse(iterator=iterator)
 
     @staticmethod
     def visualize(*nodes):
