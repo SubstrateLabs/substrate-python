@@ -13,11 +13,11 @@ class Test:
         if api_key is None:
             raise EnvironmentError("No SUBSTRATE_API_KEY set")
 
-        from substrate import Substrate, GenerateText
+        from substrate import Substrate, ComputeText
 
         substrate = Substrate(api_key=api_key)
 
-        story = GenerateText(prompt="tell me a story", max_tokens=8)
+        story = ComputeText(prompt="tell me a story", max_tokens=8)
         response = substrate.run(story)
         import json
 
