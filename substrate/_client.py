@@ -204,11 +204,13 @@ class APIClient:
 
         def iterator():
             with httpx.Client(timeout=self._timeout, follow_redirects=True) as client:
-                with httpx_sse.connect_sse(client, "POST", url, json=body, headers=self.streaming_headers) as event_source:
+                with httpx_sse.connect_sse(
+                    client, "POST", url, json=body, headers=self.streaming_headers
+                ) as event_source:
                     for sse in event_source.iter_sse():
                         yield sse
-        return iterator()
 
+        return iterator()
 
     async def async_post_compose_streaming(self, dag: Dict[str, Any]):
         url = f"{self._base_url}/compose"
@@ -216,9 +218,12 @@ class APIClient:
 
         async def iterator():
             async with httpx.AsyncClient(timeout=self._timeout, follow_redirects=True) as client:
-                async with httpx_sse.aconnect_sse(client, "POST", url, json=body, headers=self.streaming_headers) as event_source:
+                async with httpx_sse.aconnect_sse(
+                    client, "POST", url, json=body, headers=self.streaming_headers
+                ) as event_source:
                     async for sse in event_source.aiter_sse():
                         yield sse
+
         return iterator()
 
     async def async_post_compose(self, dag: Dict[str, Any]) -> APIResponse:

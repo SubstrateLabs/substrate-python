@@ -11,7 +11,7 @@ from typing_extensions import Literal, TypedDict, NotRequired
 
 
 class ErrorOut(TypedDict):
-    type: NotRequired[Literal["api_error", "invalid_request_error"]]
+    type: NotRequired[Literal["api_error", "invalid_request_error", "dependency_error"]]
     """
     The type of error returned.
     """

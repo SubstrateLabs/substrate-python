@@ -24,14 +24,13 @@ class BoxOut(BaseModel):
 
 
 class Box(CoreNode[BoxOut]):
-    """https://guides.substrate.run/reference/box"""
+    """https://substrate.run/nodes#Box"""
 
-    def __init__(self, value: Union[Future, Any], hide=False, **kwargs):
-        """
+    def __init__(self, value: Union[Future, Any], **kwargs):
+    """
         Args:
             value: Value to return.
-
-        https://guides.substrate.run/reference/box
+        https://substrate.run/nodes#Box
         """
-        super().__init__(value=value, hide=hide, out_type=BoxOut, **kwargs)
+        super().__init__(value=value, **kwargs)
         self.node = "Box"

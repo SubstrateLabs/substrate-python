@@ -16,7 +16,7 @@ class ErrorOut(BaseModel):
     class Config:
         extra = Extra.allow
 
-    type: Literal["api_error", "invalid_request_error"]
+    type: Literal["api_error", "invalid_request_error", "dependency_error"]
     """
     The type of error returned.
     """

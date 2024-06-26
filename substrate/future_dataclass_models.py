@@ -17,7 +17,7 @@ class ErrorOut:
     Future reference to ErrorOut
     """
 
-    type: Literal["api_error", "invalid_request_error"]
+    type: Literal["api_error", "invalid_request_error", "dependency_error"]
     """
     (Future reference)
     The type of error returned.

@@ -10,14 +10,36 @@ def __():
     import json
     import base64
     import marimo as mo
-    import substrate as sb
+    from substrate import (
+        Substrate,
+        GenerateImage,
+        RemoveBackground,
+        InpaintImage,
+        EraseImage,
+        UpscaleImage,
+        sb,
+    )
 
     api_key = os.environ.get("SUBSTRATE_API_KEY")
     api_key = api_key or "YOUR_API_KEY"
-    substrate = sb.Substrate(
+    substrate = Substrate(
         api_key=api_key,
     )
-    return api_key, base64, json, mo, os, sb, substrate
+    return (
+        EraseImage,
+        GenerateImage,
+        InpaintImage,
+        RemoveBackground,
+        Substrate,
+        UpscaleImage,
+        api_key,
+        base64,
+        json,
+        mo,
+        os,
+        sb,
+        substrate,
+    )
 
 
 @app.cell
@@ -32,63 +54,66 @@ def __(mo):
 
 
 @app.cell
-def __(prompt, sb):
-    image = sb.GenerateImage(
+def __(EraseImage, GenerateImage, InpaintImage, RemoveBackground, prompt):
+    image = GenerateImage(
         prompt=prompt.value,
     )
-    rmbg = sb.RemoveBackground(image_uri=image.future.image_uri)
-    rmbg_mask = sb.RemoveBackground(
+    fg = RemoveBackground(image_uri=image.future.image_uri)
+    mask = RemoveBackground(
         image_uri=image.future.image_uri,
         return_mask=True,
     )
-    bg = sb.FillMask(
+    bg = EraseImage(
         image_uri=image.future.image_uri,
-        mask_image_uri=rmbg_mask.future.image_uri,
+        mask_image_uri=mask.future.image_uri,
     )
-    upscale = sb.UpscaleImage(image_uri=bg.future.image_uri)
-    return bg, image, rmbg, rmbg_mask, upscale
+    bg_prompt = "empty dark majestic room, celestial galaxy wallpaper, high resolution AD"
+    inpaint = InpaintImage(image_uri=bg.future.image_uri, prompt=bg_prompt)
+    return bg, bg_prompt, fg, image, inpaint, mask
 
 
 @app.cell
-def __(bg, image, mo, rmbg, rmbg_mask, substrate):
-    res = substrate.run(image, rmbg, rmbg_mask, bg)
-    viz = substrate.visualize(image, rmbg, rmbg_mask, bg)
+def __(bg, fg, image, inpaint, mask, mo, substrate, upscale):
+    viz = substrate.visualize(image, fg, mask, bg, inpaint, upscale)
+    mo.md(f"[viz]({viz})")
+    return viz,
+
+
+@app.cell
+def __(bg, fg, image, inpaint, mask, mo, substrate, upscale):
+    res = substrate.run(image, fg, mask, bg, inpaint, upscale)
+    print(res)
     mo.tree(res.json)
-    return res, viz
+    return res,
 
 
 @app.cell
-def __(mo, viz):
-    mo.md(f"[visualize]({viz})")
-    return
-
-
-@app.cell
-def __(bg, image, mo, res, rmbg, rmbg_mask):
-    mo.hstack(
-        [
+def __(bg, fg, image, inpaint, mask, mo, res):
+    mo.carousel(
+        items=[
             mo.vstack(
                 [
                     mo.image(src=res.get(image).image_uri),
-                    mo.download(data=res.get(image).image_uri, filename="image.jpeg"),
                 ]
             ),
             mo.vstack(
                 [
-                    mo.image(src=res.get(rmbg).image_uri),
-                    mo.download(data=res.get(rmbg).image_uri, filename="no-bg.jpeg"),
+                    mo.image(src=res.get(fg).image_uri),
                 ]
             ),
             mo.vstack(
                 [
-                    mo.image(src=res.get(rmbg_mask).image_uri),
-                    mo.download(data=res.get(rmbg_mask).image_uri, filename="mask.jpeg"),
+                    mo.image(src=res.get(mask).image_uri),
                 ]
             ),
             mo.vstack(
                 [
                     mo.image(src=res.get(bg).image_uri),
-                    mo.download(data=res.get(bg).image_uri, filename="just-bg.jpeg"),
+                ]
+            ),
+            mo.vstack(
+                [
+                    mo.image(src=res.get(inpaint).image_uri),
                 ]
             ),
         ]
