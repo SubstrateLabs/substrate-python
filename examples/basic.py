@@ -26,6 +26,7 @@ print(story_out.text)
 
 print("=== summary")
 summary_out = response.get(summary)
+print(summary_out.text)
 
 # viz = Substrate.visualize(ry)
 # print(viz)
