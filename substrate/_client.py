@@ -162,11 +162,12 @@ class APIClient:
 
     @property
     def default_headers(self) -> Dict[str, str]:
+        request_id = IDGenerator.random_string(32)
         return {
             "Accept": "application/json",
             "Content-Type": "application/json",
             "User-Agent": self.user_agent,
-            "X-Substrate-Request-Id": IDGenerator.random_string(32),
+            "X-Substrate-Request-Id": request_id,
             "X-Substrate-Backend": "v1",
             **self.platform_headers,
             **self.auth_headers,

@@ -1,11 +1,12 @@
 """
 𐃏 Substrate Python SDK
 
-20240617.20240620
+20240617.20240625
 """
 
 from .nodes import (
     CLIP,
+    Box,
     JinaV2,
     EmbedText,
     EmbedImage,
@@ -46,6 +47,7 @@ from .nodes import (
     StableDiffusionXLControlNet,
 )
 from .core.sb import sb
+from .if_node import If
 from ._version import __version__
 from .substrate import Substrate, SubstrateResponse
 from .run_python import RunPython
@@ -56,6 +58,8 @@ __all__ = [
     "sb",
     "Substrate",
     "Experimental",
+    "Box",
+    "If",
     "RunPython",
     "ComputeText",
     "MultiComputeText",
