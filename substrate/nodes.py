@@ -12,6 +12,8 @@ from .core.corenode import CoreNode
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore", category=DeprecationWarning)
     from .core.models import (
+        IfOut,
+        BoxOut,
         CLIPOut,
         JinaV2Out,
         EmbedTextOut,
@@ -56,6 +58,8 @@ from typing import Any, Dict, List, Optional
 from typing_extensions import Literal
 
 from .future_dataclass_models import (
+    FutureIfOut,
+    FutureBoxOut,
     FutureCLIPOut,
     FutureJinaV2Out,
     FutureEmbedTextOut,
@@ -133,6 +137,68 @@ class Experimental(CoreNode[ExperimentalOut]):
         Future reference to this node's output.
 
         https://substrate.run/nodes#Experimental
+        """
+        return super().future  # type: ignore
+
+
+class Box(CoreNode[BoxOut]):
+    """https://substrate.run/nodes#Box"""
+
+    def __init__(self, value: Any, hide: bool = False, **kwargs):
+        """
+        Args:
+            value: Values to box.
+
+        https://substrate.run/nodes#Box
+        """
+        super().__init__(value=value, hide=hide, out_type=BoxOut, **kwargs)
+        self.node = "Box"
+
+    @property
+    def future(self) -> FutureBoxOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        https://substrate.run/nodes#Box
+        """
+        return super().future  # type: ignore
+
+
+class If(CoreNode[IfOut]):
+    """https://substrate.run/nodes#If"""
+
+    def __init__(
+        self,
+        condition: bool,
+        value_if_true: Any,
+        value_if_false: Optional[Any] = None,
+        hide: bool = False,
+        **kwargs,
+    ):
+        """
+        Args:
+            condition: Condition.
+            value_if_true: Result when condition is true.
+            value_if_false: Result when condition is false.
+
+        https://substrate.run/nodes#If
+        """
+        super().__init__(
+            condition=condition,
+            value_if_true=value_if_true,
+            value_if_false=value_if_false,
+            hide=hide,
+            out_type=IfOut,
+            **kwargs,
+        )
+        self.node = "If"
+
+    @property
+    def future(self) -> FutureIfOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        https://substrate.run/nodes#If
         """
         return super().future  # type: ignore
 

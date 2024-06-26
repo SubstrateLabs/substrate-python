@@ -1,11 +1,13 @@
 """
 𐃏 Substrate Python SDK
 
-20240617.20240620
+20240617.20240625
 """
 
 from .nodes import (
     CLIP,
+    If,
+    Box,
     JinaV2,
     EmbedText,
     EmbedImage,
@@ -56,6 +58,8 @@ __all__ = [
     "sb",
     "Substrate",
     "Experimental",
+    "Box",
+    "If",
     "RunPython",
     "ComputeText",
     "MultiComputeText",

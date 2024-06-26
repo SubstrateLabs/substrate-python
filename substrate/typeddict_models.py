@@ -43,6 +43,42 @@ class ExperimentalOut(TypedDict):
     """
 
 
+class BoxIn(TypedDict):
+    value: NotRequired[Any]
+    """
+    Values to box.
+    """
+
+
+class BoxOut(TypedDict):
+    value: NotRequired[Any]
+    """
+    The evaluated result.
+    """
+
+
+class IfIn(TypedDict):
+    condition: NotRequired[bool]
+    """
+    Condition.
+    """
+    value_if_true: NotRequired[Any]
+    """
+    Result when condition is true.
+    """
+    value_if_false: NotRequired[Any]
+    """
+    Result when condition is false.
+    """
+
+
+class IfOut(TypedDict):
+    result: NotRequired[Any]
+    """
+    Result. Null if `value_if_false` is not provided and `condition` is false.
+    """
+
+
 class RunPythonIn(TypedDict):
     pkl_function: NotRequired[str]
     """

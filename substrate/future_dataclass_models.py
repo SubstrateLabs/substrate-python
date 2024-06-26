@@ -66,6 +66,68 @@ class FutureExperimentalOut:
 
 
 @dataclass
+class FutureBoxIn:
+    """
+    Future reference to FutureBoxIn
+    """
+
+    value: Any
+    """
+    (Future reference)
+    Values to box.
+    """
+
+
+@dataclass
+class FutureBoxOut:
+    """
+    Future reference to FutureBoxOut
+    """
+
+    value: Any
+    """
+    (Future reference)
+    The evaluated result.
+    """
+
+
+@dataclass
+class FutureIfIn:
+    """
+    Future reference to FutureIfIn
+    """
+
+    condition: bool
+    """
+    (Future reference)
+    Condition.
+    """
+    value_if_true: Any
+    """
+    (Future reference)
+    Result when condition is true.
+    """
+    value_if_false: Optional[Any] = None
+    """
+    (Future reference)
+    Result when condition is false.
+    """
+
+
+@dataclass
+class FutureIfOut:
+    """
+    Future reference to FutureIfOut
+    """
+
+    result: Any
+    """
+    (Future reference)
+    Result. Null if `value_if_false` is not provided and `condition` is false.
+    """
+
+
+@dataclass
 class FutureRunPythonIn:
     """
     Future reference to FutureRunPythonIn

@@ -54,6 +54,54 @@ class ExperimentalOut(BaseModel):
     """
 
 
+class BoxIn(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    value: Any
+    """
+    Values to box.
+    """
+
+
+class BoxOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    value: Any
+    """
+    The evaluated result.
+    """
+
+
+class IfIn(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    condition: bool
+    """
+    Condition.
+    """
+    value_if_true: Any
+    """
+    Result when condition is true.
+    """
+    value_if_false: Optional[Any] = None
+    """
+    Result when condition is false.
+    """
+
+
+class IfOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    result: Any
+    """
+    Result. Null if `value_if_false` is not provided and `condition` is false.
+    """
+
+
 class RunPythonIn(BaseModel):
     class Config:
         extra = Extra.allow
