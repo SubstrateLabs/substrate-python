@@ -6,7 +6,6 @@
 
 from .nodes import (
     CLIP,
-    If,
     Box,
     JinaV2,
     EmbedText,
@@ -48,6 +47,7 @@ from .nodes import (
     StableDiffusionXLControlNet,
 )
 from .core.sb import sb
+from .if_node import If
 from ._version import __version__
 from .substrate import Substrate, SubstrateResponse
 from .run_python import RunPython
