@@ -17,13 +17,24 @@ OT = TypeVar("OT")
 
 
 class CoreNode(Generic[OT]):
-    def __init__(self, out_type: Type[OT] = Type[Any], hide: bool = True, **attr):
+    def __init__(
+        self,
+        out_type: Type[OT] = Type[Any],
+        hide: bool = True,
+        _cache_age: Optional[int] = None,
+        _cache_keys: Optional[List[str]] = None,
+        _max_retries: Optional[int] = None,
+        **attr,
+    ):
         self._out_type = out_type
         self.node = self.__class__.__name__
         self.args = attr
         generator_instance = IDGenerator.get_instance(self.__class__.__name__)
         self.id = generator_instance.get_next_id()
         self._global_output_keys = None
+        self._cache_age = _cache_age
+        self._cache_keys = _cache_keys
+        self._max_retries = _max_retries
         self._should_output_globally: bool = not hide
         self.SG = nx.DiGraph()
         if attr:
@@ -50,6 +61,9 @@ class CoreNode(Generic[OT]):
             "args": self.args,
             **({"_should_output_globally": self._should_output_globally} if self._should_output_globally else {}),
             **({"_global_output_keys": self._global_output_keys} if self._global_output_keys else {}),
+            **({"_cache_age": self._cache_age} if self._cache_age else {}),
+            **({"_cache_keys": self._cache_keys} if self._cache_keys else {}),
+            **({"_max_retries": self._max_retries} if self._max_retries else {}),
         }
 
     def subscribe(self, keys: Optional[List[str]] = None):
