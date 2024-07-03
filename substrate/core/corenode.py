@@ -24,6 +24,7 @@ class CoreNode(Generic[OT]):
         _cache_age: Optional[int] = None,
         _cache_keys: Optional[List[str]] = None,
         _max_retries: Optional[int] = None,
+        _depends: List["CoreNode"] = [],
         **attr,
     ):
         self._out_type = out_type
@@ -35,6 +36,7 @@ class CoreNode(Generic[OT]):
         self._cache_age = _cache_age
         self._cache_keys = _cache_keys
         self._max_retries = _max_retries
+        self._depends = _depends
         self._should_output_globally: bool = not hide
         self.SG = nx.DiGraph()
         if attr:
@@ -46,6 +48,13 @@ class CoreNode(Generic[OT]):
         self.referenced_nodes = [
             future.directive.origin_node for future in self.futures_from_args if isinstance(future, TracedFuture)
         ]
+
+        for depend_node in self._depends:
+            for referenced_node in depend_node.referenced_nodes:
+                self.referenced_nodes.append(referenced_node)
+            for referenced_future in depend_node.futures_from_args:
+                self.futures_from_args.append(referenced_future)
+
 
     @property
     def out_type(self) -> Type[OT]:

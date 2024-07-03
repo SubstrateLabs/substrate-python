@@ -14,6 +14,10 @@ class RunPython(CoreNode[RunPythonOut]):
         kwargs: Dict[str, Any] = {},
         pip_install: Optional[List[str]] = None,
         hide: bool = False,
+        _cache_age: Optional[int] = None,
+        _cache_keys: Optional[List[str]] = None,
+        _max_retries: Optional[int] = None,
+        _depends: List[CoreNode] = [],
     ):
         """
         Args:
@@ -42,6 +46,10 @@ class RunPython(CoreNode[RunPythonOut]):
             hide=hide,
             python_version=python_version,
             out_type=RunPythonOut,
+            _cache_age=_cache_age,
+            _cache_keys=_cache_keys,
+            _max_retries=_max_retries,
+            _depends=_depends,
         )
         self.node = "RunPython"
 

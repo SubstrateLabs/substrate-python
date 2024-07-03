@@ -97,5 +97,7 @@ class Substrate:
         graph = Graph()
         for node in all_nodes:
             graph.add_node(node)
+            for depend_node in node._depends:
+                graph.add_edge(depend_node, node)
         graph_serialized = graph.to_dict()
         return graph_serialized

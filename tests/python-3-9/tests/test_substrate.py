@@ -36,3 +36,18 @@ class TestSubstrate:
         node_ids = sorted([d["id"] for d in result["nodes"]])
         assert node_ids == [a.id, b.id, c.id]
         assert len(result["futures"]) == 2
+
+    def test_serialize_with_depends_list(self):
+        a = CoreNode(x="x", out_type=MockOutput)
+        a.id = "a"
+        b = CoreNode(x="x", out_type=MockOutput, _depends=[a])
+        b.id = "b"
+        c = CoreNode(x="x", out_type=MockOutput, _depends=[a, b])
+        c.id = "c"
+
+        # when nodes are connected via _depends, `edges` should be populated correctly
+        edges = Substrate.serialize(a, b, c).get("edges")
+        assert len(edges) == 3
+        assert ["a", "b", {}] in edges
+        assert ["a", "c", {}] in edges
+        assert ["b", "c", {}] in edges
