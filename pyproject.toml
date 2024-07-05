@@ -51,6 +51,7 @@ distro = ">=1.8.0"
 typing-extensions = "^4.10.0"
 pydantic = ">=1.0.0"
 httpx-sse = "^0.4.0"
+pendulum = "^3.0.0"
 
 [tool.ruff.lint]
 ignore-init-module-imports = true
