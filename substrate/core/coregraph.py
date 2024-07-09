@@ -28,6 +28,10 @@ class CoreGraph:
     def futures(self) -> List[BaseFuture]:
         raise NotImplementedError
 
+    def add_edge(self, u_node: CoreNode, v_node: CoreNode, **kwargs) -> "CoreGraph":
+        self.DAG.add_edge(u_node, v_node, **kwargs)
+        return self
+
     def add_node(self, node: CoreNode) -> "CoreGraph":
         self.DAG = nx.compose(self.DAG, node.SG)
         return self
