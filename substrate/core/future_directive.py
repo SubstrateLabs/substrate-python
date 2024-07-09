@@ -54,6 +54,29 @@ class JQDirective(BaseDirective):
 
 
 @dataclass
+class JinjaTemplate:
+    future_id: Optional[str]
+    val: Optional[str]
+
+
+@dataclass
+class JinjaDirective(BaseDirective):
+    template: JinjaTemplate
+    variables: Dict[str, Any]
+    type: Literal["jq"] = "jinja"
+
+    def to_dict(self) -> Dict:
+        from sb_models.substratecore.base_future import BaseFuture
+
+        replaced = BaseFuture.replace_futures_with_placeholder(self.variables)
+        return {
+            "type": self.type,
+            "template": asdict(self.template),
+            "variables": replaced,
+        }
+
+
+@dataclass
 class ShortCircuitConditionTarget:
     future_id: Optional[str]
     val: Optional[bool]
