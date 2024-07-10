@@ -32,7 +32,6 @@ class CoreNode(Generic[OT]):
         self.args = attr
         generator_instance = IDGenerator.get_instance(self.__class__.__name__)
         self.id = generator_instance.get_next_id()
-        self._global_output_keys = None
         self._cache_age = _cache_age
         self._cache_keys = _cache_keys
         self._max_retries = _max_retries
@@ -55,7 +54,6 @@ class CoreNode(Generic[OT]):
             for referenced_future in depend_node.futures_from_args:
                 self.futures_from_args.append(referenced_future)
 
-
     @property
     def out_type(self) -> Type[OT]:
         """
@@ -69,16 +67,13 @@ class CoreNode(Generic[OT]):
             "node": self.node,
             "args": self.args,
             **({"_should_output_globally": self._should_output_globally} if self._should_output_globally else {}),
-            **({"_global_output_keys": self._global_output_keys} if self._global_output_keys else {}),
             **({"_cache_age": self._cache_age} if self._cache_age else {}),
             **({"_cache_keys": self._cache_keys} if self._cache_keys else {}),
             **({"_max_retries": self._max_retries} if self._max_retries else {}),
         }
 
-    def subscribe(self, keys: Optional[List[str]] = None):
+    def subscribe(self):
         self._should_output_globally = True
-        if keys:
-            self._global_output_keys = keys
         return self
 
     @property
