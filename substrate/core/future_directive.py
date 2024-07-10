@@ -14,7 +14,7 @@ from typing import (
 )
 from dataclasses import asdict, dataclass
 
-OpType = Literal["trace", "string-concat", "jq", "short-circuit"]
+OpType = Literal["trace", "string-concat", "jq", "jinja"]
 
 
 class BaseDirective(ABC):
@@ -74,25 +74,6 @@ class JinjaDirective(BaseDirective):
             "template": asdict(self.template),
             "variables": replaced,
         }
-
-
-@dataclass
-class ShortCircuitConditionTarget:
-    future_id: Optional[str]
-    val: Optional[bool]
-
-
-@dataclass
-class ShortCircuitInputTarget:
-    future_id: Optional[str]
-    val: Optional[bool]
-
-
-@dataclass
-class ShortCircuitDirective(BaseDirective):
-    condition: ShortCircuitConditionTarget
-    input: ShortCircuitInputTarget
-    type: Literal["short-circuit"] = "short-circuit"
 
 
 TraceType = Literal["attr", "item"]
