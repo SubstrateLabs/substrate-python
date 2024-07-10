@@ -1,8 +1,9 @@
 """
 CORE ꩜ SUBSTRATE
 """
-from typing import Any, Union
+from typing import Any, Union, Dict
 
+from .client.find_futures_client import find_futures_client
 from .client.future import Future
 from .future_directive import (
     JQDirective,
@@ -10,6 +11,8 @@ from .future_directive import (
     ConcatDirective,
     JQDirectiveTarget,
     ConcatDirectiveItem,
+    JinjaDirective,
+    JinjaTemplate,
 )
 
 StringConcatable = Union[str, None, Future]
@@ -64,4 +67,16 @@ class sb:
         result = Future(directive=directive)
         if isinstance(target, Future):
             result.FutureG.add_edge(target, result)
+        return result  # type: ignore
+
+    @classmethod
+    def jinja(cls, template_str: Union[Future, str], variables: Dict[str, Any]) -> str:
+        future_id = template_str.id if isinstance(template_str, Future) else None
+        val = template_str if not isinstance(template_str, Future) else None
+        directive = JinjaDirective(template=JinjaTemplate(future_id=future_id, val=val), variables=variables)
+        result = Future(directive=directive)
+        if isinstance(template_str, Future):
+            result.FutureG.add_edge(template_str, result)
+        for dep in find_futures_client(variables):
+            result.FutureG.add_edge(dep, result)
         return result  # type: ignore
