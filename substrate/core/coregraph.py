@@ -22,6 +22,10 @@ class CoreGraph:
     def futures(self) -> List[BaseFuture]:
         raise NotImplementedError
 
+    def add_edge(self, u_node: CoreNode, v_node: CoreNode, **kwargs) -> "CoreGraph":
+        self.DAG.add_edge(u_node, v_node, **kwargs)
+        return self
+
     def add_node(self, node: CoreNode) -> "CoreGraph":
         if self.DAG.has_node(node):
             raise ValueError(f"Node with id {node.id} already exists")
