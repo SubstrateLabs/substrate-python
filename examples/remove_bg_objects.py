@@ -21,12 +21,14 @@ substrate = Substrate(api_key=api_key, timeout=60 * 5)
 num_images = 2
 object_name = "a red leather wing chair"
 artists = [
-    ComputeText(prompt="respond with just the name of a famous painter: ", max_tokens=10, temperature=1)
+    ComputeText(
+        prompt="respond with just the name of a 20th century painter (moma, whitney): ", max_tokens=10, temperature=1
+    )
     for _ in range(num_images)
 ]
 prompt_for = lambda x: sb.concat("by ", x, object_name, " in an open room, pillars, amazing painting composition")
 bg_prompt_for = lambda x: sb.concat("by ", x, "an empty room with pillars, amazing painting composition")
-images = [GenerateImage(prompt=prompt_for(artist.future.text)) for artist in artists]
+images = [GenerateImage(prompt=prompt_for(artist.future.text), _cache_age=1000) for artist in artists]
 removals = [RemoveBackground(image_uri=image.future.image_uri) for image in images]
 masks = [RemoveBackground(image_uri=image.future.image_uri, return_mask=True) for image in images]
 bg_images = [
