@@ -1,62 +1,32 @@
-# import os
-# import json
-#
-# api_key = os.environ.get("SUBSTRATE_API_KEY")
-# if api_key is None:
-#     raise EnvironmentError("No SUBSTRATE_API_KEY set")
-#
-# from substrate import (
-#     Substrate,
-#     GenerateImage,
-#     RemoveBackground,
-#     EraseImage,
-#     InpaintImage,
-# )
-#
-# substrate = Substrate(api_key=api_key, timeout=60 * 5)
-# prompt = "by edward hopper, a red leather wing chair in an open room, pillars, amazing painting composition"
-# image = GenerateImage(prompt=prompt, negative_prompt="photo realistic", _cache_age=1000)
-# fg = RemoveBackground(image_uri=image.future.image_uri)
-# mask = RemoveBackground(
-#     image_uri=image.future.image_uri,
-#     return_mask=True,
-# )
-# bg = EraseImage(
-#     image_uri=image.future.image_uri,
-#     mask_image_uri=mask.future.image_uri,
-# )
-# bg_prompt = "by edward hopper, an empty room with pillars, amazing painting composition"
-# inpaint = InpaintImage(image_uri=bg.future.image_uri, prompt=bg_prompt, store="hosted")
-# result = substrate.run(inpaint)
-# viz = Substrate.visualize(inpaint)
-# os.system(f"open {viz}")
-#
-# print(json.dumps(result.json, indent=2))
+import os
+
+import sys
+import json
+from substrate import Substrate, TranscribeSpeech
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+api_key = os.environ.get("SUBSTRATE_API_KEY")
+substrate = Substrate(api_key=api_key, timeout=60 * 5)
+sample = "https://media.substrate.run/my-dinner-andre.m4a"
+audio_uri = sys.argv[1] if len(sys.argv) > 1 else sample
+outfile = sys.argv[2] if len(sys.argv) > 2 else "descript.html"
 
 
-# #!/usr/bin/env -S npx ts-node --transpileOnly
-# import fs from "fs";
-# import { Substrate, TranscribeSpeech } from "substrate";
-# import { currentDir } from "./util";
-#
-# const sample = "https://media.substrate.run/my-dinner-andre.m4a"; // NB: this is a ~2hr long file
-# const substrate = new Substrate({ apiKey: process.env["SUBSTRATE_API_KEY"] });
-#
-# const audio_uri = process.argv[2] || sample;
-# const outfile = process.argv[3] || "descript.html";
-# async function main() {
-#   const transcribe = new TranscribeSpeech(
-#     { audio_uri, segment: true, align: true },
-#     { cache_age: 60 * 60 * 24 * 7 },
-#   );
-#   const res = await substrate.run(transcribe);
-#   const transcript = res.get(transcribe);
-#
-#   const htmlTemplate = fs.readFileSync(`${currentDir}/index.html`, "utf8");
-#   const html = htmlTemplate
-#     .replace('"{{ segments }}"', JSON.stringify(transcript.segments, null, 2))
-#     .replace("{{ audioUrl }}", audio_uri);
-#   fs.writeFileSync(outfile, html);
-# }
-#
-# main().then(() => console.log(`꩜ Done. View by running \`open ${outfile}\``));
+def main():
+    transcribe = TranscribeSpeech(audio_uri=audio_uri, segment=True, align=True, _cache_age=60 * 60 * 24 * 7)
+    result = substrate.run(transcribe)
+    transcript = result.get(transcribe)
+    segments = [s.dict() for s in transcript.segments]
+
+    with open(os.path.join(current_dir, "index.html"), "r") as f:
+        html_template = f.read()
+    html = html_template.replace('"{{ segments }}"', json.dumps(segments, indent=2)).replace(
+        "{{ audioUrl }}", audio_uri
+    )
+    with open(outfile, "w") as f:
+        f.write(html)
+
+
+if __name__ == "__main__":
+    main()
+    print(f"꩜ Done. View by running `open {outfile}`")
