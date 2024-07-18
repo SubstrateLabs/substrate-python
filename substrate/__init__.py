@@ -1,56 +1,99 @@
 """
 𐃏 Substrate Python SDK
 
-20240617.20240625
+20240617.20240718
 """
 
+from .run_python import RunPython
 from .nodes import (
-    CLIP,
-    Box,
-    JinaV2,
-    EmbedText,
-    EmbedImage,
-    EraseImage,
-    ComputeJSON,
-    ComputeText,
+    
     Experimental,
-    FetchVectors,
-    Firellava13B,
-    InpaintImage,
-    UpscaleImage,
-    DeleteVectors,
-    GenerateImage,
-    UpdateVectors,
-    GenerateSpeech,
-    MultiEmbedText,
-    MultiEmbedImage,
-    SegmentAnything,
-    BatchComputeJSON,
-    BatchComputeText,
-    ListVectorStores,
-    Llama3Instruct8B,
-    MultiComputeJSON,
+    
+    Box,
+    
+    If,
+    
+    ComputeText,
+    
     MultiComputeText,
-    QueryVectorStore,
-    RemoveBackground,
-    TranscribeSpeech,
-    DeleteVectorStore,
-    Llama3Instruct70B,
+    
+    BatchComputeText,
+    
+    BatchComputeJSON,
+    
+    ComputeJSON,
+    
+    MultiComputeJSON,
+    
     Mistral7BInstruct,
-    MultiInpaintImage,
-    SegmentUnderPoint,
-    MultiGenerateImage,
+    
     Mixtral8x7BInstruct,
-    FindOrCreateVectorStore,
-    StableDiffusionXLInpaint,
+    
+    Llama3Instruct8B,
+    
+    Llama3Instruct70B,
+    
+    Firellava13B,
+    
+    GenerateImage,
+    
+    MultiGenerateImage,
+    
+    InpaintImage,
+    
+    MultiInpaintImage,
+    
     StableDiffusionXLLightning,
+    
+    StableDiffusionXLInpaint,
+    
     StableDiffusionXLControlNet,
-)
+    
+    TranscribeSpeech,
+    
+    GenerateSpeech,
+    
+    RemoveBackground,
+    
+    EraseImage,
+    
+    UpscaleImage,
+    
+    SegmentUnderPoint,
+    
+    SegmentAnything,
+    
+    SplitDocument,
+    
+    EmbedText,
+    
+    MultiEmbedText,
+    
+    EmbedImage,
+    
+    MultiEmbedImage,
+    
+    JinaV2,
+    
+    CLIP,
+    
+    FindOrCreateVectorStore,
+    
+    ListVectorStores,
+    
+    DeleteVectorStore,
+    
+    QueryVectorStore,
+    
+    FetchVectors,
+    
+    UpdateVectors,
+    
+    DeleteVectors,
+    )
 from .core.sb import sb
-from .if_node import If
 from ._version import __version__
 from .substrate import Substrate, SubstrateResponse
-from .run_python import RunPython
 
 __all__ = [
     "__version__",
@@ -86,6 +129,7 @@ __all__ = [
     "UpscaleImage",
     "SegmentUnderPoint",
     "SegmentAnything",
+    "SplitDocument",
     "EmbedText",
     "MultiEmbedText",
     "EmbedImage",
@@ -99,4 +143,4 @@ __all__ = [
     "FetchVectors",
     "UpdateVectors",
     "DeleteVectors",
-]
+    ]

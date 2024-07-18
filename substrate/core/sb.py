@@ -1,19 +1,19 @@
 """
 CORE ꩜ SUBSTRATE
 """
-from typing import Any, Union, Dict
+from typing import Any, Dict, Union
 
-from .client.find_futures_client import find_futures_client
 from .client.future import Future
 from .future_directive import (
     JQDirective,
     JQTargetType,
+    JinjaTemplate,
+    JinjaDirective,
     ConcatDirective,
     JQDirectiveTarget,
     ConcatDirectiveItem,
-    JinjaDirective,
-    JinjaTemplate,
 )
+from .client.find_futures_client import find_futures_client
 
 StringConcatable = Union[str, None, Future]
 JQCompatible = Union[Future, JQTargetType]

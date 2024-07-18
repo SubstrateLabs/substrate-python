@@ -26,6 +26,7 @@ def find_futures_client(args: Union[Future, List[Future], Dict[str, Future], Any
             # in terminal TracedFutures, which have the entire op_stack.
             if isinstance(n, TracedFuture) and n.has_successor():
                 continue
+
             sub_futures = find_futures_client(n)
             futures.update({f.id: f for f in sub_futures})
     elif isinstance(args, dict):

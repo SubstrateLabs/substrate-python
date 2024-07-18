@@ -31,5 +31,5 @@ class Graph(CoreGraph):
         This is a derived property because the future list is dynamic based on program state. Once we invoke this
         to e.g. render a graph into json, it becomes static.
         """
-        futures = {f.id: f for node in self.DAG.nodes() for f in node.futures_from_args}
+        futures = {f.id: f for node in self.DAG.nodes() for f in node.dependent_futures}
         return list(futures.values())

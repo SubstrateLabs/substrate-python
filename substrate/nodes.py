@@ -6,16 +6,19 @@ from __future__ import annotations
 
 import warnings
 
+from .substrate import SubstrateResponse
 from .core.corenode import CoreNode
 
 # filter pydantic v2 deprecation warnings
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore", category=DeprecationWarning)
     from .core.models import (
+        IfOut,
         BoxOut,
         CLIPOut,
         JinaV2Out,
         EmbedTextOut,
+        RunPythonOut,
         EmbedImageOut,
         EraseImageOut,
         ComputeJSONOut,
@@ -27,6 +30,7 @@ with warnings.catch_warnings():
         UpscaleImageOut,
         DeleteVectorsOut,
         GenerateImageOut,
+        SplitDocumentOut,
         UpdateVectorsOut,
         GenerateSpeechOut,
         MultiEmbedTextOut,
@@ -54,13 +58,16 @@ with warnings.catch_warnings():
         StableDiffusionXLControlNetOut,
     )
 from typing import Any, Dict, List, Optional
+from dataclasses import dataclass
 from typing_extensions import Literal
 
 from .future_dataclass_models import (
+    FutureIfOut,
     FutureBoxOut,
     FutureCLIPOut,
     FutureJinaV2Out,
     FutureEmbedTextOut,
+    FutureRunPythonOut,
     FutureEmbedImageOut,
     FutureEraseImageOut,
     FutureComputeJSONOut,
@@ -72,6 +79,7 @@ from .future_dataclass_models import (
     FutureUpscaleImageOut,
     FutureDeleteVectorsOut,
     FutureGenerateImageOut,
+    FutureSplitDocumentOut,
     FutureUpdateVectorsOut,
     FutureGenerateSpeechOut,
     FutureMultiEmbedTextOut,
@@ -158,6 +166,45 @@ class Box(CoreNode[BoxOut]):
         Future reference to this node's output.
 
         https://substrate.run/nodes#Box
+        """
+        return super().future  # type: ignore
+
+
+class If(CoreNode[IfOut]):
+    """https://substrate.run/nodes#If"""
+
+    def __init__(
+        self,
+        condition: bool,
+        value_if_true: Any,
+        value_if_false: Optional[Any] = None,
+        hide: bool = False,
+        **kwargs,
+    ):
+        """
+        Args:
+            condition: Condition.
+            value_if_true: Result when condition is true.
+            value_if_false: Result when condition is false.
+
+        https://substrate.run/nodes#If
+        """
+        super().__init__(
+            condition=condition,
+            value_if_true=value_if_true,
+            value_if_false=value_if_false,
+            hide=hide,
+            out_type=IfOut,
+            **kwargs,
+        )
+        self.node = "If"
+
+    @property
+    def future(self) -> FutureIfOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        https://substrate.run/nodes#If
         """
         return super().future  # type: ignore
 
@@ -1083,6 +1130,7 @@ class RemoveBackground(CoreNode[RemoveBackgroundOut]):
         self,
         image_uri: str,
         return_mask: bool = False,
+        invert_mask: bool = False,
         background_color: Optional[str] = None,
         store: Optional[str] = None,
         hide: bool = False,
@@ -1092,6 +1140,7 @@ class RemoveBackground(CoreNode[RemoveBackgroundOut]):
         Args:
             image_uri: Input image.
             return_mask: Return a mask image instead of the original content.
+            invert_mask: Invert the mask image. Only takes effect if `return_mask` is true.
             background_color: Hex value background color. Transparent if unset.
             store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
 
@@ -1100,6 +1149,7 @@ class RemoveBackground(CoreNode[RemoveBackgroundOut]):
         super().__init__(
             image_uri=image_uri,
             return_mask=return_mask,
+            invert_mask=invert_mask,
             background_color=background_color,
             store=store,
             hide=hide,
@@ -1789,6 +1839,7 @@ class QueryVectorStore(CoreNode[QueryVectorStoreOut]):
         query_ids: Optional[List[str]] = None,
         top_k: int = 10,
         ef_search: int = 40,
+        num_leaves_to_search: int = 40,
         include_values: bool = False,
         include_metadata: bool = False,
         filters: Optional[Dict[str, Any]] = None,
@@ -1805,6 +1856,7 @@ class QueryVectorStore(CoreNode[QueryVectorStoreOut]):
             query_ids: Document IDs to use for the query.
             top_k: Number of results to return.
             ef_search: The size of the dynamic candidate list for searching the index graph.
+            num_leaves_to_search: The number of leaves in the index tree to search.
             include_values: Include the values of the vectors in the response.
             include_metadata: Include the metadata of the vectors in the response.
             filters: Filter metadata by key-value pairs.
@@ -1820,6 +1872,7 @@ class QueryVectorStore(CoreNode[QueryVectorStoreOut]):
             query_ids=query_ids,
             top_k=top_k,
             ef_search=ef_search,
+            num_leaves_to_search=num_leaves_to_search,
             include_values=include_values,
             include_metadata=include_metadata,
             filters=filters,
@@ -1835,5 +1888,50 @@ class QueryVectorStore(CoreNode[QueryVectorStoreOut]):
         Future reference to this node's output.
 
         https://substrate.run/nodes#QueryVectorStore
+        """
+        return super().future  # type: ignore
+
+
+class SplitDocument(CoreNode[SplitDocumentOut]):
+    """https://substrate.run/nodes#SplitDocument"""
+
+    def __init__(
+        self,
+        uri: str,
+        doc_id: Optional[str] = None,
+        metadata: Optional[Dict[str, Any]] = None,
+        chunk_size: Optional[int] = None,
+        chunk_overlap: Optional[int] = None,
+        hide: bool = False,
+        **kwargs,
+    ):
+        """
+        Args:
+            uri: URI of the document.
+            doc_id: Document ID.
+            metadata: Document metadata.
+            chunk_size: Maximum number of units per chunk. Defaults to 1024 tokens for text or 40 lines for code.
+            chunk_overlap: Number of units to overlap between chunks. Defaults to 200 tokens for text or 15 lines for code.
+
+        https://substrate.run/nodes#SplitDocument
+        """
+        super().__init__(
+            uri=uri,
+            doc_id=doc_id,
+            metadata=metadata,
+            chunk_size=chunk_size,
+            chunk_overlap=chunk_overlap,
+            hide=hide,
+            out_type=SplitDocumentOut,
+            **kwargs,
+        )
+        self.node = "SplitDocument"
+
+    @property
+    def future(self) -> FutureSplitDocumentOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        https://substrate.run/nodes#SplitDocument
         """
         return super().future  # type: ignore
