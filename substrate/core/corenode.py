@@ -9,7 +9,7 @@ import networkx as nx
 
 from .base_future import BaseFuture
 from .id_generator import IDGenerator
-from .client.future import TracedFuture
+from .client.future import Future, TracedFuture
 from .future_directive import TraceDirective
 from .client.find_futures_client import find_futures_client
 
@@ -29,7 +29,7 @@ class CoreNode(Generic[OT]):
     ):
         self._out_type = out_type
         self.node = self.__class__.__name__
-        self.args = attr
+        self.init_attrs = attr
         generator_instance = IDGenerator.get_instance(self.__class__.__name__)
         self.id = generator_instance.get_next_id()
         self._cache_age = _cache_age
@@ -43,7 +43,7 @@ class CoreNode(Generic[OT]):
         else:
             self.args = {}
         self.SG.add_node(self, **self.args)
-        self.futures_from_args: List[BaseFuture] = find_futures_client(attr)
+        self.futures_from_args: List[Future] = find_futures_client(attr)
         self.referenced_nodes = [
             future.directive.origin_node for future in self.futures_from_args if isinstance(future, TracedFuture)
         ]
@@ -53,6 +53,10 @@ class CoreNode(Generic[OT]):
                 self.referenced_nodes.append(referenced_node)
             for referenced_future in depend_node.futures_from_args:
                 self.futures_from_args.append(referenced_future)
+
+    @property
+    def dependent_futures(self) -> List[Future]:
+        return find_futures_client(self.init_attrs)
 
     @property
     def out_type(self) -> Type[OT]:

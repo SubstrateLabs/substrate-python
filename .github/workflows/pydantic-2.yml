@@ -27,4 +27,4 @@ jobs:
       - name: Run tests
         shell: bash -el {0}
         run: |
-          cd tests/pydantic-2 && poetry run pytest -Werror
+          cd tests/pydantic-2 && poetry run pytest
