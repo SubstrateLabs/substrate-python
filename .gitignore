@@ -19,3 +19,5 @@ dist
 .pypirc
 
 examples/**/scratch*
+**/moa.html
+**/descript.html
