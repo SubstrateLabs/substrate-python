@@ -15,7 +15,7 @@ from substrate import (
 
 substrate = Substrate(api_key=api_key, timeout=60 * 5)
 prompt = "by edward hopper, a red leather wing chair in an open room, pillars, amazing painting composition"
-image = GenerateImage(prompt=prompt, negative_prompt="photo realistic")
+image = GenerateImage(prompt=prompt)
 mask = RemoveBackground(
     image_uri=image.future.image_uri,
     return_mask=True,
