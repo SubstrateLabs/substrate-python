@@ -27,6 +27,11 @@ class ErrorOut:
     (Future reference)
     A message providing more details about the error.
     """
+    status_code: int = 500
+    """
+    (Future reference)
+    The HTTP status code for the error.
+    """
 
 
 @dataclass
@@ -1488,6 +1493,11 @@ class FutureRemoveBackgroundIn:
     (Future reference)
     Return a mask image instead of the original content.
     """
+    invert_mask: bool = False
+    """
+    (Future reference)
+    Invert the mask image. Only takes effect if `return_mask` is true.
+    """
     background_color: Optional[str] = None
     """
     (Future reference)
@@ -2246,6 +2256,11 @@ class FutureFindOrCreateVectorStoreOut:
     (Future reference)
     Selected embedding model.
     """
+    num_leaves: Optional[int] = None
+    """
+    (Future reference)
+    Number of leaves in the vector store.
+    """
 
 
 @dataclass
@@ -2506,6 +2521,11 @@ class FutureQueryVectorStoreIn:
     (Future reference)
     The size of the dynamic candidate list for searching the index graph.
     """
+    num_leaves_to_search: int = 40
+    """
+    (Future reference)
+    The number of leaves in the index tree to search.
+    """
     include_values: bool = False
     """
     (Future reference)
@@ -2571,4 +2591,50 @@ class FutureQueryVectorStoreOut:
     """
     (Future reference)
     Selected embedding model.
+    """
+
+
+@dataclass
+class FutureSplitDocumentIn:
+    """
+    Future reference to FutureSplitDocumentIn
+    """
+
+    uri: str
+    """
+    (Future reference)
+    URI of the document.
+    """
+    doc_id: Optional[str] = None
+    """
+    (Future reference)
+    Document ID.
+    """
+    metadata: Optional[Dict[str, Any]] = None
+    """
+    (Future reference)
+    Document metadata.
+    """
+    chunk_size: Optional[int] = None
+    """
+    (Future reference)
+    Maximum number of units per chunk. Defaults to 1024 tokens for text or 40 lines for code.
+    """
+    chunk_overlap: Optional[int] = None
+    """
+    (Future reference)
+    Number of units to overlap between chunks. Defaults to 200 tokens for text or 15 lines for code.
+    """
+
+
+@dataclass
+class FutureSplitDocumentOut:
+    """
+    Future reference to FutureSplitDocumentOut
+    """
+
+    items: List[EmbedTextItem]
+    """
+    (Future reference)
+    Document chunks
     """

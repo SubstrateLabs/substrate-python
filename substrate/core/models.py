@@ -24,6 +24,10 @@ class ErrorOut(BaseModel):
     """
     A message providing more details about the error.
     """
+    status_code: int = 500
+    """
+    The HTTP status code for the error.
+    """
 
 
 class ExperimentalIn(BaseModel):
@@ -1171,6 +1175,10 @@ class RemoveBackgroundIn(BaseModel):
     """
     Return a mask image instead of the original content.
     """
+    invert_mask: bool = False
+    """
+    Invert the mask image. Only takes effect if `return_mask` is true.
+    """
     background_color: Optional[str] = None
     """
     Hex value background color. Transparent if unset.
@@ -1763,6 +1771,10 @@ class FindOrCreateVectorStoreOut(BaseModel):
     """
     Selected embedding model.
     """
+    num_leaves: Annotated[Optional[int], Field(ge=1)] = None
+    """
+    Number of leaves in the vector store.
+    """
 
 
 class ListVectorStoresIn(BaseModel):
@@ -1970,6 +1982,10 @@ class QueryVectorStoreIn(BaseModel):
     """
     The size of the dynamic candidate list for searching the index graph.
     """
+    num_leaves_to_search: Annotated[int, Field(ge=1, le=1000)] = 40
+    """
+    The number of leaves in the index tree to search.
+    """
     include_values: bool = False
     """
     Include the values of the vectors in the response.
@@ -2021,4 +2037,40 @@ class QueryVectorStoreOut(BaseModel):
     model: Optional[Literal["jina-v2", "clip"]] = None
     """
     Selected embedding model.
+    """
+
+
+class SplitDocumentIn(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    uri: str
+    """
+    URI of the document.
+    """
+    doc_id: Optional[str] = None
+    """
+    Document ID.
+    """
+    metadata: Optional[Dict[str, Any]] = None
+    """
+    Document metadata.
+    """
+    chunk_size: Annotated[Optional[int], Field(ge=1)] = None
+    """
+    Maximum number of units per chunk. Defaults to 1024 tokens for text or 40 lines for code.
+    """
+    chunk_overlap: Annotated[Optional[int], Field(ge=0)] = None
+    """
+    Number of units to overlap between chunks. Defaults to 200 tokens for text or 15 lines for code.
+    """
+
+
+class SplitDocumentOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    items: List[EmbedTextItem]
+    """
+    Document chunks
     """

@@ -66,7 +66,7 @@ class JinjaDirective(BaseDirective):
     type: Literal["jq"] = "jinja"
 
     def to_dict(self) -> Dict:
-        from sb_models.substratecore.base_future import BaseFuture
+        from .base_future import BaseFuture
 
         replaced = BaseFuture.replace_futures_with_placeholder(self.variables)
         return {

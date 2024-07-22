@@ -12,16 +12,10 @@ from .base_future import BaseFuture
 
 
 class CoreGraph:
-    def __init__(self, id=None, **initial_args):
+    def __init__(self, id=None, initial_args=None):
         self.DAG = nx.DiGraph()
-        self.initial_args = initial_args
+        self.initial_args = initial_args or {}
         self.id = id or f"graph_{uuid.uuid4().hex}"
-
-    def has_futures(self) -> bool:
-        for n in self.DAG.nodes():
-            if n.futures_from_args:
-                return True
-        return False
 
     @property
     @abstractmethod
@@ -33,6 +27,8 @@ class CoreGraph:
         return self
 
     def add_node(self, node: CoreNode) -> "CoreGraph":
+        if self.DAG.has_node(node):
+            raise ValueError(f"Node with id {node.id} already exists")
         self.DAG = nx.compose(self.DAG, node.SG)
         return self
 
@@ -41,7 +37,7 @@ class CoreGraph:
             self.add_node(node)
         return self
 
-    def _check_dag(self):
+    def validate(self):
         if not nx.is_directed_acyclic_graph(self.DAG):
             raise ValueError("Graph should be a DAG but isn't")
 

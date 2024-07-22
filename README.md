@@ -24,7 +24,7 @@ pip install substrate
 ## Usage
 
 ```python
-from substrate import Substrate, GenerateText, sb
+from substrate import Substrate, ComputeText, sb
 ```
 
 Initialize the Substrate client.
@@ -33,16 +33,16 @@ Initialize the Substrate client.
 substrate = Substrate(api_key=SUBSTRATE_API_KEY)
 ```
 
-Generate a story using the [`GenerateText`](https://www.substrate.run/nodes#GenerateText) node.
+Generate a story using the [`ComputeText`](https://www.substrate.run/nodes#ComputeText) node.
 
 ```python
-story = GenerateText(prompt="tell me a story")
+story = ComputeText(prompt="tell me a story")
 ```
 
-Summarize the output of the `story` node using another `GenerateText` node. Because `story` has not yet been run, we use `sb.concat` to work with its future output.
+Summarize the output of the `story` node using another `ComputeText` node. Because `story` has not yet been run, we use `sb.concat` to work with its future output.
 
 ```python
-summary = GenerateText(prompt=sb.concat("summarize this story in one sentence: ", story.future.text))
+summary = ComputeText(prompt=sb.concat("summarize this story in one sentence: ", story.future.text))
 ```
 
 Run the graph chaining `story` → `summary` by passing the terminal node to `substrate.run`.

@@ -19,6 +19,10 @@ class ErrorOut(TypedDict):
     """
     A message providing more details about the error.
     """
+    status_code: NotRequired[int]
+    """
+    The HTTP status code for the error.
+    """
 
 
 class ExperimentalIn(TypedDict):
@@ -990,6 +994,10 @@ class RemoveBackgroundIn(TypedDict):
     """
     Return a mask image instead of the original content.
     """
+    invert_mask: NotRequired[bool]
+    """
+    Invert the mask image. Only takes effect if `return_mask` is true.
+    """
     background_color: NotRequired[str]
     """
     Hex value background color. Transparent if unset.
@@ -1474,6 +1482,10 @@ class FindOrCreateVectorStoreOut(TypedDict):
     """
     Selected embedding model.
     """
+    num_leaves: NotRequired[int]
+    """
+    Number of leaves in the vector store.
+    """
 
 
 class ListVectorStoresIn(TypedDict):
@@ -1642,6 +1654,10 @@ class QueryVectorStoreIn(TypedDict):
     """
     The size of the dynamic candidate list for searching the index graph.
     """
+    num_leaves_to_search: NotRequired[int]
+    """
+    The number of leaves in the index tree to search.
+    """
     include_values: NotRequired[bool]
     """
     Include the values of the vectors in the response.
@@ -1687,4 +1703,34 @@ class QueryVectorStoreOut(TypedDict):
     model: NotRequired[Literal["jina-v2", "clip"]]
     """
     Selected embedding model.
+    """
+
+
+class SplitDocumentIn(TypedDict):
+    uri: NotRequired[str]
+    """
+    URI of the document.
+    """
+    doc_id: NotRequired[str]
+    """
+    Document ID.
+    """
+    metadata: NotRequired[Dict[str, Any]]
+    """
+    Document metadata.
+    """
+    chunk_size: NotRequired[int]
+    """
+    Maximum number of units per chunk. Defaults to 1024 tokens for text or 40 lines for code.
+    """
+    chunk_overlap: NotRequired[int]
+    """
+    Number of units to overlap between chunks. Defaults to 200 tokens for text or 15 lines for code.
+    """
+
+
+class SplitDocumentOut(TypedDict):
+    items: NotRequired[List[EmbedTextItem]]
+    """
+    Document chunks
     """
