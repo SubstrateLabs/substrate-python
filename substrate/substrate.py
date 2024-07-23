@@ -1,5 +1,5 @@
 import json
-from typing import Optional, Any
+from typing import Optional, Any, Dict
 
 import zlib
 import base64
@@ -22,7 +22,7 @@ class Substrate:
         api_key: str,
         base_url: str = "https://api.substrate.run",
         timeout: float = 60 * 5.0,
-        additional_headers: Optional[str, Any] = None,
+        additional_headers: Optional[Dict[str, Any]] = None,
     ):
         """
         Initialize the Substrate SDK.
