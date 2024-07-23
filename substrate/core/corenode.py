@@ -24,7 +24,7 @@ class CoreNode(Generic[OT]):
         _cache_age: Optional[int] = None,
         _cache_keys: Optional[List[str]] = None,
         _max_retries: Optional[int] = None,
-        _depends: List["CoreNode"] = [],
+        _depends=None,
         **attr,
     ):
         self._out_type = out_type
@@ -35,7 +35,7 @@ class CoreNode(Generic[OT]):
         self._cache_age = _cache_age
         self._cache_keys = _cache_keys
         self._max_retries = _max_retries
-        self._depends = _depends
+        self._depends = [] if _depends is None else _depends
         self._should_output_globally: bool = not hide
         self.SG = nx.DiGraph()
         if attr:
@@ -53,6 +53,10 @@ class CoreNode(Generic[OT]):
                 self.referenced_nodes.append(referenced_node)
             for referenced_future in depend_node.futures_from_args:
                 self.futures_from_args.append(referenced_future)
+
+    @property
+    def explicit_depends(self) -> List["CoreNode"]:
+        return self._depends
 
     @property
     def dependent_futures(self) -> List[Future]:

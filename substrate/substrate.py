@@ -1,7 +1,8 @@
 import json
+from typing import Optional, Any
+
 import zlib
 import base64
-from typing import Any, Dict
 
 from substrate.streaming import SubstrateStreamingResponse
 
@@ -21,11 +22,13 @@ class Substrate:
         api_key: str,
         base_url: str = "https://api.substrate.run",
         timeout: float = 60 * 5.0,
-        additional_headers: Dict[str, Any] = {},
+        additional_headers: Optional[str, Any] = None,
     ):
         """
         Initialize the Substrate SDK.
         """
+        if additional_headers is None:
+            additional_headers = {}
         self.api_key = api_key
         self._client = APIClient(
             api_key=api_key,
@@ -98,7 +101,7 @@ class Substrate:
         for node in all_nodes:
             if not graph.DAG.has_node(node):
                 graph.add_node(node)
-            for depend_node in node._depends:
+            for depend_node in node.explicit_depends:
                 graph.add_edge(depend_node, node)
         graph_serialized = graph.to_dict()
         return graph_serialized

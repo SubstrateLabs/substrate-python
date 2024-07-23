@@ -89,7 +89,7 @@ class TraceOperation:
 @dataclass
 class TraceDirective(BaseDirective):
     op_stack: List[TraceOperation]
-    origin_node: Any  # Should be CoreNode, but am running into circular import
+    origin_node: "CoreNode"
     type: Literal["trace"] = "trace"
 
     def to_dict(self) -> Dict:
