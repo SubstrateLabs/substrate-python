@@ -1,8 +1,10 @@
 import os
 import sys
 import json
-from substrate import Substrate, Box, sb, ComputeText
-from util import current_dir, sample_question, aggregate, jq_list
+
+from util import jq_list, aggregate, current_dir, sample_question
+
+from substrate import Box, Substrate, ComputeText, sb
 
 substrate = Substrate(api_key=os.environ.get("SUBSTRATE_API_KEY"))
 models = [

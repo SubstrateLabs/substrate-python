@@ -145,6 +145,9 @@ class ComputeTextIn(TypedDict):
             "Llama3Instruct8B",
             "Llama3Instruct70B",
             "Firellava13B",
+            "gpt-4o",
+            "gpt-4o-mini",
+            "claude-3-5-sonnet-20240620",
         ]
     ]
     """
@@ -585,7 +588,7 @@ class GenerateImageIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -607,7 +610,7 @@ class MultiGenerateImageIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -637,7 +640,7 @@ class StableDiffusionXLIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     height: NotRequired[int]
     """
@@ -690,7 +693,7 @@ class StableDiffusionXLLightningIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     height: NotRequired[int]
     """
@@ -736,7 +739,7 @@ class StableDiffusionXLIPAdapterIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     width: NotRequired[int]
     """
@@ -786,7 +789,7 @@ class StableDiffusionXLControlNetIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     conditioning_scale: NotRequired[float]
     """
@@ -824,7 +827,7 @@ class InpaintImageIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -854,7 +857,7 @@ class MultiInpaintImageIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -892,7 +895,7 @@ class StableDiffusionXLInpaintIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     strength: NotRequired[float]
     """
@@ -952,7 +955,7 @@ class EraseImageIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -974,7 +977,7 @@ class BigLaMaIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -1004,7 +1007,7 @@ class RemoveBackgroundIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -1022,7 +1025,7 @@ class DISISNetIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -1048,7 +1051,7 @@ class UpscaleImageIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -1070,7 +1073,7 @@ class SegmentUnderPointIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -1096,7 +1099,7 @@ class SegmentAnythingIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -1213,7 +1216,7 @@ class GenerateSpeechIn(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the audio data will be returned as a base64-encoded string.
+    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the audio data will be returned as a base64-encoded string.
     """
 
 
@@ -1239,7 +1242,7 @@ class XTTSV2In(TypedDict):
     """
     store: NotRequired[str]
     """
-    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the audio data will be returned as a base64-encoded string.
+    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the audio data will be returned as a base64-encoded string.
     """
 
 

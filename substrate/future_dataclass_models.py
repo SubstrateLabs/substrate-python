@@ -220,6 +220,9 @@ class FutureComputeTextIn:
         "Llama3Instruct8B",
         "Llama3Instruct70B",
         "Firellava13B",
+        "gpt-4o",
+        "gpt-4o-mini",
+        "claude-3-5-sonnet-20240620",
     ] = "Llama3Instruct8B"
     """
     (Future reference)
@@ -876,7 +879,7 @@ class FutureGenerateImageIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -912,7 +915,7 @@ class FutureMultiGenerateImageIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -958,7 +961,7 @@ class FutureStableDiffusionXLIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     height: int = 1024
     """
@@ -1037,7 +1040,7 @@ class FutureStableDiffusionXLLightningIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     height: int = 1024
     """
@@ -1103,7 +1106,7 @@ class FutureStableDiffusionXLIPAdapterIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     width: int = 1024
     """
@@ -1174,7 +1177,7 @@ class FutureStableDiffusionXLControlNetIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     conditioning_scale: float = 0.5
     """
@@ -1230,7 +1233,7 @@ class FutureInpaintImageIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -1276,7 +1279,7 @@ class FutureMultiInpaintImageIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -1332,7 +1335,7 @@ class FutureStableDiffusionXLInpaintIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
     strength: float = 0.8
     """
@@ -1424,7 +1427,7 @@ class FutureEraseImageIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -1460,7 +1463,7 @@ class FutureBigLaMaIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -1506,7 +1509,7 @@ class FutureRemoveBackgroundIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -1537,7 +1540,7 @@ class FutureDISISNetIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -1578,7 +1581,7 @@ class FutureUpscaleImageIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -1614,7 +1617,7 @@ class FutureSegmentUnderPointIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -1655,7 +1658,7 @@ class FutureSegmentAnythingIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+    Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
     """
 
 
@@ -1831,7 +1834,7 @@ class FutureGenerateSpeechIn:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the audio data will be returned as a base64-encoded string.
+    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the audio data will be returned as a base64-encoded string.
     """
 
 
@@ -1872,7 +1875,7 @@ class FutureXTTSV2In:
     store: Optional[str] = None
     """
     (Future reference)
-    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the audio data will be returned as a base64-encoded string.
+    Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the audio data will be returned as a base64-encoded string.
     """
 
 

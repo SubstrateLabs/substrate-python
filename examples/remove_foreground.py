@@ -7,10 +7,10 @@ if api_key is None:
 
 from substrate import (
     Substrate,
-    GenerateImage,
-    RemoveBackground,
     EraseImage,
     InpaintImage,
+    GenerateImage,
+    RemoveBackground,
 )
 
 substrate = Substrate(api_key=api_key, timeout=60 * 5)

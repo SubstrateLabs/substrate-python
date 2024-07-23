@@ -6,7 +6,6 @@ from __future__ import annotations
 
 import warnings
 
-from .substrate import SubstrateResponse
 from .core.corenode import CoreNode
 
 # filter pydantic v2 deprecation warnings
@@ -18,7 +17,6 @@ with warnings.catch_warnings():
         CLIPOut,
         JinaV2Out,
         EmbedTextOut,
-        RunPythonOut,
         EmbedImageOut,
         EraseImageOut,
         ComputeJSONOut,
@@ -58,7 +56,6 @@ with warnings.catch_warnings():
         StableDiffusionXLControlNetOut,
     )
 from typing import Any, Dict, List, Optional
-from dataclasses import dataclass
 from typing_extensions import Literal
 
 from .future_dataclass_models import (
@@ -67,7 +64,6 @@ from .future_dataclass_models import (
     FutureCLIPOut,
     FutureJinaV2Out,
     FutureEmbedTextOut,
-    FutureRunPythonOut,
     FutureEmbedImageOut,
     FutureEraseImageOut,
     FutureComputeJSONOut,
@@ -224,6 +220,9 @@ class ComputeText(CoreNode[ComputeTextOut]):
             "Llama3Instruct8B",
             "Llama3Instruct70B",
             "Firellava13B",
+            "gpt-4o",
+            "gpt-4o-mini",
+            "claude-3-5-sonnet-20240620",
         ] = "Llama3Instruct8B",
         hide: bool = False,
         **kwargs,
@@ -773,7 +772,7 @@ class GenerateImage(CoreNode[GenerateImageOut]):
         """
         Args:
             prompt: Text prompt.
-            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
 
         https://substrate.run/nodes#GenerateImage
         """
@@ -805,7 +804,7 @@ class MultiGenerateImage(CoreNode[MultiGenerateImageOut]):
         Args:
             prompt: Text prompt.
             num_images: Number of images to generate.
-            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
 
         https://substrate.run/nodes#MultiGenerateImage
         """
@@ -849,7 +848,7 @@ class StableDiffusionXLLightning(CoreNode[StableDiffusionXLLightningOut]):
             prompt: Text prompt.
             negative_prompt: Negative input prompt.
             num_images: Number of images to generate.
-            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
             height: Height of output image, in pixels.
             width: Width of output image, in pixels.
             seeds: Seeds for deterministic generation. Default is a random seed.
@@ -906,7 +905,7 @@ class StableDiffusionXLControlNet(CoreNode[StableDiffusionXLControlNetOut]):
             num_images: Number of images to generate.
             output_resolution: Resolution of the output image, in pixels.
             negative_prompt: Negative input prompt.
-            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
             conditioning_scale: Controls the influence of the input image on the generated output.
             strength: Controls how much to transform the input image.
             seeds: Random noise seeds. Default is random seeds for each generation.
@@ -957,7 +956,7 @@ class InpaintImage(CoreNode[InpaintImageOut]):
             image_uri: Original image.
             prompt: Text prompt.
             mask_image_uri: Mask image that controls which pixels are inpainted. If unset, the entire image is edited (image-to-image).
-            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
 
         https://substrate.run/nodes#InpaintImage
         """
@@ -1001,7 +1000,7 @@ class MultiInpaintImage(CoreNode[MultiInpaintImageOut]):
             prompt: Text prompt.
             num_images: Number of images to generate.
             mask_image_uri: Mask image that controls which pixels are edited (inpainting). If unset, the entire image is edited (image-to-image).
-            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
 
         https://substrate.run/nodes#MultiInpaintImage
         """
@@ -1052,7 +1051,7 @@ class StableDiffusionXLInpaint(CoreNode[StableDiffusionXLInpaintOut]):
             mask_image_uri: Mask image that controls which pixels are edited (inpainting). If unset, the entire image is edited (image-to-image).
             output_resolution: Resolution of the output image, in pixels.
             negative_prompt: Negative input prompt.
-            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
             strength: Controls the strength of the generation process.
             seeds: Random noise seeds. Default is random seeds for each generation.
 
@@ -1099,7 +1098,7 @@ class EraseImage(CoreNode[EraseImageOut]):
         Args:
             image_uri: Input image.
             mask_image_uri: Mask image that controls which pixels are inpainted.
-            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
 
         https://substrate.run/nodes#EraseImage
         """
@@ -1142,7 +1141,7 @@ class RemoveBackground(CoreNode[RemoveBackgroundOut]):
             return_mask: Return a mask image instead of the original content.
             invert_mask: Invert the mask image. Only takes effect if `return_mask` is true.
             background_color: Hex value background color. Transparent if unset.
-            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
 
         https://substrate.run/nodes#RemoveBackground
         """
@@ -1185,7 +1184,7 @@ class UpscaleImage(CoreNode[UpscaleImageOut]):
             image_uri: Input image.
             prompt: Prompt to guide model on the content of image to upscale.
             output_resolution: Resolution of the output image, in pixels.
-            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
 
         https://substrate.run/nodes#UpscaleImage
         """
@@ -1225,7 +1224,7 @@ class SegmentUnderPoint(CoreNode[SegmentUnderPointOut]):
         Args:
             image_uri: Input image.
             point: Point prompt.
-            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
 
         https://substrate.run/nodes#SegmentUnderPoint
         """
@@ -1266,7 +1265,7 @@ class SegmentAnything(CoreNode[SegmentAnythingOut]):
             image_uri: Input image.
             point_prompts: Point prompts, to detect a segment under the point. One of `point_prompts` or `box_prompts` must be set.
             box_prompts: Box prompts, to detect a segment within the bounding box. One of `point_prompts` or `box_prompts` must be set.
-            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
+            store: Use "hosted" to return an image URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the image data will be returned as a base64-encoded string.
 
         https://substrate.run/nodes#SegmentAnything
         """
@@ -1349,7 +1348,7 @@ class GenerateSpeech(CoreNode[GenerateSpeechOut]):
         """
         Args:
             text: Input text.
-            store: Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](https://guides.substrate.run/guides/external-file-storage). If unset, the audio data will be returned as a base64-encoded string.
+            store: Use "hosted" to return an audio URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/guides/external-file-storage). If unset, the audio data will be returned as a base64-encoded string.
 
         https://substrate.run/nodes#GenerateSpeech
         """
