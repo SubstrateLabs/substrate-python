@@ -24,7 +24,7 @@ class CoreNode(Generic[OT]):
         _cache_age: Optional[int] = None,
         _cache_keys: Optional[List[str]] = None,
         _max_retries: Optional[int] = None,
-        _depends=None,
+        _depends: Optional[List["CoreNode"]] = None,
         **attr,
     ):
         self._out_type = out_type
