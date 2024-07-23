@@ -11,13 +11,13 @@ class RunPython(CoreNode[RunPythonOut]):
     def __init__(
         self,
         function: Callable,
-        kwargs: Dict[str, Any] = {},
+        kwargs=None,
         pip_install: Optional[List[str]] = None,
         hide: bool = False,
         _cache_age: Optional[int] = None,
         _cache_keys: Optional[List[str]] = None,
         _max_retries: Optional[int] = None,
-        _depends: List[CoreNode] = [],
+        _depends: Optional[List[CoreNode]] = None,
     ):
         """
         Args:
@@ -41,7 +41,7 @@ class RunPython(CoreNode[RunPythonOut]):
         python_version = sys.version.split()[0]
         super().__init__(
             pkl_function=fn_str,
-            kwargs=kwargs,
+            kwargs={} if kwargs is None else kwargs,
             pip_install=pip_install,
             hide=hide,
             python_version=python_version,
