@@ -1159,7 +1159,7 @@ class FutureStableDiffusionXLControlNetIn:
     (Future reference)
     Text prompt.
     """
-    num_images: int
+    num_images: int = 1
     """
     (Future reference)
     Number of images to generate.

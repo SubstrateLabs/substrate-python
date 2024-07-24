@@ -14,7 +14,7 @@ from typing import (
 )
 from dataclasses import asdict, dataclass
 
-OpType = Literal["trace", "string-concat", "jq", "jinja"]
+OpType = Literal["trace", "string-concat", "jq", "jinja", "format"]
 
 
 class BaseDirective(ABC):
@@ -63,7 +63,7 @@ class JinjaTemplate:
 class JinjaDirective(BaseDirective):
     template: JinjaTemplate
     variables: Dict[str, Any]
-    type: Literal["jq"] = "jinja"
+    type: Literal["jinja"] = "jinja"
 
     def to_dict(self) -> Dict:
         from .base_future import BaseFuture
@@ -74,6 +74,29 @@ class JinjaDirective(BaseDirective):
             "template": asdict(self.template),
             "variables": replaced,
         }
+
+@dataclass
+class FString:
+    future_id: Optional[str]
+    val: Optional[str]
+
+
+@dataclass
+class FormatDirective(BaseDirective):
+    f_string: FString
+    variables: Dict[str, Any]
+    type: Literal["format"] = "format"
+
+    def to_dict(self) -> Dict:
+        from .base_future import BaseFuture
+
+        replaced = BaseFuture.replace_futures_with_placeholder(self.variables)
+        return {
+            "type": self.type,
+            "f_string": asdict(self.f_string),
+            "variables": replaced,
+        }
+
 
 
 TraceType = Literal["attr", "item"]
