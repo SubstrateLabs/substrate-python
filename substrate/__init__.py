@@ -1,7 +1,7 @@
 """
 𐃏 Substrate Python SDK
 
-20240617.20240718
+20240617.20240724
 """
 
 from .run_python import RunPython
