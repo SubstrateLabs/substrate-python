@@ -891,7 +891,7 @@ class StableDiffusionXLControlNet(CoreNode[StableDiffusionXLControlNetOut]):
         image_uri: str,
         control_method: Literal["edge", "depth", "illusion", "tile"],
         prompt: str,
-        num_images: int,
+        num_images: int = 1,
         output_resolution: int = 1024,
         negative_prompt: Optional[str] = None,
         store: Optional[str] = None,
