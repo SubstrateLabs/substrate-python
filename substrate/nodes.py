@@ -223,6 +223,7 @@ class ComputeText(CoreNode[ComputeTextOut]):
             "Mixtral8x7BInstruct",
             "Llama3Instruct8B",
             "Llama3Instruct70B",
+            "Llama3Instruct405B",
             "Firellava13B",
             "gpt-4o",
             "gpt-4o-mini",
