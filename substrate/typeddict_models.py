@@ -144,7 +144,6 @@ class ComputeTextIn(TypedDict):
             "Mixtral8x7BInstruct",
             "Llama3Instruct8B",
             "Llama3Instruct70B",
-            "Llama3Instruct405B",
             "Firellava13B",
             "gpt-4o",
             "gpt-4o-mini",
@@ -810,6 +809,44 @@ class StableDiffusionXLControlNetOut(TypedDict):
     outputs: NotRequired[List[StableDiffusionImage]]
     """
     Generated images.
+    """
+
+
+class StableVideoDiffusionIn(TypedDict):
+    image_uri: NotRequired[str]
+    """
+    Original image.
+    """
+    store: NotRequired[str]
+    """
+    Use "hosted" to return a video URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/reference/external-files). If unset, the video data will be returned as a base64-encoded string.
+    """
+    output_format: NotRequired[Literal["gif", "mp4"]]
+    """
+    Output video format.
+    """
+    seed: NotRequired[int]
+    """
+    Seed for deterministic generation. Default is a random seed.
+    """
+    fps: NotRequired[int]
+    """
+    Frames per second of the generated video.
+    """
+    motion_bucket_id: NotRequired[int]
+    """
+    The motion bucket id to use for the generated video. This can be used to control the motion of the generated video. Increasing the motion bucket id increases the motion of the generated video.
+    """
+    noise: NotRequired[float]
+    """
+    The amount of noise added to the conditioning image. The higher the values the less the video resembles the conditioning image. Increasing this value also increases the motion of the generated video.
+    """
+
+
+class StableVideoDiffusionOut(TypedDict):
+    video_uri: NotRequired[str]
+    """
+    Generated video.
     """
 
 

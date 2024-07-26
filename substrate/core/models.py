@@ -955,6 +955,50 @@ class StableDiffusionXLControlNetOut(BaseModel):
     """
 
 
+class StableVideoDiffusionIn(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    image_uri: str
+    """
+    Original image.
+    """
+    store: Optional[str] = None
+    """
+    Use "hosted" to return a video URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/reference/external-files). If unset, the video data will be returned as a base64-encoded string.
+    """
+    output_format: Literal["gif", "mp4"] = "gif"
+    """
+    Output video format.
+    """
+    seed: Optional[int] = None
+    """
+    Seed for deterministic generation. Default is a random seed.
+    """
+    fps: int = 7
+    """
+    Frames per second of the generated video.
+    """
+    motion_bucket_id: int = 180
+    """
+    The motion bucket id to use for the generated video. This can be used to control the motion of the generated video. Increasing the motion bucket id increases the motion of the generated video.
+    """
+    noise: float = 0.1
+    """
+    The amount of noise added to the conditioning image. The higher the values the less the video resembles the conditioning image. Increasing this value also increases the motion of the generated video.
+    """
+
+
+class StableVideoDiffusionOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    video_uri: str
+    """
+    Generated video.
+    """
+
+
 class InpaintImageIn(BaseModel):
     class Config:
         extra = Extra.allow

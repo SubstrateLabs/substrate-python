@@ -6,15 +6,15 @@ from typing import Any, Dict, Union
 
 from .client.future import Future
 from .future_directive import (
+    FString,
     JQDirective,
     JQTargetType,
     JinjaTemplate,
     JinjaDirective,
     ConcatDirective,
+    FormatDirective,
     JQDirectiveTarget,
     ConcatDirectiveItem,
-    FormatDirective,
-    FString,
 )
 from .client.find_futures_client import find_futures_client
 
@@ -88,12 +88,12 @@ class sb:
     def format(cls, f_string: Union[Future, str], variables: Dict[str, Any]) -> str:
         future_id, val = (f_string.id, None) if isinstance(f_string, Future) else (None, f_string)
         directive = FormatDirective(
-            f_string=FString(future_id=future_id, val=val), variables=variables,
+            f_string=FString(future_id=future_id, val=val),
+            variables=variables,
         )
         result = Future(directive=directive)
         if isinstance(f_string, Future):
             result.FutureG.add_edge(f_string, result)
         for dep in find_futures_client(variables):
             result.FutureG.add_edge(dep, result)
-        return result # type: ignore
-
+        return result  # type: ignore
