@@ -6,7 +6,9 @@
 
 ```sh
 make sync           # sync codegen
-make sync-version   # after updating version in scripts/sync_version
+# Bump the version in scripts/sync_version.
+# Use a minor version bump unless there are breaking SDK changes.
+make sync-version
 poetry run python examples/basic.py # use the local package in this script
 ```
 
