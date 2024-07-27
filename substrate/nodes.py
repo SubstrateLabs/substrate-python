@@ -6,7 +6,6 @@ from __future__ import annotations
 
 import warnings
 
-from .substrate import SubstrateResponse
 from .core.corenode import CoreNode
 
 # filter pydantic v2 deprecation warnings
@@ -18,7 +17,6 @@ with warnings.catch_warnings():
         CLIPOut,
         JinaV2Out,
         EmbedTextOut,
-        RunPythonOut,
         EmbedImageOut,
         EraseImageOut,
         ComputeJSONOut,
@@ -52,13 +50,13 @@ with warnings.catch_warnings():
         SegmentUnderPointOut,
         MultiGenerateImageOut,
         Mixtral8x7BInstructOut,
+        StableVideoDiffusionOut,
         FindOrCreateVectorStoreOut,
         StableDiffusionXLInpaintOut,
         StableDiffusionXLLightningOut,
         StableDiffusionXLControlNetOut,
     )
 from typing import Any, Dict, List, Optional
-from dataclasses import dataclass
 from typing_extensions import Literal
 
 from .future_dataclass_models import (
@@ -67,7 +65,6 @@ from .future_dataclass_models import (
     FutureCLIPOut,
     FutureJinaV2Out,
     FutureEmbedTextOut,
-    FutureRunPythonOut,
     FutureEmbedImageOut,
     FutureEraseImageOut,
     FutureComputeJSONOut,
@@ -101,6 +98,7 @@ from .future_dataclass_models import (
     FutureSegmentUnderPointOut,
     FutureMultiGenerateImageOut,
     FutureMixtral8x7BInstructOut,
+    FutureStableVideoDiffusionOut,
     FutureFindOrCreateVectorStoreOut,
     FutureStableDiffusionXLInpaintOut,
     FutureStableDiffusionXLLightningOut,
@@ -892,7 +890,7 @@ class StableDiffusionXLControlNet(CoreNode[StableDiffusionXLControlNetOut]):
         image_uri: str,
         control_method: Literal["edge", "depth", "illusion", "tile"],
         prompt: str,
-        num_images: int = 1,
+        num_images: int,
         output_resolution: int = 1024,
         negative_prompt: Optional[str] = None,
         store: Optional[str] = None,
@@ -940,6 +938,57 @@ class StableDiffusionXLControlNet(CoreNode[StableDiffusionXLControlNetOut]):
         Future reference to this node's output.
 
         https://substrate.run/nodes#StableDiffusionXLControlNet
+        """
+        return super().future  # type: ignore
+
+
+class StableVideoDiffusion(CoreNode[StableVideoDiffusionOut]):
+    """https://substrate.run/nodes#StableVideoDiffusion"""
+
+    def __init__(
+        self,
+        image_uri: str,
+        store: Optional[str] = None,
+        output_format: Literal["gif", "mp4"] = "gif",
+        seed: Optional[int] = None,
+        fps: int = 7,
+        motion_bucket_id: int = 180,
+        noise: float = 0.1,
+        hide: bool = False,
+        **kwargs,
+    ):
+        """
+        Args:
+            image_uri: Original image.
+            store: Use "hosted" to return a video URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/reference/external-files). If unset, the video data will be returned as a base64-encoded string.
+            output_format: Output video format.
+            seed: Seed for deterministic generation. Default is a random seed.
+            fps: Frames per second of the generated video.
+            motion_bucket_id: The motion bucket id to use for the generated video. This can be used to control the motion of the generated video. Increasing the motion bucket id increases the motion of the generated video.
+            noise: The amount of noise added to the conditioning image. The higher the values the less the video resembles the conditioning image. Increasing this value also increases the motion of the generated video.
+
+        https://substrate.run/nodes#StableVideoDiffusion
+        """
+        super().__init__(
+            image_uri=image_uri,
+            store=store,
+            output_format=output_format,
+            seed=seed,
+            fps=fps,
+            motion_bucket_id=motion_bucket_id,
+            noise=noise,
+            hide=hide,
+            out_type=StableVideoDiffusionOut,
+            **kwargs,
+        )
+        self.node = "StableVideoDiffusion"
+
+    @property
+    def future(self) -> FutureStableVideoDiffusionOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        https://substrate.run/nodes#StableVideoDiffusion
         """
         return super().future  # type: ignore
 

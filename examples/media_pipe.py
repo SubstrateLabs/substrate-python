@@ -1,7 +1,7 @@
 import os
 import json
 
-from substrate import Substrate, GenerateImage, sb, Firellava13B
+from substrate import Substrate, Firellava13B, GenerateImage, sb
 
 api_key = os.environ.get("SUBSTRATE_API_KEY")
 substrate = Substrate(api_key=api_key, timeout=60 * 5)

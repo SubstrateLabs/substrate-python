@@ -75,6 +75,7 @@ class JinjaDirective(BaseDirective):
             "variables": replaced,
         }
 
+
 @dataclass
 class FString:
     future_id: Optional[str]
@@ -96,7 +97,6 @@ class FormatDirective(BaseDirective):
             "f_string": asdict(self.f_string),
             "variables": replaced,
         }
-
 
 
 TraceType = Literal["attr", "item"]

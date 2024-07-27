@@ -1160,7 +1160,7 @@ class FutureStableDiffusionXLControlNetIn:
     (Future reference)
     Text prompt.
     """
-    num_images: int = 1
+    num_images: int
     """
     (Future reference)
     Number of images to generate.
@@ -1207,6 +1207,62 @@ class FutureStableDiffusionXLControlNetOut:
     """
     (Future reference)
     Generated images.
+    """
+
+
+@dataclass
+class FutureStableVideoDiffusionIn:
+    """
+    Future reference to FutureStableVideoDiffusionIn
+    """
+
+    image_uri: str
+    """
+    (Future reference)
+    Original image.
+    """
+    store: Optional[str] = None
+    """
+    (Future reference)
+    Use "hosted" to return a video URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/reference/external-files). If unset, the video data will be returned as a base64-encoded string.
+    """
+    output_format: Literal["gif", "mp4"] = "gif"
+    """
+    (Future reference)
+    Output video format.
+    """
+    seed: Optional[int] = None
+    """
+    (Future reference)
+    Seed for deterministic generation. Default is a random seed.
+    """
+    fps: int = 7
+    """
+    (Future reference)
+    Frames per second of the generated video.
+    """
+    motion_bucket_id: int = 180
+    """
+    (Future reference)
+    The motion bucket id to use for the generated video. This can be used to control the motion of the generated video. Increasing the motion bucket id increases the motion of the generated video.
+    """
+    noise: float = 0.1
+    """
+    (Future reference)
+    The amount of noise added to the conditioning image. The higher the values the less the video resembles the conditioning image. Increasing this value also increases the motion of the generated video.
+    """
+
+
+@dataclass
+class FutureStableVideoDiffusionOut:
+    """
+    Future reference to FutureStableVideoDiffusionOut
+    """
+
+    video_uri: str
+    """
+    (Future reference)
+    Generated video.
     """
 
 

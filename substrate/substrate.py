@@ -1,8 +1,7 @@
 import json
-from typing import Optional, Any, Dict
-
 import zlib
 import base64
+from typing import Any, Dict, Optional
 
 from substrate.streaming import SubstrateStreamingResponse
 

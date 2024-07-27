@@ -1,7 +1,7 @@
 import os
-
 import sys
 import json
+
 from substrate import Substrate, TranscribeSpeech
 
 current_dir = os.path.dirname(os.path.abspath(__file__))

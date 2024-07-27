@@ -1,9 +1,10 @@
 import os
 import sys
 import json
-from substrate import ComputeJSON, sb, Substrate, TranscribeSpeech
-from util import current_dir, list_chapters, proposed_schema, timestamped_schema, timestamp_prompt
 
+from util import current_dir, list_chapters, proposed_schema, timestamp_prompt, timestamped_schema
+
+from substrate import Substrate, ComputeJSON, TranscribeSpeech, sb
 
 api_key = os.environ.get("SUBSTRATE_API_KEY")
 substrate = Substrate(api_key=api_key)

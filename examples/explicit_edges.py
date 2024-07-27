@@ -1,6 +1,5 @@
 import os
 import sys
-import json
 from pathlib import Path
 
 # add parent dir to sys.path to make 'substrate' importable
@@ -15,9 +14,12 @@ from substrate import RunPython, Substrate
 
 substrate = Substrate(api_key=api_key, timeout=60 * 5)
 
+
 def print_time():
     import time
+
     return time.time()
+
 
 a = RunPython(function=print_time)
 a.id = "a"

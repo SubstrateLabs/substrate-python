@@ -6,15 +6,14 @@ if api_key is None:
     raise EnvironmentError("No SUBSTRATE_API_KEY set")
 
 from substrate import (
+    Box,
     Substrate,
+    EraseImage,
+    ComputeText,
+    InpaintImage,
     GenerateImage,
     RemoveBackground,
-    EraseImage,
-    InpaintImage,
-    ComputeJSON,
     sb,
-    ComputeText,
-    Box,
 )
 
 substrate = Substrate(api_key=api_key, timeout=60 * 5)
@@ -33,11 +32,11 @@ removals = [RemoveBackground(image_uri=image.future.image_uri) for image in imag
 masks = [RemoveBackground(image_uri=image.future.image_uri, return_mask=True) for image in images]
 bg_images = [
     EraseImage(image_uri=image.future.image_uri, mask_image_uri=mask.future.image_uri)
-    for image, mask in zip(images, masks)
+    for image, mask in zip(images, masks, strict=False)
 ]
 inpainted_images = [
     InpaintImage(image_uri=bg_image.future.image_uri, prompt=bg_prompt_for(artist.future.text), store="hosted")
-    for bg_image, artist in zip(bg_images, artists)
+    for bg_image, artist in zip(bg_images, artists, strict=False)
 ]
 final = Box(value=[inpainted_image.future.image_uri for inpainted_image in inpainted_images])
 result = substrate.run(final)
