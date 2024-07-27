@@ -1,7 +1,7 @@
 """
 CORE ꩜ SUBSTRATE
 """
-from typing import Any, Dict, Union
+from typing import Any, Union
 
 from .client.future import Future
 from .future_directive import (
@@ -72,27 +72,27 @@ class sb:
         return result  # type: ignore
 
     @classmethod
-    def jinja(cls, template_str: Union[Future, str], variables: Dict[str, Any]) -> str:
+    def jinja(cls, template_str: Union[Future, str], **kwargs: Any) -> str:
         future_id = template_str.id if isinstance(template_str, Future) else None
         val = template_str if not isinstance(template_str, Future) else None
-        directive = JinjaDirective(template=JinjaTemplate(future_id=future_id, val=val), variables=variables)
+        directive = JinjaDirective(template=JinjaTemplate(future_id=future_id, val=val), variables=kwargs)
         result = Future(directive=directive)
         if isinstance(template_str, Future):
             result.FutureG.add_edge(template_str, result)
-        for dep in find_futures_client(variables):
+        for dep in find_futures_client(kwargs):
             result.FutureG.add_edge(dep, result)
         return result  # type: ignore
 
     @classmethod
-    def format(cls, f_string: Union[Future, str], variables: Dict[str, Any]) -> str:
+    def format(cls, f_string: Union[Future, str], **kwargs: Any) -> str:
         future_id, val = (f_string.id, None) if isinstance(f_string, Future) else (None, f_string)
         directive = FormatDirective(
             f_string=FString(future_id=future_id, val=val),
-            variables=variables,
+            variables=kwargs,
         )
         result = Future(directive=directive)
         if isinstance(f_string, Future):
             result.FutureG.add_edge(f_string, result)
-        for dep in find_futures_client(variables):
+        for dep in find_futures_client(kwargs):
             result.FutureG.add_edge(dep, result)
         return result  # type: ignore

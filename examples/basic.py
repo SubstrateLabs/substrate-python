@@ -15,7 +15,7 @@ from substrate import Substrate, ComputeText, sb
 substrate = Substrate(api_key=api_key, timeout=60 * 5)
 
 story = ComputeText(prompt="tell me a story")
-summary = ComputeText(prompt=sb.concat("Summarize this story: ", story.future.text))
+summary = ComputeText(prompt=sb.format(f"Summarize this story: {story}", story=story.future.text))
 
 response = substrate.run(story, summary)
 print(response)
