@@ -1,6 +1,7 @@
 import json
 import zlib
 import base64
+import dataclasses
 from typing import Any, Dict, Optional
 
 from substrate.streaming import SubstrateStreamingResponse
@@ -9,6 +10,12 @@ from ._client import APIClient
 from .core.corenode import CoreNode
 from .core.client.graph import Graph
 from .substrate_response import SubstrateResponse
+
+
+@dataclasses.dataclass
+class Secrets:
+    openai: Optional[str] = None
+    anthropic: Optional[str] = None
 
 
 class Substrate:
@@ -21,6 +28,7 @@ class Substrate:
         api_key: str,
         base_url: str = "https://api.substrate.run",
         timeout: float = 60 * 5.0,
+        secrets: Optional[Secrets] = None,
         additional_headers: Optional[Dict[str, Any]] = None,
     ):
         """
@@ -29,6 +37,11 @@ class Substrate:
         if additional_headers is None:
             additional_headers = {}
         self.api_key = api_key
+        if secrets is not None:
+            if secrets.openai is not None:
+                additional_headers["x-substrate-openai-api-key"] = secrets.openai
+            if secrets.anthropic is not None:
+                additional_headers["x-substrate-anthropic-api-key"] = secrets.anthropic
         self._client = APIClient(
             api_key=api_key,
             base_url=base_url,
