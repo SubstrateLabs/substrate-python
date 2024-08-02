@@ -1,7 +1,7 @@
 """
 𐃏 Substrate Python SDK
 
-20240617.20240727
+20240617.20240802
 """
 
 from .nodes import (
@@ -51,11 +51,12 @@ from .nodes import (
 )
 from .core.sb import sb
 from ._version import __version__
-from .substrate import Substrate, SubstrateResponse
+from .substrate import Secrets, Substrate, SubstrateResponse
 from .run_python import RunPython
 
 __all__ = [
     "__version__",
+    "Secrets",
     "SubstrateResponse",
     "sb",
     "Substrate",

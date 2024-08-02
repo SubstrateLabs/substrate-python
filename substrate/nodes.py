@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import warnings
 
+from .substrate import SubstrateResponse
 from .core.corenode import CoreNode
 
 # filter pydantic v2 deprecation warnings
@@ -17,6 +18,7 @@ with warnings.catch_warnings():
         CLIPOut,
         JinaV2Out,
         EmbedTextOut,
+        RunPythonOut,
         EmbedImageOut,
         EraseImageOut,
         ComputeJSONOut,
@@ -57,6 +59,7 @@ with warnings.catch_warnings():
         StableDiffusionXLControlNetOut,
     )
 from typing import Any, Dict, List, Optional
+from dataclasses import dataclass
 from typing_extensions import Literal
 
 from .future_dataclass_models import (
@@ -65,6 +68,7 @@ from .future_dataclass_models import (
     FutureCLIPOut,
     FutureJinaV2Out,
     FutureEmbedTextOut,
+    FutureRunPythonOut,
     FutureEmbedImageOut,
     FutureEraseImageOut,
     FutureComputeJSONOut,
