@@ -15,15 +15,9 @@ from substrate import (
 
 substrate = Substrate(api_key=api_key, timeout=60 * 5)
 prompt = "by edward hopper, a red leather wing chair in an open room, pillars, amazing painting composition"
-image = GenerateImage(prompt=prompt)
-mask = RemoveBackground(
-    image_uri=image.future.image_uri,
-    return_mask=True,
-)
-bg = EraseImage(
-    image_uri=image.future.image_uri,
-    mask_image_uri=mask.future.image_uri,
-)
+image = GenerateImage(prompt=prompt, store="hosted")
+mask = RemoveBackground(image_uri=image.future.image_uri, return_mask=True, store="hosted")
+bg = EraseImage(image_uri=image.future.image_uri, mask_image_uri=mask.future.image_uri, store="hosted")
 bg_prompt = "by edward hopper, an empty room with pillars, amazing painting composition"
 inpaint = InpaintImage(image_uri=bg.future.image_uri, prompt=bg_prompt, store="hosted")
 result = substrate.run(inpaint)
