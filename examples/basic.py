@@ -10,9 +10,12 @@ api_key = os.environ.get("SUBSTRATE_API_KEY")
 if api_key is None:
     raise EnvironmentError("No SUBSTRATE_API_KEY set")
 
-from substrate import Substrate, ComputeText, sb
+from substrate import Secrets, Substrate, ComputeText, sb
 
-substrate = Substrate(api_key=api_key, timeout=60 * 5)
+substrate = Substrate(
+    api_key=api_key,
+    secrets=Secrets(openai="YOUR_OPENAI_KEY", anthropic="YOUR_ANTHROPIC_KEY"),
+)
 
 story = ComputeText(prompt="tell me a story")
 summary = ComputeText(prompt=sb.format(f"Summarize this story: {story}", story=story.future.text))
