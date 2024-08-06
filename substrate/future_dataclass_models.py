@@ -1264,7 +1264,7 @@ class FutureStableVideoDiffusionOut:
     (Future reference)
     Generated video.
     """
-    frames: Optional[List[str]] = None
+    frames_uris: Optional[List[str]] = None
     """
     (Future reference)
     Generated frames.
@@ -1272,9 +1272,9 @@ class FutureStableVideoDiffusionOut:
 
 
 @dataclass
-class FutureInterpolateFrameIn:
+class FutureInterpolateFramesIn:
     """
-    Future reference to FutureInterpolateFrameIn
+    Future reference to FutureInterpolateFramesIn
     """
 
     frame_uris: List[str]
@@ -1305,9 +1305,9 @@ class FutureInterpolateFrameIn:
 
 
 @dataclass
-class FutureInterpolateFrameOut:
+class FutureInterpolateFramesOut:
     """
-    Future reference to FutureInterpolateFrameOut
+    Future reference to FutureInterpolateFramesOut
     """
 
     video_uri: Optional[str] = None
@@ -1315,7 +1315,7 @@ class FutureInterpolateFrameOut:
     (Future reference)
     Generated video.
     """
-    frames: Optional[List[str]] = None
+    frame_uris: Optional[List[str]] = None
     """
     (Future reference)
     Output frames.

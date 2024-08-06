@@ -975,7 +975,7 @@ class StableVideoDiffusionIn(BaseModel):
     """
     Seed for deterministic generation. Default is a random seed.
     """
-    fps: int = 7
+    fps: Annotated[int, Field(ge=1)] = 7
     """
     Frames per second of the generated video.
     """
@@ -997,13 +997,13 @@ class StableVideoDiffusionOut(BaseModel):
     """
     Generated video.
     """
-    frames: Optional[List[str]] = None
+    frames_uris: Optional[List[str]] = None
     """
     Generated frames.
     """
 
 
-class InterpolateFrameIn(BaseModel):
+class InterpolateFramesIn(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -1019,7 +1019,7 @@ class InterpolateFrameIn(BaseModel):
     """
     Output video format.
     """
-    fps: int = 7
+    fps: Annotated[int, Field(ge=1)] = 7
     """
     Frames per second of the generated video.
     """
@@ -1029,7 +1029,7 @@ class InterpolateFrameIn(BaseModel):
     """
 
 
-class InterpolateFrameOut(BaseModel):
+class InterpolateFramesOut(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -1037,7 +1037,7 @@ class InterpolateFrameOut(BaseModel):
     """
     Generated video.
     """
-    frames: Optional[List[str]] = None
+    frame_uris: Optional[List[str]] = None
     """
     Output frames.
     """

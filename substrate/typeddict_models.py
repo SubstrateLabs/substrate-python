@@ -849,13 +849,13 @@ class StableVideoDiffusionOut(TypedDict):
     """
     Generated video.
     """
-    frames: NotRequired[List[str]]
+    frames_uris: NotRequired[List[str]]
     """
     Generated frames.
     """
 
 
-class InterpolateFrameIn(TypedDict):
+class InterpolateFramesIn(TypedDict):
     frame_uris: NotRequired[List[str]]
     """
     Frames.
@@ -878,12 +878,12 @@ class InterpolateFrameIn(TypedDict):
     """
 
 
-class InterpolateFrameOut(TypedDict):
+class InterpolateFramesOut(TypedDict):
     video_uri: NotRequired[str]
     """
     Generated video.
     """
-    frames: NotRequired[List[str]]
+    frame_uris: NotRequired[List[str]]
     """
     Output frames.
     """
