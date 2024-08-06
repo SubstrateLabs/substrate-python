@@ -1264,7 +1264,7 @@ class FutureStableVideoDiffusionOut:
     (Future reference)
     Generated video.
     """
-    frames_uris: Optional[List[str]] = None
+    frame_uris: Optional[List[str]] = None
     """
     (Future reference)
     Generated frames.

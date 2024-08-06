@@ -997,7 +997,7 @@ class StableVideoDiffusionOut(BaseModel):
     """
     Generated video.
     """
-    frames_uris: Optional[List[str]] = None
+    frame_uris: Optional[List[str]] = None
     """
     Generated frames.
     """

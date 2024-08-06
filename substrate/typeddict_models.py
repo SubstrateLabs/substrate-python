@@ -849,7 +849,7 @@ class StableVideoDiffusionOut(TypedDict):
     """
     Generated video.
     """
-    frames_uris: NotRequired[List[str]]
+    frame_uris: NotRequired[List[str]]
     """
     Generated frames.
     """
