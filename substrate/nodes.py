@@ -50,6 +50,7 @@ with warnings.catch_warnings():
         Mistral7BInstructOut,
         MultiInpaintImageOut,
         SegmentUnderPointOut,
+        FrameInterpolationOut,
         MultiGenerateImageOut,
         Mixtral8x7BInstructOut,
         StableVideoDiffusionOut,
@@ -100,6 +101,7 @@ from .future_dataclass_models import (
     FutureMistral7BInstructOut,
     FutureMultiInpaintImageOut,
     FutureSegmentUnderPointOut,
+    FutureFrameInterpolationOut,
     FutureMultiGenerateImageOut,
     FutureMixtral8x7BInstructOut,
     FutureStableVideoDiffusionOut,
@@ -953,7 +955,7 @@ class StableVideoDiffusion(CoreNode[StableVideoDiffusionOut]):
         self,
         image_uri: str,
         store: Optional[str] = None,
-        output_format: Literal["gif", "mp4"] = "gif",
+        output_format: Literal["gif", "webp", "mp4", "frames"] = "gif",
         seed: Optional[int] = None,
         fps: int = 7,
         motion_bucket_id: int = 180,
@@ -993,6 +995,51 @@ class StableVideoDiffusion(CoreNode[StableVideoDiffusionOut]):
         Future reference to this node's output.
 
         https://substrate.run/nodes#StableVideoDiffusion
+        """
+        return super().future  # type: ignore
+
+
+class FrameInterpolation(CoreNode[FrameInterpolationOut]):
+    """https://substrate.run/nodes#FrameInterpolation"""
+
+    def __init__(
+        self,
+        frame_uris: List[str],
+        store: Optional[str] = None,
+        output_format: Literal["gif", "webp", "mp4", "frames"] = "gif",
+        fps: int = 7,
+        num_rounds: int = 2,
+        hide: bool = False,
+        **kwargs,
+    ):
+        """
+        Args:
+            frame_uris: Frames.
+            store: Use "hosted" to return a video URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/reference/external-files). If unset, the video data will be returned as a base64-encoded string.
+            output_format: Output video format.
+            fps: Frames per second of the generated video.
+            num_rounds: Number of rounds of interpolation. Each round interpolates between all adjacent frames. This also includes the interpolated frames from the previous round.
+
+        https://substrate.run/nodes#FrameInterpolation
+        """
+        super().__init__(
+            frame_uris=frame_uris,
+            store=store,
+            output_format=output_format,
+            fps=fps,
+            num_rounds=num_rounds,
+            hide=hide,
+            out_type=FrameInterpolationOut,
+            **kwargs,
+        )
+        self.node = "FrameInterpolation"
+
+    @property
+    def future(self) -> FutureFrameInterpolationOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        https://substrate.run/nodes#FrameInterpolation
         """
         return super().future  # type: ignore
 

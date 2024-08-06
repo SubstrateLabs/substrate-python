@@ -1226,7 +1226,7 @@ class FutureStableVideoDiffusionIn:
     (Future reference)
     Use "hosted" to return a video URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/reference/external-files). If unset, the video data will be returned as a base64-encoded string.
     """
-    output_format: Literal["gif", "mp4"] = "gif"
+    output_format: Literal["gif", "webp", "mp4", "frames"] = "gif"
     """
     (Future reference)
     Output video format.
@@ -1259,10 +1259,66 @@ class FutureStableVideoDiffusionOut:
     Future reference to FutureStableVideoDiffusionOut
     """
 
-    video_uri: str
+    video_uri: Optional[str] = None
     """
     (Future reference)
     Generated video.
+    """
+    frames: Optional[List[str]] = None
+    """
+    (Future reference)
+    Generated frames.
+    """
+
+
+@dataclass
+class FutureFrameInterpolationIn:
+    """
+    Future reference to FutureFrameInterpolationIn
+    """
+
+    frame_uris: List[str]
+    """
+    (Future reference)
+    Frames.
+    """
+    store: Optional[str] = None
+    """
+    (Future reference)
+    Use "hosted" to return a video URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/reference/external-files). If unset, the video data will be returned as a base64-encoded string.
+    """
+    output_format: Literal["gif", "webp", "mp4", "frames"] = "gif"
+    """
+    (Future reference)
+    Output video format.
+    """
+    fps: int = 7
+    """
+    (Future reference)
+    Frames per second of the generated video.
+    """
+    num_rounds: int = 2
+    """
+    (Future reference)
+    Number of rounds of interpolation. Each round interpolates between all adjacent frames. This also includes the interpolated frames from the previous round.
+    """
+
+
+@dataclass
+class FutureFrameInterpolationOut:
+    """
+    Future reference to FutureFrameInterpolationOut
+    """
+
+    video_uri: Optional[str] = None
+    """
+    (Future reference)
+    Generated video.
+    """
+    frames: Optional[List[str]] = None
+    """
+    (Future reference)
+    Output frames.
     """
 
 

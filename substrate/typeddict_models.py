@@ -822,7 +822,7 @@ class StableVideoDiffusionIn(TypedDict):
     """
     Use "hosted" to return a video URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/reference/external-files). If unset, the video data will be returned as a base64-encoded string.
     """
-    output_format: NotRequired[Literal["gif", "mp4"]]
+    output_format: NotRequired[Literal["gif", "webp", "mp4", "frames"]]
     """
     Output video format.
     """
@@ -848,6 +848,44 @@ class StableVideoDiffusionOut(TypedDict):
     video_uri: NotRequired[str]
     """
     Generated video.
+    """
+    frames: NotRequired[List[str]]
+    """
+    Generated frames.
+    """
+
+
+class FrameInterpolationIn(TypedDict):
+    frame_uris: NotRequired[List[str]]
+    """
+    Frames.
+    """
+    store: NotRequired[str]
+    """
+    Use "hosted" to return a video URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/reference/external-files). If unset, the video data will be returned as a base64-encoded string.
+    """
+    output_format: NotRequired[Literal["gif", "webp", "mp4", "frames"]]
+    """
+    Output video format.
+    """
+    fps: NotRequired[int]
+    """
+    Frames per second of the generated video.
+    """
+    num_rounds: NotRequired[int]
+    """
+    Number of rounds of interpolation. Each round interpolates between all adjacent frames. This also includes the interpolated frames from the previous round.
+    """
+
+
+class FrameInterpolationOut(TypedDict):
+    video_uri: NotRequired[str]
+    """
+    Generated video.
+    """
+    frames: NotRequired[List[str]]
+    """
+    Output frames.
     """
 
 

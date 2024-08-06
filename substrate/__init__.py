@@ -1,7 +1,7 @@
 """
 𐃏 Substrate Python SDK
 
-20240617.20240802
+20240617.20240806
 """
 
 from .nodes import (
@@ -41,6 +41,7 @@ from .nodes import (
     Mistral7BInstruct,
     MultiInpaintImage,
     SegmentUnderPoint,
+    FrameInterpolation,
     MultiGenerateImage,
     Mixtral8x7BInstruct,
     StableVideoDiffusion,
@@ -83,6 +84,7 @@ __all__ = [
     "StableDiffusionXLInpaint",
     "StableDiffusionXLControlNet",
     "StableVideoDiffusion",
+    "FrameInterpolation",
     "TranscribeSpeech",
     "GenerateSpeech",
     "RemoveBackground",
