@@ -977,7 +977,7 @@ class StableVideoDiffusionIn(BaseModel):
     """
     fps: Annotated[int, Field(ge=1)] = 7
     """
-    Frames per second of the generated video.
+    Frames per second of the generated video. Ignored if output format is `frames`.
     """
     motion_bucket_id: int = 180
     """
@@ -1021,11 +1021,11 @@ class InterpolateFramesIn(BaseModel):
     """
     fps: Annotated[int, Field(ge=1)] = 7
     """
-    Frames per second of the generated video.
+    Frames per second of the generated video. Ignored if output format is `frames`.
     """
-    num_rounds: Annotated[int, Field(ge=1)] = 2
+    num_steps: Annotated[int, Field(ge=1)] = 2
     """
-    Number of rounds of interpolation. Each round interpolates between all adjacent frames. This also includes the interpolated frames from the previous round.
+    Number of interpolation steps. Each step adds an interpolated frame between adjacent frames. For example, 2 steps over 2 frames produces 5 frames.
     """
 
 

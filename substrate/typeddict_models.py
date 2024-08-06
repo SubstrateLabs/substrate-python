@@ -832,7 +832,7 @@ class StableVideoDiffusionIn(TypedDict):
     """
     fps: NotRequired[int]
     """
-    Frames per second of the generated video.
+    Frames per second of the generated video. Ignored if output format is `frames`.
     """
     motion_bucket_id: NotRequired[int]
     """
@@ -870,11 +870,11 @@ class InterpolateFramesIn(TypedDict):
     """
     fps: NotRequired[int]
     """
-    Frames per second of the generated video.
+    Frames per second of the generated video. Ignored if output format is `frames`.
     """
-    num_rounds: NotRequired[int]
+    num_steps: NotRequired[int]
     """
-    Number of rounds of interpolation. Each round interpolates between all adjacent frames. This also includes the interpolated frames from the previous round.
+    Number of interpolation steps. Each step adds an interpolated frame between adjacent frames. For example, 2 steps over 2 frames produces 5 frames.
     """
 
 

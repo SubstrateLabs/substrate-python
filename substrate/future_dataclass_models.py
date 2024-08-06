@@ -1239,7 +1239,7 @@ class FutureStableVideoDiffusionIn:
     fps: int = 7
     """
     (Future reference)
-    Frames per second of the generated video.
+    Frames per second of the generated video. Ignored if output format is `frames`.
     """
     motion_bucket_id: int = 180
     """
@@ -1295,12 +1295,12 @@ class FutureInterpolateFramesIn:
     fps: int = 7
     """
     (Future reference)
-    Frames per second of the generated video.
+    Frames per second of the generated video. Ignored if output format is `frames`.
     """
-    num_rounds: int = 2
+    num_steps: int = 2
     """
     (Future reference)
-    Number of rounds of interpolation. Each round interpolates between all adjacent frames. This also includes the interpolated frames from the previous round.
+    Number of interpolation steps. Each step adds an interpolated frame between adjacent frames. For example, 2 steps over 2 frames produces 5 frames.
     """
 
 

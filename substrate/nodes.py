@@ -969,7 +969,7 @@ class StableVideoDiffusion(CoreNode[StableVideoDiffusionOut]):
             store: Use "hosted" to return a video URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/reference/external-files). If unset, the video data will be returned as a base64-encoded string.
             output_format: Output video format.
             seed: Seed for deterministic generation. Default is a random seed.
-            fps: Frames per second of the generated video.
+            fps: Frames per second of the generated video. Ignored if output format is `frames`.
             motion_bucket_id: The motion bucket id to use for the generated video. This can be used to control the motion of the generated video. Increasing the motion bucket id increases the motion of the generated video.
             noise: The amount of noise added to the conditioning image. The higher the values the less the video resembles the conditioning image. Increasing this value also increases the motion of the generated video.
 
@@ -1008,7 +1008,7 @@ class InterpolateFrames(CoreNode[InterpolateFramesOut]):
         store: Optional[str] = None,
         output_format: Literal["gif", "webp", "mp4", "frames"] = "gif",
         fps: int = 7,
-        num_rounds: int = 2,
+        num_steps: int = 2,
         hide: bool = False,
         **kwargs,
     ):
@@ -1017,8 +1017,8 @@ class InterpolateFrames(CoreNode[InterpolateFramesOut]):
             frame_uris: Frames.
             store: Use "hosted" to return a video URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/reference/external-files). If unset, the video data will be returned as a base64-encoded string.
             output_format: Output video format.
-            fps: Frames per second of the generated video.
-            num_rounds: Number of rounds of interpolation. Each round interpolates between all adjacent frames. This also includes the interpolated frames from the previous round.
+            fps: Frames per second of the generated video. Ignored if output format is `frames`.
+            num_steps: Number of interpolation steps. Each step adds an interpolated frame between adjacent frames. For example, 2 steps over 2 frames produces 5 frames.
 
         https://substrate.run/nodes#InterpolateFrames
         """
@@ -1027,7 +1027,7 @@ class InterpolateFrames(CoreNode[InterpolateFramesOut]):
             store=store,
             output_format=output_format,
             fps=fps,
-            num_rounds=num_rounds,
+            num_steps=num_steps,
             hide=hide,
             out_type=InterpolateFramesOut,
             **kwargs,
