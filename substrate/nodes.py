@@ -38,6 +38,7 @@ with warnings.catch_warnings():
         SegmentAnythingOut,
         BatchComputeJSONOut,
         BatchComputeTextOut,
+        InterpolateFrameOut,
         ListVectorStoresOut,
         Llama3Instruct8BOut,
         MultiComputeJSONOut,
@@ -50,7 +51,6 @@ with warnings.catch_warnings():
         Mistral7BInstructOut,
         MultiInpaintImageOut,
         SegmentUnderPointOut,
-        FrameInterpolationOut,
         MultiGenerateImageOut,
         Mixtral8x7BInstructOut,
         StableVideoDiffusionOut,
@@ -89,6 +89,7 @@ from .future_dataclass_models import (
     FutureSegmentAnythingOut,
     FutureBatchComputeJSONOut,
     FutureBatchComputeTextOut,
+    FutureInterpolateFrameOut,
     FutureListVectorStoresOut,
     FutureLlama3Instruct8BOut,
     FutureMultiComputeJSONOut,
@@ -101,7 +102,6 @@ from .future_dataclass_models import (
     FutureMistral7BInstructOut,
     FutureMultiInpaintImageOut,
     FutureSegmentUnderPointOut,
-    FutureFrameInterpolationOut,
     FutureMultiGenerateImageOut,
     FutureMixtral8x7BInstructOut,
     FutureStableVideoDiffusionOut,
@@ -999,8 +999,8 @@ class StableVideoDiffusion(CoreNode[StableVideoDiffusionOut]):
         return super().future  # type: ignore
 
 
-class FrameInterpolation(CoreNode[FrameInterpolationOut]):
-    """https://substrate.run/nodes#FrameInterpolation"""
+class InterpolateFrame(CoreNode[InterpolateFrameOut]):
+    """https://substrate.run/nodes#InterpolateFrame"""
 
     def __init__(
         self,
@@ -1020,7 +1020,7 @@ class FrameInterpolation(CoreNode[FrameInterpolationOut]):
             fps: Frames per second of the generated video.
             num_rounds: Number of rounds of interpolation. Each round interpolates between all adjacent frames. This also includes the interpolated frames from the previous round.
 
-        https://substrate.run/nodes#FrameInterpolation
+        https://substrate.run/nodes#InterpolateFrame
         """
         super().__init__(
             frame_uris=frame_uris,
@@ -1029,17 +1029,17 @@ class FrameInterpolation(CoreNode[FrameInterpolationOut]):
             fps=fps,
             num_rounds=num_rounds,
             hide=hide,
-            out_type=FrameInterpolationOut,
+            out_type=InterpolateFrameOut,
             **kwargs,
         )
-        self.node = "FrameInterpolation"
+        self.node = "InterpolateFrame"
 
     @property
-    def future(self) -> FutureFrameInterpolationOut:  # type: ignore
+    def future(self) -> FutureInterpolateFrameOut:  # type: ignore
         """
         Future reference to this node's output.
 
-        https://substrate.run/nodes#FrameInterpolation
+        https://substrate.run/nodes#InterpolateFrame
         """
         return super().future  # type: ignore
 

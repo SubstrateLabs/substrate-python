@@ -1272,9 +1272,9 @@ class FutureStableVideoDiffusionOut:
 
 
 @dataclass
-class FutureFrameInterpolationIn:
+class FutureInterpolateFrameIn:
     """
-    Future reference to FutureFrameInterpolationIn
+    Future reference to FutureInterpolateFrameIn
     """
 
     frame_uris: List[str]
@@ -1305,9 +1305,9 @@ class FutureFrameInterpolationIn:
 
 
 @dataclass
-class FutureFrameInterpolationOut:
+class FutureInterpolateFrameOut:
     """
-    Future reference to FutureFrameInterpolationOut
+    Future reference to FutureInterpolateFrameOut
     """
 
     video_uri: Optional[str] = None

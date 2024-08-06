@@ -1003,7 +1003,7 @@ class StableVideoDiffusionOut(BaseModel):
     """
 
 
-class FrameInterpolationIn(BaseModel):
+class InterpolateFrameIn(BaseModel):
     class Config:
         extra = Extra.allow
 
@@ -1029,7 +1029,7 @@ class FrameInterpolationIn(BaseModel):
     """
 
 
-class FrameInterpolationOut(BaseModel):
+class InterpolateFrameOut(BaseModel):
     class Config:
         extra = Extra.allow
 

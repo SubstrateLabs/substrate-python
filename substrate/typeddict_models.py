@@ -855,7 +855,7 @@ class StableVideoDiffusionOut(TypedDict):
     """
 
 
-class FrameInterpolationIn(TypedDict):
+class InterpolateFrameIn(TypedDict):
     frame_uris: NotRequired[List[str]]
     """
     Frames.
@@ -878,7 +878,7 @@ class FrameInterpolationIn(TypedDict):
     """
 
 
-class FrameInterpolationOut(TypedDict):
+class InterpolateFrameOut(TypedDict):
     video_uri: NotRequired[str]
     """
     Generated video.
