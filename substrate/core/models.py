@@ -967,7 +967,7 @@ class StableVideoDiffusionIn(BaseModel):
     """
     Use "hosted" to return a video URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/reference/external-files). If unset, the video data will be returned as a base64-encoded string.
     """
-    output_format: Literal["gif", "mp4"] = "gif"
+    output_format: Literal["gif", "webp", "mp4", "frames"] = "gif"
     """
     Output video format.
     """
@@ -975,9 +975,9 @@ class StableVideoDiffusionIn(BaseModel):
     """
     Seed for deterministic generation. Default is a random seed.
     """
-    fps: int = 7
+    fps: Annotated[int, Field(ge=1)] = 7
     """
-    Frames per second of the generated video.
+    Frames per second of the generated video. Ignored if output format is `frames`.
     """
     motion_bucket_id: int = 180
     """
@@ -993,9 +993,53 @@ class StableVideoDiffusionOut(BaseModel):
     class Config:
         extra = Extra.allow
 
-    video_uri: str
+    video_uri: Optional[str] = None
     """
     Generated video.
+    """
+    frame_uris: Optional[List[str]] = None
+    """
+    Generated frames.
+    """
+
+
+class InterpolateFramesIn(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    frame_uris: Annotated[List[str], Field(min_items=2)]
+    """
+    Frames.
+    """
+    store: Optional[str] = None
+    """
+    Use "hosted" to return a video URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/reference/external-files). If unset, the video data will be returned as a base64-encoded string.
+    """
+    output_format: Literal["gif", "webp", "mp4", "frames"] = "gif"
+    """
+    Output video format.
+    """
+    fps: Annotated[int, Field(ge=1)] = 7
+    """
+    Frames per second of the generated video. Ignored if output format is `frames`.
+    """
+    num_steps: Annotated[int, Field(ge=1)] = 2
+    """
+    Number of interpolation steps. Each step adds an interpolated frame between adjacent frames. For example, 2 steps over 2 frames produces 5 frames.
+    """
+
+
+class InterpolateFramesOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    video_uri: Optional[str] = None
+    """
+    Generated video.
+    """
+    frame_uris: Optional[List[str]] = None
+    """
+    Output frames.
     """
 
 

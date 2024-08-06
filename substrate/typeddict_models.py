@@ -822,7 +822,7 @@ class StableVideoDiffusionIn(TypedDict):
     """
     Use "hosted" to return a video URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/reference/external-files). If unset, the video data will be returned as a base64-encoded string.
     """
-    output_format: NotRequired[Literal["gif", "mp4"]]
+    output_format: NotRequired[Literal["gif", "webp", "mp4", "frames"]]
     """
     Output video format.
     """
@@ -832,7 +832,7 @@ class StableVideoDiffusionIn(TypedDict):
     """
     fps: NotRequired[int]
     """
-    Frames per second of the generated video.
+    Frames per second of the generated video. Ignored if output format is `frames`.
     """
     motion_bucket_id: NotRequired[int]
     """
@@ -848,6 +848,44 @@ class StableVideoDiffusionOut(TypedDict):
     video_uri: NotRequired[str]
     """
     Generated video.
+    """
+    frame_uris: NotRequired[List[str]]
+    """
+    Generated frames.
+    """
+
+
+class InterpolateFramesIn(TypedDict):
+    frame_uris: NotRequired[List[str]]
+    """
+    Frames.
+    """
+    store: NotRequired[str]
+    """
+    Use "hosted" to return a video URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/reference/external-files). If unset, the video data will be returned as a base64-encoded string.
+    """
+    output_format: NotRequired[Literal["gif", "webp", "mp4", "frames"]]
+    """
+    Output video format.
+    """
+    fps: NotRequired[int]
+    """
+    Frames per second of the generated video. Ignored if output format is `frames`.
+    """
+    num_steps: NotRequired[int]
+    """
+    Number of interpolation steps. Each step adds an interpolated frame between adjacent frames. For example, 2 steps over 2 frames produces 5 frames.
+    """
+
+
+class InterpolateFramesOut(TypedDict):
+    video_uri: NotRequired[str]
+    """
+    Generated video.
+    """
+    frame_uris: NotRequired[List[str]]
+    """
+    Output frames.
     """
 
 

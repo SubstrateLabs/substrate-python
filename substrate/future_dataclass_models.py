@@ -1226,7 +1226,7 @@ class FutureStableVideoDiffusionIn:
     (Future reference)
     Use "hosted" to return a video URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/reference/external-files). If unset, the video data will be returned as a base64-encoded string.
     """
-    output_format: Literal["gif", "mp4"] = "gif"
+    output_format: Literal["gif", "webp", "mp4", "frames"] = "gif"
     """
     (Future reference)
     Output video format.
@@ -1239,7 +1239,7 @@ class FutureStableVideoDiffusionIn:
     fps: int = 7
     """
     (Future reference)
-    Frames per second of the generated video.
+    Frames per second of the generated video. Ignored if output format is `frames`.
     """
     motion_bucket_id: int = 180
     """
@@ -1259,10 +1259,66 @@ class FutureStableVideoDiffusionOut:
     Future reference to FutureStableVideoDiffusionOut
     """
 
-    video_uri: str
+    video_uri: Optional[str] = None
     """
     (Future reference)
     Generated video.
+    """
+    frame_uris: Optional[List[str]] = None
+    """
+    (Future reference)
+    Generated frames.
+    """
+
+
+@dataclass
+class FutureInterpolateFramesIn:
+    """
+    Future reference to FutureInterpolateFramesIn
+    """
+
+    frame_uris: List[str]
+    """
+    (Future reference)
+    Frames.
+    """
+    store: Optional[str] = None
+    """
+    (Future reference)
+    Use "hosted" to return a video URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/reference/external-files). If unset, the video data will be returned as a base64-encoded string.
+    """
+    output_format: Literal["gif", "webp", "mp4", "frames"] = "gif"
+    """
+    (Future reference)
+    Output video format.
+    """
+    fps: int = 7
+    """
+    (Future reference)
+    Frames per second of the generated video. Ignored if output format is `frames`.
+    """
+    num_steps: int = 2
+    """
+    (Future reference)
+    Number of interpolation steps. Each step adds an interpolated frame between adjacent frames. For example, 2 steps over 2 frames produces 5 frames.
+    """
+
+
+@dataclass
+class FutureInterpolateFramesOut:
+    """
+    Future reference to FutureInterpolateFramesOut
+    """
+
+    video_uri: Optional[str] = None
+    """
+    (Future reference)
+    Generated video.
+    """
+    frame_uris: Optional[List[str]] = None
+    """
+    (Future reference)
+    Output frames.
     """
 
 

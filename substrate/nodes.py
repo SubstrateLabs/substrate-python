@@ -46,6 +46,7 @@ with warnings.catch_warnings():
         RemoveBackgroundOut,
         TranscribeSpeechOut,
         DeleteVectorStoreOut,
+        InterpolateFramesOut,
         Llama3Instruct70BOut,
         Mistral7BInstructOut,
         MultiInpaintImageOut,
@@ -96,6 +97,7 @@ from .future_dataclass_models import (
     FutureRemoveBackgroundOut,
     FutureTranscribeSpeechOut,
     FutureDeleteVectorStoreOut,
+    FutureInterpolateFramesOut,
     FutureLlama3Instruct70BOut,
     FutureMistral7BInstructOut,
     FutureMultiInpaintImageOut,
@@ -953,7 +955,7 @@ class StableVideoDiffusion(CoreNode[StableVideoDiffusionOut]):
         self,
         image_uri: str,
         store: Optional[str] = None,
-        output_format: Literal["gif", "mp4"] = "gif",
+        output_format: Literal["gif", "webp", "mp4", "frames"] = "gif",
         seed: Optional[int] = None,
         fps: int = 7,
         motion_bucket_id: int = 180,
@@ -967,7 +969,7 @@ class StableVideoDiffusion(CoreNode[StableVideoDiffusionOut]):
             store: Use "hosted" to return a video URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/reference/external-files). If unset, the video data will be returned as a base64-encoded string.
             output_format: Output video format.
             seed: Seed for deterministic generation. Default is a random seed.
-            fps: Frames per second of the generated video.
+            fps: Frames per second of the generated video. Ignored if output format is `frames`.
             motion_bucket_id: The motion bucket id to use for the generated video. This can be used to control the motion of the generated video. Increasing the motion bucket id increases the motion of the generated video.
             noise: The amount of noise added to the conditioning image. The higher the values the less the video resembles the conditioning image. Increasing this value also increases the motion of the generated video.
 
@@ -993,6 +995,51 @@ class StableVideoDiffusion(CoreNode[StableVideoDiffusionOut]):
         Future reference to this node's output.
 
         https://substrate.run/nodes#StableVideoDiffusion
+        """
+        return super().future  # type: ignore
+
+
+class InterpolateFrames(CoreNode[InterpolateFramesOut]):
+    """https://substrate.run/nodes#InterpolateFrames"""
+
+    def __init__(
+        self,
+        frame_uris: List[str],
+        store: Optional[str] = None,
+        output_format: Literal["gif", "webp", "mp4", "frames"] = "gif",
+        fps: int = 7,
+        num_steps: int = 2,
+        hide: bool = False,
+        **kwargs,
+    ):
+        """
+        Args:
+            frame_uris: Frames.
+            store: Use "hosted" to return a video URL hosted on Substrate. You can also provide a URL to a registered [file store](https://docs.substrate.run/reference/external-files). If unset, the video data will be returned as a base64-encoded string.
+            output_format: Output video format.
+            fps: Frames per second of the generated video. Ignored if output format is `frames`.
+            num_steps: Number of interpolation steps. Each step adds an interpolated frame between adjacent frames. For example, 2 steps over 2 frames produces 5 frames.
+
+        https://substrate.run/nodes#InterpolateFrames
+        """
+        super().__init__(
+            frame_uris=frame_uris,
+            store=store,
+            output_format=output_format,
+            fps=fps,
+            num_steps=num_steps,
+            hide=hide,
+            out_type=InterpolateFramesOut,
+            **kwargs,
+        )
+        self.node = "InterpolateFrames"
+
+    @property
+    def future(self) -> FutureInterpolateFramesOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        https://substrate.run/nodes#InterpolateFrames
         """
         return super().future  # type: ignore
 
