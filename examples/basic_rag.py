@@ -14,7 +14,7 @@ if api_key is None:
 
 from substrate import Substrate, QueryVectorStore, FindOrCreateVectorStore, sb
 
-substrate = Substrate(api_key=api_key, timeout=60 * 5, base_url="https://kube-dev.substrate.run/ray/stable")
+substrate = Substrate(api_key=api_key, timeout=60 * 5)
 
 prompt_text = input("Enter a prompt: ")
 

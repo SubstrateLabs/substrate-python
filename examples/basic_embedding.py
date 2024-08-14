@@ -22,7 +22,7 @@ if api_key is None:
 
 from substrate import Substrate, MultiEmbedText, DeleteVectorStore, FindOrCreateVectorStore
 
-substrate = Substrate(api_key=api_key, timeout=60 * 5, base_url="https://kube-dev.substrate.run/ray/stable")
+substrate = Substrate(api_key=api_key, timeout=60 * 5)
 
 old_collection = DeleteVectorStore(collection_name="substrate_api_v2", model="jina-v2")
 
