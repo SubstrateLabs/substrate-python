@@ -277,7 +277,13 @@ class ComputeJSON(CoreNode[ComputeJSONOut]):
         json_schema: Dict[str, Any],
         temperature: float = 0.4,
         max_tokens: Optional[int] = None,
-        model: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B",
+        model: Literal[
+            "Mistral7BInstruct",
+            "Mixtral8x7BInstruct",
+            "Llama3Instruct8B",
+            "Llama3Instruct70B",
+            "gpt-4o",
+        ] = "Llama3Instruct8B",
         hide: bool = False,
         **kwargs,
     ):
@@ -309,6 +315,61 @@ class ComputeJSON(CoreNode[ComputeJSONOut]):
         Future reference to this node's output.
 
         https://substrate.run/nodes#ComputeJSON
+        """
+        return super().future  # type: ignore
+
+
+class GenerateCode(CoreNode[GenerateCodeOut]):
+    """https://substrate.run/nodes#GenerateCode"""
+
+    def __init__(
+        self,
+        prompt: str,
+        language: Literal[
+            "python",
+            "java",
+            "c++",
+            "javascript",
+            "typescript",
+            "php",
+            "html",
+            "c#",
+            "sql",
+            "ruby",
+            "tex",
+            "shell",
+        ],
+        temperature: Optional[float] = None,
+        max_tokens: Optional[int] = None,
+        hide: bool = False,
+        **kwargs,
+    ):
+        """
+        Args:
+            prompt: Input prompt.
+            language: Language of the code.
+            temperature: Higher values make the output more random, lower values make the output more deterministic.
+            max_tokens: Maximum number of tokens to generate.
+
+        https://substrate.run/nodes#GenerateCode
+        """
+        super().__init__(
+            prompt=prompt,
+            language=language,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            hide=hide,
+            out_type=GenerateCodeOut,
+            **kwargs,
+        )
+        self.node = "GenerateCode"
+
+    @property
+    def future(self) -> FutureGenerateCodeOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        https://substrate.run/nodes#GenerateCode
         """
         return super().future  # type: ignore
 

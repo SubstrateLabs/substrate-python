@@ -216,7 +216,13 @@ class ComputeJSONIn(BaseModel):
     """
     Maximum number of tokens to generate.
     """
-    model: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
+    model: Literal[
+        "Mistral7BInstruct",
+        "Mixtral8x7BInstruct",
+        "Llama3Instruct8B",
+        "Llama3Instruct70B",
+        "gpt-4o",
+    ] = "Llama3Instruct8B"
     """
     Selected model.
     """
@@ -233,6 +239,51 @@ class ComputeJSONOut(BaseModel):
     text: Optional[str] = None
     """
     If the model output could not be parsed to JSON, this is the raw text output.
+    """
+
+
+class GenerateCodeIn(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    prompt: str
+    """
+    Input prompt.
+    """
+    language: Literal[
+        "python",
+        "java",
+        "c++",
+        "javascript",
+        "typescript",
+        "php",
+        "html",
+        "c#",
+        "sql",
+        "ruby",
+        "tex",
+        "shell",
+    ]
+    """
+    Language of the code.
+    """
+    temperature: Annotated[Optional[float], Field(ge=0.0, le=1.0)] = None
+    """
+    Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: Optional[int] = None
+    """
+    Maximum number of tokens to generate.
+    """
+
+
+class GenerateCodeOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    code: str
+    """
+    Code response.
     """
 
 
