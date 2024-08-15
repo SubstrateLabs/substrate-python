@@ -302,56 +302,6 @@ class FutureComputeJSONOut:
 
 
 @dataclass
-class FutureDeepseekIn:
-    """
-    Future reference to FutureDeepseekIn
-    """
-
-    prompt: str
-    """
-    (Future reference)
-    Input prompt.
-    """
-    language: Literal[
-        "c",
-        "c++",
-        "c#",
-        "css",
-        "go",
-        "html",
-        "java",
-        "javascript",
-        "json",
-        "python",
-        "r",
-        "ruby",
-        "shell",
-        "sql",
-        "tex",
-        "typescript",
-    ]
-    """
-    (Future reference)
-    Language of the code.
-    """
-    num_choices: int = 1
-    """
-    (Future reference)
-    Number of choices to generate.
-    """
-    temperature: Optional[float] = None
-    """
-    (Future reference)
-    Higher values make the output more random, lower values make the output more deterministic.
-    """
-    max_tokens: Optional[int] = None
-    """
-    (Future reference)
-    Maximum number of tokens to generate.
-    """
-
-
-@dataclass
 class GenerateCodeChoice:
     """
     Future reference to GenerateCodeChoice
@@ -2943,17 +2893,4 @@ class FutureSplitDocumentOut:
     """
     (Future reference)
     Document chunks
-    """
-
-
-@dataclass
-class FutureDeepseekOut:
-    """
-    Future reference to FutureDeepseekOut
-    """
-
-    choices: List[GenerateCodeChoice]
-    """
-    (Future reference)
-    Code response choices.
     """

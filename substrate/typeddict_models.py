@@ -205,48 +205,6 @@ class ComputeJSONOut(TypedDict):
     """
 
 
-class DeepseekIn(TypedDict):
-    prompt: NotRequired[str]
-    """
-    Input prompt.
-    """
-    language: NotRequired[
-        Literal[
-            "c",
-            "c++",
-            "c#",
-            "css",
-            "go",
-            "html",
-            "java",
-            "javascript",
-            "json",
-            "python",
-            "r",
-            "ruby",
-            "shell",
-            "sql",
-            "tex",
-            "typescript",
-        ]
-    ]
-    """
-    Language of the code.
-    """
-    num_choices: NotRequired[int]
-    """
-    Number of choices to generate.
-    """
-    temperature: NotRequired[float]
-    """
-    Higher values make the output more random, lower values make the output more deterministic.
-    """
-    max_tokens: NotRequired[int]
-    """
-    Maximum number of tokens to generate.
-    """
-
-
 class GenerateCodeChoice(TypedDict):
     code: NotRequired[str]
     """
@@ -1964,11 +1922,4 @@ class SplitDocumentOut(TypedDict):
     items: NotRequired[List[EmbedTextItem]]
     """
     Document chunks
-    """
-
-
-class DeepseekOut(TypedDict):
-    choices: NotRequired[List[GenerateCodeChoice]]
-    """
-    Code response choices.
     """

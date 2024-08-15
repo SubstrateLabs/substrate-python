@@ -242,49 +242,6 @@ class ComputeJSONOut(BaseModel):
     """
 
 
-class DeepseekIn(BaseModel):
-    class Config:
-        extra = Extra.allow
-
-    prompt: str
-    """
-    Input prompt.
-    """
-    language: Literal[
-        "c",
-        "c++",
-        "c#",
-        "css",
-        "go",
-        "html",
-        "java",
-        "javascript",
-        "json",
-        "python",
-        "r",
-        "ruby",
-        "shell",
-        "sql",
-        "tex",
-        "typescript",
-    ]
-    """
-    Language of the code.
-    """
-    num_choices: Annotated[int, Field(ge=1, le=8)] = 1
-    """
-    Number of choices to generate.
-    """
-    temperature: Annotated[Optional[float], Field(ge=0.0, le=1.0)] = None
-    """
-    Higher values make the output more random, lower values make the output more deterministic.
-    """
-    max_tokens: Optional[int] = None
-    """
-    Maximum number of tokens to generate.
-    """
-
-
 class GenerateCodeChoice(BaseModel):
     class Config:
         extra = Extra.allow
@@ -2326,14 +2283,4 @@ class SplitDocumentOut(BaseModel):
     items: List[EmbedTextItem]
     """
     Document chunks
-    """
-
-
-class DeepseekOut(BaseModel):
-    class Config:
-        extra = Extra.allow
-
-    choices: List[GenerateCodeChoice]
-    """
-    Code response choices.
     """
