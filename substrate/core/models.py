@@ -242,6 +242,16 @@ class ComputeJSONOut(BaseModel):
     """
 
 
+class GenerateCodeChoice(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    code: str
+    """
+    Code response.
+    """
+
+
 class GenerateCodeIn(BaseModel):
     class Config:
         extra = Extra.allow
@@ -251,18 +261,22 @@ class GenerateCodeIn(BaseModel):
     Input prompt.
     """
     language: Literal[
-        "python",
-        "java",
+        "c",
         "c++",
-        "javascript",
-        "typescript",
-        "php",
-        "html",
         "c#",
-        "sql",
+        "css",
+        "go",
+        "html",
+        "java",
+        "javascript",
+        "json",
+        "python",
+        "r",
         "ruby",
-        "tex",
         "shell",
+        "sql",
+        "tex",
+        "typescript",
     ]
     """
     Language of the code.
@@ -284,6 +298,59 @@ class GenerateCodeOut(BaseModel):
     code: str
     """
     Code response.
+    """
+
+
+class MultiGenerateCodeIn(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    prompt: str
+    """
+    Input prompt.
+    """
+    language: Literal[
+        "c",
+        "c++",
+        "c#",
+        "css",
+        "go",
+        "html",
+        "java",
+        "javascript",
+        "json",
+        "python",
+        "r",
+        "ruby",
+        "shell",
+        "sql",
+        "tex",
+        "typescript",
+    ]
+    """
+    Language of the code.
+    """
+    num_choices: Annotated[int, Field(ge=1, le=8)] = 1
+    """
+    Number of choices to generate.
+    """
+    temperature: Annotated[Optional[float], Field(ge=0.0, le=1.0)] = None
+    """
+    Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: Optional[int] = None
+    """
+    Maximum number of tokens to generate.
+    """
+
+
+class MultiGenerateCodeOut(BaseModel):
+    class Config:
+        extra = Extra.allow
+
+    choices: List[GenerateCodeChoice]
+    """
+    Code response choices.
     """
 
 

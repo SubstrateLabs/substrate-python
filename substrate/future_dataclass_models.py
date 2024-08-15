@@ -302,6 +302,19 @@ class FutureComputeJSONOut:
 
 
 @dataclass
+class GenerateCodeChoice:
+    """
+    Future reference to GenerateCodeChoice
+    """
+
+    code: str
+    """
+    (Future reference)
+    Code response.
+    """
+
+
+@dataclass
 class FutureGenerateCodeIn:
     """
     Future reference to FutureGenerateCodeIn
@@ -313,18 +326,22 @@ class FutureGenerateCodeIn:
     Input prompt.
     """
     language: Literal[
-        "python",
-        "java",
+        "c",
         "c++",
-        "javascript",
-        "typescript",
-        "php",
-        "html",
         "c#",
-        "sql",
+        "css",
+        "go",
+        "html",
+        "java",
+        "javascript",
+        "json",
+        "python",
+        "r",
         "ruby",
-        "tex",
         "shell",
+        "sql",
+        "tex",
+        "typescript",
     ]
     """
     (Future reference)
@@ -352,6 +369,69 @@ class FutureGenerateCodeOut:
     """
     (Future reference)
     Code response.
+    """
+
+
+@dataclass
+class FutureMultiGenerateCodeIn:
+    """
+    Future reference to FutureMultiGenerateCodeIn
+    """
+
+    prompt: str
+    """
+    (Future reference)
+    Input prompt.
+    """
+    language: Literal[
+        "c",
+        "c++",
+        "c#",
+        "css",
+        "go",
+        "html",
+        "java",
+        "javascript",
+        "json",
+        "python",
+        "r",
+        "ruby",
+        "shell",
+        "sql",
+        "tex",
+        "typescript",
+    ]
+    """
+    (Future reference)
+    Language of the code.
+    """
+    num_choices: int = 1
+    """
+    (Future reference)
+    Number of choices to generate.
+    """
+    temperature: Optional[float] = None
+    """
+    (Future reference)
+    Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: Optional[int] = None
+    """
+    (Future reference)
+    Maximum number of tokens to generate.
+    """
+
+
+@dataclass
+class FutureMultiGenerateCodeOut:
+    """
+    Future reference to FutureMultiGenerateCodeOut
+    """
+
+    choices: List[GenerateCodeChoice]
+    """
+    (Future reference)
+    Code response choices.
     """
 
 
