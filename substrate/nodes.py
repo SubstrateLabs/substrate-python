@@ -50,6 +50,7 @@ with warnings.catch_warnings():
         InterpolateFramesOut,
         Llama3Instruct70BOut,
         Mistral7BInstructOut,
+        MultiGenerateCodeOut,
         MultiInpaintImageOut,
         SegmentUnderPointOut,
         MultiGenerateImageOut,
@@ -102,6 +103,7 @@ from .future_dataclass_models import (
     FutureInterpolateFramesOut,
     FutureLlama3Instruct70BOut,
     FutureMistral7BInstructOut,
+    FutureMultiGenerateCodeOut,
     FutureMultiInpaintImageOut,
     FutureSegmentUnderPointOut,
     FutureMultiGenerateImageOut,
@@ -321,6 +323,68 @@ class ComputeJSON(CoreNode[ComputeJSONOut]):
         return super().future  # type: ignore
 
 
+class Deepseek(CoreNode[DeepseekOut]):
+    """https://substrate.run/nodes#Deepseek"""
+
+    def __init__(
+        self,
+        prompt: str,
+        language: Literal[
+            "c",
+            "c++",
+            "c#",
+            "css",
+            "go",
+            "html",
+            "java",
+            "javascript",
+            "json",
+            "python",
+            "r",
+            "ruby",
+            "shell",
+            "sql",
+            "tex",
+            "typescript",
+        ],
+        num_choices: int = 1,
+        temperature: Optional[float] = None,
+        max_tokens: Optional[int] = None,
+        hide: bool = False,
+        **kwargs,
+    ):
+        """
+        Args:
+            prompt: Input prompt.
+            language: Language of the code.
+            num_choices: Number of choices to generate.
+            temperature: Higher values make the output more random, lower values make the output more deterministic.
+            max_tokens: Maximum number of tokens to generate.
+
+        https://substrate.run/nodes#Deepseek
+        """
+        super().__init__(
+            prompt=prompt,
+            language=language,
+            num_choices=num_choices,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            hide=hide,
+            out_type=DeepseekOut,
+            **kwargs,
+        )
+        self.node = "Deepseek"
+
+    @property
+    def future(self) -> FutureDeepseekOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        https://substrate.run/nodes#Deepseek
+        """
+        return super().future  # type: ignore
+
+
 class GenerateCode(CoreNode[GenerateCodeOut]):
     """https://substrate.run/nodes#GenerateCode"""
 
@@ -328,18 +392,22 @@ class GenerateCode(CoreNode[GenerateCodeOut]):
         self,
         prompt: str,
         language: Literal[
-            "python",
-            "java",
+            "c",
             "c++",
-            "javascript",
-            "typescript",
-            "php",
-            "html",
             "c#",
-            "sql",
+            "css",
+            "go",
+            "html",
+            "java",
+            "javascript",
+            "json",
+            "python",
+            "r",
             "ruby",
-            "tex",
             "shell",
+            "sql",
+            "tex",
+            "typescript",
         ],
         temperature: Optional[float] = None,
         max_tokens: Optional[int] = None,
@@ -372,6 +440,68 @@ class GenerateCode(CoreNode[GenerateCodeOut]):
         Future reference to this node's output.
 
         https://substrate.run/nodes#GenerateCode
+        """
+        return super().future  # type: ignore
+
+
+class MultiGenerateCode(CoreNode[MultiGenerateCodeOut]):
+    """https://substrate.run/nodes#MultiGenerateCode"""
+
+    def __init__(
+        self,
+        prompt: str,
+        language: Literal[
+            "c",
+            "c++",
+            "c#",
+            "css",
+            "go",
+            "html",
+            "java",
+            "javascript",
+            "json",
+            "python",
+            "r",
+            "ruby",
+            "shell",
+            "sql",
+            "tex",
+            "typescript",
+        ],
+        num_choices: int = 1,
+        temperature: Optional[float] = None,
+        max_tokens: Optional[int] = None,
+        hide: bool = False,
+        **kwargs,
+    ):
+        """
+        Args:
+            prompt: Input prompt.
+            language: Language of the code.
+            num_choices: Number of choices to generate.
+            temperature: Higher values make the output more random, lower values make the output more deterministic.
+            max_tokens: Maximum number of tokens to generate.
+
+        https://substrate.run/nodes#MultiGenerateCode
+        """
+        super().__init__(
+            prompt=prompt,
+            language=language,
+            num_choices=num_choices,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            hide=hide,
+            out_type=MultiGenerateCodeOut,
+            **kwargs,
+        )
+        self.node = "MultiGenerateCode"
+
+    @property
+    def future(self) -> FutureMultiGenerateCodeOut:  # type: ignore
+        """
+        Future reference to this node's output.
+
+        https://substrate.run/nodes#MultiGenerateCode
         """
         return super().future  # type: ignore
 

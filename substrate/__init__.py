@@ -1,7 +1,7 @@
 """
 𐃏 Substrate Python SDK
 
-20240617.20240814
+20240617.20240815
 """
 
 from .nodes import (
@@ -41,6 +41,7 @@ from .nodes import (
     InterpolateFrames,
     Llama3Instruct70B,
     Mistral7BInstruct,
+    MultiGenerateCode,
     MultiInpaintImage,
     SegmentUnderPoint,
     MultiGenerateImage,
@@ -73,6 +74,7 @@ __all__ = [
     "ComputeJSON",
     "MultiComputeJSON",
     "GenerateCode",
+    "MultiGenerateCode",
     "Mistral7BInstruct",
     "Mixtral8x7BInstruct",
     "Llama3Instruct8B",

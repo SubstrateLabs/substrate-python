@@ -205,6 +205,55 @@ class ComputeJSONOut(TypedDict):
     """
 
 
+class DeepseekIn(TypedDict):
+    prompt: NotRequired[str]
+    """
+    Input prompt.
+    """
+    language: NotRequired[
+        Literal[
+            "c",
+            "c++",
+            "c#",
+            "css",
+            "go",
+            "html",
+            "java",
+            "javascript",
+            "json",
+            "python",
+            "r",
+            "ruby",
+            "shell",
+            "sql",
+            "tex",
+            "typescript",
+        ]
+    ]
+    """
+    Language of the code.
+    """
+    num_choices: NotRequired[int]
+    """
+    Number of choices to generate.
+    """
+    temperature: NotRequired[float]
+    """
+    Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: NotRequired[int]
+    """
+    Maximum number of tokens to generate.
+    """
+
+
+class GenerateCodeChoice(TypedDict):
+    code: NotRequired[str]
+    """
+    Code response.
+    """
+
+
 class GenerateCodeIn(TypedDict):
     prompt: NotRequired[str]
     """
@@ -212,18 +261,22 @@ class GenerateCodeIn(TypedDict):
     """
     language: NotRequired[
         Literal[
-            "python",
-            "java",
+            "c",
             "c++",
-            "javascript",
-            "typescript",
-            "php",
-            "html",
             "c#",
-            "sql",
+            "css",
+            "go",
+            "html",
+            "java",
+            "javascript",
+            "json",
+            "python",
+            "r",
             "ruby",
-            "tex",
             "shell",
+            "sql",
+            "tex",
+            "typescript",
         ]
     ]
     """
@@ -243,6 +296,55 @@ class GenerateCodeOut(TypedDict):
     code: NotRequired[str]
     """
     Code response.
+    """
+
+
+class MultiGenerateCodeIn(TypedDict):
+    prompt: NotRequired[str]
+    """
+    Input prompt.
+    """
+    language: NotRequired[
+        Literal[
+            "c",
+            "c++",
+            "c#",
+            "css",
+            "go",
+            "html",
+            "java",
+            "javascript",
+            "json",
+            "python",
+            "r",
+            "ruby",
+            "shell",
+            "sql",
+            "tex",
+            "typescript",
+        ]
+    ]
+    """
+    Language of the code.
+    """
+    num_choices: NotRequired[int]
+    """
+    Number of choices to generate.
+    """
+    temperature: NotRequired[float]
+    """
+    Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: NotRequired[int]
+    """
+    Maximum number of tokens to generate.
+    """
+
+
+class MultiGenerateCodeOut(TypedDict):
+    choices: NotRequired[List[GenerateCodeChoice]]
+    """
+    Code response choices.
     """
 
 
@@ -1862,4 +1964,11 @@ class SplitDocumentOut(TypedDict):
     items: NotRequired[List[EmbedTextItem]]
     """
     Document chunks
+    """
+
+
+class DeepseekOut(TypedDict):
+    choices: NotRequired[List[GenerateCodeChoice]]
+    """
+    Code response choices.
     """
