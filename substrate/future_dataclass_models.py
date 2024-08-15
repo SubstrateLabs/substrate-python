@@ -270,7 +270,13 @@ class FutureComputeJSONIn:
     (Future reference)
     Maximum number of tokens to generate.
     """
-    model: Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"] = "Llama3Instruct8B"
+    model: Literal[
+        "Mistral7BInstruct",
+        "Mixtral8x7BInstruct",
+        "Llama3Instruct8B",
+        "Llama3Instruct70B",
+        "gpt-4o",
+    ] = "Llama3Instruct8B"
     """
     (Future reference)
     Selected model.
@@ -292,6 +298,60 @@ class FutureComputeJSONOut:
     """
     (Future reference)
     If the model output could not be parsed to JSON, this is the raw text output.
+    """
+
+
+@dataclass
+class FutureGenerateCodeIn:
+    """
+    Future reference to FutureGenerateCodeIn
+    """
+
+    prompt: str
+    """
+    (Future reference)
+    Input prompt.
+    """
+    language: Literal[
+        "python",
+        "java",
+        "c++",
+        "javascript",
+        "typescript",
+        "php",
+        "html",
+        "c#",
+        "sql",
+        "ruby",
+        "tex",
+        "shell",
+    ]
+    """
+    (Future reference)
+    Language of the code.
+    """
+    temperature: Optional[float] = None
+    """
+    (Future reference)
+    Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: Optional[int] = None
+    """
+    (Future reference)
+    Maximum number of tokens to generate.
+    """
+
+
+@dataclass
+class FutureGenerateCodeOut:
+    """
+    Future reference to FutureGenerateCodeOut
+    """
+
+    code: str
+    """
+    (Future reference)
+    Code response.
     """
 
 

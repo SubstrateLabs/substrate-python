@@ -180,7 +180,15 @@ class ComputeJSONIn(TypedDict):
     """
     Maximum number of tokens to generate.
     """
-    model: NotRequired[Literal["Mistral7BInstruct", "Mixtral8x7BInstruct", "Llama3Instruct8B"]]
+    model: NotRequired[
+        Literal[
+            "Mistral7BInstruct",
+            "Mixtral8x7BInstruct",
+            "Llama3Instruct8B",
+            "Llama3Instruct70B",
+            "gpt-4o",
+        ]
+    ]
     """
     Selected model.
     """
@@ -194,6 +202,47 @@ class ComputeJSONOut(TypedDict):
     text: NotRequired[str]
     """
     If the model output could not be parsed to JSON, this is the raw text output.
+    """
+
+
+class GenerateCodeIn(TypedDict):
+    prompt: NotRequired[str]
+    """
+    Input prompt.
+    """
+    language: NotRequired[
+        Literal[
+            "python",
+            "java",
+            "c++",
+            "javascript",
+            "typescript",
+            "php",
+            "html",
+            "c#",
+            "sql",
+            "ruby",
+            "tex",
+            "shell",
+        ]
+    ]
+    """
+    Language of the code.
+    """
+    temperature: NotRequired[float]
+    """
+    Higher values make the output more random, lower values make the output more deterministic.
+    """
+    max_tokens: NotRequired[int]
+    """
+    Maximum number of tokens to generate.
+    """
+
+
+class GenerateCodeOut(TypedDict):
+    code: NotRequired[str]
+    """
+    Code response.
     """
 
 
